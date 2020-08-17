@@ -1,0 +1,14 @@
+language: node_js
+node_js:
+  - node
+after_success:
+  - coveralls < coverage/lcov.info
+  - test $TRAVIS_BRANCH = "main" && cd example && npm install && npm run build
+deploy:
+  provider: pages
+  local_dir: example/build
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN
+  keep_history: true
+  on:
+    branch: main

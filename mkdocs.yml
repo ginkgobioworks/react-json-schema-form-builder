@@ -1,0 +1,19 @@
+site_name: react-json-schema-form-builder documentation
+docs_dir: docs
+theme: readthedocs
+
+extra_javascript: []
+
+nav:
+  - Home: index.md
+  - Introduction: Introduction.md
+  - Installation: Installation.md
+  - Philosophy: Philosophy.md
+  - Usage: Usage.md
+  - Plugins: Plugins.md
+  - Developers: Developers.md
+  - TODO: TODO.md
+
+markdown_extensions:
+  - toc:
+      permalink: true
