@@ -2,7 +2,7 @@
   "name": "react-jsonschema-form-editor",
   "version": "0.1.3",
   "author": "nalam@ginkgobioworks.com",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.30",
     "@fortawesome/free-solid-svg-icons": "^5.14.0",
