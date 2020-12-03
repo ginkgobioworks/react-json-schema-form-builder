@@ -4,6 +4,8 @@ This repository contains code for a React JS Component called the `FormBuilder` 
 
 The form builder is available as an NPM package [here](https://www.npmjs.com/package/react-jsonschema-form-editor).
 
+View the Form Builder in action [here](https://ginkgobioworks.github.io/react-jsonschema-form-editor/)
+
 ## Quickstart
 
 ```bash
