@@ -94,7 +94,7 @@ export default function CardEnumOptions({
   return (
     <React.Fragment>
       <div className="card-enum-header">
-        <p> Value </p>
+        <h5> Value </h5>
         <h5 style={{ display: showNames ? 'initial' : 'none' }}>
           {' '}
           Display Label{' '}
