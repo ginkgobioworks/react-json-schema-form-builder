@@ -39,7 +39,10 @@ const useStyles = createUseStyles({
       'border': '1px solid var(--gray)',
       'border-radius': '4px',
     },
-    '& .card-array': { '& .fa-plus-square': { display: 'none' } },
+    '& .card-array': {
+      '& .fa-plus-square': { display: 'none' },
+      '& .section-entries': { '& .fa-plus-square': { display: 'initial' } },
+    },
     '& .card-enum': {
       display: 'flex',
       flexDirection: 'column',

@@ -8,6 +8,7 @@ import {
 } from '../utils';
 import Card from '../Card';
 import Section from '../Section';
+import FBCheckbox from '../checkbox/FBCheckbox';
 import shortAnswerInputs from './shortAnswerInputs';
 import longAnswerInputs from './longAnswerInputs';
 import numberInputs from './numberInputs';
@@ -97,6 +98,32 @@ function InnerCardWrapper({
     }
     return (
       <div className="card-array">
+        <FBCheckbox
+          onChangeValue={() => {
+            if (newDataProps.items.type === 'object') {
+              onChange({
+                ...parameters,
+                items: {
+                  ...newDataProps.items,
+                  type: 'string',
+                },
+              });
+            } else {
+              onChange({
+                ...parameters,
+                items: {
+                  ...newDataProps.items,
+                  type: 'object',
+                },
+              });
+            }
+          }}
+          isChecked={newDataProps.items.type === 'object'}
+          label="Section"
+          id={`${
+            typeof parameters.path === 'string' ? parameters.path : ''
+          }_issection`}
+        />
         {generateElementComponentsFromSchemas({
           schemaData: { properties: { Item: newDataProps.items } },
           uiSchemaData: { Item: newUiProps.items },

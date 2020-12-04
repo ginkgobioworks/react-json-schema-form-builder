@@ -75,7 +75,7 @@ export default function CardGallery({
       {componentArr.length === 0 && <h5>No components in "definitions"</h5>}
       <div className="form_footer">
         <Add
-          name={`form_gallery`}
+          name={'form_gallery'}
           addElem={(choice: string) => {
             if (choice === 'card') {
               addCardObj({

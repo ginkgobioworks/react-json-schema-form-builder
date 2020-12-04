@@ -2,9 +2,16 @@
 import * as React from 'react';
 import { Input } from 'reactstrap';
 import Select from 'react-select';
+import { createUseStyles } from 'react-jss';
 import FBCheckbox from '../checkbox/FBCheckbox';
 import CardEnumOptions from '../CardEnumOptions';
 import type { Parameters } from '../types';
+
+const useStyles = createUseStyles({
+  hidden: {
+    display: 'none',
+  },
+});
 
 // specify the inputs required for a string type object
 export function CardDefaultParameterInputs() {
@@ -64,6 +71,7 @@ function MultipleChoice({
   parameters: Parameters,
   onChange: (newParams: Parameters) => void,
 }) {
+  const classes = useStyles();
   const enumArray = Array.isArray(parameters.enum) ? parameters.enum : [];
   // eslint-disable-next-line no-restricted-globals
   const containsUnparsableString = enumArray.some((val) => isNaN(val));
@@ -97,10 +105,9 @@ function MultipleChoice({
         id={`${parameters.path}_different`}
       />
       <div
-        style={{
-          display:
-            containsUnparsableString || !enumArray.length ? 'none' : 'initial',
-        }}
+        className={
+          containsUnparsableString || !enumArray.length ? classes.hidden : ''
+        }
       >
         <FBCheckbox
           onChangeValue={() => {

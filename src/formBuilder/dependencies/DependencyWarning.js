@@ -51,8 +51,8 @@ export default function DependencyWarning({
         </p>
 
         <ul>
-          {undefinedVals.map((val) => (
-            <li>{val}</li>
+          {undefinedVals.map((val, index) => (
+            <li key={index}>{val}</li>
           ))}
         </ul>
       </React.Fragment>
