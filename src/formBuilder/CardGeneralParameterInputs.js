@@ -1,17 +1,17 @@
 // @flow
 
-import React from 'react';
-import Select from 'react-select';
-import { Input } from 'reactstrap';
-import GeneralParameterInputs from './GeneralParameterInputs';
+import React from "react";
+import Select from "react-select";
+import { Input } from "reactstrap";
+import GeneralParameterInputs from "./GeneralParameterInputs";
 import {
   defaultUiProps,
   defaultDataProps,
   categoryToNameMap,
   categoryType,
-} from './utils';
-import type { Parameters, Mods, FormInput } from './types';
-import Tooltip from './Tooltip';
+} from "./utils";
+import type { Parameters, Mods, FormInput } from "./types";
+import Tooltip from "./Tooltip";
 
 // specify the inputs required for any type of object
 export default function CardGeneralParameterInputs({
@@ -36,14 +36,14 @@ export default function CardGeneralParameterInputs({
     <div>
       <div className="card-entry">
         <h5>
-          Object Name{' '}
+          Object Name{" "}
           <Tooltip
             text={
               mods &&
               mods.tooltipDescriptions &&
-              typeof mods.tooltipDescriptions.cardObjectName === 'string'
+              typeof mods.tooltipDescriptions.cardObjectName === "string"
                 ? mods.tooltipDescriptions.cardObjectName
-                : 'The back-end name of the object'
+                : "The back-end name of the object"
             }
             id={`${(keyState: string)}_nameinfo`}
             type="help"
@@ -51,11 +51,11 @@ export default function CardGeneralParameterInputs({
         </h5>
 
         <Input
-          value={keyState || ''}
+          value={keyState || ""}
           placeholder="Key"
           type="text"
           onChange={(ev: SyntheticInputEvent<HTMLInputElement>) =>
-            setKeyState(ev.target.value.replace(/\W/g, '_'))
+            setKeyState(ev.target.value.replace(/\W/g, "_"))
           }
           onBlur={(ev: SyntheticInputEvent<HTMLInputElement>) =>
             onChange({
@@ -68,25 +68,25 @@ export default function CardGeneralParameterInputs({
       </div>
       <div
         className={`card-entry ${
-          parameters.$ref === undefined ? '' : 'disabled-input'
+          parameters.$ref === undefined ? "" : "disabled-input"
         }`}
       >
         <h5>
-          Display Name{' '}
+          Display Name{" "}
           <Tooltip
             text={
               mods &&
               mods.tooltipDescriptions &&
-              typeof mods.tooltipDescriptions.cardDisplayName === 'string'
+              typeof mods.tooltipDescriptions.cardDisplayName === "string"
                 ? mods.tooltipDescriptions.cardDisplayName
-                : 'The user-facing name of this object'
+                : "The user-facing name of this object"
             }
             id={`${(keyState: string)}-titleinfo`}
             type="help"
           />
         </h5>
         <Input
-          value={titleState || ''}
+          value={titleState || ""}
           placeholder="Title"
           type="text"
           onChange={(ev: SyntheticInputEvent<HTMLInputElement>) =>
@@ -99,23 +99,23 @@ export default function CardGeneralParameterInputs({
           readOnly={parameters.$ref !== undefined}
         />
       </div>
-      <div className={`card-entry ${parameters.$ref ? 'disabled-input' : ''}`}>
+      <div className={`card-entry ${parameters.$ref ? "disabled-input" : ""}`}>
         <h5>
-          Description{' '}
+          Description{" "}
           <Tooltip
             text={
               mods &&
               mods.tooltipDescriptions &&
-              typeof mods.tooltipDescriptions.cardDescription === 'string'
+              typeof mods.tooltipDescriptions.cardDescription === "string"
                 ? mods.tooltipDescriptions.cardDescription
-                : 'This will appear as help text on the form'
+                : "This will appear as help text on the form"
             }
             id={`${(keyState: string)}-descriptioninfo`}
             type="help"
           />
         </h5>
         <Input
-          value={descriptionState || ''}
+          value={descriptionState || ""}
           placeholder="Description"
           type="text"
           onChange={(ev: SyntheticInputEvent<HTMLInputElement>) =>
@@ -130,14 +130,14 @@ export default function CardGeneralParameterInputs({
       </div>
       <div className="card-entry">
         <h5>
-          Input Type{' '}
+          Input Type{" "}
           <Tooltip
             text={
               mods &&
               mods.tooltipDescriptions &&
-              typeof mods.tooltipDescriptions.cardInputType === 'string'
+              typeof mods.tooltipDescriptions.cardInputType === "string"
                 ? mods.tooltipDescriptions.cardInputType
-                : 'The type of form input displayed on the form'
+                : "The type of form input displayed on the form"
             }
             id={`${(keyState: string)}-inputinfo`}
             type="help"
@@ -152,7 +152,7 @@ export default function CardGeneralParameterInputs({
           options={Object.keys(categoryMap)
             .filter(
               (key) =>
-                key !== 'ref' ||
+                key !== "ref" ||
                 (parameters.definitionData &&
                   Object.keys(parameters.definitionData).length !== 0)
             )
@@ -173,12 +173,12 @@ export default function CardGeneralParameterInputs({
             if (newProps.$ref !== undefined && !newProps.$ref) {
               // assign an initial reference
               const firstDefinition = Object.keys(parameters.definitionData)[0];
-              newProps.$ref = `#/definitions/${firstDefinition || 'empty'}`;
+              newProps.$ref = `#/definitions/${firstDefinition || "empty"}`;
             }
             onChange({
               ...newProps,
               title: newProps.title || parameters.title,
-              default: newProps.default || '',
+              default: newProps.default || "",
               type: newProps.type || categoryType(newCategory, allFormInputs),
               category: newProps.category || newCategory,
             });

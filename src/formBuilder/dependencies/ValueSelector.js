@@ -1,11 +1,11 @@
 // @flow
 
-import * as React from 'react';
-import { Input } from 'reactstrap';
-import CardEnumOptions from '../CardEnumOptions';
-import CardSelector from './CardSelector';
-import FBCheckbox from '../checkbox/FBCheckbox';
-import { parse } from '../utils';
+import * as React from "react";
+import { Input } from "reactstrap";
+import CardEnumOptions from "../CardEnumOptions";
+import CardSelector from "./CardSelector";
+import FBCheckbox from "../checkbox/FBCheckbox";
+import { parse } from "../utils";
 
 // handle value options for different card types
 export default function ValueSelector({
@@ -34,8 +34,8 @@ export default function ValueSelector({
   if (possibility.value) {
     // enum type
     if (parentEnums) {
-      const enumType = typeof parentEnums[0] === 'number' ? 'number' : 'string';
-      if (enumType === 'string')
+      const enumType = typeof parentEnums[0] === "number" ? "number" : "string";
+      if (enumType === "string")
         return (
           <CardSelector
             possibleChoices={parentEnums.map((val) => `${val}`)}
@@ -47,7 +47,7 @@ export default function ValueSelector({
             path={path}
           />
         );
-      if (enumType === 'number')
+      if (enumType === "number")
         return (
           <CardSelector
             possibleChoices={parentEnums.map((val) => `${val}`)}
@@ -66,7 +66,7 @@ export default function ValueSelector({
         );
     }
     // check box type
-    if (parentType === 'boolean') {
+    if (parentType === "boolean") {
       return (
         <FBCheckbox
           onChangeValue={() => {
@@ -88,7 +88,7 @@ export default function ValueSelector({
       );
     }
     // object type
-    if (parentType === 'object') {
+    if (parentType === "object") {
       const enumArr = (possibility.value.enum: Array<any>);
 
       return (
@@ -104,7 +104,7 @@ export default function ValueSelector({
                       {
                         string: (
                           <Input
-                            value={val || ''}
+                            value={val || ""}
                             placeholder="String value"
                             type="string"
                             onChange={(ev: any) => {
@@ -126,7 +126,7 @@ export default function ValueSelector({
                         ),
                         number: (
                           <Input
-                            value={val || ''}
+                            value={val || ""}
                             placeholder="Number value"
                             type="number"
                             onChange={(ev: any) => {
@@ -148,7 +148,7 @@ export default function ValueSelector({
                         ),
                         array: (
                           <Input
-                            value={JSON.stringify(val) || ''}
+                            value={JSON.stringify(val) || ""}
                             placeholder="Array in JSON"
                             type="string"
                             onChange={(ev: any) => {
@@ -157,7 +157,7 @@ export default function ValueSelector({
                                 newVal = JSON.parse(ev.target.value);
                               } catch (error) {
                                 // eslint-disable-next-line no-console
-                                console.error('invalid JSON array input');
+                                console.error("invalid JSON array input");
                               }
                               const oldCombo = possibility.value.enum[index];
                               onChange({
@@ -176,7 +176,7 @@ export default function ValueSelector({
                         ),
                         object: (
                           <Input
-                            value={JSON.stringify(val) || ''}
+                            value={JSON.stringify(val) || ""}
                             placeholder="Object in JSON"
                             type="string"
                             onChange={(ev: any) => {
@@ -185,7 +185,7 @@ export default function ValueSelector({
                                 newVal = JSON.parse(ev.target.value);
                               } catch (error) {
                                 // eslint-disable-next-line no-console
-                                console.error('invalid JSON object input');
+                                console.error("invalid JSON object input");
                               }
                               const oldCombo = possibility.value.enum[index];
                               onChange({
@@ -228,23 +228,23 @@ export default function ValueSelector({
             onClick={() => {
               const newCase = {};
               const propArr = parentSchema
-                ? (parse(parentSchema, 'yaml'): any).properties
+                ? (parse(parentSchema, "yaml"): any).properties
                 : {};
               Object.keys(propArr).forEach((key) => {
                 if (
-                  propArr[key].type === 'number' ||
-                  propArr[key].type === 'integer'
+                  propArr[key].type === "number" ||
+                  propArr[key].type === "integer"
                 ) {
                   newCase[key] = 0;
-                } else if (propArr[key].type === 'array' || propArr[key].enum) {
+                } else if (propArr[key].type === "array" || propArr[key].enum) {
                   newCase[key] = [];
                 } else if (
-                  propArr[key].type === 'object' ||
+                  propArr[key].type === "object" ||
                   propArr[key].properties
                 ) {
                   newCase[key] = {};
                 } else {
-                  newCase[key] = '';
+                  newCase[key] = "";
                 }
               });
               onChange({
@@ -262,7 +262,7 @@ export default function ValueSelector({
         onChange={(newEnum: Array<any>) =>
           onChange({ ...possibility, value: { enum: newEnum } })
         }
-        type={parentType || 'string'}
+        type={parentType || "string"}
         showNames={false}
       />
     );

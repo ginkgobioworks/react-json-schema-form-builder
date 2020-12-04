@@ -1,41 +1,41 @@
 // @flow
 
-import * as React from 'react';
-import { UncontrolledTooltip } from 'reactstrap';
-import { createUseStyles } from 'react-jss';
-import FBRadioGroup from '../radio/FBRadioGroup';
-import Tooltip from '../Tooltip';
-import DependencyWarning from './DependencyWarning';
-import DependencyPossibility from './DependencyPossibility';
+import * as React from "react";
+import { UncontrolledTooltip } from "reactstrap";
+import { createUseStyles } from "react-jss";
+import FBRadioGroup from "../radio/FBRadioGroup";
+import Tooltip from "../Tooltip";
+import DependencyWarning from "./DependencyWarning";
+import DependencyPossibility from "./DependencyPossibility";
 
 const useStyles = createUseStyles({
   dependencyField: {
-    '& i': { cursor: 'pointer' },
-    '& .fa-plus': { marginLeft: '1em' },
-    '& h5': { fontSize: '1em' },
-    '& .form-dependency-select': { fontSize: '0.75em', marginBottom: '1em' },
-    '& .form-dependency-conditions': {
-      textAlign: 'left',
-      '& .form-dependency-condition': {
-        padding: '1em',
-        border: '1px solid gray',
-        borderRadius: '4px',
-        margin: '1em',
-        '& *': { textAlign: 'initial' },
-        '& .card-enum-option': {
-          'display': 'flex',
-          'flex-direction': 'row',
-          '& input': {
-            'width': '80%',
-            marginRight: '1em',
-            marginBottom: '0.5em',
+    "& i": { cursor: "pointer" },
+    "& .fa-plus": { marginLeft: "1em" },
+    "& h5": { fontSize: "1em" },
+    "& .form-dependency-select": { fontSize: "0.75em", marginBottom: "1em" },
+    "& .form-dependency-conditions": {
+      textAlign: "left",
+      "& .form-dependency-condition": {
+        padding: "1em",
+        border: "1px solid gray",
+        borderRadius: "4px",
+        margin: "1em",
+        "& *": { textAlign: "initial" },
+        "& .card-enum-option": {
+          display: "flex",
+          "flex-direction": "row",
+          "& input": {
+            width: "80%",
+            marginRight: "1em",
+            marginBottom: "0.5em",
           },
         },
       },
     },
-    '& p': { fontSize: '0.75em' },
-    '& .fb-radio-button': {
-      display: 'block',
+    "& p": { fontSize: "0.75em" },
+    "& .fb-radio-button": {
+      display: "block",
     },
   },
 });
@@ -86,7 +86,7 @@ export default function DependencyField({
   return (
     <div className={`form-dependency ${classes.dependencyField}`}>
       <h3>
-        Dependencies{' '}
+        Dependencies{" "}
         <Tooltip
           id={`${parameters.path}_dependent`}
           type="help"
@@ -96,22 +96,22 @@ export default function DependencyField({
       {!!parameters.dependents && parameters.dependents.length > 0 && (
         <React.Fragment>
           <FBRadioGroup
-            defaultValue={valueBased ? 'value' : 'definition'}
+            defaultValue={valueBased ? "value" : "definition"}
             horizontal={false}
             options={[
               {
-                value: 'definition',
-                label: 'Any value dependency',
+                value: "definition",
+                label: "Any value dependency",
               },
               {
-                value: 'value',
-                label: 'Specific value dependency',
+                value: "value",
+                label: "Specific value dependency",
               },
             ]}
             onChange={(selection) => {
               if (parameters.dependents) {
                 const newDependents = [...parameters.dependents];
-                if (selection === 'definition') {
+                if (selection === "definition") {
                   parameters.dependents.forEach((possibility, index) => {
                     newDependents[index] = {
                       ...possibility,
@@ -137,7 +137,7 @@ export default function DependencyField({
             id={`${parameters.path}_valuebased`}
             type="help"
             text="Specify whether these elements should show based on this element's value"
-          />{' '}
+          />{" "}
         </React.Fragment>
       )}
       <DependencyWarning parameters={parameters} />
@@ -180,7 +180,7 @@ export default function DependencyField({
                 }}
               />
             ))
-          : ''}
+          : ""}
 
         <i
           className="fa fa-plus"

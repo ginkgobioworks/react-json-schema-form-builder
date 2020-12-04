@@ -1,7 +1,7 @@
 // @flow
 
-import * as React from 'react';
-import Select from 'react-select';
+import * as React from "react";
+import Select from "react-select";
 
 // a field that lets you choose adjacent blocks
 export default function CardSelector({
@@ -22,7 +22,7 @@ export default function CardSelector({
       <ul>
         {chosenChoices.map((chosenChoice, index) => (
           <li key={`${path}_neighbor_${index}`}>
-            {chosenChoice}{' '}
+            {chosenChoice}{" "}
             <i
               className="fa fa-times"
               onClick={() =>
@@ -37,8 +37,8 @@ export default function CardSelector({
       </ul>
       <Select
         value={{
-          value: '',
-          label: '',
+          value: "",
+          label: "",
         }}
         placeholder={placeholder}
         options={possibleChoices

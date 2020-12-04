@@ -1,15 +1,15 @@
 // @flow
-import * as React from 'react';
-import { Input } from 'reactstrap';
-import Select from 'react-select';
-import { createUseStyles } from 'react-jss';
-import FBCheckbox from '../checkbox/FBCheckbox';
-import CardEnumOptions from '../CardEnumOptions';
-import type { Parameters } from '../types';
+import * as React from "react";
+import { Input } from "reactstrap";
+import Select from "react-select";
+import { createUseStyles } from "react-jss";
+import FBCheckbox from "../checkbox/FBCheckbox";
+import CardEnumOptions from "../CardEnumOptions";
+import type { Parameters } from "../types";
 
 const useStyles = createUseStyles({
   hidden: {
-    display: 'none',
+    display: "none",
   },
 });
 
@@ -29,7 +29,7 @@ function TimeField({
     <React.Fragment>
       <h5>Default time</h5>
       <Input
-        value={parameters.default || ''}
+        value={parameters.default || ""}
         placeholder="Default"
         type="datetime-local"
         onChange={(ev: SyntheticInputEvent<HTMLInputElement>) =>
@@ -77,7 +77,7 @@ function MultipleChoice({
   const containsUnparsableString = enumArray.some((val) => isNaN(val));
   const containsString =
     containsUnparsableString ||
-    enumArray.some((val) => typeof val === 'string');
+    enumArray.some((val) => typeof val === "string");
   const [isNumber, setIsNumber] = React.useState(
     !!enumArray.length && !containsString
   );
@@ -106,7 +106,7 @@ function MultipleChoice({
       />
       <div
         className={
-          containsUnparsableString || !enumArray.length ? classes.hidden : ''
+          containsUnparsableString || !enumArray.length ? classes.hidden : ""
         }
       >
         <FBCheckbox
@@ -144,7 +144,7 @@ function MultipleChoice({
           disabled={containsUnparsableString}
           label="Force number"
           id={`${
-            typeof parameters.path === 'string' ? parameters.path : ''
+            typeof parameters.path === "string" ? parameters.path : ""
           }_forceNumber`}
         />
       </div>
@@ -163,7 +163,7 @@ function MultipleChoice({
             enumNames: newEnumNames,
           })
         }
-        type={isNumber ? 'number' : 'string'}
+        type={isNumber ? "number" : "string"}
       />
     </div>
   );
@@ -199,36 +199,36 @@ function RefChoice({
 
 const defaultInputs = {
   time: {
-    displayName: 'Time',
+    displayName: "Time",
     matchIf: [
       {
-        types: ['string'],
-        format: 'date-time',
+        types: ["string"],
+        format: "date-time",
       },
     ],
     defaultDataSchema: {
-      format: 'date-time',
+      format: "date-time",
     },
     defaultUiSchema: {},
-    type: 'string',
+    type: "string",
     cardBody: TimeField,
     modalBody: CardDefaultParameterInputs,
   },
   checkbox: {
-    displayName: 'Checkbox',
+    displayName: "Checkbox",
     matchIf: [
       {
-        types: ['boolean'],
+        types: ["boolean"],
       },
     ],
     defaultDataSchema: {},
     defaultUiSchema: {},
-    type: 'boolean',
+    type: "boolean",
     cardBody: Checkbox,
     modalBody: CardDefaultParameterInputs,
   },
   ref: {
-    displayName: 'Reference',
+    displayName: "Reference",
     matchIf: [
       {
         types: [null],
@@ -236,7 +236,7 @@ const defaultInputs = {
       },
     ],
     defaultDataSchema: {
-      $ref: '',
+      $ref: "",
     },
     defaultUiSchema: {},
     type: null,
@@ -244,27 +244,27 @@ const defaultInputs = {
     modalBody: CardDefaultParameterInputs,
   },
   radio: {
-    displayName: 'Radio',
+    displayName: "Radio",
     matchIf: [
       {
-        types: ['string', 'number', 'integer', 'array', 'boolean', null],
-        widget: 'radio',
+        types: ["string", "number", "integer", "array", "boolean", null],
+        widget: "radio",
         enum: true,
       },
     ],
     defaultDataSchema: { enum: [] },
     defaultUiSchema: {
-      'ui:widget': 'radio',
+      "ui:widget": "radio",
     },
     type: null,
     cardBody: MultipleChoice,
     modalBody: CardDefaultParameterInputs,
   },
   dropdown: {
-    displayName: 'Dropdown',
+    displayName: "Dropdown",
     matchIf: [
       {
-        types: ['string', 'number', 'integer', 'array', 'boolean', null],
+        types: ["string", "number", "integer", "array", "boolean", null],
         enum: true,
       },
     ],

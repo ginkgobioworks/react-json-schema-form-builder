@@ -1,14 +1,14 @@
 // @flow
 
-import React from 'react';
-import classnames from 'classnames';
-import { createUseStyles } from 'react-jss';
-import FBRadioButton from './FBRadioButton';
+import React from "react";
+import classnames from "classnames";
+import { createUseStyles } from "react-jss";
+import FBRadioButton from "./FBRadioButton";
 
 const useStyles = createUseStyles({
   radio: {
-    '& input': {
-      marginRight: '5px',
+    "& input": {
+      marginRight: "5px",
     },
   },
 });
@@ -36,7 +36,7 @@ export default function FBRadioGroup(props: Props) {
   } = props;
   const name = Math.random().toString();
   const classjss = useStyles();
-  const classes = classnames('fb-radio-group', {
+  const classes = classnames("fb-radio-group", {
     horizontal,
   });
   return (

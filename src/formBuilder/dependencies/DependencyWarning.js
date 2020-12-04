@@ -1,7 +1,7 @@
 // @flow
 
-import * as React from 'react';
-import Tooltip from '../Tooltip';
+import * as React from "react";
+import Tooltip from "../Tooltip";
 
 // warning message if not all possibilities specified
 export default function DependencyWarning({
@@ -42,7 +42,7 @@ export default function DependencyWarning({
       <React.Fragment>
         <p>
           Warning! The following values do not have associated dependency
-          values:{' '}
+          values:{" "}
           <Tooltip
             id={`${parameters.path}_valuewarning`}
             type="help"

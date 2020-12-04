@@ -1,87 +1,87 @@
 // @flow
 
-import * as React from 'react';
-import { UncontrolledTooltip } from 'reactstrap';
-import { createUseStyles } from 'react-jss';
-import FBCheckbox from './checkbox/FBCheckbox';
-import Collapse from './Collapse/Collapse';
-import CardModal from './CardModal';
-import CardGeneralParameterInputs from './CardGeneralParameterInputs';
-import Add from './Add';
-import Tooltip from './Tooltip';
-import type { Parameters, Mods, FormInput } from './types';
+import * as React from "react";
+import { UncontrolledTooltip } from "reactstrap";
+import { createUseStyles } from "react-jss";
+import FBCheckbox from "./checkbox/FBCheckbox";
+import Collapse from "./Collapse/Collapse";
+import CardModal from "./CardModal";
+import CardGeneralParameterInputs from "./CardGeneralParameterInputs";
+import Add from "./Add";
+import Tooltip from "./Tooltip";
+import type { Parameters, Mods, FormInput } from "./types";
 
 const useStyles = createUseStyles({
   cardEntries: {
-    'border-bottom': '1px solid gray',
-    margin: '.5em 1.5em 0 1.5em',
-    '& h5': {
-      color: 'black',
-      'font-size': '14px',
-      'font-weight': 'bold',
+    "border-bottom": "1px solid gray",
+    margin: ".5em 1.5em 0 1.5em",
+    "& h5": {
+      color: "black",
+      "font-size": "14px",
+      "font-weight": "bold",
       margin: 0,
     },
-    '& .card-entry': {
-      display: 'inline-block',
+    "& .card-entry": {
+      display: "inline-block",
       margin: 0,
-      width: '50%',
-      'text-align': 'left',
-      padding: '0.5em',
+      width: "50%",
+      "text-align": "left",
+      padding: "0.5em",
     },
-    '& input': {
-      border: '1px solid gray',
-      'border-radius': '4px',
+    "& input": {
+      border: "1px solid gray",
+      "border-radius": "4px",
     },
-    '& .card-category-options': {
-      padding: '.5em',
+    "& .card-category-options": {
+      padding: ".5em",
     },
-    '& .card-select': {
-      'border': '1px solid var(--gray)',
-      'border-radius': '4px',
+    "& .card-select": {
+      border: "1px solid var(--gray)",
+      "border-radius": "4px",
     },
-    '& .card-array': {
-      '& .fa-plus-square': { display: 'none' },
-      '& .section-entries': { '& .fa-plus-square': { display: 'initial' } },
+    "& .card-array": {
+      "& .fa-plus-square": { display: "none" },
+      "& .section-entries": { "& .fa-plus-square": { display: "initial" } },
     },
-    '& .card-enum': {
-      display: 'flex',
-      flexDirection: 'column',
-      width: '100%',
-      backgroundColor: 'var(--light-gray)',
-      textAlign: 'left',
-      padding: '1em',
-      '& h3': { fontSize: '16px', margin: '0' },
-      '& label': { color: 'black', fontSize: '14px' },
-      '& .card-enum-header': {
-        marginTop: '0.5em',
-        width: '100%',
-        display: 'flex',
-        flexDirection: 'row',
-        '& h5': { width: '50%', fontWeight: 'bold', fontSize: '14px' },
+    "& .card-enum": {
+      display: "flex",
+      flexDirection: "column",
+      width: "100%",
+      backgroundColor: "var(--light-gray)",
+      textAlign: "left",
+      padding: "1em",
+      "& h3": { fontSize: "16px", margin: "0" },
+      "& label": { color: "black", fontSize: "14px" },
+      "& .card-enum-header": {
+        marginTop: "0.5em",
+        width: "100%",
+        display: "flex",
+        flexDirection: "row",
+        "& h5": { width: "50%", fontWeight: "bold", fontSize: "14px" },
       },
-      '& i': { cursor: 'pointer' },
-      '& .card-enum-option': {
-        width: '100%',
-        display: 'flex',
-        flexDirection: 'row',
-        '& input': { width: '80%', marginRight: '1em', marginBottom: '0.5em' },
+      "& i": { cursor: "pointer" },
+      "& .card-enum-option": {
+        width: "100%",
+        display: "flex",
+        flexDirection: "row",
+        "& input": { width: "80%", marginRight: "1em", marginBottom: "0.5em" },
       },
     },
   },
   cardInteractions: {
-    margin: '.5em 1.5em',
-    textAlign: 'left',
-    '& .fa': { marginRight: '1em', borderRadius: '4px', padding: '.25em' },
-    '& .fa-arrow-up, .fa-arrow-down': { marginRight: '.5em' },
-    '& .fa-trash': { border: '1px solid #DE5354', color: '#DE5354' },
-    '& .fb-checkbox': { display: 'inline-block' },
-    '& .interactions-left, & .interactions-right': {
-      display: 'inline-block',
-      width: '48%',
-      margin: '0 auto',
+    margin: ".5em 1.5em",
+    textAlign: "left",
+    "& .fa": { marginRight: "1em", borderRadius: "4px", padding: ".25em" },
+    "& .fa-arrow-up, .fa-arrow-down": { marginRight: ".5em" },
+    "& .fa-trash": { border: "1px solid #DE5354", color: "#DE5354" },
+    "& .fb-checkbox": { display: "inline-block" },
+    "& .interactions-left, & .interactions-right": {
+      display: "inline-block",
+      width: "48%",
+      margin: "0 auto",
     },
-    '& .interactions-left': { textAlign: 'left' },
-    '& .interactions-right': { textAlign: 'right' },
+    "& .interactions-left": { textAlign: "left" },
+    "& .interactions-right": { textAlign: "right" },
   },
 });
 
@@ -127,7 +127,7 @@ export default function Card({
         title={
           <React.Fragment>
             <span onClick={() => setCardOpen(!cardOpen)} className="label">
-              {componentProps.title || componentProps.name}{' '}
+              {componentProps.title || componentProps.name}{" "}
               {componentProps.parent ? (
                 <Tooltip
                   text={`Depends on ${(componentProps.parent: any)}`}
@@ -135,7 +135,7 @@ export default function Card({
                   type="alert"
                 />
               ) : (
-                ''
+                ""
               )}
               {componentProps.$ref !== undefined ? (
                 <Tooltip
@@ -144,7 +144,7 @@ export default function Card({
                   type="alert"
                 />
               ) : (
-                ''
+                ""
               )}
             </span>
             <span className="arrows">
@@ -174,8 +174,8 @@ export default function Card({
           </React.Fragment>
         }
         className={`card-container ${
-          componentProps.dependent ? 'card-dependent' : ''
-        } ${componentProps.$ref === undefined ? '' : 'card-reference'}`}
+          componentProps.dependent ? "card-dependent" : ""
+        } ${componentProps.$ref === undefined ? "" : "card-reference"}`}
       >
         <div className={classes.cardEntries}>
           <CardGeneralParameterInputs
@@ -218,9 +218,9 @@ export default function Card({
             isChecked={!!componentProps.required}
             label="Required"
             id={`${
-              typeof componentProps.path === 'string'
+              typeof componentProps.path === "string"
                 ? componentProps.path
-                : 'card'
+                : "card"
             }_required`}
           />
         </div>
@@ -242,7 +242,7 @@ export default function Card({
           addElem={(choice: string) => addElem(choice)}
         />
       ) : (
-        ''
+        ""
       )}
     </React.Fragment>
   );

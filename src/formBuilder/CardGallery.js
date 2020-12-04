@@ -1,17 +1,17 @@
 // @flow
 
-import React from 'react';
+import React from "react";
 import {
   generateElementComponentsFromSchemas,
   countElementsFromSchema,
   addCardObj,
   addSectionObj,
-} from './utils';
-import Card from './Card';
-import Section from './Section';
-import Add from './Add';
-import DEFAULT_FORM_INPUTS from './defaults/defaultFormInputs';
-import type { Mods } from './types';
+} from "./utils";
+import Card from "./Card";
+import Section from "./Section";
+import Add from "./Add";
+import DEFAULT_FORM_INPUTS from "./defaults/defaultFormInputs";
+import type { Mods } from "./types";
 
 export default function CardGallery({
   definitionSchema,
@@ -45,12 +45,12 @@ export default function CardGallery({
       const newUi = {};
 
       Object.keys(oldUi).forEach((definedUi) => {
-        if (!['definitions', 'ui:order'].includes(definedUi))
+        if (!["definitions", "ui:order"].includes(definedUi))
           newUi[definedUi] = oldUi[definedUi];
       });
       onChange(newDefinitions.properties, newUi);
     },
-    path: 'definitions',
+    path: "definitions",
     definitionData: definitionSchema,
     definitionUi: definitionUiSchema,
     cardOpenArray,
@@ -62,7 +62,7 @@ export default function CardGallery({
     Section,
   }).map((element: any) => (
     <div
-      key={typeof element.key === 'string' ? element.key : ''}
+      key={typeof element.key === "string" ? element.key : ""}
       className="form_gallery_container"
     >
       {element}
@@ -75,9 +75,9 @@ export default function CardGallery({
       {componentArr.length === 0 && <h5>No components in "definitions"</h5>}
       <div className="form_footer">
         <Add
-          name={'form_gallery'}
+          name={"form_gallery"}
           addElem={(choice: string) => {
-            if (choice === 'card') {
+            if (choice === "card") {
               addCardObj({
                 schema: { properties: definitionSchema },
                 uischema: definitionUiSchema,
@@ -87,7 +87,7 @@ export default function CardGallery({
 
                   Object.keys(oldUi).forEach((definedUiSchemaKey) => {
                     if (
-                      !['definitions', 'ui:order'].includes(definedUiSchemaKey)
+                      !["definitions", "ui:order"].includes(definedUiSchemaKey)
                     )
                       newUi[definedUiSchemaKey] = oldUi[definedUiSchemaKey];
                   });
@@ -97,7 +97,7 @@ export default function CardGallery({
                 definitionUi: definitionUiSchema,
                 categoryHash,
               });
-            } else if (choice === 'section') {
+            } else if (choice === "section") {
               addSectionObj({
                 schema: { properties: definitionSchema },
                 uischema: definitionUiSchema,
@@ -107,7 +107,7 @@ export default function CardGallery({
 
                   Object.keys(oldUi).forEach((definedUiSchemaKey) => {
                     if (
-                      !['definitions', 'ui:order'].includes(definedUiSchemaKey)
+                      !["definitions", "ui:order"].includes(definedUiSchemaKey)
                     )
                       newUi[definedUiSchemaKey] = oldUi[definedUiSchemaKey];
                   });

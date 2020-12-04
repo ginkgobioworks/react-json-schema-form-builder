@@ -1,8 +1,8 @@
 // @flow
 
-import * as React from 'react';
-import { getCardBody } from './utils';
-import type { Parameters, Mods, FormInput } from './types';
+import * as React from "react";
+import { getCardBody } from "./utils";
+import type { Parameters, Mods, FormInput } from "./types";
 
 // specify the inputs required for any type of object
 export default function GeneralParameterInputs({

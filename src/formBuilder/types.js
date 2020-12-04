@@ -1,5 +1,5 @@
 // @flow
-import * as React from 'react';
+import * as React from "react";
 
 // any non object type is a card
 export type CardProps = {
@@ -53,16 +53,16 @@ export type Parameters = {
   definitionData: { [string]: any },
   definitionUi: { [string]: any },
   category: string,
-  'ui:option': { [string]: any },
+  "ui:option": { [string]: any },
 };
 
 type DataType =
-  | 'string'
-  | 'number'
-  | 'boolean'
-  | 'integer'
-  | 'array'
-  | '*'
+  | "string"
+  | "number"
+  | "boolean"
+  | "integer"
+  | "array"
+  | "*"
   | null;
 
 type MatchType = {

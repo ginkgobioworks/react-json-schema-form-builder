@@ -1,19 +1,19 @@
 // @flow
 
-import React from 'react';
-import { Input } from 'reactstrap';
+import React from "react";
+import { Input } from "reactstrap";
 import {
   generateElementComponentsFromSchemas,
   generateCategoryHash,
-} from '../utils';
-import Card from '../Card';
-import Section from '../Section';
-import FBCheckbox from '../checkbox/FBCheckbox';
-import shortAnswerInputs from './shortAnswerInputs';
-import longAnswerInputs from './longAnswerInputs';
-import numberInputs from './numberInputs';
-import defaultInputs from './defaultInputs';
-import type { Parameters, Mods, FormInput } from '../types';
+} from "../utils";
+import Card from "../Card";
+import Section from "../Section";
+import FBCheckbox from "../checkbox/FBCheckbox";
+import shortAnswerInputs from "./shortAnswerInputs";
+import longAnswerInputs from "./longAnswerInputs";
+import numberInputs from "./numberInputs";
+import defaultInputs from "./defaultInputs";
+import type { Parameters, Mods, FormInput } from "../types";
 
 // specify the inputs required for a string type object
 function CardArrayParameterInputs({
@@ -27,7 +27,7 @@ function CardArrayParameterInputs({
     <div>
       <h4>Minimum Items</h4>
       <Input
-        value={parameters.minItems || ''}
+        value={parameters.minItems || ""}
         placeholder="ex: 2"
         key="minimum"
         type="number"
@@ -41,7 +41,7 @@ function CardArrayParameterInputs({
       />
       <h4>Maximum Items</h4>
       <Input
-        value={parameters.maxItems || ''}
+        value={parameters.maxItems || ""}
         placeholder="ex: 2"
         key="maximum"
         type="number"
@@ -79,11 +79,11 @@ function InnerCardWrapper({
     };
     // parse components into data and ui relevant pieces
     Object.keys(parameters).forEach((propName) => {
-      if (propName.startsWith('ui:*')) {
+      if (propName.startsWith("ui:*")) {
         newUiProps[propName.substring(4)] = parameters[propName];
-      } else if (propName.startsWith('ui:')) {
+      } else if (propName.startsWith("ui:")) {
         newUiProps[propName] = parameters[propName];
-      } else if (!['name', 'required'].includes(propName)) {
+      } else if (!["name", "required"].includes(propName)) {
         newDataProps[propName] = parameters[propName];
       }
     });
@@ -93,19 +93,19 @@ function InnerCardWrapper({
       : {};
     const definitionUi = parameters.definitionUi ? parameters.definitionUi : {};
     const [cardOpen, setCardOpen] = React.useState(false);
-    if (parameters.type !== 'array') {
+    if (parameters.type !== "array") {
       return <h4>Not an array </h4>;
     }
     return (
       <div className="card-array">
         <FBCheckbox
           onChangeValue={() => {
-            if (newDataProps.items.type === 'object') {
+            if (newDataProps.items.type === "object") {
               onChange({
                 ...parameters,
                 items: {
                   ...newDataProps.items,
-                  type: 'string',
+                  type: "string",
                 },
               });
             } else {
@@ -113,15 +113,15 @@ function InnerCardWrapper({
                 ...parameters,
                 items: {
                   ...newDataProps.items,
-                  type: 'object',
+                  type: "object",
                 },
               });
             }
           }}
-          isChecked={newDataProps.items.type === 'object'}
+          isChecked={newDataProps.items.type === "object"}
           label="Section"
           id={`${
-            typeof parameters.path === 'string' ? parameters.path : ''
+            typeof parameters.path === "string" ? parameters.path : ""
           }_issection`}
         />
         {generateElementComponentsFromSchemas({
@@ -131,13 +131,13 @@ function InnerCardWrapper({
             onChange({
               ...parameters,
               items: schema.properties.Item,
-              'ui:*items': uischema.Item || {},
+              "ui:*items": uischema.Item || {},
             });
           },
-          path: typeof parameters.path === 'string' ? parameters.path : 'array',
+          path: typeof parameters.path === "string" ? parameters.path : "array",
           definitionData:
-            typeof definitionData === 'string' ? definitionData : {},
-          definitionUi: typeof definitionUi === 'string' ? definitionUi : {},
+            typeof definitionData === "string" ? definitionData : {},
+          definitionUi: typeof definitionUi === "string" ? definitionUi : {},
           hideKey: true,
           cardOpenArray: [cardOpen],
           setCardOpenArray: (newArr) => setCardOpen(newArr[0]),
@@ -159,34 +159,34 @@ const defaultFormInputs = ({
   ...numberInputs,
 }: { [string]: FormInput });
 defaultFormInputs.array = {
-  displayName: 'Array',
+  displayName: "Array",
   matchIf: [
     {
-      types: ['array'],
+      types: ["array"],
     },
   ],
   defaultDataSchema: {
-    items: { type: 'string' },
+    items: { type: "string" },
   },
   defaultUiSchema: {},
-  type: 'array',
+  type: "array",
   cardBody: InnerCardWrapper({ defaultFormInputs }),
   modalBody: CardArrayParameterInputs,
 };
 
 const ArrayInputs = {
   array: {
-    displayName: 'Array',
+    displayName: "Array",
     matchIf: [
       {
-        types: ['array'],
+        types: ["array"],
       },
     ],
     defaultDataSchema: {
-      items: { type: 'string' },
+      items: { type: "string" },
     },
     defaultUiSchema: {},
-    type: 'array',
+    type: "array",
     cardBody: InnerCardWrapper({ defaultFormInputs }),
     modalBody: CardArrayParameterInputs,
   },

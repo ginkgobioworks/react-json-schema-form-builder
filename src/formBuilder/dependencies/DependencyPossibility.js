@@ -1,9 +1,9 @@
 // @flow
 
-import * as React from 'react';
-import Tooltip from '../Tooltip';
-import CardSelector from './CardSelector';
-import ValueSelector from './ValueSelector';
+import * as React from "react";
+import Tooltip from "../Tooltip";
+import CardSelector from "./CardSelector";
+import ValueSelector from "./ValueSelector";
 
 // a possible dependency
 export default function DependencyPossibility({
@@ -36,7 +36,7 @@ export default function DependencyPossibility({
   return (
     <div className="form-dependency-condition">
       <h5>
-        Display the following:{' '}
+        Display the following:{" "}
         <Tooltip
           id={`${path}_bulk`}
           type="help"
@@ -51,13 +51,13 @@ export default function DependencyPossibility({
         onChange={(chosenChoices: Array<string>) =>
           onChange({ ...possibility, children: [...chosenChoices] })
         }
-        placeholder={'Choose a dependent...'}
+        placeholder={"Choose a dependent..."}
         path={path}
       />
       <h5>
-        If "{parentName}" has {possibility.value ? 'the value:' : 'a value.'}
+        If "{parentName}" has {possibility.value ? "the value:" : "a value."}
       </h5>
-      <div style={{ display: possibility.value ? 'initial' : 'none' }}>
+      <div style={{ display: possibility.value ? "initial" : "none" }}>
         <br />
         <ValueSelector
           possibility={possibility}

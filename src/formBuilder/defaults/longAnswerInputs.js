@@ -1,20 +1,20 @@
 // @flow
 
-import React from 'react';
-import Select from 'react-select';
-import { Input } from 'reactstrap';
-import FBCheckbox from '../checkbox/FBCheckbox';
-import Tooltip from '../Tooltip';
-import type { Parameters } from '../types';
+import React from "react";
+import Select from "react-select";
+import { Input } from "reactstrap";
+import FBCheckbox from "../checkbox/FBCheckbox";
+import Tooltip from "../Tooltip";
+import type { Parameters } from "../types";
 
 const formatDictionary = {
-  '': 'None',
-  'date-time': 'Date-Time',
-  email: 'Email',
-  hostname: 'Hostname',
-  time: 'Time',
-  uri: 'URI',
-  regex: 'Regular Expression',
+  "": "None",
+  "date-time": "Date-Time",
+  email: "Email",
+  hostname: "Hostname",
+  time: "Time",
+  uri: "URI",
+  regex: "Regular Expression",
 };
 
 // specify the inputs required for a string type object
@@ -29,7 +29,7 @@ function CardLongAnswerParameterInputs({
     <div>
       <h4>Minimum Length</h4>
       <Input
-        value={parameters.minLength ? parameters.minLength : ''}
+        value={parameters.minLength ? parameters.minLength : ""}
         placeholder="Minimum Length"
         key="minLength"
         type="number"
@@ -43,7 +43,7 @@ function CardLongAnswerParameterInputs({
       />
       <h4>Maximum Length</h4>
       <Input
-        value={parameters.maxLength ? parameters.maxLength : ''}
+        value={parameters.maxLength ? parameters.maxLength : ""}
         placeholder="Maximum Length"
         key="maxLength"
         type="number"
@@ -66,7 +66,7 @@ function CardLongAnswerParameterInputs({
         </a>
       </h4>
       <Input
-        value={parameters.pattern ? parameters.pattern : ''}
+        value={parameters.pattern ? parameters.pattern : ""}
         placeholder="Regular Expression Pattern"
         key="pattern"
         type="text"
@@ -79,7 +79,7 @@ function CardLongAnswerParameterInputs({
         className="card-modal-text"
       />
       <h4>
-        Format{' '}
+        Format{" "}
         <Tooltip
           id={`${parameters.path}_format`}
           type="help"
@@ -90,14 +90,14 @@ function CardLongAnswerParameterInputs({
         value={{
           value: parameters.format
             ? formatDictionary[
-                typeof parameters.format === 'string' ? parameters.format : ''
+                typeof parameters.format === "string" ? parameters.format : ""
               ]
-            : '',
+            : "",
           label: parameters.format
             ? formatDictionary[
-                typeof parameters.format === 'string' ? parameters.format : ''
+                typeof parameters.format === "string" ? parameters.format : ""
               ]
-            : 'None',
+            : "None",
         }}
         placeholder="Format"
         key="format"
@@ -118,14 +118,14 @@ function CardLongAnswerParameterInputs({
           onChangeValue={() => {
             onChange({
               ...parameters,
-              'ui:autofocus': parameters['ui:autofocus']
-                ? parameters['ui:autofocus'] !== true
+              "ui:autofocus": parameters["ui:autofocus"]
+                ? parameters["ui:autofocus"] !== true
                 : true,
             });
           }}
           isChecked={
-            parameters['ui:autofocus']
-              ? parameters['ui:autofocus'] === true
+            parameters["ui:autofocus"]
+              ? parameters["ui:autofocus"] === true
               : false
           }
           label="Auto Focus"
@@ -160,18 +160,18 @@ function LongAnswer({
 
 const longAnswerInput = {
   longAnswer: {
-    displayName: 'Long Answer',
+    displayName: "Long Answer",
     matchIf: [
       {
-        types: ['string'],
-        widget: 'textarea',
+        types: ["string"],
+        widget: "textarea",
       },
     ],
     defaultDataSchema: {},
     defaultUiSchema: {
-      'ui:widget': 'textarea',
+      "ui:widget": "textarea",
     },
-    type: 'string',
+    type: "string",
     cardBody: LongAnswer,
     modalBody: CardLongAnswerParameterInputs,
   },

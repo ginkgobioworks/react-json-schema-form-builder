@@ -1,29 +1,29 @@
 // @flow
 
-import React from 'react';
-import Select from 'react-select';
-import { Input } from 'reactstrap';
-import FBCheckbox from '../checkbox/FBCheckbox';
-import Tooltip from '../Tooltip';
-import type { Parameters } from '../types';
+import React from "react";
+import Select from "react-select";
+import { Input } from "reactstrap";
+import FBCheckbox from "../checkbox/FBCheckbox";
+import Tooltip from "../Tooltip";
+import type { Parameters } from "../types";
 
 const formatDictionary = {
-  '': 'None',
-  'date-time': 'Date-Time',
-  email: 'Email',
-  hostname: 'Hostname',
-  time: 'Time',
-  uri: 'URI',
-  regex: 'Regular Expression',
+  "": "None",
+  "date-time": "Date-Time",
+  email: "Email",
+  hostname: "Hostname",
+  time: "Time",
+  uri: "URI",
+  regex: "Regular Expression",
 };
 
 const autoDictionary = {
-  '': 'None',
-  email: 'Email',
-  username: 'User Name',
-  password: 'Password',
-  'street-address': 'Street Address',
-  country: 'Country',
+  "": "None",
+  email: "Email",
+  username: "User Name",
+  password: "Password",
+  "street-address": "Street Address",
+  country: "Country",
 };
 
 // specify the inputs required for a string type object
@@ -38,7 +38,7 @@ function CardShortAnswerParameterInputs({
     <div>
       <h4>Minimum Length</h4>
       <Input
-        value={parameters.minLength ? parameters.minLength : ''}
+        value={parameters.minLength ? parameters.minLength : ""}
         placeholder="Minimum Length"
         key="minLength"
         type="number"
@@ -52,7 +52,7 @@ function CardShortAnswerParameterInputs({
       />
       <h4>Maximum Length</h4>
       <Input
-        value={parameters.maxLength ? parameters.maxLength : ''}
+        value={parameters.maxLength ? parameters.maxLength : ""}
         placeholder="Maximum Length"
         key="maxLength"
         type="number"
@@ -79,7 +79,7 @@ function CardShortAnswerParameterInputs({
         </a>
       </h4>
       <Input
-        value={parameters.pattern ? parameters.pattern : ''}
+        value={parameters.pattern ? parameters.pattern : ""}
         placeholder="Regular Expression Pattern"
         key="pattern"
         type="text"
@@ -92,7 +92,7 @@ function CardShortAnswerParameterInputs({
         className="card-modal-text"
       />
       <h4>
-        Format{' '}
+        Format{" "}
         <Tooltip
           id={`${parameters.path}_format`}
           type="help"
@@ -103,14 +103,14 @@ function CardShortAnswerParameterInputs({
         value={{
           value: parameters.format
             ? formatDictionary[
-                typeof parameters.format === 'string' ? parameters.format : ''
+                typeof parameters.format === "string" ? parameters.format : ""
               ]
-            : '',
+            : "",
           label: parameters.format
             ? formatDictionary[
-                typeof parameters.format === 'string' ? parameters.format : ''
+                typeof parameters.format === "string" ? parameters.format : ""
               ]
-            : 'None',
+            : "None",
         }}
         placeholder="Format"
         key="format"
@@ -127,7 +127,7 @@ function CardShortAnswerParameterInputs({
         className="card-modal-select"
       />
       <h5>
-        Auto Complete Category{' '}
+        Auto Complete Category{" "}
         <a
           href="https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete"
           target="_blank"
@@ -142,20 +142,20 @@ function CardShortAnswerParameterInputs({
       </h5>
       <Select
         value={{
-          value: parameters['ui:autocomplete']
+          value: parameters["ui:autocomplete"]
             ? autoDictionary[
-                typeof parameters['ui:autocomplete'] === 'string'
-                  ? parameters['ui:autocomplete']
-                  : ''
+                typeof parameters["ui:autocomplete"] === "string"
+                  ? parameters["ui:autocomplete"]
+                  : ""
               ]
-            : '',
-          label: parameters['ui:autocomplete']
+            : "",
+          label: parameters["ui:autocomplete"]
             ? autoDictionary[
-                typeof parameters['ui:autocomplete'] === 'string'
-                  ? parameters['ui:autocomplete']
-                  : ''
+                typeof parameters["ui:autocomplete"] === "string"
+                  ? parameters["ui:autocomplete"]
+                  : ""
               ]
-            : 'None',
+            : "None",
         }}
         placeholder="Auto Complete"
         key="ui:autocomplete"
@@ -166,7 +166,7 @@ function CardShortAnswerParameterInputs({
         onChange={(val: any) => {
           onChange({
             ...parameters,
-            'ui:autocomplete': val.value,
+            "ui:autocomplete": val.value,
           });
         }}
         className="card-modal-select"
@@ -176,14 +176,14 @@ function CardShortAnswerParameterInputs({
           onChangeValue={() => {
             onChange({
               ...parameters,
-              'ui:autofocus': parameters['ui:autofocus']
-                ? parameters['ui:autofocus'] !== true
+              "ui:autofocus": parameters["ui:autofocus"]
+                ? parameters["ui:autofocus"] !== true
                 : true,
             });
           }}
           isChecked={
-            parameters['ui:autofocus']
-              ? parameters['ui:autofocus'] === true
+            parameters["ui:autofocus"]
+              ? parameters["ui:autofocus"] === true
               : false
           }
           label="Auto Focus"
@@ -241,31 +241,31 @@ function Password({
 
 const shortAnswerInput = {
   shortAnswer: {
-    displayName: 'Short Answer',
+    displayName: "Short Answer",
     matchIf: [
       {
-        types: ['string'],
+        types: ["string"],
       },
     ],
     defaultDataSchema: {},
     defaultUiSchema: {},
-    type: 'string',
+    type: "string",
     cardBody: ShortAnswerField,
     modalBody: CardShortAnswerParameterInputs,
   },
   password: {
-    displayName: 'Password',
+    displayName: "Password",
     matchIf: [
       {
-        types: ['string'],
-        widget: 'password',
+        types: ["string"],
+        widget: "password",
       },
     ],
     defaultDataSchema: {},
     defaultUiSchema: {
-      'ui:widget': 'password',
+      "ui:widget": "password",
     },
-    type: 'string',
+    type: "string",
     cardBody: Password,
     modalBody: CardShortAnswerParameterInputs,
   },

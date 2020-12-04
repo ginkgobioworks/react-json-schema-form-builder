@@ -1,10 +1,10 @@
 // @flow
 
-import React from 'react';
-import { Input } from 'reactstrap';
-import FBCheckbox from '../checkbox/FBCheckbox';
-import Tooltip from '../Tooltip';
-import type { Parameters } from '../types';
+import React from "react";
+import { Input } from "reactstrap";
+import FBCheckbox from "../checkbox/FBCheckbox";
+import Tooltip from "../Tooltip";
+import type { Parameters } from "../types";
 
 // specify the inputs required for a number type object
 function CardNumberParameterInputs({
@@ -17,7 +17,7 @@ function CardNumberParameterInputs({
   return (
     <div>
       <h4>
-        Multiple of{' '}
+        Multiple of{" "}
         <Tooltip
           id={`${parameters.path}_multiple`}
           type="help"
@@ -25,7 +25,7 @@ function CardNumberParameterInputs({
         />
       </h4>
       <Input
-        value={parameters.multipleOf ? parameters.multipleOf : ''}
+        value={parameters.multipleOf ? parameters.multipleOf : ""}
         placeholder="ex: 2"
         key="multipleOf"
         type="number"
@@ -41,7 +41,7 @@ function CardNumberParameterInputs({
       />
       <h4>Minimum</h4>
       <Input
-        value={parameters.minimum || parameters.exclusiveMinimum || ''}
+        value={parameters.minimum || parameters.exclusiveMinimum || ""}
         placeholder="ex: 3"
         key="minimum"
         type="number"
@@ -91,7 +91,7 @@ function CardNumberParameterInputs({
       </div>
       <h4>Maximum</h4>
       <Input
-        value={parameters.maximum || parameters.exclusiveMaximum || ''}
+        value={parameters.maximum || parameters.exclusiveMaximum || ""}
         placeholder="ex: 8"
         key="maximum"
         type="number"
@@ -171,32 +171,32 @@ function NumberField({
 
 const numberInputs = {
   integer: {
-    displayName: 'Integer',
+    displayName: "Integer",
     matchIf: [
       {
-        types: ['integer'],
+        types: ["integer"],
       },
       {
-        types: ['integer'],
-        widget: 'number',
+        types: ["integer"],
+        widget: "number",
       },
     ],
     defaultDataSchema: {},
     defaultUiSchema: {},
-    type: 'integer',
+    type: "integer",
     cardBody: NumberField,
     modalBody: CardNumberParameterInputs,
   },
   number: {
-    displayName: 'Number',
+    displayName: "Number",
     matchIf: [
       {
-        types: ['number'],
+        types: ["number"],
       },
     ],
     defaultDataSchema: {},
     defaultUiSchema: {},
-    type: 'number',
+    type: "number",
     cardBody: NumberField,
     modalBody: CardNumberParameterInputs,
   },

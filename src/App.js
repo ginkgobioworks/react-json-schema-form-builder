@@ -5,7 +5,7 @@ function App() {
   return (
     <div className="App">
       <body>
-        <PlaygroundContainer title="Form Builder Demo" />
+        <PlaygroundContainer title="React JSON Schema Form Builder" />
       </body>
     </div>
   );

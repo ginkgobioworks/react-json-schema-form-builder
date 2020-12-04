@@ -1,7 +1,7 @@
 // @flow
 
-import * as React from 'react';
-import { Input } from 'reactstrap';
+import * as React from "react";
+import { Input } from "reactstrap";
 
 // Input field corresponding to an array of values, add and remove
 export default function CardEnumOptions({
@@ -25,22 +25,22 @@ export default function CardEnumOptions({
     possibleValues.push(
       <div key={index} className="card-enum-option">
         <Input
-          value={value === undefined || value === null ? '' : value}
+          value={value === undefined || value === null ? "" : value}
           placeholder="Possible Value"
           key={`val-${index}`}
-          type={type === 'string' ? 'text' : 'number'}
+          type={type === "string" ? "text" : "number"}
           onChange={(ev: any) => {
             let newVal;
             switch (type) {
-              case 'string':
+              case "string":
                 newVal = ev.target.value;
                 break;
-              case 'number':
-              case 'integer':
+              case "number":
+              case "integer":
                 newVal = parseFloat(ev.target.value);
                 if (Number.isInteger(newVal))
                   newVal = parseInt(ev.target.value, 10);
-                if (Number.isNaN(newVal)) newVal = type === 'string' ? '' : 0;
+                if (Number.isNaN(newVal)) newVal = type === "string" ? "" : 0;
                 break;
               default:
                 throw new Error(`Enum called with unknown type ${type}`);
@@ -57,7 +57,7 @@ export default function CardEnumOptions({
           className="card-text"
         />
         <Input
-          value={name || ''}
+          value={name || ""}
           placeholder="Name"
           key={`name-${index}`}
           type="text"
@@ -70,7 +70,7 @@ export default function CardEnumOptions({
               ]);
           }}
           className="card-text"
-          style={{ display: showNames ? 'initial' : 'none' }}
+          style={{ display: showNames ? "initial" : "none" }}
         />
         <i
           className="fa fa-trash"
@@ -95,9 +95,9 @@ export default function CardEnumOptions({
     <React.Fragment>
       <div className="card-enum-header">
         <p> Value </p>
-        <h5 style={{ display: showNames ? 'initial' : 'none' }}>
-          {' '}
-          Display Label{' '}
+        <h5 style={{ display: showNames ? "initial" : "none" }}>
+          {" "}
+          Display Label{" "}
         </h5>
       </div>
       {possibleValues}
@@ -106,8 +106,8 @@ export default function CardEnumOptions({
         onClick={() => {
           // add a new dropdown option
           onChange(
-            [...initialValues, type === 'string' ? '' : 0],
-            names ? [...names, ''] : undefined
+            [...initialValues, type === "string" ? "" : 0],
+            names ? [...names, ""] : undefined
           );
         }}
       ></i>

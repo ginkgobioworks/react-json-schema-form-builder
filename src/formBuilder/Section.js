@@ -1,16 +1,16 @@
 // @flow
-import * as React from 'react';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import Select from 'react-select';
-import { createUseStyles } from 'react-jss';
-import { Alert, Input, UncontrolledTooltip } from 'reactstrap';
-import FBCheckbox from './checkbox/FBCheckbox';
-import Collapse from './Collapse/Collapse';
-import CardModal from './CardModal';
-import { CardDefaultParameterInputs } from './defaults/defaultInputs';
-import Tooltip from './Tooltip';
-import Add from './Add';
-import Card from './Card';
+import * as React from "react";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import Select from "react-select";
+import { createUseStyles } from "react-jss";
+import { Alert, Input, UncontrolledTooltip } from "reactstrap";
+import FBCheckbox from "./checkbox/FBCheckbox";
+import Collapse from "./Collapse/Collapse";
+import CardModal from "./CardModal";
+import { CardDefaultParameterInputs } from "./defaults/defaultInputs";
+import Tooltip from "./Tooltip";
+import Add from "./Add";
+import Card from "./Card";
 import {
   checkForUnsupportedFeatures,
   generateElementComponentsFromSchemas,
@@ -18,57 +18,57 @@ import {
   addCardObj,
   addSectionObj,
   onDragEnd,
-} from './utils';
-import type { FormInput, Mods } from './types';
+} from "./utils";
+import type { FormInput, Mods } from "./types";
 
 const useStyles = createUseStyles({
   sectionContainer: {
-    '& .section-head': {
-      borderBottom: '1px solid var(--gray)',
-      margin: '0.5em 1.5em 0 1.5em',
-      '& h5': {
-        color: 'black',
-        fontSize: '14px',
-        fontWeight: 'bold',
-        margin: '0',
+    "& .section-head": {
+      borderBottom: "1px solid var(--gray)",
+      margin: "0.5em 1.5em 0 1.5em",
+      "& h5": {
+        color: "black",
+        fontSize: "14px",
+        fontWeight: "bold",
+        margin: "0",
       },
-      '& .section-entry': {
-        display: 'inline-block',
-        margin: '0',
-        width: '33%',
-        textAlign: 'left',
-        padding: '0.5em',
+      "& .section-entry": {
+        display: "inline-block",
+        margin: "0",
+        width: "33%",
+        textAlign: "left",
+        padding: "0.5em",
       },
-      '& .section-reference': { width: '100%' },
+      "& .section-reference": { width: "100%" },
     },
-    '& .section-footer': {
-      marginTop: '1em',
-      textAlign: 'center',
-      i: { cursor: 'pointer' },
+    "& .section-footer": {
+      marginTop: "1em",
+      textAlign: "center",
+      i: { cursor: "pointer" },
     },
-    '& .section-interactions': {
-      margin: '0.5em 1.5em',
-      textAlign: 'left',
-      borderTop: '1px solid var(--gray)',
-      paddingTop: '1em',
-      '& .fa': { marginRight: '1em', borderRadius: '4px', padding: '0.25em' },
-      '& .fa-pencil, & .fa-arrow-up, & .fa-arrow-down': {
-        border: '1px solid #1d71ad',
-        color: '#1d71ad',
+    "& .section-interactions": {
+      margin: "0.5em 1.5em",
+      textAlign: "left",
+      borderTop: "1px solid var(--gray)",
+      paddingTop: "1em",
+      "& .fa": { marginRight: "1em", borderRadius: "4px", padding: "0.25em" },
+      "& .fa-pencil, & .fa-arrow-up, & .fa-arrow-down": {
+        border: "1px solid #1d71ad",
+        color: "#1d71ad",
       },
-      '& .fa-trash': { border: '1px solid #de5354', color: '#de5354' },
-      '& .fa-arrow-up, & .fa-arrow-down': { marginRight: '0.5em' },
-      '& .fb-checkbox': {
-        display: 'inline-block',
-        label: { color: '#9aa4ab' },
+      "& .fa-trash": { border: "1px solid #de5354", color: "#de5354" },
+      "& .fa-arrow-up, & .fa-arrow-down": { marginRight: "0.5em" },
+      "& .fb-checkbox": {
+        display: "inline-block",
+        label: { color: "#9aa4ab" },
       },
-      '& .interactions-left, & .interactions-right': {
-        display: 'inline-block',
-        width: '48%',
-        margin: '0 auto',
+      "& .interactions-left, & .interactions-right": {
+        display: "inline-block",
+        width: "48%",
+        margin: "0 auto",
       },
-      '& .interactions-left': { textAlign: 'left' },
-      '& .interactions-right': { textAlign: 'right' },
+      "& .interactions-left": { textAlign: "left" },
+      "& .interactions-right": { textAlign: "right" },
     },
   },
 });
@@ -165,7 +165,7 @@ export default function Section({
         title={
           <React.Fragment>
             <span onClick={() => setCardOpen(!cardOpen)} className="label">
-              {schemaData.title || keyName}{' '}
+              {schemaData.title || keyName}{" "}
               {parent ? (
                 <Tooltip
                   text={`Depends on ${parent}`}
@@ -173,7 +173,7 @@ export default function Section({
                   type="alert"
                 />
               ) : (
-                ''
+                ""
               )}
             </span>
             <span className="arrows">
@@ -203,11 +203,11 @@ export default function Section({
           </React.Fragment>
         }
         className={`section-container ${classes.sectionContainer} ${
-          dependent ? 'section-dependent' : ''
-        } ${reference ? 'section-reference' : ''}`}
+          dependent ? "section-dependent" : ""
+        } ${reference ? "section-reference" : ""}`}
       >
         <div
-          className={`section-entries ${reference ? 'section-reference' : ''}`}
+          className={`section-entries ${reference ? "section-reference" : ""}`}
         >
           <div className="section-head">
             {reference ? (
@@ -230,11 +230,11 @@ export default function Section({
                 />
               </div>
             ) : (
-              ''
+              ""
             )}
             <div className="section-entry">
               <h5>
-                Section Object Name{' '}
+                Section Object Name{" "}
                 <Tooltip
                   text="The name that will appear in the backend of Servicely"
                   id={`${keyName}_nameinfo`}
@@ -242,11 +242,11 @@ export default function Section({
                 />
               </h5>
               <Input
-                value={keyName || ''}
+                value={keyName || ""}
                 placeholder="Key"
                 type="text"
                 onChange={(ev: SyntheticInputEvent<HTMLInputElement>) =>
-                  setKeyName(ev.target.value.replace(/\W/g, '_'))
+                  setKeyName(ev.target.value.replace(/\W/g, "_"))
                 }
                 onBlur={(ev: SyntheticInputEvent<HTMLInputElement>) =>
                   onNameChange(ev.target.value)
@@ -257,7 +257,7 @@ export default function Section({
             </div>
             <div className="section-entry">
               <h5>
-                Section Display Name{' '}
+                Section Display Name{" "}
                 <Tooltip
                   text="The name Servicely will show to service requesters"
                   id={`${keyName}_titleinfo`}
@@ -265,7 +265,7 @@ export default function Section({
                 />
               </h5>
               <Input
-                value={schemaData.title || ''}
+                value={schemaData.title || ""}
                 placeholder="Title"
                 type="text"
                 onChange={(ev: SyntheticInputEvent<HTMLInputElement>) =>
@@ -282,7 +282,7 @@ export default function Section({
             </div>
             <div className="section-entry">
               <h5>
-                Section Description{' '}
+                Section Description{" "}
                 <Tooltip
                   text="This will appear as gray text in the service request form"
                   id={`${keyName}_descriptioninfo`}
@@ -290,7 +290,7 @@ export default function Section({
                 />
               </h5>
               <Input
-                value={schemaData.description || ''}
+                value={schemaData.description || ""}
                 placeholder="Description"
                 type="text"
                 onChange={(ev: SyntheticInputEvent<HTMLInputElement>) =>
@@ -307,7 +307,7 @@ export default function Section({
             </div>
             <Alert
               style={{
-                display: unsupportedFeatures.length === 0 ? 'none' : 'block',
+                display: unsupportedFeatures.length === 0 ? "none" : "block",
               }}
               color="warning"
             >
@@ -378,7 +378,7 @@ export default function Section({
             <Add
               name={`${keyName}_inner`}
               addElem={(choice: string) => {
-                if (choice === 'card') {
+                if (choice === "card") {
                   addCardObj({
                     schema,
                     uischema,
@@ -387,7 +387,7 @@ export default function Section({
                     definitionUi,
                     categoryHash,
                   });
-                } else if (choice === 'section') {
+                } else if (choice === "section") {
                   addSectionObj({
                     schema,
                     uischema,
@@ -435,7 +435,7 @@ export default function Section({
             neighborNames,
             name: keyName,
             schema,
-            type: 'object',
+            type: "object",
           }}
           isOpen={modalOpen}
           onClose={() => setModalOpen(false)}
@@ -448,7 +448,7 @@ export default function Section({
       {addElem ? (
         <Add name={keyName} addElem={(choice: string) => addElem(choice)} />
       ) : (
-        ''
+        ""
       )}
     </React.Fragment>
   );
