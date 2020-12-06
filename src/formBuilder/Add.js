@@ -83,12 +83,12 @@ export default function Add({
             }}
           />
           <div className="left">
-            <input type='button' className='inline-block align-middle text-center select-none border font-normal whitespace-no-wrap py-2 px-4 rounded text-base leading-normal no-underline' onClick={() => setPopoverOpen(false)} color="secondary">
+            <Button onClick={() => setPopoverOpen(false)} color="secondary">
               Cancel
-            </input>
+            </Button>
           </div>
           <div className="right">
-            <input type='button' className='inline-block align-middle text-center select-none border font-normal whitespace-no-wrap py-2 px-4 rounded text-base leading-normal no-underline'
+            <Button
               onClick={() => {
                 addElem(createChoice);
                 setPopoverOpen(false);
@@ -96,7 +96,7 @@ export default function Add({
               color="primary"
             >
               Create
-            </input>
+            </Button>
           </div>
         </PopoverBody>
       </Popover>
