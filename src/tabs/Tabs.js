@@ -68,7 +68,7 @@ export default function Tabs({
     <div className={classes.portalTabs}>
       <div className='flex flex-wrap list-reset pl-0 mb-0' tabs>
         {tabs.map(({ name, id }, i) => (
-          <NavItem key={i} id={id}>
+          <div className='-mb-px' key={i} id={id}>
             <NavLink
               className={classnames({ active: activeTab === i })}
               onClick={() => {
@@ -77,7 +77,7 @@ export default function Tabs({
             >
               {name}
             </NavLink>
-          </NavItem>
+          </div>
         ))}
       </div>
       <TabContent
