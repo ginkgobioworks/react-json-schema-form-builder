@@ -24,7 +24,7 @@ function CardNumberParameterInputs({
           text="Require number to be a multiple of this number"
         />
       </h4>
-      <Input
+      <input
         value={parameters.multipleOf ? parameters.multipleOf : ""}
         placeholder="ex: 2"
         key="multipleOf"
@@ -40,7 +40,7 @@ function CardNumberParameterInputs({
         className="card-modal-number"
       />
       <h4>Minimum</h4>
-      <Input
+      <input
         value={parameters.minimum || parameters.exclusiveMinimum || ""}
         placeholder="ex: 3"
         key="minimum"
@@ -90,7 +90,7 @@ function CardNumberParameterInputs({
         />
       </div>
       <h4>Maximum</h4>
-      <Input
+      <input
         value={parameters.maximum || parameters.exclusiveMaximum || ""}
         placeholder="ex: 8"
         key="maximum"
@@ -153,7 +153,7 @@ function NumberField({
   return (
     <React.Fragment>
       <h5>Default number</h5>
-      <Input
+      <input
         value={parameters.default}
         placeholder="Default"
         type="number"

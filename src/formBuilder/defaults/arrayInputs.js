@@ -26,7 +26,7 @@ function CardArrayParameterInputs({
   return (
     <div>
       <h4>Minimum Items</h4>
-      <Input
+      <input
         value={parameters.minItems || ""}
         placeholder="ex: 2"
         key="minimum"
@@ -40,7 +40,7 @@ function CardArrayParameterInputs({
         className="card-modal-number"
       />
       <h4>Maximum Items</h4>
-      <Input
+      <input
         value={parameters.maxItems || ""}
         placeholder="ex: 2"
         key="maximum"

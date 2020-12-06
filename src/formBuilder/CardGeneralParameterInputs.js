@@ -50,7 +50,7 @@ export default function CardGeneralParameterInputs({
           />
         </h5>
 
-        <Input
+        <input
           value={keyState || ""}
           placeholder="Key"
           type="text"
@@ -85,7 +85,7 @@ export default function CardGeneralParameterInputs({
             type="help"
           />
         </h5>
-        <Input
+        <input
           value={titleState || ""}
           placeholder="Title"
           type="text"
@@ -114,7 +114,7 @@ export default function CardGeneralParameterInputs({
             type="help"
           />
         </h5>
-        <Input
+        <input
           value={descriptionState || ""}
           placeholder="Description"
           type="text"

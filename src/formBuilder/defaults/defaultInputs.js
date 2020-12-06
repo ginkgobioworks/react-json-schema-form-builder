@@ -28,7 +28,7 @@ function TimeField({
   return (
     <React.Fragment>
       <h5>Default time</h5>
-      <Input
+      <input
         value={parameters.default || ""}
         placeholder="Default"
         type="datetime-local"

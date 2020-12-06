@@ -37,7 +37,7 @@ function CardShortAnswerParameterInputs({
   return (
     <div>
       <h4>Minimum Length</h4>
-      <Input
+      <input
         value={parameters.minLength ? parameters.minLength : ""}
         placeholder="Minimum Length"
         key="minLength"
@@ -51,7 +51,7 @@ function CardShortAnswerParameterInputs({
         className="card-modal-number"
       />
       <h4>Maximum Length</h4>
-      <Input
+      <input
         value={parameters.maxLength ? parameters.maxLength : ""}
         placeholder="Maximum Length"
         key="maxLength"
@@ -78,7 +78,7 @@ function CardShortAnswerParameterInputs({
           />
         </a>
       </h4>
-      <Input
+      <input
         value={parameters.pattern ? parameters.pattern : ""}
         placeholder="Regular Expression Pattern"
         key="pattern"
@@ -203,7 +203,7 @@ function ShortAnswerField({
   return (
     <React.Fragment>
       <h5>Default value</h5>
-      <Input
+      <input
         value={parameters.default}
         placeholder="Default"
         type="text"
@@ -226,7 +226,7 @@ function Password({
   return (
     <React.Fragment>
       <h5>Default password</h5>
-      <Input
+      <input
         value={parameters.default}
         placeholder="Default"
         type="password"

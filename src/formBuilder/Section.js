@@ -241,7 +241,7 @@ export default function Section({
                   type="help"
                 />
               </h5>
-              <Input
+              <input
                 value={keyName || ""}
                 placeholder="Key"
                 type="text"
@@ -264,7 +264,7 @@ export default function Section({
                   type="help"
                 />
               </h5>
-              <Input
+              <input
                 value={schemaData.title || ""}
                 placeholder="Title"
                 type="text"
@@ -289,7 +289,7 @@ export default function Section({
                   type="help"
                 />
               </h5>
-              <Input
+              <input
                 value={schemaData.description || ""}
                 placeholder="Description"
                 type="text"

@@ -24,7 +24,7 @@ export default function CardEnumOptions({
     if (names && index < names.length) name = names[index];
     possibleValues.push(
       <div key={index} className="card-enum-option">
-        <Input
+        <input
           value={value === undefined || value === null ? "" : value}
           placeholder="Possible Value"
           key={`val-${index}`}
@@ -56,7 +56,7 @@ export default function CardEnumOptions({
           }}
           className="card-text"
         />
-        <Input
+        <input
           value={name || ""}
           placeholder="Name"
           key={`name-${index}`}

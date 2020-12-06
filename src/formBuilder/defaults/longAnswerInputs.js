@@ -28,7 +28,7 @@ function CardLongAnswerParameterInputs({
   return (
     <div>
       <h4>Minimum Length</h4>
-      <Input
+      <input
         value={parameters.minLength ? parameters.minLength : ""}
         placeholder="Minimum Length"
         key="minLength"
@@ -42,7 +42,7 @@ function CardLongAnswerParameterInputs({
         className="card-modal-number"
       />
       <h4>Maximum Length</h4>
-      <Input
+      <input
         value={parameters.maxLength ? parameters.maxLength : ""}
         placeholder="Maximum Length"
         key="maxLength"
@@ -65,7 +65,7 @@ function CardLongAnswerParameterInputs({
           />
         </a>
       </h4>
-      <Input
+      <input
         value={parameters.pattern ? parameters.pattern : ""}
         placeholder="Regular Expression Pattern"
         key="pattern"
@@ -145,7 +145,7 @@ function LongAnswer({
   return (
     <React.Fragment>
       <h5>Default input</h5>
-      <Input
+      <input
         value={parameters.default}
         placeholder="Default"
         type="textarea"

@@ -323,7 +323,7 @@ export default function FormBuilder({
       <div className={classes.formHead}>
         <div>
           <h5>Form Name</h5>
-          <Input
+          <input
             value={schemaData.title || ""}
             placeholder="Title"
             type="text"
@@ -344,7 +344,7 @@ export default function FormBuilder({
         </div>
         <div>
           <h5>Form Description</h5>
-          <Input
+          <input
             value={schemaData.description || ""}
             placeholder="Description"
             type="text"

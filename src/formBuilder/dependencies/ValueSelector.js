@@ -103,7 +103,7 @@ export default function ValueSelector({
                     {
                       {
                         string: (
-                          <Input
+                          <input
                             value={val || ""}
                             placeholder="String value"
                             type="string"
@@ -125,7 +125,7 @@ export default function ValueSelector({
                           />
                         ),
                         number: (
-                          <Input
+                          <input
                             value={val || ""}
                             placeholder="Number value"
                             type="number"
@@ -147,7 +147,7 @@ export default function ValueSelector({
                           />
                         ),
                         array: (
-                          <Input
+                          <input
                             value={JSON.stringify(val) || ""}
                             placeholder="Array in JSON"
                             type="string"
@@ -175,7 +175,7 @@ export default function ValueSelector({
                           />
                         ),
                         object: (
-                          <Input
+                          <input
                             value={JSON.stringify(val) || ""}
                             placeholder="Object in JSON"
                             type="string"
