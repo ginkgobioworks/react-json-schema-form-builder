@@ -69,14 +69,14 @@ export default function Tabs({
       <div className='flex flex-wrap list-reset pl-0 mb-0' tabs>
         {tabs.map(({ name, id }, i) => (
           <div className='-mb-px' key={i} id={id}>
-            <NavLink
+            <div className='inline-block py-2 px-4 no-underline border border-b-0 mx-1 rounded rounded-t'
               className={classnames({ active: activeTab === i })}
               onClick={() => {
                 setActiveTab(i);
               }}
             >
               {name}
-            </NavLink>
+            </div>
           </div>
         ))}
       </div>
