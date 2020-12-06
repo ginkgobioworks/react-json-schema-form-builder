@@ -79,7 +79,7 @@ export default function CardModal({
         />
       </ModalBody>
       <ModalFooter>
-        <Button
+        <input type='button' className='inline-block align-middle text-center select-none border font-normal whitespace-no-wrap py-2 px-4 rounded text-base leading-normal no-underline'
           onClick={() => {
             onClose();
             onChange(componentPropsState);
@@ -87,15 +87,15 @@ export default function CardModal({
           color="primary"
         >
           Save
-        </Button>
-        <Button
+        </input>
+        <input type='button' className='inline-block align-middle text-center select-none border font-normal whitespace-no-wrap py-2 px-4 rounded text-base leading-normal no-underline'
           onClick={() => {
             onClose();
           }}
           color="secondary"
         >
           Cancel
-        </Button>
+        </input>
       </ModalFooter>
     </Modal>
   );
