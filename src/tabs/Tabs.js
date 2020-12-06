@@ -66,7 +66,7 @@ export default function Tabs({
 
   return (
     <div className={classes.portalTabs}>
-      <Nav tabs>
+      <div className='flex flex-wrap list-reset pl-0 mb-0' tabs>
         {tabs.map(({ name, id }, i) => (
           <NavItem key={i} id={id}>
             <NavLink
@@ -79,7 +79,7 @@ export default function Tabs({
             </NavLink>
           </NavItem>
         ))}
-      </Nav>
+      </div>
       <TabContent
         activeTab={activeTab}
         className={classnames({
