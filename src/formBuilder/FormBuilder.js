@@ -309,7 +309,7 @@ export default function FormBuilder({
 
   return (
     <div className={`${classes.formBuilder} ${className || ""}`}>
-      <Alert
+      <div className='relative px-3 py-3 mb-4 border rounded'
         style={{
           display: unsupportedFeatures.length === 0 ? "none" : "block",
         }}
@@ -319,7 +319,7 @@ export default function FormBuilder({
         {unsupportedFeatures.map((message, index) => (
           <li key={index}>{message}</li>
         ))}
-      </Alert>
+      </div>
       <div className={classes.formHead}>
         <div>
           <h5>Form Name</h5>

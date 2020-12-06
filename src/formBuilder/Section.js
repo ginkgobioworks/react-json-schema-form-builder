@@ -305,7 +305,7 @@ export default function Section({
                 className="card-text"
               />
             </div>
-            <Alert
+            <div className='relative px-3 py-3 mb-4 border rounded'
               style={{
                 display: unsupportedFeatures.length === 0 ? "none" : "block",
               }}
@@ -315,7 +315,7 @@ export default function Section({
               {unsupportedFeatures.map((message) => (
                 <li key={`${path}_${message}`}>{message}</li>
               ))}
-            </Alert>
+            </div>
           </div>
           <div className="section-body">
             <DragDropContext

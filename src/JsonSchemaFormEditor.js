@@ -141,30 +141,30 @@ class JsonSchemaFormEditor extends React.Component<Props, State> {
         }}
         className="playground-main"
       >
-        <Alert
+        <div className='relative px-3 py-3 mb-4 border rounded'
           style={{
             display: schemaError === "" ? "none" : "block",
           }}
           color="danger"
         >
           <h5>Schema:</h5> {schemaError}
-        </Alert>
-        <Alert
+        </div>
+        <div className='relative px-3 py-3 mb-4 border rounded'
           style={{
             display: schemaUiError === "" ? "none" : "block",
           }}
           color="danger"
         >
           <h5>UI Schema:</h5> {schemaUiError}
-        </Alert>
-        <Alert
+        </div>
+        <div className='relative px-3 py-3 mb-4 border rounded'
           style={{
             display: this.state.schemaFormErrorFlag === "" ? "none" : "block",
           }}
           color="danger"
         >
           <h5>Form:</h5> {this.state.schemaFormErrorFlag}
-        </Alert>
+        </div>
         <Tabs
           tabs={[
             {
