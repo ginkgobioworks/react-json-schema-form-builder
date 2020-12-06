@@ -261,7 +261,7 @@ class JsonSchemaFormEditor extends React.Component<Props, State> {
                       </div>
                     </ModalBody>
                     <ModalFooter>
-                      <Button
+                      <button className='inline-block align-middle text-center select-none border font-normal whitespace-no-wrap py-2 px-4 rounded text-base leading-normal no-underline'
                         onClick={() => {
                           this.setState({
                             outputToggle: false,
@@ -270,7 +270,7 @@ class JsonSchemaFormEditor extends React.Component<Props, State> {
                         color="secondary"
                       >
                         Close
-                      </Button>
+                      </button>
                     </ModalFooter>
                   </Modal>
                 </div>
