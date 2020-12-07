@@ -1,0 +1,17 @@
+site_name: react-jsonschema-form-editor documentation
+docs_dir: docs
+theme: readthedocs
+
+extra_javascript: []
+
+nav:
+  - Introduction: Introduction.md
+  - Installation: Installation.md
+  - Philosophy: Philosophy.md
+  - Usage: Usage.md
+  - Developers: Developers.md
+  - TODO: TODO.md
+
+markdown_extensions:
+  - toc:
+      permalink: true
