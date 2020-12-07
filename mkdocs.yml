@@ -5,6 +5,7 @@ theme: readthedocs
 extra_javascript: []
 
 nav:
+  - Quickstart: README.md
   - Introduction: Introduction.md
   - Installation: Installation.md
   - Philosophy: Philosophy.md
