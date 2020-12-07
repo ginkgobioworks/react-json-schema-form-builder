@@ -5,7 +5,7 @@ theme: readthedocs
 extra_javascript: []
 
 nav:
-  - HOME: index.md
+  - Home: index.md
   - Introduction: Introduction.md
   - Installation: Installation.md
   - Philosophy: Philosophy.md
