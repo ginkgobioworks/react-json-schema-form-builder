@@ -8,9 +8,13 @@
 # testing
 /coverage
 
+# development
+/src
+/public
+/docs
+
 # production
 /build
-/lib
 
 # misc
 .DS_Store
@@ -23,3 +27,7 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+.readthedocs.yml
+.requirements.docs.txt
+mkdocs.yml
