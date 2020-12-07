@@ -12,9 +12,9 @@ One of the key abstractions is rendering form elements by parsing the `propertie
 
 The Form Builder abstracts away the code involved in JSON schema defined forms into discrete form elements. These show up as collapsible cards on the form builder itself, such as the following:
 
-![Screen Shot 2020-12-04 at 11.38.09 AM](img/Screen Shot 2020-12-04 at 11.38.09 AM.png)
+![collapsed](img/collapsed.png)
 
-![Screen Shot 2020-12-04 at 11.38.30 AM](img/Screen Shot 2020-12-04 at 11.38.30 AM.png)
+![card](img/card.png)
 
 These can be added by clicking on the green "+" button beneath each form element, and they can be deleted by clicking on the "trash" icon within the expanded elements.
 
@@ -51,7 +51,7 @@ Cards are rendered as the generally smaller form elements, and represent a singl
 
 Sections are rendered as larger cards, that themselves hold cards within them. To create a section, after hitting the "+" button, the builder selects "Form section" instead of "Form element." Sections do not have any input type of their own, but can contain Cards that have their own Input Types. Like Cards, Sections can be dragged around, moving their contents along with them.
 
-![Screen Shot 2020-12-04 at 11.57.41 AM](img/Screen Shot 2020-12-04 at 11.57.41 AM.png)
+![section](img/section.png)
 
 To create a form element within a section, the builder must click on the "+" button *within* the section.
 
@@ -61,17 +61,17 @@ Arrays are a type of form element that contains a single form element or section
 
 For example, the following is an Array that takes any number of email addresses:
 
-![Screen Shot 2020-12-04 at 12.54.27 PM](img/Screen Shot 2020-12-04 at 12.54.27 PM.png)
+![array](img/array.png)
 
 And this is how it appears facing the user:
 
-![Screen Shot 2020-12-04 at 12.55.23 PM](img/Screen Shot 2020-12-04 at 12.55.23 PM.png)
+![array2](img/array2.png)
 
 ## Modals
 
 Additional details about a form element can be defined in *modals* that appear when a user clicks on the "pencil" icon in the footer of a form element or section. These modals contain additional options that can set additioal requirements or features for a particular element. For example, this modal presents options for *Short Answer* Input types:
 
-![Screen Shot 2020-12-04 at 12.05.34 PM](img/Screen Shot 2020-12-04 at 12.05.34 PM.png)
+![modal](img/modal.png)
 
 Here, the builder can mandate that the inputs adhere to a certain length requirement, fit a regular expression pattern, and provide an auto complete category. The options vary between input types, and the user can set their own modal options when they pass in custom input types.
 
@@ -81,13 +81,13 @@ Form elements can be set to control the appearance of other form elements. The c
 
 To set a parent, a builder can open the modal for an element and click the small "+" button to create a **possibility**. When at least one possibility exists, the builder can also specify whether the possibilities should be triggered based on whether the parent has "Any value" (default) or whether it has a "Specific value." In the latter case, multiple **possibilities** can exist to account for different scenarios. For exampe, a certain set of dependents may be rendered when the parent has a particular value, but another set when the parent has another set of values.
 
-<img src="img/Screen Shot 2020-12-04 at 1.18.05 PM.png" alt="Screen Shot 2020-12-04 at 1.18.05 PM" style="zoom: 50%;" />
+<img src="img/dependency1.png" alt="dependency1" style="zoom: 50%;" />
 
 This UI is ultimately an abstraction of the [React JSON Schema Form](https://react-jsonschema-form.readthedocs.io/en/latest/usage/dependencies/) dependencies feature, and does not fully capture the wide range of possibilities involving cascading logic that can be achieved through manual coding.
 
 When a form element is dependent on another form element, it will appear with dashed borders and an asterisk indicating that it will remain hidden unless some condition in the parent element is satisfied.
 
-![Screen Shot 2020-12-04 at 2.08.56 PM](img/Screen Shot 2020-12-04 at 2.08.56 PM.png)
+![dependency2](img/dependency2.png)
 
 ## Definitions and References
 
@@ -95,7 +95,7 @@ The Form Builder also supports the **definitions** property in JSON Schema Form 
 
 When a card is of a reference type, many of the usual options are no longer editable - instead, they become inherited from the parent definition.
 
-![Screen Shot 2020-12-04 at 2.18.30 PM](img/Screen Shot 2020-12-04 at 2.18.30 PM.png)
+![reference](img/reference.png)
 
 In the [usage doc](https://github.com/ginkgobioworks/react-jsonschema-form-editor/blob/main/docs/Usage.md), there is an optional additional component called the **PreDefinedGallery** that allows a builder to also visually build the definitions. It is presented
 
