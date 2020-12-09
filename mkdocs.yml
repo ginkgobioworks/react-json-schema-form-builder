@@ -12,6 +12,7 @@ nav:
   - Usage: Usage.md
   - Plugins: Plugins.md
   - Developers: Developers.md
+  - Contributing: ../CONTRIBUTING.md
   - TODO: TODO.md
 
 markdown_extensions:

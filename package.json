@@ -15,9 +15,10 @@
     "build": "microbundle-crl --no-compress --format modern,cjs",
     "start": "microbundle-crl watch --no-compress --format modern,cjs",
     "prepare": "run-s build",
-    "test": "run-s test:unit test:lint test:build",
+    "test": "run-s test:unit test:lint test:flow test:build",
     "test:build": "run-s build",
     "test:lint": "eslint .",
+    "test:flow": "flow",
     "test:unit": "cross-env CI=1 react-scripts test --env=jsdom --coverage --coverageDirectory=coverage/",
     "test:watch": "react-scripts test --env=jsdom",
     "predeployDemo": "cd example && npm install && npm run build",
@@ -45,6 +46,8 @@
     "eslint-plugin-react": "^7.17.0",
     "eslint-plugin-standard": "^4.0.1",
     "flow": "^0.2.3",
+    "flow-bin": "^0.139.0",
+    "flow-typed": "^3.2.1",
     "gh-pages": "^2.2.0",
     "jsoneditor": "^9.1.4",
     "jsoneditor-react": "^3.1.0",
@@ -57,7 +60,8 @@
     "react-scripts": "^3.4.1"
   },
   "files": [
-    "dist"
+    "dist",
+    "README.md"
   ],
   "dependencies": {
     "classnames": "^2.2.6",
@@ -76,7 +80,8 @@
       "!src/index.js"
     ],
     "coverageReporters": [
-      "text", "lcov"
+      "text",
+      "lcov"
     ]
   }
 }

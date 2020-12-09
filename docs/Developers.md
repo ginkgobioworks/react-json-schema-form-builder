@@ -16,10 +16,6 @@ Jest test coverage is also monitored to make sure that test coverage is maintain
 
 TODO: Jest and coveralls
 
-## Contributing and Governance
-
-TODO: determine developer governance
-
 ## CI/CD
 
 TODO: Figure out CI/CD
