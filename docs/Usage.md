@@ -237,6 +237,6 @@ The `tooltipDescriptions` allows an implementation of the `FormBuilder` that cha
 
 ### Styling
 
-To avoid collisions with existing CSS styles, this app uses [react-jss](https://cssinjs.org/react-jss/?v=v10.5.0) in order to generate class names avoiding overlap with others in the global scope. Using CSS to style FormBuilder and PredefinedGallery components will not work and is not supported. The ability to "skin" the FormBuilder and PreDefinedGallery components may be a feature in the future.
+To avoid collisions with existing CSS styles, this app uses [react-jss](https://cssinjs.org/react-jss/?v=v10.5.0) in order to generate class names avoiding overlap with others in the global scope. Using CSS to style FormBuilder and PredefinedGallery components will not work and is not supported. The ability to "skin" the FormBuilder and PredefinedGallery components may be a feature in the future.
 
 **TODO: JS Stylesheet**
