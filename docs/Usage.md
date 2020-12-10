@@ -40,7 +40,7 @@ class Example extends Component {
 
 Most likely, you will want to visually build the form with some preview of the rendered form available.
 
-This will require you to use some other React component to render the JSON schema as a form. This example uses [rjsf](https://www.npmjs.com/package/@rjsf/core):
+This will require you to use some implementation of the `Form` component from [RJSF](https://react-jsonschema-form.readthedocs.io/en/latest/).  React component to render the JSON schema as a form. This example uses [@rjsf/core](https://www.npmjs.com/package/@rjsf/core):
 
 ``` bash
 npm i @rjsf/core
@@ -96,7 +96,7 @@ JSON Schema forms also make use of definitions, allowing a form builder to defin
 ``` react
 import React, { Component } from 'react';
  
-import {FormBuilder, PreDefinedGallery} from "react-json-schema-form-builder";
+import {FormBuilder, PreDefinedGallery} from "@ginkgobioworks/react-json-schema-form-builder";
  
 class Example extends Component {
   constructor(props) {

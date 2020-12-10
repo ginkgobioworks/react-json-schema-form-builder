@@ -1,6 +1,5 @@
 import React from 'react';
 import { mount } from 'enzyme';
-import { stringify } from './utils';
 import DEFAULT_FORM_INPUTS from './defaults/defaultFormInputs';
 
 import Card from './Card';
@@ -110,8 +109,8 @@ describe('Card', () => {
     key.simulate('change', { target: { value: 'test' } });
     key.simulate('blur');
     expect(mockEvent.mock.calls).toEqual([
-      ['name: wow_name_change\ncategory: shortAnswer\n'],
-      ['name: test\ncategory: shortAnswer\n'],
+      ['{"name":"wow_name_change","category":"shortAnswer"}'],
+      ['{"name":"test","category":"shortAnswer"}'],
     ]);
     mockEvent.mockClear();
   });
@@ -137,9 +136,9 @@ describe('Card', () => {
     });
     description.simulate('blur');
     expect(mockEvent.mock.calls).toEqual([
-      ['name: test\ncategory: shortAnswer\ntitle: wow title change\n'],
+      ['{"name":"test","category":"shortAnswer","title":"wow title change"}'],
       [
-        'name: test\ncategory: shortAnswer\ndescription: wow description change\n',
+        '{"name":"test","category":"shortAnswer","description":"wow description change"}',
       ],
     ]);
     mockEvent.mockClear();

@@ -23,16 +23,20 @@ describe('FormBuilder', () => {
   it('renders the appropriate number of cards', () => {
     const modProps = {
       ...props,
-      schema: `
-        type: object
-        properties:
-            obj1: 
-                type: string
-            obj2:
-                type: number
-            obj3:
-                type: boolean
-        `,
+      schema: `{
+   "type": "object",
+   "properties": {
+      "obj1": {
+         "type": "string"
+      },
+      "obj2": {
+         "type": "number"
+      },
+      "obj3": {
+         "type": "boolean"
+      }
+   }
+}`,
     };
     const div = document.createElement('div');
     document.body.appendChild(div);
@@ -45,24 +49,29 @@ describe('FormBuilder', () => {
   it('generates warning messages', () => {
     const modProps = {
       ...props,
-      schema: `
-        type: object
-        properties:
-            obj1: 
-                type: string
-            obj2:
-                type: number
-                badSideProp: asdf
-            obj3:
-                type: boolean
-        `,
-      uischema: `
-        'ui:order':
-            - obj1
-            - obj3
-            - obj2
-        invalidUiProp: asdf
-        `,
+      schema: `{
+   "type": "object",
+   "properties": {
+      "obj1": {
+         "type": "string"
+      },
+      "obj2": {
+         "type": "number",
+         "badSideProp": "asdf"
+      },
+      "obj3": {
+         "type": "boolean"
+      }
+   }
+}`,
+      uischema: `{
+   "ui:order": [
+      "obj1",
+      "obj3",
+      "obj2"
+   ],
+   "invalidUiProp": "asdf"
+}`,
     };
     const div = document.createElement('div');
     document.body.appendChild(div);
@@ -81,26 +90,33 @@ describe('FormBuilder', () => {
     const modProps = {
       ...props,
       schema: `
-        type: object
-        properties:
-            obj1: 
-                type: string
-                title: obj1
-            obj2:
-                type: number
-                badSideProp: asdf
-                title: obj2
-            obj3:
-                type: boolean
-                title: obj3
-        `,
+        {
+   "type": "object",
+   "properties": {
+      "obj1": {
+         "type": "string",
+         "title": "obj1"
+      },
+      "obj2": {
+         "type": "number",
+         "badSideProp": "asdf",
+         "title": "obj2"
+      },
+      "obj3": {
+         "type": "boolean",
+         "title": "obj3"
+      }
+   }
+}`,
       uischema: `
-        'ui:order':
-            - obj1
-            - obj3
-            - obj2
-        invalidUiProp: asdf
-        `,
+{
+   "ui:order": [
+      "obj1",
+      "obj3",
+      "obj2"
+   ],
+   "invalidUiProp": "asdf"
+}`,
     };
     const div = document.createElement('div');
     document.body.appendChild(div);

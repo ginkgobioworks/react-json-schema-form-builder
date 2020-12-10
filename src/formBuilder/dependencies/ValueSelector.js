@@ -228,7 +228,7 @@ export default function ValueSelector({
             onClick={() => {
               const newCase = {};
               const propArr = parentSchema
-                ? (parse(parentSchema, 'json'): any).properties
+                ? (parse(parentSchema): any).properties
                 : {};
               Object.keys(propArr).forEach((key) => {
                 if (

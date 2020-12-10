@@ -69,20 +69,6 @@ describe('parse', () => {
     expect(
       parse(
         `
-      key:
-        array:
-          - item1
-          - item2
-        num: 0
-        name: obj1
-      `,
-      ),
-    ).toEqual({ key: { array: ['item1', 'item2'], name: 'obj1', num: 0 } });
-  });
-  it('parses valid JSON into a JS object', () => {
-    expect(
-      parse(
-        `
     {
       "key": {
         "array": ["item1", "item2"], 
@@ -106,16 +92,7 @@ describe('stringify', () => {
         { key: { array: ['item1', 'item2'], name: 'obj1', num: 0 } },
         'json',
       ),
-    ).toEqual(`{
-     "key": {
-          "array": [
-               "item1",
-               "item2"
-          ],
-          "name": "obj1",
-          "num": 0
-     }
-}`);
+    ).toEqual('{"key":{"array":["item1","item2"],"name":"obj1","num":0}}');
   });
 });
 

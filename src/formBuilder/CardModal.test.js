@@ -1,6 +1,5 @@
 import React from 'react';
 import { mount } from 'enzyme';
-import { stringify } from './utils';
 
 import CardModal from './CardModal';
 
@@ -58,7 +57,7 @@ describe('CardModal', () => {
       .first();
     saveButton.simulate('click');
     expect(mockEvent).toHaveBeenCalledTimes(2);
-    expect(mockEvent.mock.calls).toEqual([['close'], ['name: test\n']]);
+    expect(mockEvent.mock.calls).toEqual([['close'], ['{"name":"test"}']]);
     mockEvent.mockClear();
   });
 
@@ -81,7 +80,7 @@ describe('CardModal', () => {
     expect(mockEvent).toHaveBeenCalledTimes(2);
     expect(mockEvent.mock.calls).toEqual([
       ['close'],
-      ['name: test\ninputVal: wow many change\n'],
+      ['{"name":"test","inputVal":"wow many change"}'],
     ]);
 
     mockEvent.mockClear();
