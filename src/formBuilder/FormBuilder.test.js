@@ -10,7 +10,6 @@ const props = {
   schema: '',
   uischema: '',
   onChange: (newSchema, newUiSchema) => mockEvent(newSchema, newUiSchema),
-  lang: 'yaml',
 };
 
 describe('FormBuilder', () => {

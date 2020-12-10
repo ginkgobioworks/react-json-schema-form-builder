@@ -2,9 +2,7 @@
 
 Various code snippets and explanations of how they work with the form builder
 
-## Default Implementation
-
-## Usage
+## FormBuilder Component
 
 The following example is a React component that simply maintains a form builder and stores the corresponding JSON schema as state variables, instead of rendering them in any way.
 
@@ -32,7 +30,6 @@ class Example extends Component {
             uischema: newUiSchema
           })
         }}
-        lang={'json'}
       />
     );
   }
@@ -78,7 +75,6 @@ class Example extends Component {
               uischema: newUiSchema
             })
           }}
-          lang={'json'}
         />
         <Form
           schema={JSON.parse(this.state.schema)}
@@ -122,7 +118,6 @@ class Example extends Component {
               uischema: newUiSchema
             })
           }}
-          lang={'json'}
         />
       	<PreDefinedGallery
           schema={this.state.schema}
@@ -133,7 +128,6 @@ class Example extends Component {
               uischema: newUiSchema
             })
           }}
-          lang={'json'}
         />
       </div>
     );
@@ -209,7 +203,6 @@ class Example extends Component {
             uischema: newUiSchema
           })
         }}
-        lang={'json'}
         mods={
           {
             optionalFormInputs: customFormInputs

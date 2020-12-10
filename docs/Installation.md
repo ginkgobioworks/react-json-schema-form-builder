@@ -1,6 +1,6 @@
 # Installation
 
-## Component
+## Library
 
 The form builder is available as an NPM package [here](https://www.npmjs.com/package/react-json-schema-form-builder).
 
@@ -18,11 +18,11 @@ import FormBuilder from 'react-json-schema-form-builder';
 
 ## Demo App
 
-To run the *demo app*, first open up a fresh directory and type the following to clone the repository:
+To run the *demo app*, first clone the repository:
 
 ```bash
 git clone https://github.com/ginkgobioworks/react-json-schema-form-builder.git
-cd react-json-schema-form-builder
+cd react-json-schema-form-builder/example
 ```
 
 Then, run the following command to install the appropriate dependencies:
@@ -30,7 +30,10 @@ Then, run the following command to install the appropriate dependencies:
 npm install
 ```
 
-Finally, to deploy the app, enter the following command to locally run a server and operate the app using your default browser:
+To start the app, enter the following command to locally run a server
 ```bash
 npm start
 ```
+
+Then open the following URL in your browser: http://localhost:3000/
+

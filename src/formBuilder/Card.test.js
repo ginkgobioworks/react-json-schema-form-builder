@@ -15,7 +15,7 @@ const params = {
 
 const props = {
   componentProps: params,
-  onChange: (newVals) => mockEvent(stringify(newVals, 'yaml')),
+  onChange: (newVals) => mockEvent(JSON.stringify(newVals)),
   onDelete: () => mockEvent('delete'),
   onMoveUp: () => mockEvent('moveUp'),
   onMoveDown: () => mockEvent('moveDown'),

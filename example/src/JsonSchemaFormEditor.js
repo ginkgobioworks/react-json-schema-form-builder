@@ -147,7 +147,6 @@ class JsonSchemaFormEditor extends React.Component<Props, State> {
                         if (this.props.onChange)
                           this.props.onChange(newSchema, newUiSchema);
                       }}
-                      lang={this.props.lang}
                     />
                   </ErrorBoundary>
                 </div>
@@ -320,7 +319,6 @@ class JsonSchemaFormEditor extends React.Component<Props, State> {
                         if (this.props.onChange)
                           this.props.onChange(newSchema, newUiSchema);
                       }}
-                      lang={this.props.lang}
                     />
                   </ErrorBoundary>
                 </div>

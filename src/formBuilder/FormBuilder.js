@@ -275,21 +275,19 @@ export default function FormBuilder({
   schema,
   uischema,
   onChange,
-  lang,
   mods,
   className,
 }: {
   schema: string,
   uischema: string,
   onChange: (string, string) => any,
-  lang: string,
   mods?: Mods,
   className?: string,
 }) {
   const classes = useStyles();
-  const schemaData = (parse(schema, lang): { [string]: any }) || {};
+  const schemaData = (parse(schema): { [string]: any }) || {};
   schemaData.type = 'object';
-  const uiSchemaData = (parse(uischema, lang): { [string]: any }) || {};
+  const uiSchemaData = (parse(uischema): { [string]: any }) || {};
   const allFormInputs = {
     ...DEFAULT_FORM_INPUTS,
     ...(mods && mods.customFormInputs),
@@ -329,13 +327,10 @@ export default function FormBuilder({
             type='text'
             onChange={(ev: SyntheticInputEvent<HTMLInputElement>) => {
               onChange(
-                stringify(
-                  {
-                    ...schemaData,
-                    title: ev.target.value,
-                  },
-                  lang,
-                ),
+                stringify({
+                  ...schemaData,
+                  title: ev.target.value,
+                }),
                 uischema,
               );
             }}
@@ -350,13 +345,10 @@ export default function FormBuilder({
             type='text'
             onChange={(ev: SyntheticInputEvent<HTMLInputElement>) =>
               onChange(
-                stringify(
-                  {
-                    ...schemaData,
-                    description: ev.target.value,
-                  },
-                  lang,
-                ),
+                stringify({
+                  ...schemaData,
+                  description: ev.target.value,
+                }),
                 uischema,
               )
             }
@@ -371,10 +363,7 @@ export default function FormBuilder({
               schema: schemaData,
               uischema: uiSchemaData,
               onChange: (newSchema, newUiSchema) =>
-                onChange(
-                  stringify(newSchema, lang),
-                  stringify(newUiSchema, lang),
-                ),
+                onChange(stringify(newSchema), stringify(newUiSchema)),
               definitionData: schemaData.definitions,
               definitionUi: uiSchemaData.definitions,
               categoryHash,
@@ -392,10 +381,7 @@ export default function FormBuilder({
                   schemaData,
                   uiSchemaData,
                   onChange: (newSchema, newUiSchema) =>
-                    onChange(
-                      stringify(newSchema, lang),
-                      stringify(newUiSchema, lang),
-                    ),
+                    onChange(stringify(newSchema), stringify(newUiSchema)),
                   definitionData: schemaData.definitions,
                   definitionUi: uiSchemaData.definitions,
                   path: 'root',
@@ -438,10 +424,7 @@ export default function FormBuilder({
                 schema: schemaData,
                 uischema: uiSchemaData,
                 onChange: (newSchema, newUiSchema) =>
-                  onChange(
-                    stringify(newSchema, lang),
-                    stringify(newUiSchema, lang),
-                  ),
+                  onChange(stringify(newSchema), stringify(newUiSchema)),
                 definitionData: schemaData.definitions,
                 definitionUi: uiSchemaData.definitions,
                 categoryHash,
@@ -451,10 +434,7 @@ export default function FormBuilder({
                 schema: schemaData,
                 uischema: uiSchemaData,
                 onChange: (newSchema, newUiSchema) =>
-                  onChange(
-                    stringify(newSchema, lang),
-                    stringify(newUiSchema, lang),
-                  ),
+                  onChange(stringify(newSchema), stringify(newUiSchema)),
                 definitionData: schemaData.definitions,
                 definitionUi: uiSchemaData.definitions,
                 categoryHash,

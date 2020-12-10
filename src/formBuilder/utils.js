@@ -1,20 +1,17 @@
 // @flow
 import * as React from 'react';
-import { safeLoad as yamlParse, safeDump as yamlStringify } from 'js-yaml';
 import type { CardProps, ElementProps, FormInput, Mods } from './types';
 
 // parse in either YAML or JSON
-export function parse(text: string, language: string) {
+export function parse(text: string) {
   if (!text) return {};
-  return language === 'yaml' ? (yamlParse(text): any) : (JSON.parse(text): any);
+  return JSON.parse(text);
 }
 
 // stringify in either YAML or JSON
-export function stringify(obj: any, language: string) {
-  if (!obj) return '';
-  return language === 'yaml'
-    ? yamlStringify(obj, { skipInvalid: true })
-    : JSON.stringify(obj, null, 5);
+export function stringify(obj: any) {
+  if (!obj) return '{}';
+  return JSON.stringify(obj);
 }
 
 export function defaultDataProps(
@@ -1032,8 +1029,8 @@ export function generateElementComponentsFromSchemas(parameters: {
     Section,
   } = parameters;
 
-  const schema = parse(stringify(schemaData, 'yaml'), 'yaml');
-  const uischema = parse(stringify(uiSchemaData, 'yaml'), 'yaml');
+  const schema = parse(stringify(schemaData));
+  const uischema = parse(stringify(uiSchemaData));
 
   if (!schema.properties) return [];
   const elementPropArr = generateElementPropsFromSchemas({
@@ -1097,7 +1094,6 @@ export function generateElementComponentsFromSchemas(parameters: {
                 ![
                   'name',
                   'required',
-                  'lang',
                   'neighborNames',
                   'dependents',
                   'dependent',

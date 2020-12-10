@@ -13,7 +13,7 @@ const params = {
 
 const props = {
   componentProps: params,
-  onChange: (newParams) => mockEvent(stringify(newParams, 'yaml')),
+  onChange: (newParams) => mockEvent(JSON.stringify(newParams)),
   isOpen: true,
   onClose: () => mockEvent('close'),
   TypeSpecificParameters: ({ parameters, onChange }) => (

@@ -65,7 +65,7 @@ const elementPropArr = [
 ];
 
 describe('parse', () => {
-  it('parses valid YAML into a JS object', () => {
+  it('parses valid JSON into a JS object', () => {
     expect(
       parse(
         `
@@ -76,12 +76,8 @@ describe('parse', () => {
         num: 0
         name: obj1
       `,
-        'yaml',
       ),
     ).toEqual({ key: { array: ['item1', 'item2'], name: 'obj1', num: 0 } });
-  });
-  it('parses empty YAML into an empty JS object', () => {
-    expect(parse(``, 'yaml')).toEqual({});
   });
   it('parses valid JSON into a JS object', () => {
     expect(
@@ -104,20 +100,6 @@ describe('parse', () => {
 });
 
 describe('stringify', () => {
-  it('turns an object into validly formatted YAML', () => {
-    expect(
-      stringify(
-        { key: { array: ['item1', 'item2'], name: 'obj1', num: 0 } },
-        'yaml',
-      ),
-    ).toEqual(`key:
-  array:
-    - item1
-    - item2
-  name: obj1
-  num: 0
-`);
-  });
   it('turns an object into validly formatted JSON', () => {
     expect(
       stringify(
@@ -370,7 +352,6 @@ describe('generateElementPropsFromSchemas', () => {
     const cardObjArr = generateElementPropsFromSchemas({
       schema,
       uischema,
-      language: 'yaml',
       categoryHash: generateCategoryHash(DEFAULT_FORM_INPUTS),
       allFormInputs: DEFAULT_FORM_INPUTS,
     });

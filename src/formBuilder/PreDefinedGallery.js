@@ -153,18 +153,16 @@ export default function PreDefinedGallery({
   schema,
   uischema,
   onChange,
-  lang,
   mods,
 }: {
   schema: string,
   uischema: string,
   onChange: (string, string) => any,
-  lang: string,
   mods?: Mods,
 }) {
   const classes = useStyles();
-  const schemaData = (parse(schema, lang): { [string]: any }) || {};
-  const uiSchemaData = (parse(uischema, lang): { [string]: any }) || {};
+  const schemaData = (parse(schema): { [string]: any }) || {};
+  const uiSchemaData = (parse(uischema): { [string]: any }) || {};
   const allFormInputs = {
     ...DEFAULT_FORM_INPUTS,
     ...(mods && mods.customFormInputs),
@@ -202,7 +200,7 @@ export default function PreDefinedGallery({
           uiSchemaData.definitions[uiProp] = uiSchemaData[uiProp];
       });
 
-      onChange(stringify(schemaData, lang), stringify(uiSchemaData, lang));
+      onChange(stringify(schemaData), stringify(uiSchemaData));
     }
   }, [uischema, schema]);
   return (
@@ -210,7 +208,6 @@ export default function PreDefinedGallery({
       <CardGallery
         definitionSchema={schemaData.definitions}
         definitionUiSchema={uiSchemaData.definitions}
-        language={lang}
         onChange={(
           newDefinitions: { [string]: any },
           newDefinitionsUi: { [string]: any },
@@ -223,10 +220,7 @@ export default function PreDefinedGallery({
             schemaData,
             uiSchemaData,
             (newSchema, newUiSchema) =>
-              onChange(
-                stringify(newSchema, lang),
-                stringify(newUiSchema, lang),
-              ),
+              onChange(stringify(newSchema), stringify(newUiSchema)),
             categoryHash,
           );
         }}

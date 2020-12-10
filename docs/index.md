@@ -40,7 +40,6 @@ class Example extends Component {
             uischema: newUiSchema
           })
         }}
-        lang={'json'}
       />
     );
   }
