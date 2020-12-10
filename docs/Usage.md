@@ -91,12 +91,12 @@ class Example extends Component {
 
 ### With Definitions
 
-JSON Schema forms also make use of definitions, allowing a form builder to define a component once and have several instances of that same component elsewhere. The `PreDefinedGallery` component reads a whole JSON schema and allows a user to edit the `definitions` section. This is meant to be used in tandem with the `FormBuilder`, as follows:
+JSON Schema forms also make use of definitions, allowing a form builder to define a component once and have several instances of that same component elsewhere within the schema. The `PredefinedGallery` component reads a whole JSON schema and allows a user to edit the `definitions` section. This is meant to be used in tandem with the `FormBuilder`, as follows:
 
 ``` react
 import React, { Component } from 'react';
  
-import {FormBuilder, PreDefinedGallery} from "@ginkgobioworks/react-json-schema-form-builder";
+import {FormBuilder, PredefinedGallery} from "@ginkgobioworks/react-json-schema-form-builder";
  
 class Example extends Component {
   constructor(props) {
@@ -119,7 +119,7 @@ class Example extends Component {
             })
           }}
         />
-      	<PreDefinedGallery
+      	<PredefinedGallery
           schema={this.state.schema}
           uischema={this.state.uischema}
           onChange={(newSchema: string, newUiSchema: string) => {
@@ -139,7 +139,7 @@ class Example extends Component {
 
 ### Plugins
 
-In addition to the default types of form inputs (Time, Checkbox, Radio, Dropdown, Short Answer, Long Answer, Password, Integer, Number, Array), custom form inputs can also be specified. These form inputs are defined in a JS object that is passed into the `FormBuilder` component (and the `PreDefinedGallery` component if it's being used) as part of a `mods` property, which has a comprehensive type definition in [src/formBuilder/types.js](https://github.com/ginkgobioworks/react-json-schema-form-builder/blob/main/src/formBuilder/types.js) as `Mods`.
+In addition to the default types of form inputs (Time, Checkbox, Radio, Dropdown, Short Answer, Long Answer, Password, Integer, Number, Array), custom form inputs can also be specified. These form inputs are defined in a JS object that is passed into the `FormBuilder` component (and the `PredefinedGallery` component if it's being used) as part of a `mods` property, which has a comprehensive type definition in [src/formBuilder/types.js](https://github.com/ginkgobioworks/react-json-schema-form-builder/blob/main/src/formBuilder/types.js) as `Mods`.
 
 #### Example Plugin
 
@@ -214,7 +214,7 @@ class Example extends Component {
 }
 ```
 
-The full type definition of the mods that can be passed into the `FormBuilder` and `PreDefinedGallery` (they must be passed into both!) are as follows:
+The full type definition of the mods that can be passed into the `FormBuilder` and `PredefinedGallery` (they must be passed into both!) are as follows:
 
 ``` react
 export type Mods = {
@@ -237,6 +237,6 @@ The `tooltipDescriptions` allows an implementation of the `FormBuilder` that cha
 
 ### Styling
 
-To avoid collisions with existing CSS styles, this app uses [react-jss](https://cssinjs.org/react-jss/?v=v10.5.0) in order to generate class names avoiding overlap with others in the global scopre. This may mean using CSS to style form builder components may be fragile, if a new name is generated.
+To avoid collisions with existing CSS styles, this app uses [react-jss](https://cssinjs.org/react-jss/?v=v10.5.0) in order to generate class names avoiding overlap with others in the global scope. Using CSS to style FormBuilder and PredefinedGallery components will not work and is not supported. The ability to "skin" the FormBuilder and PreDefinedGallery components may be a feature in the future.
 
 **TODO: JS Stylesheet**

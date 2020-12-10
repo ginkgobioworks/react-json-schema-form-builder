@@ -149,7 +149,7 @@ const useStyles = createUseStyles({
   },
 });
 
-export default function PreDefinedGallery({
+export default function PredefinedGallery({
   schema,
   uischema,
   onChange,

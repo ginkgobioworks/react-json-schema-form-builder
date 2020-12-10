@@ -1,2 +1,2 @@
 export FormBuilder from './formBuilder/FormBuilder';
-export PreDefinedGallery from './formBuilder/PreDefinedGallery';
+export PredefinedGallery from './formBuilder/PredefinedGallery';

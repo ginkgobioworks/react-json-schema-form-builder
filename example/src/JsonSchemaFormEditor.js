@@ -9,7 +9,7 @@ import {
   ModalFooter,
 } from 'reactstrap';
 import Form from '@rjsf/core';
-import { FormBuilder, PreDefinedGallery } from '@ginkgo-bioworks/react-json-schema-form-builder';
+import { FormBuilder, PredefinedGallery } from '@ginkgo-bioworks/react-json-schema-form-builder';
 import Tabs from './tabs/Tabs';
 import JSONInput from 'react-json-editor-ajrm';
 import locale from 'react-json-editor-ajrm/locale/en';
@@ -312,7 +312,7 @@ class JsonSchemaFormEditor extends React.Component<Props, State> {
                   }}
                 >
                   <ErrorBoundary onErr={() => {}}>
-                    <PreDefinedGallery
+                    <PredefinedGallery
                       schema={this.props.schema}
                       uischema={this.props.uischema}
                       onChange={(newSchema: string, newUiSchema: string) => {

@@ -97,5 +97,5 @@ When a card is of a reference type, many of the usual options are no longer edit
 
 ![reference](img/reference.png)
 
-In the [usage doc](Usage.md), there is an optional additional component called the **PreDefinedGallery** that allows a builder to also visually build the definitions. It is presented
+In the [usage doc](Usage.md), there is an optional additional component called the **PredefinedGallery** that allows a builder to also visually build the definitions. It is presented
 
