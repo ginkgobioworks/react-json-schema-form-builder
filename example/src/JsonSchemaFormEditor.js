@@ -9,7 +9,7 @@ import {
   ModalFooter,
 } from 'reactstrap';
 import Form from '@rjsf/core';
-import { FormBuilder, PreDefinedGallery } from 'react-json-schema-form-builder';
+import { FormBuilder, PreDefinedGallery } from '@ginkgo-bioworks/react-json-schema-form-builder';
 import Tabs from './tabs/Tabs';
 import JSONInput from 'react-json-editor-ajrm';
 import locale from 'react-json-editor-ajrm/locale/en';

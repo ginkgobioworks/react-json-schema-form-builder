@@ -1,6 +1,6 @@
 # Default flow options are good for most use cases, so this is left blank.
 [ignore]
-.*/node_modules/react-beautiful-dnd/.*
+.*/example/.*
 
 [include]
 
@@ -17,7 +17,10 @@ module.file_ext=.js
 
 [untyped]
 .*/node_modules/react-select/.*
-.*/node_modules/graphql/.*
-.*/node_modules/react-apollo/.*
 .*/node_modules/react-jss/.*
+.*/node_modules/react-beautiful-dnd/.*
+.*/node_modules/@ginkgo-bioworks/react-json-schema-form-builder/.*
+
+[version]
+0.92.1
 

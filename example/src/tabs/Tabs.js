@@ -1,6 +1,6 @@
 // @flow
 
-import React, { useState } from 'react';
+import * as React from 'react';
 
 import classnames from 'classnames';
 import { TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap';
@@ -8,7 +8,7 @@ import { createUseStyles } from 'react-jss';
 
 type TabSpec = {
   name: string,
-  content: Node,
+  content: React.Element<any>,
   id?: string,
 };
 
@@ -62,7 +62,7 @@ export default function Tabs({
   preventRerender = false,
 }: Props) {
   const classes = useStyles();
-  const [activeTab, setActiveTab] = useState(defaultActiveTab);
+  const [activeTab, setActiveTab] = React.useState(defaultActiveTab);
 
   return (
     <div className={classes.portalTabs}>
