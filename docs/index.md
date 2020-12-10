@@ -54,7 +54,7 @@ See the [documentation directory]() for more details.
 
 ## Contributing
 
-See the [developer page](Developers.md) for information about improving the form builder.
+ See the [contributing page](../CONTRIBUTING].md) for information about improving the form builder.
 
 ## Credits
 
