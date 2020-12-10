@@ -5,14 +5,14 @@ theme: readthedocs
 extra_javascript: []
 
 nav:
-  - Home: index.md
+  - Home: README.md
   - Introduction: Introduction.md
   - Installation: Installation.md
   - Philosophy: Philosophy.md
   - Usage: Usage.md
   - Plugins: Plugins.md
   - Developers: Developers.md
-  - Contributing: ../CONTRIBUTING.md
+  - Contributing: CONTRIBUTING.md
   - TODO: TODO.md
 
 markdown_extensions:
