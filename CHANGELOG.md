@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.0.3] - 2020-12-11
+
+### Fixed
+
+- fix `after_script` in `.travis-yml` to build before publish
+
 ## [1.0.2] - 2020-12-11
 
 ### Fixed

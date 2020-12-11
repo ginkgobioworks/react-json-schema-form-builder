@@ -3,7 +3,8 @@ node_js:
 - node
 after_success:
 - coveralls < coverage/lcov.info
-- test $TRAVIS_BRANCH = "main" && npm run-s build && cd example && npm install &&
+- npm run-s build
+- test $TRAVIS_BRANCH = "main" && cd example && npm install &&
   npm run build && cd ..
 deploy:
 - provider: pages
