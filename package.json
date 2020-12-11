@@ -1,6 +1,6 @@
 {
   "name": "@ginkgo-bioworks/react-json-schema-form-builder",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "React JSON Schema Form Editor",
   "author": {
     "name": "Nathan Alam",
@@ -69,7 +69,7 @@
     "react-scripts": "^3.4.1"
   },
   "files": [
-    "dist",
+    "dist/**",
     "README.md",
     "LICENSE"
   ],
