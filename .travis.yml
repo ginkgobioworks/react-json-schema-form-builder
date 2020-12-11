@@ -15,6 +15,7 @@ deploy:
   on:
     branch: main
 - provider: npm
+  skip_cleanup: true
   email: devs@ginkgobioworks.com
   api_key: "$NPM_TOKEN"
   on:

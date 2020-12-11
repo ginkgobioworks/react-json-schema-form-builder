@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.0.6] - 2020-12-11
+
+### Fixed
+
+- fix travis.yml to skip cleanup
+
+## [1.0.5] - 2020-12-11
+
+### Fixed
+
+- remove npmignore
+
 ## [1.0.4] - 2020-12-11
 
 ### Fixed
