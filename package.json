@@ -1,6 +1,6 @@
 {
   "name": "@ginkgo-bioworks/react-json-schema-form-builder",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "React JSON Schema Form Editor",
   "author": {
     "name": "Nathan Alam",
@@ -32,6 +32,12 @@
   "peerDependencies": {
     "react": "^16.x || ^17.x"
   },
+  "files": [
+    "/dist",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
   "devDependencies": {
     "@rjsf/core": "^2.3.0",
     "@typescript-eslint/eslint-plugin": "^4.9.1",

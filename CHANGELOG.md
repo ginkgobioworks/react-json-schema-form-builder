@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.0.4] - 2020-12-11
+
+### Fixed
+
+- revert to `package.json` files
+
 ## [1.0.3] - 2020-12-11
 
 ### Fixed
