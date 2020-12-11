@@ -1,0 +1,12 @@
+docs
+example
+src
+.eslintignore
+.eslintrc
+.flowconfig
+.gitignore
+.prettierrc
+.readthedocs.yml
+.requirements.docs.txt
+.travis.yml
+mkdocs.yml
