@@ -199,7 +199,9 @@ export default function PredefinedGallery({
         if (referenceSet.has(uiProp))
           uiSchemaData.definitions[uiProp] = uiSchemaData[uiProp];
       });
-
+      if (!Object.keys(uiSchemaData.definitions).length) {
+        uiSchemaData.definitions = undefined;
+      }
       onChange(stringify(schemaData), stringify(uiSchemaData));
     }
   }, [uischema, schema]);

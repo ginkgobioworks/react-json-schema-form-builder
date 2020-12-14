@@ -29,7 +29,7 @@ export default function PlaygroundContainer({ title }: { title: string }) {
         <p>
           Demo app for the{' '}
           <a href='https://github.com/ginkgobioworks/react-json-schema-form-builder'>
-            React JSON Schema Form Editor
+            React JSON Schema Form Builder
           </a>
           , which allows a user to visually build a form and obtain the JSON
           Schema corresponding to it

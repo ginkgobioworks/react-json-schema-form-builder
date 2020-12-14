@@ -5,7 +5,7 @@ theme: readthedocs
 extra_javascript: []
 
 nav:
-  - Home: Home.md
+  - Home: index.md
   - Installation: Installation.md
   - Background: Background.md
   - Usage: Usage.md
