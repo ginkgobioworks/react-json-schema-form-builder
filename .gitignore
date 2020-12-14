@@ -11,6 +11,6 @@ coverage
 dist
 example/build
 
-.DS-store
+.DS_Store
 
 npm-debug.log*
