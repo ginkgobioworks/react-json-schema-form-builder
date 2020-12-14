@@ -3,12 +3,14 @@
 [![npm](https://img.shields.io/npm/v/@ginkgo-bioworks/react-json-schema-form-builder)](https://www.npmjs.com/package/@ginkgo-bioworks/react-json-schema-form-builder)
 [![Build Status](https://travis-ci.com/ginkgobioworks/react-json-schema-form-builder.svg?branch=main)](https://travis-ci.com/ginkgobioworks/react-json-schema-form-builder)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-![GitHub issues](https://img.shields.io/github/issues-raw/ginkgobioworks/react-json-schema-form-builder)
+[![GitHub issues](https://img.shields.io/github/issues-raw/ginkgobioworks/react-json-schema-form-builder)](https://github.com/ginkgobioworks/react-json-schema-form-builder/issues)
 
 
 ![demo](https://react-json-schema-form-builder.readthedocs.io/en/latest/img/visualDemo.gif)
 
-This repository contains code for a React JS Component called the `FormBuilder` that allows a user to visually drag, drop, and edit card elements corresponding to a [JSON schema](https://json-schema.org/) encoded form. This component is wrapped around a demo app that demonstrates how the tool can be used in conjunction with a code editor and [Mozilla's React JSON schema form viewer](https://github.com/rjsf-team/react-jsonschema-form) to build a form and maintain a live, code representation of it in real time.
+This repository contains code for a React JS Component called the `FormBuilder` that allows the user to visually configure a [JSON Schema encoded form](https://json-schema.org/) by dragging, dropping, and editing card elements. An example use case for this tool could be for building an app that allows users to create and distribute their own surveys. The React JSON Schema Form Builder provides components to allow users to dynamically build such survey forms. The Form Builder is also customizable, and can incorporate novel form elements (like a special email address or file upload input), specified by the developer building the survey creation app.
+
+This component is wrapped around a demo app that demonstrates how the tool can be used in conjunction with a code editor and [Mozilla's React JSON schema form viewer](https://github.com/rjsf-team/react-jsonschema-form) to build a form and maintain a live, code representation of it in real time.
 
 The Form Builder is available as an NPM package [here](https://www.npmjs.com/package/@ginkgo-bioworks/react-json-schema-form-builder).
 
@@ -60,7 +62,7 @@ For more usage examples, see the [Usage documentation page](https://react-json-s
 
 ## Contributing
 
-See the [Contributing page](https://react-json-schema-form-builder.readthedocs.io/en/latest/CONTRIBUTING/) for information about improving the Form Builder.
+See the [Contributing page](https://github.com/ginkgobioworks/react-json-schema-form-builder/blob/main/CONTRIBUTING.md) for information about improving the Form Builder.
 
 ## License
 

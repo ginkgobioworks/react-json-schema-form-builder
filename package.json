@@ -1,7 +1,7 @@
 {
   "name": "@ginkgo-bioworks/react-json-schema-form-builder",
   "version": "1.0.6",
-  "description": "React JSON Schema Form Editor",
+  "description": "React Component for visually configuring a JSON Schema-based form",
   "author": {
     "name": "Nathan Alam",
     "email": "nathanalam99@gmail.com",
@@ -9,6 +9,12 @@
   },
   "license": "Apache-2.0",
   "repository": "ginkgobioworks/react-json-schema-form-builder",
+  "keywords": [
+    "react",
+    "form",
+    "json-schema",
+    "visual"
+  ],
   "main": "dist/index.js",
   "module": "dist/index.modern.js",
   "source": "src/index.js",
@@ -96,5 +102,9 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "bugs": {
+    "url": "https://github.com/ginkgobioworks/react-json-schema-form-builder/issues",
+    "email": "devs@ginkgobioworks.com"
   }
 }
