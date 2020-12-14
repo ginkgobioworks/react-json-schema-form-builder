@@ -14,6 +14,8 @@ In this repository, the source code for the component library is in the `src` di
 
 The example app being run on the [GitHub Pages site](https://ginkgobioworks.github.io/react-json-schema-form-builder/), meanwhile, has its code stored in the `example` directory. It relies on an additional set of dependencies, which are stored in the `devDependencies` within the `package.json` file.
 
+Library definitions for [Flow type annotations](https://flow.org/en/docs/types/) are stored in `src/flowlibdefs`, where the file structure under the `flow-typed` [best practices](https://github.com/flow-typed/flow-typed/blob/master/CONTRIBUTING.md) are followed. If any of the types in `src/formBuilder/types.js` are changed, or if the properties of the `FormBuilder` or `PredefinedGallery` are altered, then these flow typed library definitions should also be changed. This library definition is altered manually, and is currently set for major version 1 of the Form Builder. To update to library definition a PR must be made on the [flow-typed repository](https://github.com/flow-typed/flow-typed).
+
 ## Testing
 
 The `src` directory also contains testing files written for the [jest](https://jestjs.io/en/) test harness. The tests use [Enzyme](https://github.com/enzymejs/enzyme) for component and DOM manipulation and traversal. These tests are run in the CI/CD pipeline, and must pass before a branch can be merged into the 'main' branch. Changes may be needed to the test harness to accommodate new features or fixes.

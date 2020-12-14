@@ -1,6 +1,7 @@
 # Default flow options are good for most use cases, so this is left blank.
 [ignore]
 .*/example/.*
+.*/flow-libdef/.*
 
 [include]
 
@@ -19,7 +20,6 @@ module.file_ext=.js
 .*/node_modules/react-select/.*
 .*/node_modules/react-jss/.*
 .*/node_modules/react-beautiful-dnd/.*
-.*/node_modules/@ginkgo-bioworks/react-json-schema-form-builder/.*
 
 [version]
 0.92.1
