@@ -16,7 +16,7 @@ The Form Builder is available as an NPM package [here](https://www.npmjs.com/pac
 
 View the Form Builder in action [here](https://ginkgobioworks.github.io/react-json-schema-form-builder/)
 
-More extensive documentation is available [here](https://react-json-schema-form-builder.readthedocs.io/en/main/Home/)
+More extensive documentation is available [here](https://react-json-schema-form-builder.readthedocs.io/en/main/)
 
 ## Quickstart
 
