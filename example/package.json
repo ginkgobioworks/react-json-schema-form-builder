@@ -8,7 +8,8 @@
     "build": "node ../node_modules/react-scripts/bin/react-scripts.js build",
     "test": "node ../node_modules/react-scripts/bin/react-scripts.js test",
     "eject": "node ../node_modules/react-scripts/bin/react-scripts.js eject",
-    "flow": "flow"
+    "flow": "flow",
+    "clean": "rimraf node_modules build"
   },
   "dependencies": {
     "react": "file:../node_modules/react",
@@ -18,7 +19,8 @@
   },
   "devDependencies": {
     "@babel/plugin-syntax-object-rest-spread": "^7.8.3",
-    "flow-bin": "file:../node_modules/flow-bin"
+    "flow-bin": "file:../node_modules/flow-bin",
+    "rimraf": "^3.0.2"
   },
   "eslintConfig": {
     "extends": "react-app"

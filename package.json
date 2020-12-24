@@ -22,13 +22,13 @@
     "node": ">=12"
   },
   "scripts": {
-    "clean": "rm package-lock.json && rm -r -f node_modules && rm -r -f dist && rm -r -f coverage && cd example && rm package-lock.json && rm -r -f node_modules && rm -r -f build",
+    "clean": "rimraf node_modules coverage dist",
     "build": "microbundle-crl --no-compress --format modern,cjs",
     "start": "microbundle-crl watch --no-compress --format modern,cjs",
     "flow": "flow",
     "flow:install-types": "flow-typed install",
     "test": "run-s test:unit test:lint test:flow",
-    "test:flow": "flow && cd example && npm install && flow",
+    "test:flow": "flow",
     "test:lint": "eslint .",
     "test:unit": "cross-env CI=1 react-scripts test --env=jsdom --coverage --coverageDirectory=coverage/",
     "test:watch": "react-scripts test --env=jsdom",
@@ -78,7 +78,8 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-json-editor-ajrm": "^2.5.13",
-    "react-scripts": "^3.4.1"
+    "react-scripts": "^3.4.1",
+    "rimraf": "^3.0.2"
   },
   "dependencies": {
     "classnames": "^2.2.6",
