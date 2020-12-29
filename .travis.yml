@@ -31,6 +31,9 @@ jobs:
         skip_cleanup: true
         email: devs@ginkgobioworks.com
         api_key: "$NPM_TOKEN"
+        on:
+          tags: true
+          repo: ginkgobioworks/react-json-schema-form-builder
     - stage: deploy
       if: (repo = ginkgobioworks/react-json-schema-form-builder) AND (branch = main) AND NOT (type = pull_request)
       script: skip
@@ -41,6 +44,9 @@ jobs:
         skip_cleanup: true
         github_token: "$GITHUB_TOKEN"
         keep_history: true
+        on:
+          branch: main
+          repo: ginkgobioworks/react-json-schema-form-builder
 env:
   global:
   - secure: Flqu795ioTwg6u3/v/Gf7quuH/d3OVCLj0IYnr7U9beYWqsILKfe1mh/gQ6yjku5Gx32+sroXdo7t1/qr1ZIdw+eWqDS7DIQtNTlXO5l6U1FpvtvSe7WQdHqalcIPrPYffLhv/w/+qZV1yC6tiZRAbujknn046MVIcWshrz3A4UjRMiViRgxW0GFpG17qv3XbnqYqItfLsF5Uz7ZnJ7NGEeodelHe6G1bkS1ovGsrS2vxCr7DQtzFzRSCSEfHharpqudD8cHjs9E1zEoz5Gvn7AU9hMwckk8TYeqA16eaiBiSs7KzfHZirZDfS9XYmUJO8KcAWOvbajiVCgfjBXK9nVsT+j2kb0uouQtV7+AC42ENTw1Rbrbi5fwhWrSmAOKumXqmBbBdxOOpF1zeSjwVMugOFDCz2LkNCMxSEhkI3cUmYbsxaB+5DAn9AmSCazbIq+0OOo0SDBggUn2mvxfg/XGyiBk/0qj3CAsnCiGpI+NyzGBK+1DaBRahMe58FlBEQlD0/uHD1ABYrzlr2DIhBzPBSz2J4h2VeX7ftuoSyE3Hrcdgm13lKgBdfkcEFTzTSCA3Mfw0ZCPeoIQJSC4u0Q/ipI47DbFXN5/e73hwyLZvVDcCEWYnV++ffV6x6vyTroU3oamSN9G4cddTjhRmTQCI2a4QiXtAKyUFp+nYTk=
