@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.1.0] - 2020-12-29
+
+### Added
+
+- Added Flow type definitions to repository.
+
+### Changed
+
+- Minor updates to documentation
+- Parallelized test jobs covering multiple Node versions in Travis-CI pipeline.
+
 ## [1.0.6] - 2020-12-11
 
 ### Fixed
