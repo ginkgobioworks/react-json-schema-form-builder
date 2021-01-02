@@ -8,12 +8,15 @@ import {
   ModalBody,
   ModalFooter,
 } from 'reactstrap';
-import Form from '@rjsf/core';
+import { withTheme } from '@rjsf/core';
+import { Theme as Bootstrap4Theme } from '@rjsf/bootstrap-4';
 import { FormBuilder, PredefinedGallery } from '@ginkgo-bioworks/react-json-schema-form-builder';
 import Tabs from './tabs/Tabs';
 import JSONInput from 'react-json-editor-ajrm';
 import locale from 'react-json-editor-ajrm/locale/en';
 import ErrorBoundary from './ErrorBoundary';
+
+const Form = withTheme(Bootstrap4Theme);
 
 type Props = {
   lang: string,
