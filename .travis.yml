@@ -16,7 +16,7 @@ jobs:
     - node_js: 12
       script: npm run-s test:unit
 
-    - script: npm run-s build
+    - script: npm run-s build && npm install --prefix example && npm run --prefix example build
     - node_js: 14
       script: npm run-s build
     - node_js: 12
@@ -37,7 +37,7 @@ jobs:
     - stage: deploy
       if: (repo = ginkgobioworks/react-json-schema-form-builder) AND (branch = main) AND NOT (type = pull_request)
       script: skip
-      before_deploy: npm run-s build && cd example && npm install && npm run build && cd .
+      before_deploy: npm run-s build && npm install --prefix example && npm run --prefix example build
       deploy:
         provider: pages
         local_dir: example/build

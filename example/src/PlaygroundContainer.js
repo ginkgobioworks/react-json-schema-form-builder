@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import JsonSchemaFormEditor from './JsonSchemaFormEditor';
+import JsonSchemaFormSuite from './JsonSchemaFormSuite';
 import { createUseStyles } from 'react-jss';
 
 const useStyles = createUseStyles({
@@ -23,7 +23,7 @@ export default function PlaygroundContainer({ title }: { title: string }) {
   const [uischema, setUischema] = React.useState('{}');
   const classes = useStyles();
   return (
-    <div className='service-playground'>
+    <div className="playground">
       <div className={classes.header}>
         <h1>{title}</h1>
         <p>
@@ -44,7 +44,7 @@ export default function PlaygroundContainer({ title }: { title: string }) {
           of the definitions property of JSON Schema to render definitions.
         </p>
       </div>
-      <JsonSchemaFormEditor
+      <JsonSchemaFormSuite
         lang={'json'}
         schema={schema}
         uischema={uischema}

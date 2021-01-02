@@ -9,6 +9,7 @@
     "test": "node ../node_modules/react-scripts/bin/react-scripts.js test",
     "eject": "node ../node_modules/react-scripts/bin/react-scripts.js eject",
     "flow": "flow",
+    "lint": "eslint .",
     "clean": "rimraf node_modules build"
   },
   "dependencies": {
@@ -20,12 +21,10 @@
     "react": "^16.14.0",
     "react-bootstrap": "^1.4.0",
     "react-dom": "^16.14.0",
-    "react-json-editor-ajrm": "^2.5.13",
-    "react-scripts": "file:../node_modules/react-scripts"
+    "react-json-editor-ajrm": "^2.5.13"
   },
   "devDependencies": {
     "@babel/plugin-syntax-object-rest-spread": "^7.8.3",
-    "flow-bin": "file:../node_modules/flow-bin",
     "rimraf": "^3.0.2"
   },
   "eslintConfig": {
