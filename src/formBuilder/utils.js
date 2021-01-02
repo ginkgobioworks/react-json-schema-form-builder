@@ -823,7 +823,7 @@ export function getCardParameterInputComponentForType(
   category: string,
   allFormInputs: { [string]: FormInput },
 ) {
-  return allFormInputs[category].modalBody;
+  return allFormInputs[category].modalBody || (() => null);
 }
 
 // takes in an array of Card Objects and updates both schemas
@@ -1452,6 +1452,7 @@ export function generateElementComponentsFromSchemas(parameters: {
           }
           allFormInputs={allFormInputs}
           categoryHash={categoryHash}
+          mods={mods}
         />
       );
     } else {
