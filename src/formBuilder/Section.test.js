@@ -20,8 +20,8 @@ const props = {
   onRequireToggle: () => mockEvent('toggledRequire'),
   onDelete: () => mockEvent('delete'),
   path: 'section',
-  definitionData: '',
-  definitionUi: '',
+  definitionData: {},
+  definitionUi: {},
   allFormInputs: DEFAULT_FORM_INPUTS,
 };
 
@@ -72,10 +72,7 @@ describe('Section', () => {
   it('adds components to the internal schema', () => {
     const div = document.createElement('div');
     document.body.appendChild(div);
-    const wrapper = mount(
-      <Section {...{ ...props, schema: '', uischema: '' }} />,
-      { attachTo: div },
-    );
+    const wrapper = mount(<Section {...props} />, { attachTo: div });
     const plusButton = wrapper.find('.fa-plus-square').first();
     plusButton.simulate('click');
     const createButton = wrapper.find('button').at(1);

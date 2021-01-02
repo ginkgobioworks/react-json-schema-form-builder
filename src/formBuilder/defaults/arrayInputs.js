@@ -57,7 +57,7 @@ function CardArrayParameterInputs({
   );
 }
 
-function InnerCardWrapper({
+function getInnerCardComponent({
   defaultFormInputs,
 }: {
   defaultFormInputs: { [string]: FormInput },
@@ -170,7 +170,7 @@ defaultFormInputs.array = {
   },
   defaultUiSchema: {},
   type: 'array',
-  cardBody: InnerCardWrapper({ defaultFormInputs }),
+  cardBody: getInnerCardComponent({ defaultFormInputs }),
   modalBody: CardArrayParameterInputs,
 };
 
@@ -187,7 +187,7 @@ const ArrayInputs = {
     },
     defaultUiSchema: {},
     type: 'array',
-    cardBody: InnerCardWrapper({ defaultFormInputs }),
+    cardBody: getInnerCardComponent({ defaultFormInputs }),
     modalBody: CardArrayParameterInputs,
   },
 };
