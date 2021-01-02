@@ -23,7 +23,7 @@ export default function PlaygroundContainer({ title }: { title: string }) {
   const [uischema, setUischema] = React.useState('{}');
   const classes = useStyles();
   return (
-    <div className="playground">
+    <div className='playground'>
       <div className={classes.header}>
         <h1>{title}</h1>
         <p>

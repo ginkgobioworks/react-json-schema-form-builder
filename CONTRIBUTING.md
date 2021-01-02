@@ -20,6 +20,8 @@ Library definitions for [Flow type annotations](https://flow.org/en/docs/types/)
 
 The `src` directory also contains testing files written for the [jest](https://jestjs.io/en/) test harness. The tests use [Enzyme](https://github.com/enzymejs/enzyme) for component and DOM manipulation and traversal. These tests are run in the CI/CD pipeline, and must pass before a branch can be merged into the 'main' branch. Changes may be needed to the test harness to accommodate new features or fixes.
 
+The CI/CD pipeline also runs `prettier`, `eslint`, and `flow` checks which must pass before a branch can be merged into 'main'. You can run `npm run prettier` to auto-format code to pass `prettier` standards, and `npm test` to run all of these tests to ensure that they will pass in the CI/CD pipeline.
+
 Test coverage is [tracked in coveralls.io](https://coveralls.io/github/ginkgobioworks/react-json-schema-form-builder) to make sure that test coverage is maintained or increased as time goes on.
 
 ## Documentation

@@ -10,7 +10,10 @@ import {
 } from 'reactstrap';
 import { withTheme } from '@rjsf/core';
 import { Theme as Bootstrap4Theme } from '@rjsf/bootstrap-4';
-import { FormBuilder, PredefinedGallery } from '@ginkgo-bioworks/react-json-schema-form-builder';
+import {
+  FormBuilder,
+  PredefinedGallery,
+} from '@ginkgo-bioworks/react-json-schema-form-builder';
 import Tabs from './tabs/Tabs';
 import JSONInput from 'react-json-editor-ajrm';
 import locale from 'react-json-editor-ajrm/locale/en';

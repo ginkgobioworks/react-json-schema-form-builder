@@ -7,6 +7,7 @@ jobs:
   include:
     - stage: test
       script: npm run-s test:lint
+    - script: npm run-s test:prettier
     - script: npm run-s test:flow
 
     - script: npm run-s test:unit
