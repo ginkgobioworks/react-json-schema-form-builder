@@ -1,3 +1,7 @@
+import React from 'react';
+import { mount } from 'enzyme';
+import Card from './Card';
+import Section from './Section';
 import {
   parse,
   stringify,
@@ -7,6 +11,7 @@ import {
   generateSchemaFromElementProps,
   generateUiSchemaFromElementProps,
   generateCategoryHash,
+  generateElementComponentsFromSchemas,
 } from './utils';
 import DEFAULT_FORM_INPUTS from './defaults/defaultFormInputs';
 
@@ -378,5 +383,86 @@ describe('generateUiSchemaFromElementProps', () => {
       card3: { 'ui:widget': 'boolean' },
       'ui:order': ['card1', 'card2', 'card3'],
     });
+  });
+});
+
+describe('generateElementComponentsFromSchemas', () => {
+  it('propagates mods to Section component', () => {
+    const MockComponent = jest.fn(() => <div />);
+    const mods = {
+      customFormInputs: {
+        test: {
+          displayName: 'Test',
+          matchIf: [
+            {
+              types: ['number'],
+              widget: 'test',
+            },
+          ],
+          defaultDataSchema: {},
+          defaultUiSchema: { 'ui:widget': 'test' },
+          type: 'number',
+          cardBody: MockComponent,
+        },
+      },
+    };
+    const allFormInputs = {
+      ...DEFAULT_FORM_INPUTS,
+      ...mods.customFormInputs,
+    };
+    const categoryHash = generateCategoryHash(allFormInputs);
+
+    const TestComponent = () => (
+      <React.Fragment>
+        {generateElementComponentsFromSchemas({
+          schemaData: {
+            type: 'object',
+            properties: {
+              section1: {
+                title: 'Section 1',
+                type: 'object',
+                properties: {
+                  newInput1: {
+                    items: {
+                      type: 'number',
+                    },
+                    title: 'New Input 1',
+                    type: 'array',
+                  },
+                },
+                dependencies: {},
+                required: [],
+              },
+            },
+            dependencies: {},
+            required: [],
+          },
+          uiSchemaData: {
+            section1: {
+              newInput1: {
+                items: {
+                  'ui:widget': 'test',
+                },
+              },
+              'ui:order': ['newInput1'],
+            },
+            'ui:order': ['section1'],
+          },
+          onChange: () => {},
+          path: '',
+          cardOpenArray: [true],
+          setCardOpenArray: () => {},
+          allFormInputs,
+          mods,
+          categoryHash,
+          Card,
+          Section,
+        })}
+      </React.Fragment>
+    );
+    const div = document.createElement('div');
+    document.body.appendChild(div);
+    mount(<TestComponent />, { attachTo: div });
+    expect(MockComponent.mock.calls[0][0].mods).toEqual(mods);
   });
 });
