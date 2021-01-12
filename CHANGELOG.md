@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.1.1] - 2021-01-12
+
+### Fixed
+
+- Fixed [issue #9](https://github.com/ginkgobioworks/react-json-schema-form-builder/issues/9); `mods` now propagated to Section components, so Array types can use Custom Form Inputs.
+- Fixed missing Bootstrap 4 theme in example app.
+
+### Changed
+
+- `prettier` check is now part of the CI pipeline.
+- Minor updates to documentation.
+
 ## [1.1.0] - 2020-12-29
 
 ### Added
