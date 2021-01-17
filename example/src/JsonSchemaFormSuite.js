@@ -268,9 +268,7 @@ class JsonSchemaFormEditor extends React.Component<Props, State> {
                         }
                         locale={locale}
                         height='550px'
-                        onChange={(data: any) =>
-                          this.updateSchema(JSON.stringify(data))
-                        }
+                        onChange={(data: any) => this.updateSchema(data.json)}
                       />
                     </ErrorBoundary>
                     <br />
@@ -298,9 +296,7 @@ class JsonSchemaFormEditor extends React.Component<Props, State> {
                         }
                         locale={locale}
                         height='550px'
-                        onChange={(data: any) =>
-                          this.updateUISchema(JSON.stringify(data))
-                        }
+                        onChange={(data: any) => this.updateUISchema(data.json)}
                       />
                     </ErrorBoundary>
                   </div>
