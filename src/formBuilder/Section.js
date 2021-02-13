@@ -236,7 +236,7 @@ export default function Section({
               <h5>
                 Section Object Name{' '}
                 <Tooltip
-                  text='The name that will appear in the backend of Servicely'
+                  text='The key to the object that will represent this form section.'
                   id={`${keyName}_nameinfo`}
                   type='help'
                 />
@@ -259,7 +259,7 @@ export default function Section({
               <h5>
                 Section Display Name{' '}
                 <Tooltip
-                  text='The name Servicely will show to service requesters'
+                  text='The name of the form section that will be shown to users of the form.'
                   id={`${keyName}_titleinfo`}
                   type='help'
                 />
