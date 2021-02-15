@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.1.2] - 2021-02-15
+
+### Fixed
+
+- Fixed [issue #23](https://github.com/ginkgobioworks/react-json-schema-form-builder/issues/23).
+- Fixed [issue #19](https://github.com/ginkgobioworks/react-json-schema-form-builder/issues/19).
+- Fixed incorrect serialization of data in usage of `react-json-editor-ajrm` component in example app.
+
 ## [1.1.1] - 2021-01-12
 
 ### Fixed
