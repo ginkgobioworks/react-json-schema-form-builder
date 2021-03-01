@@ -20,7 +20,3 @@ module.file_ext=.js
 .*/node_modules/react-select/.*
 .*/node_modules/react-jss/.*
 .*/node_modules/react-beautiful-dnd/.*
-
-[version]
-0.92.1
-
