@@ -75,7 +75,7 @@ type MatchType = {
 };
 
 // an abstract input type
-export type FormInput = {
+type FormInputType<ModsType> = {
   displayName: string,
   // given a data and ui schema, determine if the object is of this input type
   matchIf: Array<MatchType>,
@@ -93,7 +93,7 @@ export type FormInput = {
   cardBody: React.AbstractComponent<{
     parameters: Parameters,
     onChange: (newParams: Parameters) => void,
-    mods: { [string]: any },
+    mods: ModsType,
   }>,
   // inputs for the modal
   modalBody?: React.AbstractComponent<{
@@ -105,7 +105,7 @@ export type FormInput = {
 // optional properties that can add custom features to the form builder
 export type Mods = {
   customFormInputs?: {
-    [string]: FormInput,
+    [string]: FormInputType<Mods>,
   },
   tooltipDescriptions?: {
     add?: string,
@@ -113,5 +113,15 @@ export type Mods = {
     cardDisplayName?: string,
     cardDescription?: string,
     cardInputType?: string,
+    cardSectionObjectName?: string,
+    cardSectionDisplayName?: string,
+    cardSectionDescription?: string,
   },
+  labels?: {
+    formNameLabel?: string,
+    formDescriptionLabel?: string,
+  },
+  showFormHead?: boolean,
 };
+
+export type FormInput = FormInputType<Mods>;

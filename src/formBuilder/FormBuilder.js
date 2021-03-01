@@ -318,44 +318,58 @@ export default function FormBuilder({
           <li key={index}>{message}</li>
         ))}
       </Alert>
-      <div className={classes.formHead}>
-        <div>
-          <h5>Form Name</h5>
-          <Input
-            value={schemaData.title || ''}
-            placeholder='Title'
-            type='text'
-            onChange={(ev: SyntheticInputEvent<HTMLInputElement>) => {
-              onChange(
-                stringify({
-                  ...schemaData,
-                  title: ev.target.value,
-                }),
-                uischema,
-              );
-            }}
-            className='form-title'
-          />
+      {(!mods || mods.showFormHead !== false) && (
+        <div className={classes.formHead} data-test='form-head'>
+          <div>
+            <h5 data-test='form-name-label'>
+              {mods &&
+              mods.labels &&
+              typeof mods.labels.formNameLabel === 'string'
+                ? mods.labels.formNameLabel
+                : 'Form Name'}
+            </h5>
+            <Input
+              value={schemaData.title || ''}
+              placeholder='Title'
+              type='text'
+              onChange={(ev: SyntheticInputEvent<HTMLInputElement>) => {
+                onChange(
+                  stringify({
+                    ...schemaData,
+                    title: ev.target.value,
+                  }),
+                  uischema,
+                );
+              }}
+              className='form-title'
+            />
+          </div>
+          <div>
+            <h5 data-test='form-description-label'>
+              {mods &&
+              mods.labels &&
+              typeof mods.labels.formDescriptionLabel === 'string'
+                ? mods.labels.formDescriptionLabel
+                : 'Form Description'}
+            </h5>
+            <Input
+              value={schemaData.description || ''}
+              placeholder='Description'
+              type='text'
+              onChange={(ev: SyntheticInputEvent<HTMLInputElement>) =>
+                onChange(
+                  stringify({
+                    ...schemaData,
+                    description: ev.target.value,
+                  }),
+                  uischema,
+                )
+              }
+              className='form-description'
+            />
+          </div>
         </div>
-        <div>
-          <h5>Form Description</h5>
-          <Input
-            value={schemaData.description || ''}
-            placeholder='Description'
-            type='text'
-            onChange={(ev: SyntheticInputEvent<HTMLInputElement>) =>
-              onChange(
-                stringify({
-                  ...schemaData,
-                  description: ev.target.value,
-                }),
-                uischema,
-              )
-            }
-            className='form-description'
-          />
-        </div>
-      </div>
+      )}
       <div className={`form-body ${classes.formBody}`}>
         <DragDropContext
           onDragEnd={(result) =>

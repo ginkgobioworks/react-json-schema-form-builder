@@ -232,11 +232,19 @@ export default function Section({
             ) : (
               ''
             )}
-            <div className='section-entry'>
+            <div className='section-entry' data-test='section-object-name'>
               <h5>
                 Section Object Name{' '}
                 <Tooltip
-                  text='The key to the object that will represent this form section.'
+                  text={
+                    mods &&
+                    mods.tooltipDescriptions &&
+                    mods.tooltipDescriptions &&
+                    typeof mods.tooltipDescriptions.cardSectionObjectName ===
+                      'string'
+                      ? mods.tooltipDescriptions.cardSectionObjectName
+                      : 'The key to the object that will represent this form section.'
+                  }
                   id={`${keyName}_nameinfo`}
                   type='help'
                 />
@@ -255,11 +263,19 @@ export default function Section({
                 readOnly={hideKey}
               />
             </div>
-            <div className='section-entry'>
+            <div className='section-entry' data-test='section-display-name'>
               <h5>
                 Section Display Name{' '}
                 <Tooltip
-                  text='The name of the form section that will be shown to users of the form.'
+                  text={
+                    mods &&
+                    mods.tooltipDescriptions &&
+                    mods.tooltipDescriptions &&
+                    typeof mods.tooltipDescriptions.cardSectionDisplayName ===
+                      'string'
+                      ? mods.tooltipDescriptions.cardSectionDisplayName
+                      : 'The name of the form section that will be shown to users of the form.'
+                  }
                   id={`${keyName}_titleinfo`}
                   type='help'
                 />
@@ -280,11 +296,19 @@ export default function Section({
                 className='card-text'
               />
             </div>
-            <div className='section-entry'>
+            <div className='section-entry' data-test='section-description'>
               <h5>
                 Section Description{' '}
                 <Tooltip
-                  text='This will appear as gray text in the service request form'
+                  text={
+                    mods &&
+                    mods.tooltipDescriptions &&
+                    mods.tooltipDescriptions &&
+                    typeof mods.tooltipDescriptions.cardSectionDescription ===
+                      'string'
+                      ? mods.tooltipDescriptions.cardSectionDescription
+                      : 'A description of the section which will be visible on the form.'
+                  }
                   id={`${keyName}_descriptioninfo`}
                   type='help'
                 />

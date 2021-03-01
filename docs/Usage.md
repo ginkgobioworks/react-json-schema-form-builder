@@ -172,11 +172,11 @@ export default function Example() {
 
 ## Advanced
 
-### Plugins
+### Custom Form Inputs
 
 In addition to the default types of form inputs (Time, Checkbox, Radio, Dropdown, Short Answer, Long Answer, Password, Integer, Number, Array), custom form inputs can also be specified. These form inputs are defined in a JS object that is passed into the `FormBuilder` component (and the `PredefinedGallery` component if it's being used) as part of a `mods` property, which has a comprehensive type definition in [src/formBuilder/types.js](https://github.com/ginkgobioworks/react-json-schema-form-builder/blob/main/src/formBuilder/types.js) as `Mods`.
 
-#### Example Plugin
+#### Example Custom Form Input
 
 ```react
 const customFormInputs = {
@@ -266,7 +266,7 @@ export type Mods = {
 }
 ```
 
-The `customFormInputs` define the logic that translates abstract "Input Types" into raw data schema and ui schema. For more information about these "Plugin" input types, see the page [here](Plugins.md).
+The `customFormInputs` define the logic that translates abstract "Input Types" into raw data schema and UI schema. For more information about these Custon Form Inputs, see the page [here](Mods.md).
 
 The `tooltipDescriptions` allows an implementation of the `FormBuilder` that changes the tooltip descriptions that appear on hover over certain areas of the tool. The `add` popup appears when hovering over the plus buttons, the `cardObjectName` is the name of the back end name that appears in every card object input, the `cardDisplayName` allows rewriting the description of the display name tooltip, the `cardDescription` option allows overwriting the tooltip for the description, and the `cardInputType` allows setting a custom tooltip for the Input Type dropdown.
 
