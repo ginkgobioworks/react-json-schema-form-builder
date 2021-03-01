@@ -33,6 +33,36 @@ describe('Section', () => {
     expect(wrapper.exists('.section-container')).toBeTruthy();
   });
 
+  it('uses mods.tooltipDescriptions', () => {
+    const div = document.createElement('div');
+    document.body.appendChild(div);
+    const wrapper = mount(
+      <Section
+        {...props}
+        mods={{
+          tooltipDescriptions: {
+            cardSectionObjectName: 'test object name',
+            cardSectionDisplayName: 'test display name',
+            cardSectionDescription: 'test description',
+          },
+        }}
+      />,
+      { attachTo: div },
+    );
+    expect(
+      wrapper.find('[data-test="section-object-name"] Tooltip').props()
+        .children,
+    ).toEqual('test object name');
+    expect(
+      wrapper.find('[data-test="section-display-name"] Tooltip').props()
+        .children,
+    ).toEqual('test display name');
+    expect(
+      wrapper.find('[data-test="section-description"] Tooltip').props()
+        .children,
+    ).toEqual('test description');
+  });
+
   it('calls the delete function on delete', () => {
     const div = document.createElement('div');
     document.body.appendChild(div);

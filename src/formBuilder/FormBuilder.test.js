@@ -18,6 +18,7 @@ describe('FormBuilder', () => {
     document.body.appendChild(div);
     const wrapper = mount(<FormBuilder {...props} />, { attachTo: div });
     expect(wrapper.exists('.form-body')).toBeTruthy();
+    expect(wrapper.exists('[data-test="form-head"]')).toBeTruthy();
   });
 
   it('renders the appropriate number of cards', () => {
@@ -139,5 +140,39 @@ describe('FormBuilder', () => {
     createButton.simulate('click');
     expect(mockEvent).toHaveBeenCalledTimes(1);
     mockEvent.mockClear();
+  });
+
+  it('renders custom labels in the form head', () => {
+    const div = document.createElement('div');
+    document.body.appendChild(div);
+    const wrapper = mount(
+      <FormBuilder
+        {...props}
+        mods={{
+          labels: {
+            formNameLabel: 'test name label',
+            formDescriptionLabel: 'test description label',
+          },
+        }}
+      />,
+      { attachTo: div },
+    );
+    expect(wrapper.find('[data-test="form-name-label"]').text()).toEqual(
+      'test name label',
+    );
+    expect(wrapper.find('[data-test="form-description-label"]').text()).toEqual(
+      'test description label',
+    );
+  });
+
+  it('does not render the form head if showFormHead is false', () => {
+    const div = document.createElement('div');
+    document.body.appendChild(div);
+    const wrapper = mount(
+      <FormBuilder {...props} mods={{ showFormHead: false }} />,
+      { attachTo: div },
+    );
+    expect(wrapper.exists('.form-body')).toBeTruthy();
+    expect(wrapper.exists('[data-test="form-head"]')).toBeFalsy();
   });
 });

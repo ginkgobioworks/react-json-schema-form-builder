@@ -1,16 +1,12 @@
-# Plugins
+# Mods
 
-Plugins allow the definition of custom input types. The documentation on the [Background](Background.md) of the Form Builder lists the set of input types supported by default, but for different use cases, the `FormBuilder` may be more useful to Form Builders if certain custom types can be inserted. This allows, for example, the definition of an input type that is associated with specific code in ui schema or data schema.
-
-One example is the `Time` input type - it is a string type element in JSON schema, but is associated with the `format: date-time` property in the data schema at all times. This means that whenever a `Time` Input type is defined by a form builder, it is rendered accordingly by whatever form rendering software is used (`react-jsonschema-form`, for example, renders this as an input line that only allows time value to be entered).
-
-Custom input types are encoded in exactly the same way the Default input types are encoded, and the Default input types are all available in the `default` directory [here](https://github.com/ginkgobioworks/react-json-schema-form-builder/tree/main/src/formBuilder/defaults).
+Mods provide for the customization of the Form Builder component, such as the definition of custom input types.
 
 ## Type Definition
 
 Flow type defintions are available via [flow-typed](https://github.com/flow-typed/flow-typed).
 
-Recall that the plugin input types are passed into `mods`, as a property called `customFormInputs`,into the `FormBuilder` (see [Usage](Usage.md)). The type definition is as follows:
+The type definition for Mods is as follows:
 
 ```react
 declare type Mods = {|
@@ -24,9 +20,19 @@ declare type Mods = {|
     cardDisplayName?: string,
     cardDescription?: string,
     cardInputType?: string,
+    cardSectionObjectName?: string,
+    cardSectionDisplayName?: string,
+    cardSectionDescription?: string,
   |},
+  labels?: {|
+    formNameLabel?: string,
+    formDescriptionLabel?: string,
+  |},
+  showFormHead?: boolean,
 |};
 ```
+
+`tooltipDescriptions` and `labels` describe how some of the labels and tooltips in the Form Builder are to be customized. `showFormHead` is a boolean which controls whether the top section of the Form Builder, which contains inputs for the Form Name and Form Description, are show. It is set to `true` by default.
 
 A single `FormInput` has a type definition as follows:
 
@@ -81,7 +87,17 @@ declare type DataType =
 
 `cardModal` refers to the React component that appears inside the modal that appears when the form builder clicks on the pencil icon. This React component also receives the same `Parameters` object, which is explained in further detail in the *Parameters* section.
 
-## Matching Algorithm
+The `FormBuilder` component takes a prop `mods`, which is a `Mods` type object.
+
+## Custom Form Inputs
+
+The documentation on the [Background](Background.md) of the Form Builder lists the set of input types supported by default, but for different use cases, the `FormBuilder` may be more useful to Form Builders if certain custom types can be inserted. This allows, for example, the definition of an input type that is associated with specific code in ui schema or data schema.
+
+One example is the `Time` input type - it is a string type element in JSON schema, but is associated with the `format: date-time` property in the data schema at all times. This means that whenever a `Time` Input type is defined by a form builder, it is rendered accordingly by whatever form rendering software is used (`react-jsonschema-form`, for example, renders this as an input line that only allows time value to be entered).
+
+Custom input types are encoded in exactly the same way the Default input types are encoded, and the Default input types are all available in the `default` directory [here](https://github.com/ginkgobioworks/react-json-schema-form-builder/tree/main/src/formBuilder/defaults).
+
+### Matching Algorithm
 
 The `matchIf` array in a `FormInput` contains a series of `MatchType` objects, which represent different possible 'scenarios' that the `FormBuilder` may encounter when parsing a set of Data and UI Schema. The `MatchType` is defined as follows:
 
@@ -108,7 +124,7 @@ declare type MatchType = {|
 
 `enum` is a boolean that evaluates to true if the component has a property `enum` in the Data Schema.
 
-## Component Types
+### Component Types
 
 `cardBody` and `modalBody` are components whose props have a type of `CardBodyProps`:
 
@@ -135,3 +151,20 @@ declare type Parameters = {|
 
 It can hold any number of keys pointing to specific values. One common example is `parameters.default`, which stores the default value specified by the builder for this `FormInput`.
 
+## Tooltips and Labels
+
+By passing in alternative text to the `tooltipDescriptions` object of the `mods` prop, the text for various tooltips in the Form Builder can be customized:
+
+- `add` - The tooltip when hovering over the button to add a new element/section.
+- `cardObjectName` - The tooltip for the "Object Name" field for a form element.
+- `cardDisplayName` - The tooltip for the "Display Name" field for a form element.
+- `cardDescription` - The tooltip for the "Description" field for a form element.
+- `cardInputType` - The tooltip for the "Input Type" field for a form element.
+- `cardSectionObjectName` - The tooltip for the "Object Name" field for a form section.
+- `cardSectionDisplayName` - The tooltip for the "Display Name" field for a form section.
+- `cardSectionDescription` - The tooltip for the "Description" field for a form section.
+
+The text for the labels of a few of the inputs in the Form Builder can similarly be customized by specifying a `labels` object of `mods`.
+
+- `formNameLabel` - The label for the input for the name/title of the entire form.
+- `formDescriptionLabel` - The lable for the input for the description of the entire form.
