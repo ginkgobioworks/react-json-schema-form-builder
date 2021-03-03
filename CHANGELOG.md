@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.2.0] - 2021-03-03
+
+### Added
+
+- Added ability to modify label for Form Title and Form Description inputs as well as tooltips for Section Object Name, Section Display Name, and Section Description. Added ability to hide Form Builder head (Form Title and Form Description inputs). ([issue #22](https://github.com/ginkgobioworks/react-json-schema-form-builder/issues/22))
+
+### Changed
+
+- Updated `react-scripts` and other devDependencies.
+
 ## [1.1.2] - 2021-02-15
 
 ### Fixed
