@@ -36,6 +36,7 @@
     "test:watch": "react-scripts test --env=jsdom"
   },
   "peerDependencies": {
+    "bootstrap": "^4.6.0",
     "react": "^16.x || ^17.x"
   },
   "files": [
@@ -77,9 +78,11 @@
     "rimraf": "^3.0.2"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.35",
+    "@fortawesome/free-solid-svg-icons": "^5.15.3",
+    "@fortawesome/react-fontawesome": "^0.1.14",
     "classnames": "^2.2.6",
     "react-beautiful-dnd": "^13.0.0",
-    "react-bootstrap": "^1.3.0",
     "react-jss": "^10.4.0",
     "react-select": "^3.1.0",
     "react-spinners": "^0.9.0",

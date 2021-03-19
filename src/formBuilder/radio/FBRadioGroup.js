@@ -3,18 +3,30 @@
 import React from 'react';
 import classnames from 'classnames';
 import { createUseStyles } from 'react-jss';
+import type { Node } from 'react';
 import FBRadioButton from './FBRadioButton';
 
 const useStyles = createUseStyles({
   radio: {
-    '& input': {
-      marginRight: '5px',
+    '& .fb-radio-button': {
+      display: 'block',
+      '& input[type="radio"]': {
+        marginRight: '5px',
+        marginBottom: 0,
+        height: '1em',
+        verticalAlign: 'middle',
+      },
+      '& input[type="radio"] + label': {
+        marginTop: 0,
+        marginBottom: 0,
+        verticalAlign: 'middle',
+      },
     },
   },
 });
 
 type Props = {
-  options: Array<{ label: string | number, value: string | number }>,
+  options: Array<{ label: Node, value: string | number }>,
   defaultValue?: any,
   horizontal?: boolean,
   id?: string,

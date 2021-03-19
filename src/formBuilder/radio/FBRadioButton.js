@@ -1,17 +1,17 @@
 // @flow
 
-import React from 'react';
+import React, { useState } from 'react';
 import classnames from 'classnames';
+import type { Node } from 'react';
 
 type Props = {
-  label: string | number,
+  label: Node,
   value?: any,
   name?: string,
   checked?: boolean,
   required?: boolean,
   disabled?: boolean,
   autoFocus?: boolean,
-  children?: any,
   onChange: (any) => void,
 };
 
@@ -26,11 +26,12 @@ export default function FBRadioButton(props: Props) {
     disabled,
     autoFocus,
   } = props;
+  const [id] = useState(`radio-${Math.floor(Math.random() * 1000000)}`);
   const classes = classnames('fb-radio-button', { disabled });
   return (
-    <label className={classes} key={value}>
-      {props.children}
+    <div className={classes} key={value}>
       <input
+        id={id}
         type='radio'
         name={name}
         value={value}
@@ -40,8 +41,7 @@ export default function FBRadioButton(props: Props) {
         autoFocus={autoFocus}
         onChange={() => onChange(value)}
       />
-      <span className='fb-custom-radio-button' />
-      {label}
-    </label>
+      <label htmlFor={id}>{label}</label>
+    </div>
   );
 }

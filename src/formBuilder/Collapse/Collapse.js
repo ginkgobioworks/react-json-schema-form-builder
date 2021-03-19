@@ -5,16 +5,20 @@ import type { Node } from 'react';
 import { createUseStyles } from 'react-jss';
 import { Collapse as RSCollapse } from 'reactstrap';
 import classnames from 'classnames';
+import { faCaretDown, faCaretRight } from '@fortawesome/free-solid-svg-icons';
+import FontAwesomeIcon from '../FontAwesomeIcon';
 
 const useStyles = createUseStyles({
   collapseElement: {
-    '& .disabled': { 'i.toggle-collapse': { cursor: 'default' } },
+    '& .disabled': { '.toggle-collapse': { cursor: 'default' } },
     '& h4': { marginTop: '7px', padding: '13px 10px 10px 10px' },
-    '& i.toggle-collapse': {
+    '& .toggle-collapse': {
       fontSize: '2.3rem',
-      margin: '17px',
       cursor: 'pointer',
-      marginLeft: '0',
+      marginLeft: '33px',
+      '& .fa-caret-right': {
+        marginRight: '9px',
+      },
     },
   },
 });
@@ -34,13 +38,6 @@ type Props = {
 };
 
 const Collapse = (props: Props) => {
-  const iconClasses = classnames({
-    'toggle-collapse': true,
-    fas: true,
-    'fa-caret-down': props.isOpen,
-    'fa-caret-right': !props.isOpen,
-  });
-
   const classes = classnames(
     `collapse-element ${props.className || ''} ${useStyles().collapseElement}`,
     {
@@ -51,10 +48,12 @@ const Collapse = (props: Props) => {
   return (
     <div className={classes}>
       <div className='d-flex'>
-        <i
-          onClick={!props.disableToggle ? props.toggleCollapse : () => {}}
-          className={iconClasses}
-        />
+        <span className='toggle-collapse'>
+          <FontAwesomeIcon
+            onClick={!props.disableToggle ? props.toggleCollapse : () => {}}
+            icon={props.isOpen ? faCaretDown : faCaretRight}
+          />
+        </span>
         <h4>{props.title}</h4>
       </div>
       <RSCollapse isOpen={props.isOpen}>

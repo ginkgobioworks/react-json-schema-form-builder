@@ -1,9 +1,11 @@
 // @flow
 
 import * as React from 'react';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import Tooltip from '../Tooltip';
 import CardSelector from './CardSelector';
 import ValueSelector from './ValueSelector';
+import FontAwesomeIcon from '../FontAwesomeIcon';
 
 // a possible dependency
 export default function DependencyPossibility({
@@ -57,8 +59,7 @@ export default function DependencyPossibility({
       <h5>
         If "{parentName}" has {possibility.value ? 'the value:' : 'a value.'}
       </h5>
-      <div style={{ display: possibility.value ? 'initial' : 'none' }}>
-        <br />
+      <div style={{ display: possibility.value ? 'block' : 'none' }}>
         <ValueSelector
           possibility={possibility}
           onChange={(newPossibility: {
@@ -72,8 +73,7 @@ export default function DependencyPossibility({
           path={path}
         />
       </div>
-      <br />
-      <i className='fa fa-times' onClick={() => onDelete()} />
+      <FontAwesomeIcon icon={faTimes} onClick={() => onDelete()} />
     </div>
   );
 }

@@ -4,6 +4,12 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import Select from 'react-select';
 import { createUseStyles } from 'react-jss';
 import { Alert, Input, UncontrolledTooltip } from 'reactstrap';
+import {
+  faArrowUp,
+  faArrowDown,
+  faPencilAlt,
+  faTrash,
+} from '@fortawesome/free-solid-svg-icons';
 import FBCheckbox from './checkbox/FBCheckbox';
 import Collapse from './Collapse/Collapse';
 import CardModal from './CardModal';
@@ -19,6 +25,7 @@ import {
   addSectionObj,
   onDragEnd,
 } from './utils';
+import FontAwesomeIcon from './FontAwesomeIcon';
 import type { FormInput, Mods } from './types';
 
 const useStyles = createUseStyles({
@@ -44,15 +51,21 @@ const useStyles = createUseStyles({
     '& .section-footer': {
       marginTop: '1em',
       textAlign: 'center',
-      i: { cursor: 'pointer' },
+      '& .fa': { cursor: 'pointer' },
     },
     '& .section-interactions': {
       margin: '0.5em 1.5em',
       textAlign: 'left',
       borderTop: '1px solid var(--gray)',
       paddingTop: '1em',
-      '& .fa': { marginRight: '1em', borderRadius: '4px', padding: '0.25em' },
-      '& .fa-pencil, & .fa-arrow-up, & .fa-arrow-down': {
+      '& .fa': {
+        marginRight: '1em',
+        borderRadius: '4px',
+        padding: '0.25em',
+        height: '25px',
+        width: '25px',
+      },
+      '& .fa-pencil-alt, & .fa-arrow-up, & .fa-arrow-down': {
         border: '1px solid #1d71ad',
         color: '#1d71ad',
       },
@@ -177,22 +190,24 @@ export default function Section({
               )}
             </span>
             <span className='arrows'>
-              <i
-                className='fa fa-arrow-up'
-                id={`${path}_moveupbiginfo`}
-                onClick={() => (onMoveUp ? onMoveUp() : {})}
-              />
+              <span id={`${path}_moveupbiginfo`}>
+                <FontAwesomeIcon
+                  icon={faArrowUp}
+                  onClick={() => (onMoveUp ? onMoveUp() : {})}
+                />
+              </span>
               <UncontrolledTooltip
                 placement='top'
                 target={`${path}_moveupbiginfo`}
               >
                 Move form element up
               </UncontrolledTooltip>
-              <i
-                className='fa fa-arrow-down'
-                id={`${path}_movedownbiginfo`}
-                onClick={() => (onMoveDown ? onMoveDown() : {})}
-              />
+              <span id={`${path}_movedownbiginfo`}>
+                <FontAwesomeIcon
+                  icon={faArrowDown}
+                  onClick={() => (onMoveDown ? onMoveDown() : {})}
+                />
+              </span>
               <UncontrolledTooltip
                 placement='top'
                 target={`${path}_movedownbiginfo`}
@@ -429,19 +444,21 @@ export default function Section({
             />
           </div>
           <div className='section-interactions'>
-            <i
-              className='fa fa-pencil'
-              id={`${path}_editinfo`}
-              onClick={() => setModalOpen(true)}
-            />
+            <span id={`${path}_editinfo`}>
+              <FontAwesomeIcon
+                icon={faPencilAlt}
+                onClick={() => setModalOpen(true)}
+              />
+            </span>
             <UncontrolledTooltip placement='top' target={`${path}_editinfo`}>
               Additional configurations for this form element
             </UncontrolledTooltip>
-            <i
-              className='fa fa-trash'
-              id={`${path}_trashinfo`}
-              onClick={() => (onDelete ? onDelete() : {})}
-            />
+            <span id={`${path}_trashinfo`}>
+              <FontAwesomeIcon
+                icon={faTrash}
+                onClick={() => (onDelete ? onDelete() : {})}
+              />
+            </span>
             <UncontrolledTooltip placement='top' target={`${path}_trashinfo`}>
               Delete form element
             </UncontrolledTooltip>

@@ -2,6 +2,8 @@
 
 import * as React from 'react';
 import Select from 'react-select';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import FontAwesomeIcon from '../FontAwesomeIcon';
 
 // a field that lets you choose adjacent blocks
 export default function CardSelector({
@@ -23,8 +25,8 @@ export default function CardSelector({
         {chosenChoices.map((chosenChoice, index) => (
           <li key={`${path}_neighbor_${index}`}>
             {chosenChoice}{' '}
-            <i
-              className='fa fa-times'
+            <FontAwesomeIcon
+              icon={faTimes}
               onClick={() =>
                 onChange([
                   ...chosenChoices.slice(0, index),
