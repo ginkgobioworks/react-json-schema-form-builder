@@ -1,6 +1,12 @@
 # Background
 
-The Form Builder builds a JSON schema for use with the [JSON Schema Form component](https://react-jsonschema-form.readthedocs.io/en/latest/). It abstracts away the manual coding element for a flexible visual form building experience. 
+The Form Builder builds a JSON schema for use with the [JSON Schema Form component](https://react-jsonschema-form.readthedocs.io/en/latest/). It abstracts away the manual coding element for a flexible visual form building experience.
+
+One of the key abstractions is rendering form elements by parsing the `properties`, `definitions`, and `dependencies` sections of standard JSON Schema form code into discrete elements that can be rearranged and edited in a manner similar to other standard form building solutions.
+
+![JSON Schema Parsing Diagram](img/Elements.png)
+
+*(The above is adapted from [an original company blog post](https://www.ginkgobioworks.com/2020/10/08/building-a-no-code-json-schema-form-builder/))*
 
 ## Form Elements
 
@@ -31,7 +37,7 @@ The following is a list of currently supported default Input Types:
 | Long Answer  | Asks for a long string in a textarea input                   |
 | Integer      | Asks for an integer input, in an input that only allows integers |
 | Number       | Asks for an float input, in an input that only allows floats |
-| Array*       | Allows a user to specify any number of items, with the items themselves a form element defined in the array |
+| Array\*       | Allows a user to specify any number of items, with the items themselves a form element defined in the array |
 
 \* See section on Array
 
@@ -91,12 +97,4 @@ When a card is of a reference type, many of the usual options are no longer edit
 
 ![reference](img/reference.png)
 
-In the [usage doc](Usage.md), there is an optional additional component called the **PredefinedGallery** that allows a builder to also visually build the definitions. It is presented
-
-## Philosophy
-
-One of the key abstractions is rendering form elements by parsing the `properties`, `definitions`, and `dependencies` sections of standard JSON Schema form code into discrete elements, that can be rerranged and edited in a manner similar to other standard form building solutions. 
-
-![JSON Schema Parsing Diagram](img/Elements.png)
-
-*(The above is adapted from [an original company blog post](https://www.ginkgobioworks.com/2020/10/08/building-a-no-code-json-schema-form-builder/))*
+In the [usage doc](Usage.md), there is an optional additional component called the **PredefinedGallery** that allows a builder to also visually build the definitions.
