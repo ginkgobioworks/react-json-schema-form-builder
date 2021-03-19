@@ -8,10 +8,16 @@ import type { Parameters } from './types';
 
 const useStyles = createUseStyles({
   cardModal: {
+    '& .card-modal-header': { paddingTop: '.5em', paddingBottom: '.5em' },
     '& .card-modal-entries': { padding: '1em' },
-    '& h4, h5, p, label, li': { fontSize: '14px', marginBottom: '0' },
-    '& h3': { fontSize: '16px' },
-    '& > input': { marginBottom: '1em', height: '32px' },
+    '& h4, h5, p, label, li': { marginTop: '.5em', marginBottom: '.5em' },
+    '& h5, p, label, li': { fontSize: '14px' },
+    '& h4': { fontSize: '16px' },
+    '& h3': { fontSize: '18px', marginBottom: 0 },
+    '& .card-modal-entries > div > input': {
+      marginBottom: '1em',
+      height: '32px',
+    },
     '& .fa-question-circle': { color: 'var(--gray)' },
     '& .card-modal-boolean': {
       '& *': { marginRight: '0.25em', height: 'auto', display: 'inline-block' },
@@ -55,7 +61,7 @@ export default function CardModal({
     <Modal isOpen={isOpen} data-test='card-modal' className={classes.cardModal}>
       <ModalHeader className='card-modal-header'>
         <div style={{ display: componentProps.hideKey ? 'none' : 'initial' }}>
-          <h5>Additional Settings</h5>
+          <h3>Additional Settings</h3>
         </div>
       </ModalHeader>
       <ModalBody className='card-modal-entries'>

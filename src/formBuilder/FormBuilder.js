@@ -6,6 +6,7 @@ import { createUseStyles } from 'react-jss';
 import Card from './Card';
 import Section from './Section';
 import Add from './Add';
+import { arrows as arrowsStyle } from './styles';
 import {
   parse,
   stringify,
@@ -23,7 +24,7 @@ import type { Mods } from './types';
 const useStyles = createUseStyles({
   formBuilder: {
     'text-align': 'center',
-    '& i': {
+    '& .fa': {
       cursor: 'pointer',
     },
     '& .fa-question-circle': {
@@ -38,6 +39,7 @@ const useStyles = createUseStyles({
       'font-size': '1.5em',
       margin: '0 auto',
     },
+    ...arrowsStyle,
     '& .card-container': {
       '&:hover': {
         border: '1px solid green',
@@ -49,9 +51,6 @@ const useStyles = createUseStyles({
       border: '1px solid gray',
       'border-radius': '4px',
       'background-color': 'white',
-      '& .toggle-collapse': {
-        margin: '0.25em .5em 0 .5em !important',
-      },
       '& h4': {
         width: '100%',
         'text-align': 'left',
@@ -65,19 +64,6 @@ const useStyles = createUseStyles({
       },
       '& .label': {
         float: 'left',
-      },
-      '& .arrows': {
-        'text-align': 'right',
-        float: 'right',
-        '& .fa-trash': {
-          border: '1px solid #DE5354',
-          color: '#DE5354',
-        },
-        '& .fa': {
-          'border-radius': '4px',
-          padding: '.25em',
-          margin: '0 .5em 0 0',
-        },
       },
     },
     '& .card-dependent': {
@@ -97,9 +83,6 @@ const useStyles = createUseStyles({
       border: '1px solid var(--gray)',
       'border-radius': '4px',
       'background-color': 'white',
-      '& .toggle-collapse': {
-        margin: '0.25em .5em 0 .5em !important',
-      },
       '& h4': {
         width: '100%',
         'text-align': 'left',
@@ -113,19 +96,6 @@ const useStyles = createUseStyles({
       },
       '& .label': {
         float: 'left',
-      },
-      '& .arrows': {
-        'text-align': 'right',
-        float: 'right',
-        '& .fa-trash': {
-          border: '1px solid #DE5354',
-          color: '#DE5354',
-        },
-        '& .fa': {
-          'border-radius': '4px',
-          padding: '.25em',
-          margin: '0 .5em 0 0',
-        },
       },
     },
     '& .section-dependent': {
@@ -144,7 +114,7 @@ const useStyles = createUseStyles({
         fontWeight: 'bold',
         margin: '0',
       },
-      '& li': { fontSize: '14px' },
+      '& .fa': { fontSize: '14px' },
     },
     '& .disabled-unchecked-checkbox': {
       color: 'var(--gray)',
@@ -187,7 +157,7 @@ const useStyles = createUseStyles({
   formBody: {
     display: 'flex',
     flexDirection: 'column',
-    '& .fa-pencil, & .fa-arrow-up, & .fa-arrow-down': {
+    '& .fa-pencil-alt': {
       border: '1px solid #1d71ad',
       color: '#1d71ad',
     },
@@ -202,7 +172,6 @@ const useStyles = createUseStyles({
       border: '1px solid var(--gray)',
       borderRadius: '4px',
       backgroundColor: 'white',
-      '& .toggle-collapse': { margin: '0.25em 0.5em 0 0.5em !important' },
       '& h4': {
         width: '100%',
         textAlign: ['left', 'left'],
@@ -213,16 +182,6 @@ const useStyles = createUseStyles({
       },
       '& .d-flex': { borderBottom: '1px solid var(--gray)' },
       '& .label': { cssFloat: 'left' },
-      '& .arrows': {
-        textAlign: 'right',
-        cssFloat: 'right',
-        '& .fa-trash': { border: '1px solid #de5354', color: '#de5354' },
-        '& .fa': {
-          borderRadius: '4px',
-          padding: '0.25em',
-          margin: '0 0.5em 0 0',
-        },
-      },
     },
     '& .card-container:hover': { border: '1px solid var(--green)' },
     '& .card-dependent': { border: '1px dashed var(--gray)' },
@@ -238,7 +197,6 @@ const useStyles = createUseStyles({
       margin: '2em auto',
       border: '1px solid var(--gray)',
       borderRadius: '4px',
-      '& .toggle-collapse': { margin: '0.25em 0.5em 0 0.5em !important' },
       '& h4': {
         width: '100%',
         textAlign: ['left', 'left'],
@@ -249,16 +207,6 @@ const useStyles = createUseStyles({
       },
       '& .d-flex': { borderBottom: '1px solid var(--gray)' },
       '& .label': { cssFloat: 'left' },
-      '& .arrows': {
-        textAlign: 'right',
-        cssFloat: 'right',
-        '& .fa-trash': { border: '1px solid #de5354', color: '#de5354' },
-        '& .fa': {
-          borderRadius: '4px',
-          padding: '0.25em',
-          margin: '0 0.5em 0 0',
-        },
-      },
     },
     '& .section-container:hover': { border: '1px solid var(--green)' },
     '& .section-dependent': { border: '1px dashed var(--gray)' },
@@ -267,7 +215,7 @@ const useStyles = createUseStyles({
   formFooter: {
     marginTop: '1em',
     textAlign: 'center',
-    '& i': { cursor: 'pointer', color: '$green', fontSize: '1.5em' },
+    '& .fa': { cursor: 'pointer', color: '$green', fontSize: '1.5em' },
   },
 });
 

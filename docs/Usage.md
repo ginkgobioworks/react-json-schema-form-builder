@@ -1,6 +1,12 @@
 # Usage
 
-Various code snippets and explanations of how they work with the Form Builder
+## Dependencies
+
+As the peer dependencies indicate, the React JSON Schema Form Builder depends on the [bootstrap](https://www.npmjs.com/package/bootstrap) package. Ensure that it is installed in your app, and include the stylesheet by importing it in the main module of your app:
+
+```react
+import 'bootstrap/dist/css/bootstrap.min.css';
+```
 
 ## FormBuilder Component
 

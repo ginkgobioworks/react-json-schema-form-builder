@@ -2,6 +2,24 @@
 
 import * as React from 'react';
 import { Input } from 'reactstrap';
+import { createUseStyles } from 'react-jss';
+import { faPlus, faTimes } from '@fortawesome/free-solid-svg-icons';
+import FontAwesomeIcon from './FontAwesomeIcon';
+
+const useStyles = createUseStyles({
+  cardEnumOption: {
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'row',
+    marginBottom: '.5em',
+    '& input': { width: '80%', marginRight: '1em', marginBottom: 0 },
+    '& .delete-button': {
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+    },
+  },
+});
 
 // Input field corresponding to an array of values, add and remove
 export default function CardEnumOptions({
@@ -17,13 +35,15 @@ export default function CardEnumOptions({
   onChange: (newEnums: Array<any>, newEnumNames?: Array<string>) => void,
   type: string,
 }) {
+  const classes = useStyles();
+
   const possibleValues = [];
   for (let index = 0; index < initialValues.length; index += 1) {
     const value = initialValues[index];
     let name = `${value}`;
     if (names && index < names.length) name = names[index];
     possibleValues.push(
-      <div key={index} className='card-enum-option'>
+      <div key={index} className={classes.cardEnumOption}>
         <Input
           value={value === undefined || value === null ? '' : value}
           placeholder='Possible Value'
@@ -58,7 +78,7 @@ export default function CardEnumOptions({
         />
         <Input
           value={name || ''}
-          placeholder='Name'
+          placeholder='Label'
           key={`name-${index}`}
           type='text'
           onChange={(ev: any) => {
@@ -72,37 +92,32 @@ export default function CardEnumOptions({
           className='card-text'
           style={{ display: showNames ? 'initial' : 'none' }}
         />
-        <i
-          className='fa fa-trash'
-          onClick={() => {
-            // remove this value
-            onChange(
-              [
-                ...initialValues.slice(0, index),
-                ...initialValues.slice(index + 1),
-              ],
-              names
-                ? [...names.slice(0, index), ...names.slice(index + 1)]
-                : undefined,
-            );
-          }}
-        />
+        <div className='delete-button'>
+          <FontAwesomeIcon
+            icon={faTimes}
+            onClick={() => {
+              // remove this value
+              onChange(
+                [
+                  ...initialValues.slice(0, index),
+                  ...initialValues.slice(index + 1),
+                ],
+                names
+                  ? [...names.slice(0, index), ...names.slice(index + 1)]
+                  : undefined,
+              );
+            }}
+          />
+        </div>
       </div>,
     );
   }
 
   return (
     <React.Fragment>
-      <div className='card-enum-header'>
-        <p> Value </p>
-        <h5 style={{ display: showNames ? 'initial' : 'none' }}>
-          {' '}
-          Display Label{' '}
-        </h5>
-      </div>
       {possibleValues}
-      <i
-        className='fa fa-plus'
+      <FontAwesomeIcon
+        icon={faPlus}
         onClick={() => {
           // add a new dropdown option
           onChange(

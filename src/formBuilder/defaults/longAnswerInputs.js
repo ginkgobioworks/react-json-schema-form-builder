@@ -56,7 +56,7 @@ function CardLongAnswerParameterInputs({
         className='card-modal-number'
       />
       <h4>
-        Regular Expression Pattern
+        Regular Expression Pattern{' '}
         <a href='https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions'>
           <Tooltip
             id={`${parameters.path}_regex`}

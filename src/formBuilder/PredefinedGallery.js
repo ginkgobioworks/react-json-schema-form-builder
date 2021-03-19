@@ -8,6 +8,7 @@ import {
   propagateDefinitionChanges,
   generateCategoryHash,
 } from './utils';
+import { arrows as arrowsStyle } from './styles';
 import DEFAULT_FORM_INPUTS from './defaults/defaultFormInputs';
 import type { Mods } from './types';
 
@@ -16,7 +17,7 @@ const useStyles = createUseStyles({
     display: 'flex',
     flexDirection: 'column',
     'text-align': 'center',
-    '& i': {
+    '& .fa': {
       cursor: 'pointer',
     },
     '& .fa-question-circle': {
@@ -26,10 +27,11 @@ const useStyles = createUseStyles({
       'font-size': '.9em',
       color: 'green',
     },
+    ...arrowsStyle,
     '& .form_footer': {
       marginTop: '1em',
       textAlign: 'center',
-      '& i': { cursor: 'pointer', color: '$green', fontSize: '1.5em' },
+      '& .fa': { cursor: 'pointer', color: '$green', fontSize: '1.5em' },
     },
     '& .fa-plus-square': {
       color: 'green',
@@ -46,9 +48,6 @@ const useStyles = createUseStyles({
       border: '1px solid gray',
       'border-radius': '4px',
       'background-color': 'white',
-      '& .toggle-collapse': {
-        margin: '0.25em .5em 0 .5em !important',
-      },
       '& h4': {
         width: '100%',
         'text-align': 'left',
@@ -62,19 +61,6 @@ const useStyles = createUseStyles({
       },
       '& .label': {
         float: 'left',
-      },
-      '& .arrows': {
-        'text-align': 'right',
-        float: 'right',
-        '& .fa-trash': {
-          border: '1px solid #DE5354',
-          color: '#DE5354',
-        },
-        '& .fa': {
-          'border-radius': '4px',
-          padding: '.25em',
-          margin: '0 .5em 0 0',
-        },
       },
     },
     '& .card-requirements': {
@@ -91,9 +77,6 @@ const useStyles = createUseStyles({
       border: '1px solid var(--gray)',
       'border-radius': '4px',
       'background-color': 'white',
-      '& .toggle-collapse': {
-        margin: '0.25em .5em 0 .5em !important',
-      },
       '& h4': {
         width: '100%',
         'text-align': 'left',
@@ -108,19 +91,6 @@ const useStyles = createUseStyles({
       '& .label': {
         float: 'left',
       },
-      '& .arrows': {
-        'text-align': 'right',
-        float: 'right',
-        '& .fa-trash': {
-          border: '1px solid #DE5354',
-          color: '#DE5354',
-        },
-        '& .fa': {
-          'border-radius': '4px',
-          padding: '.25em',
-          margin: '0 .5em 0 0',
-        },
-      },
     },
     '& .section-dependent': {
       border: '1px dashed gray',
@@ -128,7 +98,7 @@ const useStyles = createUseStyles({
     '& .section-requirements': {
       border: '1px dashed black',
     },
-    '& .fa-pencil, & .fa-arrow-up, & .fa-arrow-down': {
+    '& .fa-pencil-alt': {
       border: '1px solid #1d71ad',
       color: '#1d71ad',
     },

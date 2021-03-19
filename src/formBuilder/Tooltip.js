@@ -5,10 +5,15 @@ import React from 'react';
 import type { Node } from 'react';
 import { UncontrolledTooltip } from 'reactstrap';
 import { createUseStyles } from 'react-jss';
+import {
+  faAsterisk,
+  faQuestionCircle,
+} from '@fortawesome/free-solid-svg-icons';
+import FontAwesomeIcon from './FontAwesomeIcon';
 
 const typeMap = {
-  alert: `fas fa-asterisk`,
-  help: 'fa fa-question-circle',
+  alert: faAsterisk,
+  help: faQuestionCircle,
 };
 
 const useStyles = createUseStyles({
@@ -36,7 +41,7 @@ export default function Example({
         href='#'
         id={id}
       >
-        <i className={typeMap[type]} />
+        <FontAwesomeIcon icon={typeMap[type]} />
       </span>
       <UncontrolledTooltip
         autohide={false}

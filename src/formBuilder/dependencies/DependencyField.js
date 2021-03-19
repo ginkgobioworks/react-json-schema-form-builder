@@ -3,15 +3,18 @@
 import * as React from 'react';
 import { UncontrolledTooltip } from 'reactstrap';
 import { createUseStyles } from 'react-jss';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import FBRadioGroup from '../radio/FBRadioGroup';
 import Tooltip from '../Tooltip';
 import DependencyWarning from './DependencyWarning';
 import DependencyPossibility from './DependencyPossibility';
+import FontAwesomeIcon from '../FontAwesomeIcon';
 
 const useStyles = createUseStyles({
   dependencyField: {
-    '& i': { cursor: 'pointer' },
-    '& .fa-plus': { marginLeft: '1em' },
+    '& .fa': { cursor: 'pointer' },
+    '& .plus': { marginLeft: '1em' },
+    '& h4': { marginBottom: '.5em' },
     '& h5': { fontSize: '1em' },
     '& .form-dependency-select': { fontSize: '0.75em', marginBottom: '1em' },
     '& .form-dependency-conditions': {
@@ -22,15 +25,6 @@ const useStyles = createUseStyles({
         borderRadius: '4px',
         margin: '1em',
         '& *': { textAlign: 'initial' },
-        '& .card-enum-option': {
-          display: 'flex',
-          flexDirection: 'row',
-          '& input': {
-            width: '80%',
-            marginRight: '1em',
-            marginBottom: '0.5em',
-          },
-        },
       },
     },
     '& p': { fontSize: '0.75em' },
@@ -85,14 +79,14 @@ export default function DependencyField({
   const valueBased = checkIfValueBasedDependency(parameters.dependents || []);
   return (
     <div className={`form-dependency ${classes.dependencyField}`}>
-      <h3>
+      <h4>
         Dependencies{' '}
         <Tooltip
           id={`${parameters.path}_dependent`}
           type='help'
           text='Control whether other form elements show based on this one'
         />
-      </h3>
+      </h4>
       {!!parameters.dependents && parameters.dependents.length > 0 && (
         <React.Fragment>
           <FBRadioGroup
@@ -105,7 +99,16 @@ export default function DependencyField({
               },
               {
                 value: 'value',
-                label: 'Specific value dependency',
+                label: (
+                  <React.Fragment>
+                    Specific value dependency{' '}
+                    <Tooltip
+                      id={`${parameters.path}_valuebased`}
+                      type='help'
+                      text="Specify whether these elements should show based on this element's value"
+                    />
+                  </React.Fragment>
+                ),
               },
             ]}
             onChange={(selection) => {
@@ -133,11 +136,6 @@ export default function DependencyField({
               }
             }}
           />
-          <Tooltip
-            id={`${parameters.path}_valuebased`}
-            type='help'
-            text="Specify whether these elements should show based on this element's value"
-          />{' '}
         </React.Fragment>
       )}
       <DependencyWarning parameters={parameters} />
@@ -182,23 +180,24 @@ export default function DependencyField({
             ))
           : ''}
 
-        <i
-          className='fa fa-plus'
-          id={`${parameters.path}_adddependency`}
-          onClick={() => {
-            const newDependents = parameters.dependents
-              ? [...parameters.dependents]
-              : [];
-            newDependents.push({
-              children: [],
-              value: valueBased ? { enum: [] } : undefined,
-            });
-            onChange({
-              ...parameters,
-              dependents: newDependents,
-            });
-          }}
-        />
+        <span className='plus' id={`${parameters.path}_adddependency`}>
+          <FontAwesomeIcon
+            icon={faPlus}
+            onClick={() => {
+              const newDependents = parameters.dependents
+                ? [...parameters.dependents]
+                : [];
+              newDependents.push({
+                children: [],
+                value: valueBased ? { enum: [] } : undefined,
+              });
+              onChange({
+                ...parameters,
+                dependents: newDependents,
+              });
+            }}
+          />
+        </span>
         <UncontrolledTooltip
           placement='top'
           target={`${parameters.path}_adddependency`}

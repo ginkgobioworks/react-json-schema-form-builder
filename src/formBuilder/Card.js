@@ -3,11 +3,18 @@
 import * as React from 'react';
 import { UncontrolledTooltip } from 'reactstrap';
 import { createUseStyles } from 'react-jss';
+import {
+  faArrowUp,
+  faArrowDown,
+  faPencilAlt,
+  faTrash,
+} from '@fortawesome/free-solid-svg-icons';
 import FBCheckbox from './checkbox/FBCheckbox';
 import Collapse from './Collapse/Collapse';
 import CardModal from './CardModal';
 import CardGeneralParameterInputs from './CardGeneralParameterInputs';
 import Add from './Add';
+import FontAwesomeIcon from './FontAwesomeIcon';
 import Tooltip from './Tooltip';
 import type { Parameters, Mods, FormInput } from './types';
 
@@ -19,7 +26,6 @@ const useStyles = createUseStyles({
       color: 'black',
       'font-size': '14px',
       'font-weight': 'bold',
-      margin: 0,
     },
     '& .card-entry': {
       display: 'inline-block',
@@ -50,7 +56,7 @@ const useStyles = createUseStyles({
       backgroundColor: 'var(--light-gray)',
       textAlign: 'left',
       padding: '1em',
-      '& h3': { fontSize: '16px', margin: '0' },
+      '& h3': { fontSize: '16px', margin: '0 0 .5em 0' },
       '& label': { color: 'black', fontSize: '14px' },
       '& .card-enum-header': {
         marginTop: '0.5em',
@@ -59,19 +65,19 @@ const useStyles = createUseStyles({
         flexDirection: 'row',
         '& h5': { width: '50%', fontWeight: 'bold', fontSize: '14px' },
       },
-      '& i': { cursor: 'pointer' },
-      '& .card-enum-option': {
-        width: '100%',
-        display: 'flex',
-        flexDirection: 'row',
-        '& input': { width: '80%', marginRight: '1em', marginBottom: '0.5em' },
-      },
+      '& .fa': { cursor: 'pointer' },
     },
   },
   cardInteractions: {
     margin: '.5em 1.5em',
     textAlign: 'left',
-    '& .fa': { marginRight: '1em', borderRadius: '4px', padding: '.25em' },
+    '& .fa': {
+      marginRight: '1em',
+      borderRadius: '4px',
+      padding: '.25em',
+      height: '25px',
+      width: '25px',
+    },
     '& .fa-arrow-up, .fa-arrow-down': { marginRight: '.5em' },
     '& .fa-trash': { border: '1px solid #DE5354', color: '#DE5354' },
     '& .fb-checkbox': { display: 'inline-block' },
@@ -148,22 +154,24 @@ export default function Card({
               )}
             </span>
             <span className='arrows'>
-              <i
-                className='fa fa-arrow-up'
-                id={`${componentProps.path}_moveupbiginfo`}
-                onClick={() => (onMoveUp ? onMoveUp() : {})}
-              />
+              <span id={`${componentProps.path}_moveupbiginfo`}>
+                <FontAwesomeIcon
+                  icon={faArrowUp}
+                  onClick={() => (onMoveUp ? onMoveUp() : {})}
+                />
+              </span>
               <UncontrolledTooltip
                 placement='top'
                 target={`${componentProps.path}_moveupbiginfo`}
               >
                 Move form element up
               </UncontrolledTooltip>
-              <i
-                className='fa fa-arrow-down'
-                id={`${componentProps.path}_movedownbiginfo`}
-                onClick={() => (onMoveDown ? onMoveDown() : {})}
-              />
+              <span id={`${componentProps.path}_movedownbiginfo`}>
+                <FontAwesomeIcon
+                  icon={faArrowDown}
+                  onClick={() => (onMoveDown ? onMoveDown() : {})}
+                />
+              </span>
               <UncontrolledTooltip
                 placement='top'
                 target={`${componentProps.path}_movedownbiginfo`}
@@ -186,22 +194,21 @@ export default function Card({
           />
         </div>
         <div className={classes.cardInteractions}>
-          <i
-            id={`${componentProps.path}_editinfo`}
-            className='fa fa-pencil'
-            onClick={() => setModalOpen(true)}
-          />
+          <span id={`${componentProps.path}_editinfo`}>
+            <FontAwesomeIcon
+              icon={faPencilAlt}
+              onClick={() => setModalOpen(true)}
+            />
+          </span>
           <UncontrolledTooltip
             placement='top'
             target={`${componentProps.path}_editinfo`}
           >
             Additional configurations for this form element
           </UncontrolledTooltip>
-          <i
-            className='fa fa-trash'
-            id={`${componentProps.path}_trashinfo`}
-            onClick={onDelete || (() => {})}
-          />
+          <span id={`${componentProps.path}_trashinfo`}>
+            <FontAwesomeIcon icon={faTrash} onClick={onDelete || (() => {})} />
+          </span>
           <UncontrolledTooltip
             placement='top'
             target={`${componentProps.path}_trashinfo`}

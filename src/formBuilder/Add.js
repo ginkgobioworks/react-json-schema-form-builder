@@ -9,6 +9,8 @@ import {
   Button,
 } from 'reactstrap';
 import { createUseStyles } from 'react-jss';
+import { faPlusSquare } from '@fortawesome/free-solid-svg-icons';
+import FontAwesomeIcon from './FontAwesomeIcon';
 import FBRadioGroup from './radio/FBRadioGroup';
 
 const useStyles = createUseStyles({
@@ -20,11 +22,10 @@ const useStyles = createUseStyles({
         border: '1px solid #1d71ad',
         borderRadius: '4px',
         '& .popover-header': { borderBottom: '1px solid #1d71ad' },
-        '& .popover-body': {
-          '& .fb-radio-group': { display: 'block' },
-          '& div': { margin: '0', display: 'inline-block', width: '50%' },
-          '& .left': { textAlign: 'left' },
-          '& .right': { textAlign: 'right' },
+        '& .action-buttons': {
+          display: 'flex',
+          justifyContent: 'space-between',
+          marginTop: '.5em',
         },
       },
     },
@@ -46,11 +47,12 @@ export default function Add({
 
   return (
     <div style={{ display: hidden ? 'none' : 'initial' }}>
-      <i
-        className='fa fa-plus-square card-add'
-        onClick={() => setPopoverOpen(true)}
-        id={`${name}_add`}
-      />
+      <span id={`${name}_add`}>
+        <FontAwesomeIcon
+          icon={faPlusSquare}
+          onClick={() => setPopoverOpen(true)}
+        />
+      </span>
       <UncontrolledTooltip placement='top' target={`${name}_add`}>
         Create new form element
       </UncontrolledTooltip>
@@ -82,12 +84,10 @@ export default function Add({
               setCreateChoice(selection);
             }}
           />
-          <div className='left'>
+          <div className='action-buttons'>
             <Button onClick={() => setPopoverOpen(false)} color='secondary'>
               Cancel
             </Button>
-          </div>
-          <div className='right'>
             <Button
               onClick={() => {
                 addElem(createChoice);

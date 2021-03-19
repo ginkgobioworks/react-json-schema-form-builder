@@ -2,10 +2,12 @@
 
 import * as React from 'react';
 import { Input } from 'reactstrap';
+import { faTimes, faPlus } from '@fortawesome/free-solid-svg-icons';
 import CardEnumOptions from '../CardEnumOptions';
 import CardSelector from './CardSelector';
 import FBCheckbox from '../checkbox/FBCheckbox';
 import { parse } from '../utils';
+import FontAwesomeIcon from '../FontAwesomeIcon';
 
 // handle value options for different card types
 export default function ValueSelector({
@@ -207,8 +209,8 @@ export default function ValueSelector({
                   </div>
                 );
               })}
-              <i
-                className='fa fa-times'
+              <FontAwesomeIcon
+                icon={faTimes}
                 onClick={() =>
                   onChange({
                     ...possibility,
@@ -223,8 +225,8 @@ export default function ValueSelector({
               />
             </li>
           ))}
-          <i
-            className='fa fa-plus'
+          <FontAwesomeIcon
+            icon={faPlus}
             onClick={() => {
               const newCase = {};
               const propArr = parentSchema
