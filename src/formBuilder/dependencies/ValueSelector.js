@@ -6,7 +6,6 @@ import { faTimes, faPlus } from '@fortawesome/free-solid-svg-icons';
 import CardEnumOptions from '../CardEnumOptions';
 import CardSelector from './CardSelector';
 import FBCheckbox from '../checkbox/FBCheckbox';
-import { parse } from '../utils';
 import FontAwesomeIcon from '../FontAwesomeIcon';
 
 // handle value options for different card types
@@ -30,7 +29,7 @@ export default function ValueSelector({
   parentEnums?: Array<string | number>,
   parentType?: string,
   parentName?: string,
-  parentSchema?: string,
+  parentSchema?: any,
   path: string,
 }) {
   if (possibility.value) {
@@ -229,9 +228,7 @@ export default function ValueSelector({
             icon={faPlus}
             onClick={() => {
               const newCase = {};
-              const propArr = parentSchema
-                ? (parse(parentSchema): any).properties
-                : {};
+              const propArr = parentSchema ? parentSchema.properties : {};
               Object.keys(propArr).forEach((key) => {
                 if (
                   propArr[key].type === 'number' ||
