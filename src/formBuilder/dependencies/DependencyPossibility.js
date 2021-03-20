@@ -33,7 +33,7 @@ export default function DependencyPossibility({
   parentEnums?: Array<string | number>,
   parentType?: string,
   parentName?: string,
-  parentSchema?: string,
+  parentSchema?: any,
 }) {
   return (
     <div className='form-dependency-condition'>

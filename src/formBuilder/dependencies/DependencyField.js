@@ -65,7 +65,7 @@ type DependencyParams = {
   type?: string,
   enum?: Array<string | number>,
   neighborNames?: Array<string>,
-  schema?: string,
+  schema?: any,
 };
 
 export default function DependencyField({
