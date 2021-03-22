@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.0.0] - 2021-03-22
+
+### Changed
+
+- Made `bootstrap` an explicit peer dependency. Used React Font Awesome components to make Font Awesome dependency explicit. (See [issue #30](https://github.com/ginkgobioworks/react-json-schema-form-builder/issues/30).)
+- Minor changes to Backgrond section of documentation.
+
+### Fixed
+
+- Fixed defective '+' button in Dependencies for Sections.
+
 ## [1.2.0] - 2021-03-03
 
 ### Added
