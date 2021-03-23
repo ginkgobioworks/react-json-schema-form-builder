@@ -1,7 +1,7 @@
 # React JSON Schema Form Editor
 
 [![npm](https://img.shields.io/npm/v/@ginkgo-bioworks/react-json-schema-form-builder)](https://www.npmjs.com/package/@ginkgo-bioworks/react-json-schema-form-builder)
-[![Build Status](https://travis-ci.com/ginkgobioworks/react-json-schema-form-builder.svg?branch=main)](https://travis-ci.com/ginkgobioworks/react-json-schema-form-builder)
+[![CI](https://github.com/ginkgobioworks/react-json-schema-form-builder/workflows/CI/badge.svg?branch=main)](https://github.com/ginkgobioworks/react-json-schema-form-builder/actions)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![GitHub issues](https://img.shields.io/github/issues-raw/ginkgobioworks/react-json-schema-form-builder)](https://github.com/ginkgobioworks/react-json-schema-form-builder/issues)
 

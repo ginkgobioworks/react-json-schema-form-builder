@@ -19,7 +19,7 @@
   "module": "dist/index.modern.js",
   "source": "src/index.js",
   "engines": {
-    "node": ">=12"
+    "node": ">=10"
   },
   "scripts": {
     "clean": "rimraf node_modules coverage dist",
