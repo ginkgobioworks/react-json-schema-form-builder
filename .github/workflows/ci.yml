@@ -107,7 +107,7 @@ jobs:
       - test
       - coverage
       - build
-    if: github.event.type == 'PushEvent' && github.ref == 'refs/heads/main'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     name: GitHub Pages
     runs-on: ubuntu-latest
     steps:
