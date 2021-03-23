@@ -1,0 +1,146 @@
+name: CI
+on:
+  push:
+    branches:
+      - '*'
+    tags-ignore:
+      - '*'
+  pull_request:
+  release:
+    types:
+      - published
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 15
+      - run: npm ci
+      - run: npm run-s test:lint
+  prettier:
+    name: Prettier
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 15
+      - run: npm ci
+      - run: npm run-s test:prettier
+  flow:
+    name: Flow
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 15
+      - run: npm ci
+      - run: npm run-s test:flow
+  coverage:
+    name: Coverage
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 15
+      - run: npm ci
+      - run: npm run-s test:unit
+      - uses: coverallsapp/github-action@v1.1.2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+  test:
+    name: Test - ${{ matrix.os }}/Node ${{ matrix.node_version }}
+    strategy:
+      fail-fast: false
+      matrix:
+        node_version:
+          - 10
+          - 12
+          - 14
+          - 15
+        os:
+          - macos-latest
+          - ubuntu-latest
+          - windows-latest
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node_version }}
+      - run: npm ci
+      - run: npm run-s test:unit
+  build:
+    name: Build - ${{ matrix.os }}/Node ${{ matrix.node_version }}
+    strategy:
+      fail-fast: false
+      matrix:
+        node_version:
+          - 10
+          - 12
+          - 14
+          - 15
+        os:
+          - macos-latest
+          - ubuntu-latest
+          - windows-latest
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node_version }}
+      - run: npm ci
+      - run: npm run-s build
+      - run: npm install --prefix example
+      - run: npm run --prefix example build
+  deploy:
+    needs:
+      - lint
+      - prettier
+      - flow
+      - test
+      - coverage
+      - build
+    if: github.event.type == 'PushEvent' && github.ref == 'refs/heads/main'
+    name: GitHub Pages
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 15
+      - run: npm ci
+      - run: npm run-s build
+      - run: npm install --prefix example
+      - run: npm run --prefix example build
+      - uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./example/build
+  publish:
+    needs:
+      - lint
+      - prettier
+      - flow
+      - test
+      - coverage
+      - build
+    if: github.event.action == 'published'
+    name: Publish
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          registry-url: https://registry.npmjs.org/
+          node-version: 15
+      - run: npm ci
+      - run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

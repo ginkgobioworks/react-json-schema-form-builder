@@ -19,11 +19,9 @@
     "@rjsf/bootstrap-4": "^2.4.1",
     "@rjsf/core": "^2.4.1",
     "bootstrap": "^4.6.0",
-    "jsoneditor": "^9.1.7",
-    "jsoneditor-react": "^3.1.0",
-    "react": "^16.14.0",
-    "react-bootstrap": "^1.4.0",
-    "react-dom": "^16.14.0",
+    "react": "file:../node_modules/react",
+    "react-bootstrap": "^1.4.2",
+    "react-dom": "file:../node_modules/react-dom",
     "react-json-editor-ajrm": "^2.5.13"
   },
   "devDependencies": {
