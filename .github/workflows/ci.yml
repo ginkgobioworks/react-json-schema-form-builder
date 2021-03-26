@@ -119,7 +119,7 @@ jobs:
       - run: npm run-s build
       - run: npm install --prefix example
       - run: npm run --prefix example build
-      - uses: peaceiris/actions-gh-pages@v3
+      - uses: peaceiris/actions-gh-pages@v3.8.0
         with:
           personal_token: ${{ secrets.GH_PAGES_DEPLOY_TOKEN }}
           publish_dir: ./example/build
