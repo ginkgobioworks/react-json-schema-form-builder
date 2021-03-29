@@ -86,7 +86,7 @@
     "react-jss": "^10.4.0",
     "react-select": "^3.1.0",
     "react-spinners": "^0.10.6",
-    "react-switch": "^5.0.1",
+    "react-switch": "^6.0.0",
     "reactstrap": "^8.6.0"
   },
   "jest": {
