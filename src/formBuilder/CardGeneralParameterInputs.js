@@ -32,11 +32,22 @@ export default function CardGeneralParameterInputs({
   );
   const categoryMap = categoryToNameMap(parameters.category, allFormInputs);
 
+  const fetchLabel = (labelName: string, defaultLabel: string): string => {
+    return mods && mods.labels && typeof mods.labels[labelName] === 'string'
+      ? mods.labels[labelName]
+      : defaultLabel;
+  };
+
+  const objectNameLabel = fetchLabel('objectNameLabel', 'Object Name');
+  const displayNameLabel = fetchLabel('displayNameLabel', 'Display Name');
+  const descriptionLabel = fetchLabel('descriptionLabel', 'Description');
+  const inputTypeLabel = fetchLabel('inputTypeLabel', 'Input Type');
+
   return (
     <div>
       <div className='card-entry'>
         <h5>
-          Object Name{' '}
+          {`${objectNameLabel} `}
           <Tooltip
             text={
               mods &&
@@ -72,7 +83,7 @@ export default function CardGeneralParameterInputs({
         }`}
       >
         <h5>
-          Display Name{' '}
+          {`${displayNameLabel} `}
           <Tooltip
             text={
               mods &&
@@ -101,7 +112,7 @@ export default function CardGeneralParameterInputs({
       </div>
       <div className={`card-entry ${parameters.$ref ? 'disabled-input' : ''}`}>
         <h5>
-          Description{' '}
+          {`${descriptionLabel} `}
           <Tooltip
             text={
               mods &&
@@ -130,7 +141,7 @@ export default function CardGeneralParameterInputs({
       </div>
       <div className='card-entry'>
         <h5>
-          Input Type{' '}
+          {`${inputTypeLabel} `}
           <Tooltip
             text={
               mods &&

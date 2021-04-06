@@ -118,6 +118,10 @@ export type Mods = {
     cardSectionDescription?: string,
   },
   labels?: {
+    objectNameLabel?: string,
+    displayNameLabel?: string,
+    descriptionLabel?: string,
+    inputTypeLabel?: string,
     formNameLabel?: string,
     formDescriptionLabel?: string,
   },
