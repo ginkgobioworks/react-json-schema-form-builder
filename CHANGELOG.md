@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.1.0] - 2021-04-08
+
+### Added
+
+- Allow users to override default labels using mods (See [issue #62](https://github.com/ginkgobioworks/react-json-schema-form-builder/issues/62).)
+- Added Dependabot integration.
+
+### Changed
+
+- Migrated from Travis-CI to GitHub Actions for CI.
+- Updated dependencies
+
 ## [2.0.0] - 2021-03-22
 
 ### Changed
