@@ -118,12 +118,12 @@ export type Mods = {
     cardSectionDescription?: string,
   },
   labels?: {
+    formNameLabel?: string,
+    formDescriptionLabel?: string,
     objectNameLabel?: string,
     displayNameLabel?: string,
     descriptionLabel?: string,
     inputTypeLabel?: string,
-    formNameLabel?: string,
-    formDescriptionLabel?: string,
   },
   showFormHead?: boolean,
 };
