@@ -123,6 +123,8 @@ jobs:
         with:
           personal_token: ${{ secrets.GH_PAGES_DEPLOY_TOKEN }}
           publish_dir: ./example/build
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'
   publish:
     needs:
       - lint
