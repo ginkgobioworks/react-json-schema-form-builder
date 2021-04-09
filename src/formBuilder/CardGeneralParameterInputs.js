@@ -107,7 +107,6 @@ export default function CardGeneralParameterInputs({
             onChange({ ...parameters, title: ev.target.value });
           }}
           className='card-text'
-          readOnly={parameters.$ref !== undefined}
         />
       </div>
       <div className={`card-entry ${parameters.$ref ? 'disabled-input' : ''}`}>
@@ -136,7 +135,6 @@ export default function CardGeneralParameterInputs({
             onChange({ ...parameters, description: ev.target.value });
           }}
           className='card-text'
-          readOnly={parameters.$ref !== undefined}
         />
       </div>
       <div className='card-entry'>
