@@ -143,6 +143,7 @@ jobs:
           registry-url: https://registry.npmjs.org/
           node-version: 15
       - run: npm ci
+      - run: npm run-s build
       - run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
