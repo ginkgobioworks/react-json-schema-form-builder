@@ -120,6 +120,10 @@ export type Mods = {
   labels?: {
     formNameLabel?: string,
     formDescriptionLabel?: string,
+    objectNameLabel?: string,
+    displayNameLabel?: string,
+    descriptionLabel?: string,
+    inputTypeLabel?: string,
   },
   showFormHead?: boolean,
 };

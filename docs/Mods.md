@@ -4,7 +4,7 @@ Mods provide for the customization of the Form Builder component, such as the de
 
 ## Type Definition
 
-Flow type defintions are available via [flow-typed](https://github.com/flow-typed/flow-typed).
+Flow type definitions are available via [flow-typed](https://github.com/flow-typed/flow-typed).
 
 The type definition for Mods is as follows:
 
@@ -27,6 +27,10 @@ declare type Mods = {|
   labels?: {|
     formNameLabel?: string,
     formDescriptionLabel?: string,
+    objectNameLabel?: string,
+    displayNameLabel?: string,
+    descriptionLabel?: string,
+    inputTypeLabel?: string,
   |},
   showFormHead?: boolean,
 |};
@@ -60,7 +64,7 @@ declare type FormInput = {|
   |};
 ```
 
-The `displayName` is the full name of the desired form input. For example, **Short Answer** is the `displayName` for the `shortAnswer` form input. 
+The `displayName` is the full name of the desired form input. For example, **Short Answer** is the `displayName` for the `shortAnswer` form input.
 
 `matchIf` is an array of scenarios that will cause the `FormBuilder` to recognize a piece of Data and UI schema as this custom input type. For more information, see the *Matching Algorithm* section on this page.
 
@@ -167,4 +171,8 @@ By passing in alternative text to the `tooltipDescriptions` object of the `mods`
 The text for the labels of a few of the inputs in the Form Builder can similarly be customized by specifying a `labels` object of `mods`.
 
 - `formNameLabel` - The label for the input for the name/title of the entire form.
-- `formDescriptionLabel` - The lable for the input for the description of the entire form.
+- `formDescriptionLabel` - The label for the input for the description of the entire form.
+- `objectNameLabel` - The label for the "Object Name" field.
+- `displayNameLabel` - The label for the "Display Name" field.
+- `descriptionLabel` - The label for the "Description" field.
+- `inputTypeLabel` - The label for the "Input Type" field.

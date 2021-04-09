@@ -33,6 +33,19 @@ const props = {
   allFormInputs: DEFAULT_FORM_INPUTS,
 };
 
+const mods = {
+  labels: {
+    objectNameLabel: 'Custom Object Name',
+    displayNameLabel: 'Custom Display Name',
+    descriptionLabel: 'Custom Description',
+    inputTypeLabel: 'Custom Input Type',
+  },
+};
+
+const getHeadingText = (wrapper, index) => {
+  return wrapper.find('.card-container').first().find('h5').at(index).html();
+};
+
 describe('Card', () => {
   it('renders without error', () => {
     const div = document.createElement('div');
@@ -142,5 +155,43 @@ describe('Card', () => {
       ],
     ]);
     mockEvent.mockClear();
+  });
+
+  it('renders with default labels if no mods are passed', () => {
+    const div = document.createElement('div');
+    document.body.appendChild(div);
+    const wrapper = mount(<Card {...props} />, { attachTo: div });
+
+    const objectNameLabel = getHeadingText(wrapper, 0);
+    expect(objectNameLabel).toContain('Object Name');
+
+    const displayNameLabel = getHeadingText(wrapper, 1);
+    expect(displayNameLabel).toContain('Display Name');
+
+    const descriptionLabel = getHeadingText(wrapper, 2);
+    expect(descriptionLabel).toContain('Description');
+
+    const inputTypeLabel = getHeadingText(wrapper, 3);
+    expect(inputTypeLabel).toContain('Input Type');
+  });
+
+  it('renders with passed labels', () => {
+    const div = document.createElement('div');
+    document.body.appendChild(div);
+
+    const propsWithMods = { ...props, mods: mods };
+    const wrapper = mount(<Card {...propsWithMods} />, { attachTo: div });
+
+    const objectNameLabel = getHeadingText(wrapper, 0);
+    expect(objectNameLabel).toContain('Custom Object Name');
+
+    const displayNameLabel = getHeadingText(wrapper, 1);
+    expect(displayNameLabel).toContain('Custom Display Name');
+
+    const descriptionLabel = getHeadingText(wrapper, 2);
+    expect(descriptionLabel).toContain('Custom Description');
+
+    const inputTypeLabel = getHeadingText(wrapper, 3);
+    expect(inputTypeLabel).toContain('Custom Input Type');
   });
 });
