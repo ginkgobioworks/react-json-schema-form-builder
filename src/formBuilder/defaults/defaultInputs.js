@@ -237,6 +237,8 @@ const defaultInputs = {
     ],
     defaultDataSchema: {
       $ref: '',
+      title: '',
+      description: '',
     },
     defaultUiSchema: {},
     type: null,

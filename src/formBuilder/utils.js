@@ -673,6 +673,8 @@ function generateSchemaElementFromElement(element: ElementProps) {
   if (element.$ref !== undefined) {
     return {
       $ref: element.$ref,
+      title: element.dataOptions.title,
+      description: element.dataOptions.description,
     };
   } else if (element.propType === 'card') {
     if (element.dataOptions.category === 'section') {
