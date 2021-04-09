@@ -461,8 +461,8 @@ export function generateElementPropsFromSchemas(parameters: {
         definitionData[pathArr[2]]
       ) {
         elementDetails = {
-          ...elementDetails,
           ...definitionData[pathArr[2]],
+          ...elementDetails,
         };
       }
 
