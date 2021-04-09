@@ -18,11 +18,8 @@ const useStyles = createUseStyles({
   },
 });
 
-// Useful for setting up an initial schema for development purposes
-const initialJsonSchema = {};
-
 export default function PlaygroundContainer({ title }: { title: string }) {
-  const [schema, setSchema] = React.useState(JSON.stringify(initialJsonSchema));
+  const [schema, setSchema] = React.useState('{}');
   const [uischema, setUischema] = React.useState('{}');
   const classes = useStyles();
   return (
