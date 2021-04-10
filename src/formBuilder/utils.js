@@ -899,14 +899,12 @@ export function addCardObj(parameters: {
         ) + 1
       : 1;
 
-  const initialType = 'string';
-
   const newElement = ({
     name: `newInput${i}`,
     required: false,
     dataOptions: {
       title: `New Input ${i}`,
-      type: initialType,
+      type: 'string',
       default: '',
     },
     uiOptions: {},
