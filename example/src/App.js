@@ -3,7 +3,9 @@ import PlaygroundContainer from './PlaygroundContainer';
 
 function App() {
   return (
-    <div><PlaygroundContainer title='React JSON Schema Form Builder' /></div>
+    <div>
+      <PlaygroundContainer title='React JSON Schema Form Builder' />
+    </div>
   );
 }
 

@@ -26,7 +26,7 @@ const mods = {};
 export default function PlaygroundContainer({ title }: { title: string }) {
   const [schema, setSchema] = React.useState(JSON.stringify(initialJsonSchema));
   const [uischema, setUischema] = React.useState(
-    JSON.stringify(initialUiSchema)
+    JSON.stringify(initialUiSchema),
   );
   const classes = useStyles();
   return (
