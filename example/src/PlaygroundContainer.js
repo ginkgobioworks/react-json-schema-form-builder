@@ -18,9 +18,14 @@ const useStyles = createUseStyles({
   },
 });
 
+// Can be used to set initial schema and mods (useful for development)
+const initialJsonSchema = {};
+const initialUiSchema = {};
+const mods = {};
+
 export default function PlaygroundContainer({ title }: { title: string }) {
-  const [schema, setSchema] = React.useState('{}');
-  const [uischema, setUischema] = React.useState('{}');
+  const [schema, setSchema] = React.useState(JSON.stringify(initialJsonSchema));
+  const [uischema, setUischema] = React.useState(JSON.stringify(initialUiSchema));
   const classes = useStyles();
   return (
     <div className='playground'>
@@ -48,6 +53,7 @@ export default function PlaygroundContainer({ title }: { title: string }) {
         lang={'json'}
         schema={schema}
         uischema={uischema}
+        mods={mods}
         schemaTitle='Data Schema'
         uischemaTitle='UI Schema'
         onChange={(newSchema: string, newUiSchema: string) => {
