@@ -1,5 +1,15 @@
 # Changelog
 
+## [2.1.1] - 2021-04-09
+
+### Changed
+
+- Updated dependencies
+
+### Fixed
+
+- Fixed publication of empty package
+
 ## [2.1.0] - 2021-04-08
 
 ### Added

@@ -12,6 +12,28 @@ const props = {
   onChange: (newSchema, newUiSchema) => mockEvent(newSchema, newUiSchema),
 };
 
+const schemaWithDefinitions = {
+  type: 'object',
+  definitions: {
+    exampleDefinition: {
+      type: 'string',
+    },
+  },
+  properties: {
+    exampleField: {
+      $ref: '#/definitions/exampleDefinition',
+      title: 'Custom Title',
+      description: 'Custom Description',
+    },
+  },
+};
+
+const propsWithDefinitions = {
+  schema: JSON.stringify(schemaWithDefinitions),
+  uiSchema: '',
+  onChange: (newSchema, newUiSchema) => mockEvent(newSchema, newUiSchema),
+};
+
 describe('FormBuilder', () => {
   it('renders without error', () => {
     const div = document.createElement('div');
@@ -87,6 +109,7 @@ describe('FormBuilder', () => {
       'Property Parameter: badSideProp in obj2',
     ]);
   });
+
   it('renders the cards in the correct order according to ui:order', () => {
     const modProps = {
       ...props,
@@ -174,5 +197,19 @@ describe('FormBuilder', () => {
     );
     expect(wrapper.exists('.form-body')).toBeTruthy();
     expect(wrapper.exists('[data-test="form-head"]')).toBeFalsy();
+  });
+
+  it('renders $refs with custom titles and descriptions', () => {
+    const div = document.createElement('div');
+    document.body.appendChild(div);
+    const wrapper = mount(<FormBuilder {...propsWithDefinitions} />, {
+      attachTo: div,
+    });
+
+    expect(wrapper.exists('.form-body')).toBeTruthy();
+
+    const cardInputs = wrapper.find('.card-container').first().find('input');
+    expect(cardInputs.at(1).props().value).toEqual('Custom Title');
+    expect(cardInputs.at(2).props().value).toEqual('Custom Description');
   });
 });
