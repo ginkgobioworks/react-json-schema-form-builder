@@ -7,6 +7,7 @@ import {
   stringify,
   propagateDefinitionChanges,
   generateCategoryHash,
+  objectExcluding,
 } from './utils';
 import { arrows as arrowsStyle } from './styles';
 import DEFAULT_FORM_INPUTS from './defaults/defaultFormInputs';
@@ -133,6 +134,7 @@ export default function PredefinedGallery({
   const classes = useStyles();
   const schemaData = (parse(schema): { [string]: any }) || {};
   const uiSchemaData = (parse(uischema): { [string]: any }) || {};
+  const galleryMods = objectExcluding(mods, ['hiddenFormInputs']);
   const allFormInputs = {
     ...DEFAULT_FORM_INPUTS,
     ...(mods && mods.customFormInputs),
@@ -176,8 +178,6 @@ export default function PredefinedGallery({
     }
   }, [uischema, schema]);
 
-  const { hiddenFormInputs, ...modsExcludingHiddenInputs } = mods;
-
   return (
     <div className={classes.preDefinedGallery}>
       <CardGallery
@@ -199,7 +199,7 @@ export default function PredefinedGallery({
             categoryHash,
           );
         }}
-        mods={modsExcludingHiddenInputs}
+        mods={galleryMods}
         categoryHash={categoryHash}
       />
     </div>

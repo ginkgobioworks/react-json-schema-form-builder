@@ -1590,6 +1590,23 @@ export function propagateDefinitionChanges(
 }
 
 // Member-wise subtraction of array2 from array1
-export function subtractArray(array1: Array<string>, array2: Array<string>) {
-  return array1.filter((element) => !array2.includes(element));
+export function subtractArray(
+  array1: Array<string>,
+  array2: Array<string>,
+): Array<string> {
+  return array1.filter((element: string) => !array2.includes(element));
+}
+
+export function objectExcluding(
+  object: any,
+  keysToExclude: Array<string>,
+): any {
+  if (object === null || object === undefined) return object;
+  else {
+    const result = { ...object };
+    keysToExclude.forEach(function (key) {
+      delete result[key];
+    });
+    return result;
+  }
 }
