@@ -1590,6 +1590,6 @@ export function propagateDefinitionChanges(
 }
 
 // Member-wise subtraction of array2 from array1
-export function subtractArray(array1, array2) {
+export function subtractArray(array1: Array, array2: Array) {
   return array1.filter((element) => !array2.includes(element));
 }
