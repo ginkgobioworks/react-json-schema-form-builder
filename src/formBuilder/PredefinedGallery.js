@@ -177,7 +177,6 @@ export default function PredefinedGallery({
       onChange(stringify(schemaData), stringify(uiSchemaData));
     }
   }, [uischema, schema]);
-
   return (
     <div className={classes.preDefinedGallery}>
       <CardGallery
