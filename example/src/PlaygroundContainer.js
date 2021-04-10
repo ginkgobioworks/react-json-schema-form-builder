@@ -19,10 +19,30 @@ const useStyles = createUseStyles({
 });
 
 // Can be used to set initial schema and mods (useful for development)
-const initialJsonSchema = {};
+const initialJsonSchema = {
+  definitions: {
+    address: {
+      type: 'string',
+    },
+    firstNames: {
+      type: 'string',
+    }
+  }
+};
 const initialUiSchema = {};
 const mods = {
-  hiddenFormInputs: ['shortAnswer'],
+  hiddenFormInputs: [
+    'array',
+    'checkbox',
+    'dropdown',
+    'integer',
+    'longAnswer',
+    'number',
+    'password',
+    'radio',
+    'shortAnswer',
+    'time',
+  ],
 };
 
 export default function PlaygroundContainer({ title }: { title: string }) {
