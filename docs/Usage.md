@@ -276,6 +276,20 @@ The `customFormInputs` define the logic that translates abstract "Input Types" i
 
 The `tooltipDescriptions` allows an implementation of the `FormBuilder` that changes the tooltip descriptions that appear on hover over certain areas of the tool. The `add` popup appears when hovering over the plus buttons, the `cardObjectName` is the name of the back end name that appears in every card object input, the `cardDisplayName` allows rewriting the description of the display name tooltip, the `cardDescription` option allows overwriting the tooltip for the description, and the `cardInputType` allows setting a custom tooltip for the Input Type dropdown.
 
+### Hidden Form Inputs
+
+It is also possible to hide certain Input Types by setting the `hiddenFormInputs` property on mods.  For example, to hide the `time` and `checkbox` form inputs that are usually included by default, you may set the mods to:
+
+```react
+mods = {
+  hiddenFormInputs: ['time', 'checkbox'],
+}
+```
+
+This will hide these Input Types on the `FormBuilder` component.
+
+**Note**: this does not hide the Input Types on the `PredefinedGallery`, meaning that it would be possible to create a definition that used `time` and/or `checkbox` inputs and use them as a Reference in the main `FormBuilder` schema.
+
 ### Styling
 
 To avoid collisions with existing CSS styles, this app uses [react-jss](https://cssinjs.org/react-jss/?v=v10.5.0) in order to generate class names avoiding overlap with others in the global scope. Using CSS to style FormBuilder and PredefinedGallery components will not work and is not supported. The ability to "skin" the FormBuilder and PredefinedGallery components may be a feature in the future.
