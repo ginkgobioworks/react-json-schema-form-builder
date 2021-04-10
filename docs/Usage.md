@@ -14,9 +14,9 @@ The following example is a React component that simply maintains a Form Builder 
 
 ```react
 import React, { Component } from 'react';
- 
+
 import {FormBuilder} from 'react-json-schema-form-builder';
- 
+
 class Example extends Component {
   constructor(props) {
     super(props);
@@ -56,10 +56,10 @@ The following example uses this form preview adjacent to the Form Builder:
 
 ``` react
 import React, { Component } from 'react';
- 
+
 import {FormBuilder} from 'react-json-schema-form-builder';
 import Form from '@rjsf/core';
- 
+
 class Example extends Component {
   constructor(props) {
     super(props);
@@ -101,9 +101,9 @@ JSON Schema forms also make use of definitions, allowing a form builder to defin
 
 ``` react
 import React, { Component } from 'react';
- 
+
 import {FormBuilder, PredefinedGallery} from "@ginkgo-bioworks/react-json-schema-form-builder";
- 
+
 class Example extends Component {
   constructor(props) {
     super(props);
@@ -147,9 +147,9 @@ The following is an example that implements the `FormBuilder` in a React functio
 
 ``` react
 import * as React from 'react';
- 
+
 import {FormBuilder, PredefinedGallery} from "@ginkgo-bioworks/react-json-schema-form-builder";
- 
+
 export default function Example() {
   const [schema, setSchema] = React.useState('{}');
   const [uischema, setUiSchema] = React.useState('{}');
@@ -222,9 +222,9 @@ This can then be passed into an app using the `FormBuilder` as follows:
 
 ```react
 import React, { Component } from 'react';
- 
+
 import { FormBuilder } from 'react-json-schema-form-builder';
- 
+
 class Example extends Component {
   constructor(props) {
     super(props);
@@ -246,7 +246,7 @@ class Example extends Component {
         }}
         mods={
           {
-            optionalFormInputs: customFormInputs
+            customFormInputs
           }
         }
       />
