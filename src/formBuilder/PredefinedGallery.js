@@ -175,6 +175,9 @@ export default function PredefinedGallery({
       onChange(stringify(schemaData), stringify(uiSchemaData));
     }
   }, [uischema, schema]);
+
+  const { hiddenFormInputs, ...modsExcludingHiddenInputs } = mods;
+
   return (
     <div className={classes.preDefinedGallery}>
       <CardGallery
@@ -196,7 +199,7 @@ export default function PredefinedGallery({
             categoryHash,
           );
         }}
-        mods={mods}
+        mods={modsExcludingHiddenInputs}
         categoryHash={categoryHash}
       />
     </div>
