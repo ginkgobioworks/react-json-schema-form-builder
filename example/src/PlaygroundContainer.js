@@ -21,7 +21,9 @@ const useStyles = createUseStyles({
 // Can be used to set initial schema and mods (useful for development)
 const initialJsonSchema = {};
 const initialUiSchema = {};
-const mods = {};
+const mods = {
+  hiddenFormInputs: ['shortAnswer'],
+};
 
 export default function PlaygroundContainer({ title }: { title: string }) {
   const [schema, setSchema] = React.useState(JSON.stringify(initialJsonSchema));

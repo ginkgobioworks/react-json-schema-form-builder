@@ -12,6 +12,7 @@ import {
   generateUiSchemaFromElementProps,
   generateCategoryHash,
   generateElementComponentsFromSchemas,
+  subtractArray,
 } from './utils';
 import DEFAULT_FORM_INPUTS from './defaults/defaultFormInputs';
 
@@ -76,8 +77,8 @@ describe('parse', () => {
         `
     {
       "key": {
-        "array": ["item1", "item2"], 
-        "name": "obj1", 
+        "array": ["item1", "item2"],
+        "name": "obj1",
         "num": 0
       }
     }`,
@@ -464,5 +465,77 @@ describe('generateElementComponentsFromSchemas', () => {
     document.body.appendChild(div);
     mount(<TestComponent />, { attachTo: div });
     expect(MockComponent.mock.calls[0][0].mods).toEqual(mods);
+  });
+});
+
+describe('subtractArray', () => {
+  it('returns an empty array if both arrays are empty', () => {
+    const array1 = [];
+    const array2 = [];
+
+    const expectedResult = [];
+    const actualResult = subtractArray(array1, array2);
+
+    expect(actualResult).toEqual(expectedResult);
+  });
+
+  it('returns an empty array if both arrays are identical', () => {
+    const array1 = ['a', 'b', 'c'];
+    const array2 = ['a', 'b', 'c'];
+
+    const expectedResult = [];
+    const actualResult = subtractArray(array1, array2);
+
+    expect(actualResult).toEqual(expectedResult);
+  });
+
+  it('returns an empty array if both arrays have the same elements', () => {
+    const array1 = ['c', 'a', 'b', 'd'];
+    const array2 = ['a', 'b', 'c', 'd'];
+
+    const expectedResult = [];
+    const actualResult = subtractArray(array1, array2);
+
+    expect(actualResult).toEqual(expectedResult);
+  });
+
+  it('returns an array equal to array1 if array2 is empty', () => {
+    const array1 = ['c', 'a', 'b', 'd'];
+    const array2 = [];
+
+    const expectedResult = ['c', 'a', 'b', 'd'];
+    const actualResult = subtractArray(array1, array2);
+
+    expect(actualResult).toEqual(expectedResult);
+  });
+
+  it('returns an empty array if array1 is empty', () => {
+    const array1 = [];
+    const array2 = ['a', 'b', 'c'];
+
+    const expectedResult = [];
+    const actualResult = subtractArray(array1, array2);
+
+    expect(actualResult).toEqual(expectedResult);
+  });
+
+  it('returns array1 without the elements in array2', () => {
+    const array1 = ['a', 'b', 'c', 'd', 'e'];
+    const array2 = ['a', 'b', 'c'];
+
+    const expectedResult = ['d', 'e'];
+    const actualResult = subtractArray(array1, array2);
+
+    expect(actualResult).toEqual(expectedResult);
+  });
+
+  it('returns array1 without the elements in array2 even if array2 contains elements not included in array1', () => {
+    const array1 = ['a', 'b', 'c', 'd', 'e'];
+    const array2 = ['a', 'b', 'c', 'f', 'g'];
+
+    const expectedResult = ['d', 'e'];
+    const actualResult = subtractArray(array1, array2);
+
+    expect(actualResult).toEqual(expectedResult);
   });
 });
