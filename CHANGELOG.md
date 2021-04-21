@@ -1,5 +1,15 @@
 # Changelog
 
+## [2.1.1] - 2021-04-12
+
+### Added
+
+- Allow users to add titles and descriptions for references
+
+### Changed
+
+- Removed test matrix from CI
+
 ## [2.1.1] - 2021-04-09
 
 ### Changed
