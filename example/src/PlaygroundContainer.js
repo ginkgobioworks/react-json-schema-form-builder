@@ -18,22 +18,8 @@ const useStyles = createUseStyles({
   },
 });
 
-const jsonSchema = {
-  type: 'object',
-  definitions: {
-    address: {
-      title: 'Address',
-      type: 'object',
-      properties: {
-        lineOne: { type: 'string' },
-        lineTwo: { type: 'string' }
-      }
-    },
-  },
-};
-
 export default function PlaygroundContainer({ title }: { title: string }) {
-  const [schema, setSchema] = React.useState(JSON.stringify(jsonSchema));
+  const [schema, setSchema] = React.useState('{}');
   const [uischema, setUischema] = React.useState('{}');
   const classes = useStyles();
   return (
