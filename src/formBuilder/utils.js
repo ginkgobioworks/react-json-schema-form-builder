@@ -476,6 +476,7 @@ export function generateElementPropsFromSchemas(parameters: {
     newElement.name = parameter;
     newElement.required = requiredNames.includes(parameter);
     newElement.$ref = elementDetails.$ref;
+    newElement.dataOptions = elementDetails;
 
     if (elementDetails.type && elementDetails.type === 'object') {
       // create a section
@@ -484,7 +485,6 @@ export function generateElementPropsFromSchemas(parameters: {
       newElement.propType = 'section';
     } else {
       // create a card
-      newElement.dataOptions = elementDetails;
       newElement.uiOptions = uischema[parameter] || {};
 
       // ensure that uiOptions does not have duplicate keys with dataOptions
