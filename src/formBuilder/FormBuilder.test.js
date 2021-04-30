@@ -236,4 +236,31 @@ describe('FormBuilder', () => {
       .map((error) => error.text());
     expect(errors).toEqual([]);
   });
+
+  it('supports the meta keyword and there is no error', () => {
+    const jsonSchema = {
+      $schema: 'http://json-schema.org/draft-07/schema#',
+      meta: {
+        some: 'meta information',
+      },
+    };
+
+    const props = {
+      schema: JSON.stringify(jsonSchema),
+      uiSchema: '{}',
+      onChange: jest.fn(() => {}),
+      mods: {},
+      className: 'my-form-builder',
+    };
+
+    const div = document.createElement('div');
+    document.body.appendChild(div);
+    const wrapper = mount(<FormBuilder {...props} />, { attachTo: div });
+    const errors = wrapper
+      .find('.alert-warning')
+      .first()
+      .find('li')
+      .map((error) => error.text());
+    expect(errors).toEqual([]);
+  });
 });

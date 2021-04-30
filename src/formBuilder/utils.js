@@ -131,6 +131,7 @@ const supportedPropertyParameters = new Set([
   'dependencies',
   '$id',
   '$schema',
+  'meta',
 ]);
 
 const supportedUiParameters = new Set([
