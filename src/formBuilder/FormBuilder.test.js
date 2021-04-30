@@ -212,4 +212,28 @@ describe('FormBuilder', () => {
     expect(cardInputs.at(1).props().value).toEqual('Custom Title');
     expect(cardInputs.at(2).props().value).toEqual('Custom Description');
   });
+
+  it('supports the $schema keyword and there is no error', () => {
+    const jsonSchema = {
+      $schema: 'http://json-schema.org/draft-07/schema#',
+    };
+
+    const props = {
+      schema: JSON.stringify(jsonSchema),
+      uiSchema: '{}',
+      onChange: jest.fn(() => {}),
+      mods: {},
+      className: 'my-form-builder',
+    };
+
+    const div = document.createElement('div');
+    document.body.appendChild(div);
+    const wrapper = mount(<FormBuilder {...props} />, { attachTo: div });
+    const errors = wrapper
+      .find('.alert-warning')
+      .first()
+      .find('li')
+      .map((error) => error.text());
+    expect(errors).toEqual([]);
+  });
 });
