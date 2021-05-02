@@ -45,12 +45,13 @@ export default function CardGeneralParameterInputs({
   const inputTypeLabel = fetchLabel('inputTypeLabel', 'Input Type');
 
   const availableInputTypes = () => {
+    const definitionsInSchema =
+      parameters.definitionData &&
+      Object.keys(parameters.definitionData).length !== 0;
+
     // Hide the "Reference" option if there are no definitions in the schema
     let inputKeys = Object.keys(categoryMap).filter(
-      (key) =>
-        key !== 'ref' ||
-        (parameters.definitionData &&
-          Object.keys(parameters.definitionData).length !== 0),
+      (key) => key !== 'ref' || definitionsInSchema,
     );
 
     // Exclude hidden inputs based on mods
