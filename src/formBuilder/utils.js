@@ -862,7 +862,7 @@ export function updateSchemas(
 export function addCardObj(parameters: {
   schema: { [string]: any },
   uischema: { [string]: any },
-  mods: Mods,
+  mods?: Mods,
   onChange: ({ [string]: any }, { [string]: any }) => any,
   definitionData: { [string]: any },
   definitionUi: { [string]: any },
@@ -1594,7 +1594,7 @@ export function propagateDefinitionChanges(
 // Member-wise subtraction of array2 from array1
 export function subtractArray(
   array1: Array<string>,
-  array2: Array<string>,
+  array2?: Array<string>,
 ): Array<string> {
   if (array2 === undefined || array2 === null) return array1;
   else return array1.filter((element: string) => !array2.includes(element));
@@ -1614,7 +1614,7 @@ export function objectExcluding(
   }
 }
 
-export function getNewElementDataOptions(i: number, mods: Mods) {
+export function getNewElementDataOptions(i: number, mods?: Mods) {
   if (mods && mods.newElementDataOptions !== undefined) {
     const title = `${mods.newElementDataOptions.title} ${i}`;
     return { ...mods.newElementDataOptions, ...{ title: title } };

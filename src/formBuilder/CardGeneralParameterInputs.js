@@ -55,7 +55,7 @@ export default function CardGeneralParameterInputs({
     );
 
     // Exclude hidden inputs based on mods
-    inputKeys = subtractArray(inputKeys, mods?.deactivatedFormInputs);
+    if (mods) inputKeys = subtractArray(inputKeys, mods.deactivatedFormInputs);
 
     return inputKeys.map((key) => ({ value: key, label: categoryMap[key] }));
   };
