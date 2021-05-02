@@ -1596,7 +1596,8 @@ export function subtractArray(
   array1: Array<string>,
   array2: Array<string>,
 ): Array<string> {
-  return array1.filter((element: string) => !array2.includes(element));
+  if (array2 === undefined || array2 === null) return array1;
+  else return array1.filter((element: string) => !array2.includes(element));
 }
 
 export function objectExcluding(

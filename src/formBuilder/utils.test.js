@@ -471,6 +471,16 @@ describe('generateElementComponentsFromSchemas', () => {
 });
 
 describe('subtractArray', () => {
+  it('returns the first array if the second array is undefined', () => {
+    const array1 = ['a', 'b', 'f'];
+    const array2 = undefined;
+
+    const expectedResult = ['a', 'b', 'f'];
+    const actualResult = subtractArray(array1, array2);
+
+    expect(actualResult).toEqual(expectedResult);
+  });
+
   it('returns an empty array if both arrays are empty', () => {
     const array1 = [];
     const array2 = [];
