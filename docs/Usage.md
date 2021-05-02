@@ -288,8 +288,6 @@ mods = {
 
 This will hide these Input Types on the `FormBuilder` component.
 
-**Note**: this does not hide the Input Types on the `PredefinedGallery`, meaning that it would be possible to create a definition that used `time` and/or `checkbox` inputs and use them as a Reference in the main `FormBuilder` schema.
-
 ### Styling
 
 To avoid collisions with existing CSS styles, this app uses [react-jss](https://cssinjs.org/react-jss/?v=v10.5.0) in order to generate class names avoiding overlap with others in the global scope. Using CSS to style FormBuilder and PredefinedGallery components will not work and is not supported. The ability to "skin" the FormBuilder and PredefinedGallery components may be a feature in the future.

@@ -318,7 +318,7 @@ class JsonSchemaFormEditor extends React.Component<Props, State> {
                     <PredefinedGallery
                       schema={this.props.schema}
                       uischema={this.props.uischema}
-                      mods={this.props.mods}
+                      mods={{}}
                       onChange={(newSchema: string, newUiSchema: string) => {
                         if (this.props.onChange)
                           this.props.onChange(newSchema, newUiSchema);
