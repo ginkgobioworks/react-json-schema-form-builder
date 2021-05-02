@@ -102,6 +102,14 @@ type FormInputType<ModsType> = {
   }>,
 };
 
+export type DataOptions = {
+  title?: string,
+  type?: string,
+  description?: string,
+  $ref?: string,
+  default?: string,
+};
+
 // optional properties that can add custom features to the form builder
 export type Mods = {
   customFormInputs?: {
@@ -127,6 +135,7 @@ export type Mods = {
   },
   showFormHead?: boolean,
   deactivatedFormInputs?: Array<string>,
+  newElementDataOptions?: DataOptions,
 };
 
 export type FormInput = FormInputType<Mods>;

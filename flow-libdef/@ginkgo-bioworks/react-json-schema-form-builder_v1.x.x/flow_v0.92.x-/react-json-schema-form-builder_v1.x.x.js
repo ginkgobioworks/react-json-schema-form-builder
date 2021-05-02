@@ -54,6 +54,14 @@ declare module '@ginkgo-bioworks/react-json-schema-form-builder' {
     modalBody?: React$ComponentType<CardBodyProps>,
   |};
 
+  declare type DataOptions = {|
+    title?: string,
+    type?: string,
+    description?: string,
+    $ref?: string,
+    default?: string,
+  |};
+
   // optional properties that can add custom features to the form builder
   declare type Mods = {|
     customFormInputs?: {
@@ -80,13 +88,7 @@ declare module '@ginkgo-bioworks/react-json-schema-form-builder' {
     |},
     showFormHead?: boolean,
     deactivatedFormInputs?: Array,
-    newElementDataOptions?: {
-      title?: string,
-      type?: string,
-      description?: string,
-      $ref?: string,
-      default?: string,
-    },
+    newElementDataOptions?: DataOptions,
   |};
 
   declare type FormBuilderProps = {|

@@ -1,6 +1,12 @@
 // @flow
 import * as React from 'react';
-import type { CardProps, ElementProps, FormInput, Mods } from './types';
+import type {
+  CardProps,
+  ElementProps,
+  FormInput,
+  Mods,
+  DataOptions,
+} from './types';
 
 // parse in either YAML or JSON
 export function parse(text: string) {
