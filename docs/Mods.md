@@ -34,6 +34,13 @@ declare type Mods = {|
   |},
   showFormHead?: boolean,
   deactivatedFormInputs?: Array<string>,
+  newElementDataOptions?: {
+    title?: string,
+    type?: string,
+    description?: string,
+    $ref?: string,
+    default?: string,
+  },
 |};
 ```
 

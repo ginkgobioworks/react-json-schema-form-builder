@@ -81,6 +81,7 @@ export default function CardGallery({
               addCardObj({
                 schema: { properties: definitionSchema },
                 uischema: definitionUiSchema,
+                mods: mods,
                 onChange: (newDefinitions, newDefinitionUis) => {
                   const oldUi = newDefinitionUis;
                   const newUi = {};

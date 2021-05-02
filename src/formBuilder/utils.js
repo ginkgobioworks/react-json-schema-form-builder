@@ -862,6 +862,7 @@ export function updateSchemas(
 export function addCardObj(parameters: {
   schema: { [string]: any },
   uischema: { [string]: any },
+  mods: Mods,
   onChange: ({ [string]: any }, { [string]: any }) => any,
   definitionData: { [string]: any },
   definitionUi: { [string]: any },
@@ -871,6 +872,7 @@ export function addCardObj(parameters: {
   const {
     schema,
     uischema,
+    mods,
     onChange,
     definitionData,
     definitionUi,
@@ -899,14 +901,12 @@ export function addCardObj(parameters: {
         ) + 1
       : 1;
 
+  const dataOptions = getNewElementDataOptions(i, mods);
+
   const newElement = ({
     name: `newInput${i}`,
     required: false,
-    dataOptions: {
-      title: `New Input ${i}`,
-      type: 'string',
-      default: '',
-    },
+    dataOptions: dataOptions,
     uiOptions: {},
     propType: 'card',
     schema: {},
@@ -1200,6 +1200,7 @@ export function generateElementComponentsFromSchemas(parameters: {
               addCardObj({
                 schema,
                 uischema,
+                mods,
                 onChange,
                 definitionData: definitionData || {},
                 definitionUi: definitionUi || {},
@@ -1425,6 +1426,7 @@ export function generateElementComponentsFromSchemas(parameters: {
               addCardObj({
                 schema,
                 uischema,
+                mods,
                 onChange,
                 definitionData: definitionData || {},
                 definitionUi: definitionUi || {},
@@ -1608,5 +1610,18 @@ export function objectExcluding(
       delete result[key];
     });
     return result;
+  }
+}
+
+export function getNewElementDataOptions(i: number, mods: Mods) {
+  if (mods && mods.newElementDataOptions !== undefined) {
+    const title = `${mods.newElementDataOptions.title} ${i}`;
+    return { ...mods.newElementDataOptions, ...{ title: title } };
+  } else {
+    return {
+      title: `New Input ${i}`,
+      type: 'string',
+      default: '',
+    };
   }
 }

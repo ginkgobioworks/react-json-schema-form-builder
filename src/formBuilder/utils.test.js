@@ -14,6 +14,7 @@ import {
   generateElementComponentsFromSchemas,
   subtractArray,
   objectExcluding,
+  getNewElementDataOptions,
 } from './utils';
 import DEFAULT_FORM_INPUTS from './defaults/defaultFormInputs';
 
@@ -610,5 +611,95 @@ describe('objectExcluding', () => {
     const actualResult = objectExcluding(object, keysToExclude);
 
     expect(actualResult).toEqual(expectedResult);
+  });
+});
+
+describe('getNewElementDataOptions', () => {
+  it('returns a default dataOptions when undefined mods are passed', () => {
+    const i = 1;
+    const mods = undefined;
+    const expectedDataOptions = {
+      title: 'New Input 1',
+      type: 'string',
+      default: '',
+    };
+
+    const actualDataOptions = getNewElementDataOptions(i, mods);
+
+    expect(actualDataOptions).toEqual(expectedDataOptions);
+  });
+
+  it('returns a title containing the index', () => {
+    const i = 146;
+    const mods = undefined;
+    const expectedDataOptions = {
+      title: 'New Input 146',
+      type: 'string',
+      default: '',
+    };
+
+    const actualDataOptions = getNewElementDataOptions(i, mods);
+
+    expect(actualDataOptions).toEqual(expectedDataOptions);
+  });
+
+  it('returns a default dataOptions when mods without newElementDataOptions are passed', () => {
+    const i = 1;
+    const mods = {
+      labels: {
+        formNameLabel: 'Form Title',
+      },
+    };
+    const expectedDataOptions = {
+      title: 'New Input 1',
+      type: 'string',
+      default: '',
+    };
+
+    const actualDataOptions = getNewElementDataOptions(i, mods);
+
+    expect(actualDataOptions).toEqual(expectedDataOptions);
+  });
+
+  it('returns dataOptions with a $ref when mods with newElementDataOptions are passed', () => {
+    const i = 1;
+    const mods = {
+      newElementDataOptions: {
+        title: 'Input Field',
+        $ref: '#/definitions/someDefinition',
+      },
+    };
+    const expectedDataOptions = {
+      title: 'Input Field 1',
+      $ref: '#/definitions/someDefinition',
+    };
+
+    const actualDataOptions = getNewElementDataOptions(i, mods);
+
+    expect(actualDataOptions).toEqual(expectedDataOptions);
+  });
+
+  it('returns dataOptions with another kind of field when mods with newElementDataOptions are passed', () => {
+    const i = 1;
+    const mods = {
+      newElementDataOptions: {
+        title: 'Input',
+        type: 'number',
+        default: 1,
+        minimum: 1,
+        maximum: 10,
+      },
+    };
+    const expectedDataOptions = {
+      title: 'Input 1',
+      type: 'number',
+      default: 1,
+      minimum: 1,
+      maximum: 10,
+    };
+
+    const actualDataOptions = getNewElementDataOptions(i, mods);
+
+    expect(actualDataOptions).toEqual(expectedDataOptions);
   });
 });

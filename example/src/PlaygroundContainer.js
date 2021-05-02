@@ -20,15 +20,20 @@ const useStyles = createUseStyles({
 
 // Can be used to set initial schemas and mods (useful for development)
 const initialJsonSchema = {
+  type: 'object',
   definitions: {
     firstNames: {
-      type: 'String',
+      type: 'string',
       title: 'First Names',
     },
   },
 };
 const initialUiSchema = {};
 const mods = {
+  newElementDataOptions: {
+    '$ref': '#/definitions/firstNames',
+    title: 'Field',
+  },
   deactivatedFormInputs: [
     'password',
     'integer',

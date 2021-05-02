@@ -288,6 +288,31 @@ mods = {
 
 This will hide these Input Types on the `FormBuilder` component.
 
+### Default New Form Element (newElementDataOptions)
+
+By default, when adding a new form element, the dataOptions are set to:
+
+```react
+{
+  title: `New Input ${i}`,
+  type: 'string',
+  default: '',
+}
+```
+
+This means that by default, a new form element has the "Short answer" input type.  If you wish to override this (for example, if the "Short answer" input is deactivated), you can do so by using the `newElementDataOptions` mod.  For example, setting the mods to the following:
+
+```react
+mods = {
+  newElementDataOptions: {
+    '$ref': '#/definitions/firstNames',
+    title: 'Field',
+  },
+};
+```
+
+will default new form elements to a "Reference" type to some definition "firstNames" defined in the schema.
+
 ### Styling
 
 To avoid collisions with existing CSS styles, this app uses [react-jss](https://cssinjs.org/react-jss/?v=v10.5.0) in order to generate class names avoiding overlap with others in the global scope. Using CSS to style FormBuilder and PredefinedGallery components will not work and is not supported. The ability to "skin" the FormBuilder and PredefinedGallery components may be a feature in the future.
