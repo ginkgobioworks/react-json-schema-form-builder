@@ -19,34 +19,9 @@ const useStyles = createUseStyles({
 });
 
 // Can be used to set initial schemas and mods (useful for development)
-const initialJsonSchema = {
-  type: 'object',
-  definitions: {
-    firstNames: {
-      type: 'string',
-      title: 'First Names',
-    },
-  },
-};
+const initialJsonSchema = {};
 const initialUiSchema = {};
-const mods = {
-  newElementDataOptions: {
-    '$ref': '#/definitions/firstNames',
-    title: 'Field',
-  },
-  deactivatedFormInputs: [
-    'password',
-    'integer',
-    'number',
-    'array',
-    'longAnswer',
-    'time',
-    'checkbox',
-    'radio',
-    'dropdown',
-    'shortAnswer',
-  ],
-};
+const mods = {};
 
 export default function PlaygroundContainer({ title }: { title: string }) {
   const [schema, setSchema] = React.useState(JSON.stringify(initialJsonSchema));
