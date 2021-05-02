@@ -33,7 +33,7 @@ declare type Mods = {|
     inputTypeLabel?: string,
   |},
   showFormHead?: boolean,
-  hiddenFormInputs?: Array<string>,
+  deactivatedFormInputs?: Array<string>,
 |};
 ```
 

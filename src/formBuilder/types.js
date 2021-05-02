@@ -126,7 +126,7 @@ export type Mods = {
     inputTypeLabel?: string,
   },
   showFormHead?: boolean,
-  hiddenFormInputs?: Array<string>,
+  deactivatedFormInputs?: Array<string>,
 };
 
 export type FormInput = FormInputType<Mods>;

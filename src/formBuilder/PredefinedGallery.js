@@ -134,7 +134,7 @@ export default function PredefinedGallery({
   const classes = useStyles();
   const schemaData = (parse(schema): { [string]: any }) || {};
   const uiSchemaData = (parse(uischema): { [string]: any }) || {};
-  const galleryMods = objectExcluding(mods, ['hiddenFormInputs']);
+  const galleryMods = objectExcluding(mods, ['deactivatedFormInputs']);
   const allFormInputs = {
     ...DEFAULT_FORM_INPUTS,
     ...(mods && mods.customFormInputs),
