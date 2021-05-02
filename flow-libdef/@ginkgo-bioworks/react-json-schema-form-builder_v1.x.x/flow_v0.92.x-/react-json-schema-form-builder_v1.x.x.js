@@ -55,7 +55,7 @@ declare module '@ginkgo-bioworks/react-json-schema-form-builder' {
   |};
 
   declare type DataOptions = {|
-    title?: string,
+    title: string,
     type?: string,
     description?: string,
     $ref?: string,

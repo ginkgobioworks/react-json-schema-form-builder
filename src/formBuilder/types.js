@@ -103,7 +103,7 @@ type FormInputType<ModsType> = {
 };
 
 export type DataOptions = {
-  title?: string,
+  title: string,
   type?: string,
   description?: string,
   $ref?: string,
