@@ -76,8 +76,8 @@ describe('parse', () => {
         `
     {
       "key": {
-        "array": ["item1", "item2"], 
-        "name": "obj1", 
+        "array": ["item1", "item2"],
+        "name": "obj1",
         "num": 0
       }
     }`,
@@ -231,6 +231,24 @@ describe('checkForUnsupportedFeatures', () => {
     testUischema = {
       'ui:order': ['obj1', 'obj2'],
     };
+    expect(
+      checkForUnsupportedFeatures(
+        testSchema,
+        testUischema,
+        DEFAULT_FORM_INPUTS,
+      ),
+    ).toEqual([]);
+  });
+
+  it('gives no warnings for the inclusion of $schema and meta keywords', () => {
+    let testSchema = {
+      type: 'object',
+      $schema: 'http://json-schema.org/draft-07/schema#',
+      meta: {
+        some: 'meta information',
+      },
+    };
+    let testUischema = {};
     expect(
       checkForUnsupportedFeatures(
         testSchema,
