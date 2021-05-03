@@ -421,6 +421,7 @@ export default function Section({
                   addCardObj({
                     schema,
                     uischema,
+                    mods,
                     onChange,
                     definitionData,
                     definitionUi,

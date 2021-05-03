@@ -12,6 +12,8 @@ import {
   generateUiSchemaFromElementProps,
   generateCategoryHash,
   generateElementComponentsFromSchemas,
+  subtractArray,
+  getNewElementDefaultDataOptions,
 } from './utils';
 import DEFAULT_FORM_INPUTS from './defaults/defaultFormInputs';
 
@@ -482,5 +484,177 @@ describe('generateElementComponentsFromSchemas', () => {
     document.body.appendChild(div);
     mount(<TestComponent />, { attachTo: div });
     expect(MockComponent.mock.calls[0][0].mods).toEqual(mods);
+  });
+});
+
+describe('subtractArray', () => {
+  it('returns the first array if the second array is undefined', () => {
+    const array1 = ['a', 'b', 'f'];
+    const array2 = undefined;
+
+    const expectedResult = ['a', 'b', 'f'];
+    const actualResult = subtractArray(array1, array2);
+
+    expect(actualResult).toEqual(expectedResult);
+  });
+
+  it('returns an empty array if both arrays are empty', () => {
+    const array1 = [];
+    const array2 = [];
+
+    const expectedResult = [];
+    const actualResult = subtractArray(array1, array2);
+
+    expect(actualResult).toEqual(expectedResult);
+  });
+
+  it('returns an empty array if both arrays are identical', () => {
+    const array1 = ['a', 'b', 'c'];
+    const array2 = ['a', 'b', 'c'];
+
+    const expectedResult = [];
+    const actualResult = subtractArray(array1, array2);
+
+    expect(actualResult).toEqual(expectedResult);
+  });
+
+  it('returns an empty array if both arrays have the same elements', () => {
+    const array1 = ['c', 'a', 'b', 'd'];
+    const array2 = ['a', 'b', 'c', 'd'];
+
+    const expectedResult = [];
+    const actualResult = subtractArray(array1, array2);
+
+    expect(actualResult).toEqual(expectedResult);
+  });
+
+  it('returns an array equal to array1 if array2 is empty', () => {
+    const array1 = ['c', 'a', 'b', 'd'];
+    const array2 = [];
+
+    const expectedResult = ['c', 'a', 'b', 'd'];
+    const actualResult = subtractArray(array1, array2);
+
+    expect(actualResult).toEqual(expectedResult);
+  });
+
+  it('returns an empty array if array1 is empty', () => {
+    const array1 = [];
+    const array2 = ['a', 'b', 'c'];
+
+    const expectedResult = [];
+    const actualResult = subtractArray(array1, array2);
+
+    expect(actualResult).toEqual(expectedResult);
+  });
+
+  it('returns array1 without the elements in array2', () => {
+    const array1 = ['a', 'b', 'c', 'd', 'e'];
+    const array2 = ['a', 'b', 'c'];
+
+    const expectedResult = ['d', 'e'];
+    const actualResult = subtractArray(array1, array2);
+
+    expect(actualResult).toEqual(expectedResult);
+  });
+
+  it('returns array1 without the elements in array2 even if array2 contains elements not included in array1', () => {
+    const array1 = ['a', 'b', 'c', 'd', 'e'];
+    const array2 = ['a', 'b', 'c', 'f', 'g'];
+
+    const expectedResult = ['d', 'e'];
+    const actualResult = subtractArray(array1, array2);
+
+    expect(actualResult).toEqual(expectedResult);
+  });
+});
+
+describe('getNewElementDefaultDataOptions', () => {
+  it('returns a default dataOptions when undefined mods are passed', () => {
+    const i = 1;
+    const mods = undefined;
+    const expectedDataOptions = {
+      title: 'New Input 1',
+      type: 'string',
+      default: '',
+    };
+
+    const actualDataOptions = getNewElementDefaultDataOptions(i, mods);
+
+    expect(actualDataOptions).toEqual(expectedDataOptions);
+  });
+
+  it('returns a title containing the index', () => {
+    const i = 146;
+    const mods = undefined;
+    const expectedDataOptions = {
+      title: 'New Input 146',
+      type: 'string',
+      default: '',
+    };
+
+    const actualDataOptions = getNewElementDefaultDataOptions(i, mods);
+
+    expect(actualDataOptions).toEqual(expectedDataOptions);
+  });
+
+  it('returns a default dataOptions when mods without newElementDefaultDataOptions are passed', () => {
+    const i = 1;
+    const mods = {
+      labels: {
+        formNameLabel: 'Form Title',
+      },
+    };
+    const expectedDataOptions = {
+      title: 'New Input 1',
+      type: 'string',
+      default: '',
+    };
+
+    const actualDataOptions = getNewElementDefaultDataOptions(i, mods);
+
+    expect(actualDataOptions).toEqual(expectedDataOptions);
+  });
+
+  it('returns dataOptions with a $ref when mods with newElementDefaultDataOptions are passed', () => {
+    const i = 1;
+    const mods = {
+      newElementDefaultDataOptions: {
+        title: 'Input Field',
+        $ref: '#/definitions/someDefinition',
+      },
+    };
+    const expectedDataOptions = {
+      title: 'Input Field 1',
+      $ref: '#/definitions/someDefinition',
+    };
+
+    const actualDataOptions = getNewElementDefaultDataOptions(i, mods);
+
+    expect(actualDataOptions).toEqual(expectedDataOptions);
+  });
+
+  it('returns dataOptions with another kind of field when mods with newElementDefaultDataOptions are passed', () => {
+    const i = 1;
+    const mods = {
+      newElementDefaultDataOptions: {
+        title: 'Input',
+        type: 'number',
+        default: 1,
+        minimum: 1,
+        maximum: 10,
+      },
+    };
+    const expectedDataOptions = {
+      title: 'Input 1',
+      type: 'number',
+      default: 1,
+      minimum: 1,
+      maximum: 10,
+    };
+
+    const actualDataOptions = getNewElementDefaultDataOptions(i, mods);
+
+    expect(actualDataOptions).toEqual(expectedDataOptions);
   });
 });

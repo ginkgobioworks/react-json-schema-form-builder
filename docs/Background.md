@@ -93,8 +93,8 @@ When a form element is dependent on another form element, it will appear with da
 
 The Form Builder also supports the **definitions** property in JSON Schema Form and the resulting **$ref** tags pointing to those definitions. By default, if there are no definitiosn detected in the underlying schema, the option to choose an input type as a reference will be disabled. However, if there is at least one defined definition, then a new option in the *Input Types* dropdown will appear, allowing the Form Builder to select a form input to have a reference to an existing definition. Any changes to that definition will propagate to all form elements that have a reference to it.
 
-When a card is of a reference type, many of the usual options are no longer editable - instead, they become inherited from the parent definition.
-
 ![reference](img/reference.png)
+
+Since [this pull request](https://github.com/rjsf-team/react-jsonschema-form/pull/179), the `react-jsonschema-form` package has supported local overrides to `$ref` titles and descriptions. The Form Builder also supports this.
 
 In the [usage doc](Usage.md), there is an optional additional component called the **PredefinedGallery** that allows a builder to also visually build the definitions.

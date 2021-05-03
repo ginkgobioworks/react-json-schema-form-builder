@@ -385,6 +385,7 @@ export default function FormBuilder({
               addCardObj({
                 schema: schemaData,
                 uischema: uiSchemaData,
+                mods: mods,
                 onChange: (newSchema, newUiSchema) =>
                   onChange(stringify(newSchema), stringify(newUiSchema)),
                 definitionData: schemaData.definitions,

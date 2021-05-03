@@ -149,6 +149,7 @@ class JsonSchemaFormEditor extends React.Component<Props, State> {
                     <FormBuilder
                       schema={this.props.schema}
                       uischema={this.props.uischema}
+                      mods={this.props.mods}
                       onChange={(newSchema: string, newUiSchema: string) => {
                         if (this.props.onChange)
                           this.props.onChange(newSchema, newUiSchema);
@@ -317,6 +318,7 @@ class JsonSchemaFormEditor extends React.Component<Props, State> {
                     <PredefinedGallery
                       schema={this.props.schema}
                       uischema={this.props.uischema}
+                      mods={{}}
                       onChange={(newSchema: string, newUiSchema: string) => {
                         if (this.props.onChange)
                           this.props.onChange(newSchema, newUiSchema);

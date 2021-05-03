@@ -1,6 +1,12 @@
 // @flow
 import * as React from 'react';
-import type { CardProps, ElementProps, FormInput, Mods } from './types';
+import type {
+  CardProps,
+  ElementProps,
+  FormInput,
+  Mods,
+  DataOptions,
+} from './types';
 
 // parse in either YAML or JSON
 export function parse(text: string) {
@@ -864,6 +870,7 @@ export function updateSchemas(
 export function addCardObj(parameters: {
   schema: { [string]: any },
   uischema: { [string]: any },
+  mods?: Mods,
   onChange: ({ [string]: any }, { [string]: any }) => any,
   definitionData: { [string]: any },
   definitionUi: { [string]: any },
@@ -873,6 +880,7 @@ export function addCardObj(parameters: {
   const {
     schema,
     uischema,
+    mods,
     onChange,
     definitionData,
     definitionUi,
@@ -901,14 +909,12 @@ export function addCardObj(parameters: {
         ) + 1
       : 1;
 
+  const dataOptions = getNewElementDefaultDataOptions(i, mods);
+
   const newElement = ({
     name: `newInput${i}`,
     required: false,
-    dataOptions: {
-      title: `New Input ${i}`,
-      type: 'string',
-      default: '',
-    },
+    dataOptions: dataOptions,
     uiOptions: {},
     propType: 'card',
     schema: {},
@@ -1202,6 +1208,7 @@ export function generateElementComponentsFromSchemas(parameters: {
               addCardObj({
                 schema,
                 uischema,
+                mods,
                 onChange,
                 definitionData: definitionData || {},
                 definitionUi: definitionUi || {},
@@ -1427,6 +1434,7 @@ export function generateElementComponentsFromSchemas(parameters: {
               addCardObj({
                 schema,
                 uischema,
+                mods,
                 onChange,
                 definitionData: definitionData || {},
                 definitionUi: definitionUi || {},
@@ -1589,4 +1597,32 @@ export function propagateDefinitionChanges(
     definitionUi,
     onChange,
   });
+}
+
+// Member-wise subtraction of array2 from array1
+export function subtractArray(
+  array1: Array<string>,
+  array2?: Array<string>,
+): Array<string> {
+  if (array2 === undefined || array2 === null) return array1;
+
+  const keys = array2.reduce((acc, curr) => {
+    acc[curr] = true;
+    return acc;
+  }, {});
+
+  return array1.filter((v) => !keys[v]);
+}
+
+export function getNewElementDefaultDataOptions(i: number, mods?: Mods) {
+  if (mods && mods.newElementDefaultDataOptions !== undefined) {
+    const title = `${mods.newElementDefaultDataOptions.title} ${i}`;
+    return { ...mods.newElementDefaultDataOptions, ...{ title: title } };
+  } else {
+    return {
+      title: `New Input ${i}`,
+      type: 'string',
+      default: '',
+    };
+  }
 }

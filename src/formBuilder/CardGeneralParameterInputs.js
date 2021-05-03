@@ -9,6 +9,7 @@ import {
   defaultDataProps,
   categoryToNameMap,
   categoryType,
+  subtractArray,
 } from './utils';
 import type { Parameters, Mods, FormInput } from './types';
 import Tooltip from './Tooltip';
@@ -42,6 +43,22 @@ export default function CardGeneralParameterInputs({
   const displayNameLabel = fetchLabel('displayNameLabel', 'Display Name');
   const descriptionLabel = fetchLabel('descriptionLabel', 'Description');
   const inputTypeLabel = fetchLabel('inputTypeLabel', 'Input Type');
+
+  const availableInputTypes = () => {
+    const definitionsInSchema =
+      parameters.definitionData &&
+      Object.keys(parameters.definitionData).length !== 0;
+
+    // Hide the "Reference" option if there are no definitions in the schema
+    let inputKeys = Object.keys(categoryMap).filter(
+      (key) => key !== 'ref' || definitionsInSchema,
+    );
+
+    // Exclude hidden inputs based on mods
+    if (mods) inputKeys = subtractArray(inputKeys, mods.deactivatedFormInputs);
+
+    return inputKeys.map((key) => ({ value: key, label: categoryMap[key] }));
+  };
 
   return (
     <div>
@@ -158,17 +175,7 @@ export default function CardGeneralParameterInputs({
             label: categoryMap[parameters.category],
           }}
           placeholder='Category'
-          options={Object.keys(categoryMap)
-            .filter(
-              (key) =>
-                key !== 'ref' ||
-                (parameters.definitionData &&
-                  Object.keys(parameters.definitionData).length !== 0),
-            )
-            .map((key) => ({
-              value: key,
-              label: categoryMap[key],
-            }))}
+          options={availableInputTypes()}
           onChange={(val: any) => {
             // figure out the new 'type'
             const newCategory = val.value;
