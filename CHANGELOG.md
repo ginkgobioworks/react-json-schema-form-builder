@@ -1,6 +1,21 @@
 # Changelog
 
-## [2.1.1] - 2021-04-12
+## [2.3.0] - 2021-05-03
+
+### Added
+
+- Added recognition of "schema" and "meta" keywords in the JSON schema.
+- Added ability to deactivate form inputs.
+
+### Changed
+
+- Updated dependencies
+
+### Fixed
+
+- In certain instances, definitions of type "object" would cause an error. (See [pr #78](https://github.com/ginkgobioworks/react-json-schema-form-builder/pull/78).)
+
+## [2.2.0] - 2021-04-12
 
 ### Added
 
