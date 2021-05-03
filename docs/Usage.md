@@ -255,23 +255,6 @@ class Example extends Component {
 }
 ```
 
-The full type definition of the mods that can be passed into the `FormBuilder` and `PredefinedGallery` (they must be passed into both!) are as follows:
-
-``` react
-export type Mods = {
-  customFormInputs?: {
-    [string]: FormInput
-  },
-  tooltipDescriptions?: {
-    add?: string,
-    cardObjectName?: string,
-    cardDisplayName?: string,
-    cardDescription?: string,
-    cardInputType?: string
-  }
-}
-```
-
 The `customFormInputs` define the logic that translates abstract "Input Types" into raw data schema and UI schema. For more information about these Custon Form Inputs, see the page [here](Mods.md).
 
 The `tooltipDescriptions` allows an implementation of the `FormBuilder` that changes the tooltip descriptions that appear on hover over certain areas of the tool. The `add` popup appears when hovering over the plus buttons, the `cardObjectName` is the name of the back end name that appears in every card object input, the `cardDisplayName` allows rewriting the description of the display name tooltip, the `cardDescription` option allows overwriting the tooltip for the description, and the `cardInputType` allows setting a custom tooltip for the Input Type dropdown.

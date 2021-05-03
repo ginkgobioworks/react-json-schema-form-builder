@@ -13,7 +13,6 @@ import {
   generateCategoryHash,
   generateElementComponentsFromSchemas,
   subtractArray,
-  objectExcluding,
   getNewElementDefaultDataOptions,
 } from './utils';
 import DEFAULT_FORM_INPUTS from './defaults/defaultFormInputs';
@@ -547,78 +546,6 @@ describe('subtractArray', () => {
 
     const expectedResult = ['d', 'e'];
     const actualResult = subtractArray(array1, array2);
-
-    expect(actualResult).toEqual(expectedResult);
-  });
-});
-
-describe('objectExcluding', () => {
-  it('returns the original object if no keys are excluded', () => {
-    const object = { key1: 'value1', key2: 'value2' };
-    const keysToExclude = [];
-
-    const expectedResult = { key1: 'value1', key2: 'value2' };
-    const actualResult = objectExcluding(object, keysToExclude);
-
-    expect(actualResult).toEqual(expectedResult);
-  });
-
-  it('returns the original object if no keys that are excluded exist in the object', () => {
-    const object = { key1: 'value1', key2: 'value2' };
-    const keysToExclude = ['key3'];
-
-    const expectedResult = { key1: 'value1', key2: 'value2' };
-    const actualResult = objectExcluding(object, keysToExclude);
-
-    expect(actualResult).toEqual(expectedResult);
-  });
-
-  it('returns an empty object if the original object is empty', () => {
-    const object = {};
-    const keysToExclude = ['key1', 'key2'];
-
-    const expectedResult = {};
-    const actualResult = objectExcluding(object, keysToExclude);
-
-    expect(actualResult).toEqual(expectedResult);
-  });
-
-  it('returns undefined if the original object is undefined', () => {
-    const object = undefined;
-    const keysToExclude = ['key1', 'key2'];
-
-    const expectedResult = undefined;
-    const actualResult = objectExcluding(object, keysToExclude);
-
-    expect(actualResult).toEqual(expectedResult);
-  });
-
-  it('returns null if the original object is null', () => {
-    const object = null;
-    const keysToExclude = ['key1', 'key2'];
-
-    const expectedResult = null;
-    const actualResult = objectExcluding(object, keysToExclude);
-
-    expect(actualResult).toEqual(expectedResult);
-  });
-
-  it('returns an empty object if all keys are excluded', () => {
-    const object = { key1: 'One', key2: 'Two' };
-    const keysToExclude = ['key1', 'key2'];
-
-    const expectedResult = {};
-    const actualResult = objectExcluding(object, keysToExclude);
-
-    expect(actualResult).toEqual(expectedResult);
-  });
-
-  it('returns an object excluding the excluded keys', () => {
-    const object = { key1: 'One', key2: 'Two', key3: 'Three' };
-    const keysToExclude = ['key1', 'key2'];
-
-    const expectedResult = { key3: 'Three' };
-    const actualResult = objectExcluding(object, keysToExclude);
 
     expect(actualResult).toEqual(expectedResult);
   });

@@ -1606,20 +1606,6 @@ export function subtractArray(
   else return array1.filter((element: string) => !array2.includes(element));
 }
 
-export function objectExcluding(
-  object: any,
-  keysToExclude: Array<string>,
-): any {
-  if (object === null || object === undefined) return object;
-  else {
-    const result = { ...object };
-    keysToExclude.forEach(function (key) {
-      delete result[key];
-    });
-    return result;
-  }
-}
-
 export function getNewElementDefaultDataOptions(i: number, mods?: Mods) {
   if (mods && mods.newElementDefaultDataOptions !== undefined) {
     const title = `${mods.newElementDefaultDataOptions.title} ${i}`;
