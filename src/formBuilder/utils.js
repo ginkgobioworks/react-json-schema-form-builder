@@ -907,7 +907,7 @@ export function addCardObj(parameters: {
         ) + 1
       : 1;
 
-  const dataOptions = getNewElementDataOptions(i, mods);
+  const dataOptions = getNewElementDefaultDataOptions(i, mods);
 
   const newElement = ({
     name: `newInput${i}`,
@@ -1620,10 +1620,10 @@ export function objectExcluding(
   }
 }
 
-export function getNewElementDataOptions(i: number, mods?: Mods) {
-  if (mods && mods.newElementDataOptions !== undefined) {
-    const title = `${mods.newElementDataOptions.title} ${i}`;
-    return { ...mods.newElementDataOptions, ...{ title: title } };
+export function getNewElementDefaultDataOptions(i: number, mods?: Mods) {
+  if (mods && mods.newElementDefaultDataOptions !== undefined) {
+    const title = `${mods.newElementDefaultDataOptions.title} ${i}`;
+    return { ...mods.newElementDefaultDataOptions, ...{ title: title } };
   } else {
     return {
       title: `New Input ${i}`,

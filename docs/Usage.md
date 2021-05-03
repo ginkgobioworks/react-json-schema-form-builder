@@ -288,7 +288,7 @@ mods = {
 
 This will hide these Input Types on the `FormBuilder` component.
 
-### Default New Form Element (newElementDataOptions)
+### Default New Form Element (newElementDefaultDataOptions)
 
 By default, when adding a new form element, the dataOptions are set to:
 
@@ -300,11 +300,11 @@ By default, when adding a new form element, the dataOptions are set to:
 }
 ```
 
-This means that by default, a new form element has the "Short answer" input type.  If you wish to override this (for example, if the "Short answer" input is deactivated), you can do so by using the `newElementDataOptions` mod.  For example, setting the mods to the following:
+This means that by default, a new form element has the "Short answer" input type.  If you wish to override this (for example, if the "Short answer" input is deactivated), you can do so by using the `newElementDefaultDataOptions` mod.  For example, setting the mods to the following:
 
 ```react
 mods = {
-  newElementDataOptions: {
+  newElementDefaultDataOptions: {
     '$ref': '#/definitions/firstNames',
     title: 'Field',
   },

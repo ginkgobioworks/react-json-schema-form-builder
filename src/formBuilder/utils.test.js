@@ -14,7 +14,7 @@ import {
   generateElementComponentsFromSchemas,
   subtractArray,
   objectExcluding,
-  getNewElementDataOptions,
+  getNewElementDefaultDataOptions,
 } from './utils';
 import DEFAULT_FORM_INPUTS from './defaults/defaultFormInputs';
 
@@ -624,7 +624,7 @@ describe('objectExcluding', () => {
   });
 });
 
-describe('getNewElementDataOptions', () => {
+describe('getNewElementDefaultDataOptions', () => {
   it('returns a default dataOptions when undefined mods are passed', () => {
     const i = 1;
     const mods = undefined;
@@ -634,7 +634,7 @@ describe('getNewElementDataOptions', () => {
       default: '',
     };
 
-    const actualDataOptions = getNewElementDataOptions(i, mods);
+    const actualDataOptions = getNewElementDefaultDataOptions(i, mods);
 
     expect(actualDataOptions).toEqual(expectedDataOptions);
   });
@@ -648,12 +648,12 @@ describe('getNewElementDataOptions', () => {
       default: '',
     };
 
-    const actualDataOptions = getNewElementDataOptions(i, mods);
+    const actualDataOptions = getNewElementDefaultDataOptions(i, mods);
 
     expect(actualDataOptions).toEqual(expectedDataOptions);
   });
 
-  it('returns a default dataOptions when mods without newElementDataOptions are passed', () => {
+  it('returns a default dataOptions when mods without newElementDefaultDataOptions are passed', () => {
     const i = 1;
     const mods = {
       labels: {
@@ -666,15 +666,15 @@ describe('getNewElementDataOptions', () => {
       default: '',
     };
 
-    const actualDataOptions = getNewElementDataOptions(i, mods);
+    const actualDataOptions = getNewElementDefaultDataOptions(i, mods);
 
     expect(actualDataOptions).toEqual(expectedDataOptions);
   });
 
-  it('returns dataOptions with a $ref when mods with newElementDataOptions are passed', () => {
+  it('returns dataOptions with a $ref when mods with newElementDefaultDataOptions are passed', () => {
     const i = 1;
     const mods = {
-      newElementDataOptions: {
+      newElementDefaultDataOptions: {
         title: 'Input Field',
         $ref: '#/definitions/someDefinition',
       },
@@ -684,15 +684,15 @@ describe('getNewElementDataOptions', () => {
       $ref: '#/definitions/someDefinition',
     };
 
-    const actualDataOptions = getNewElementDataOptions(i, mods);
+    const actualDataOptions = getNewElementDefaultDataOptions(i, mods);
 
     expect(actualDataOptions).toEqual(expectedDataOptions);
   });
 
-  it('returns dataOptions with another kind of field when mods with newElementDataOptions are passed', () => {
+  it('returns dataOptions with another kind of field when mods with newElementDefaultDataOptions are passed', () => {
     const i = 1;
     const mods = {
-      newElementDataOptions: {
+      newElementDefaultDataOptions: {
         title: 'Input',
         type: 'number',
         default: 1,
@@ -708,7 +708,7 @@ describe('getNewElementDataOptions', () => {
       maximum: 10,
     };
 
-    const actualDataOptions = getNewElementDataOptions(i, mods);
+    const actualDataOptions = getNewElementDefaultDataOptions(i, mods);
 
     expect(actualDataOptions).toEqual(expectedDataOptions);
   });

@@ -34,7 +34,7 @@ declare type Mods = {|
   |},
   showFormHead?: boolean,
   deactivatedFormInputs?: Array<string>,
-  newElementDataOptions?: {
+  newElementDefaultDataOptions?: {
     title: string,
     type?: string,
     description?: string,

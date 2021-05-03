@@ -88,7 +88,7 @@ declare module '@ginkgo-bioworks/react-json-schema-form-builder' {
     |},
     showFormHead?: boolean,
     deactivatedFormInputs?: Array<string>,
-    newElementDataOptions?: DataOptions,
+    newElementDefaultDataOptions?: DataOptions,
   |};
 
   declare type FormBuilderProps = {|
