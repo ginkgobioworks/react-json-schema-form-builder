@@ -1603,7 +1603,13 @@ export function subtractArray(
   array2?: Array<string>,
 ): Array<string> {
   if (array2 === undefined || array2 === null) return array1;
-  else return array1.filter((element: string) => !array2.includes(element));
+
+  const keys = array2.reduce((acc, curr) => {
+    acc[curr] = true;
+    return acc;
+  }, {});
+
+  return array1.filter((v) => !keys[v]);
 }
 
 export function getNewElementDefaultDataOptions(i: number, mods?: Mods) {
