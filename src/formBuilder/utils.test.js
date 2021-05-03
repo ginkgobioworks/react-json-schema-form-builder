@@ -242,6 +242,24 @@ describe('checkForUnsupportedFeatures', () => {
     ).toEqual([]);
   });
 
+  it('gives no warnings for the inclusion of $schema and meta keywords', () => {
+    let testSchema = {
+      type: 'object',
+      $schema: 'http://json-schema.org/draft-07/schema#',
+      meta: {
+        some: 'meta information',
+      },
+    };
+    let testUischema = {};
+    expect(
+      checkForUnsupportedFeatures(
+        testSchema,
+        testUischema,
+        DEFAULT_FORM_INPUTS,
+      ),
+    ).toEqual([]);
+  });
+
   it('gives warnings for unknown features in schema', () => {
     let testSchema = {
       type: 'object',

@@ -136,6 +136,8 @@ const supportedPropertyParameters = new Set([
   'enumNames',
   'dependencies',
   '$id',
+  '$schema',
+  'meta',
 ]);
 
 const supportedUiParameters = new Set([
