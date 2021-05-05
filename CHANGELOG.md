@@ -1,11 +1,22 @@
 # Changelog
 
+## [2.3.1] - 2021-05-05
+
+### Fixed
+
+- Ability to deactivate form inputs while still being able to set a "string" type custom form input as default.
+
+### Changed
+
+- Updated package-lock.json dependencies.
+
 ## [2.3.0] - 2021-05-03
 
 ### Added
 
 - Added recognition of "schema" and "meta" keywords in the JSON schema.
 - Added ability to deactivate form inputs.
+- Added ability to specify different default form input options.
 
 ### Changed
 
