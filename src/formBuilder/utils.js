@@ -1614,6 +1614,23 @@ export function subtractArray(
   return array1.filter((v) => !keys[v]);
 }
 
+export function excludeKeys(
+  obj: { [string]: any },
+  keys: ?(string[]),
+): { [string]: any } {
+  if (!keys) return { ...obj };
+
+  const keysHash = keys.reduce((acc, curr) => {
+    acc[curr] = true;
+    return acc;
+  }, {});
+
+  return Object.keys(obj).reduce(
+    (acc, curr) => (keysHash[curr] ? acc : { ...acc, [curr]: obj[curr] }),
+    {},
+  );
+}
+
 export function getNewElementDefaultDataOptions(i: number, mods?: Mods) {
   if (mods && mods.newElementDefaultDataOptions !== undefined) {
     const title = `${mods.newElementDefaultDataOptions.title} ${i}`;
