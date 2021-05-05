@@ -7,6 +7,7 @@ import {
   stringify,
   propagateDefinitionChanges,
   generateCategoryHash,
+  excludeKeys,
 } from './utils';
 import { arrows as arrowsStyle } from './styles';
 import DEFAULT_FORM_INPUTS from './defaults/defaultFormInputs';
@@ -133,10 +134,13 @@ export default function PredefinedGallery({
   const classes = useStyles();
   const schemaData = (parse(schema): { [string]: any }) || {};
   const uiSchemaData = (parse(uischema): { [string]: any }) || {};
-  const allFormInputs = {
-    ...DEFAULT_FORM_INPUTS,
-    ...(mods && mods.customFormInputs),
-  };
+  const allFormInputs = excludeKeys(
+    {
+      ...DEFAULT_FORM_INPUTS,
+      ...(mods && mods.customFormInputs),
+    },
+    mods && mods.deactivatedFormInputs,
+  );
   const categoryHash = generateCategoryHash(allFormInputs);
 
   React.useEffect(() => {

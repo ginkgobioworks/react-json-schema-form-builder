@@ -13,6 +13,7 @@ import {
   generateCategoryHash,
   generateElementComponentsFromSchemas,
   subtractArray,
+  excludeKeys,
   getNewElementDefaultDataOptions,
 } from './utils';
 import DEFAULT_FORM_INPUTS from './defaults/defaultFormInputs';
@@ -564,6 +565,58 @@ describe('subtractArray', () => {
 
     const expectedResult = ['d', 'e'];
     const actualResult = subtractArray(array1, array2);
+
+    expect(actualResult).toEqual(expectedResult);
+  });
+});
+
+describe('excludeKeys', () => {
+  it('returns the given object excluding the given keys', () => {
+    const obj = { foo: 'bar', biz: 'baz', boo: 'baa', bla: 'bee' };
+    const keys = ['biz', 'boo', 'extraKey'];
+
+    const expectedResult = { foo: 'bar', bla: 'bee' };
+    const actualResult = excludeKeys(obj, keys);
+
+    expect(actualResult).toEqual(expectedResult);
+  });
+
+  it('returns the given object if keys is empty', () => {
+    const obj = { foo: 'bar', biz: 'baz', boo: 'baa', bla: 'bee' };
+    const keys = [];
+
+    const expectedResult = { foo: 'bar', biz: 'baz', boo: 'baa', bla: 'bee' };
+    const actualResult = excludeKeys(obj, keys);
+
+    expect(actualResult).toEqual(expectedResult);
+  });
+
+  it('returns the given object if keys is undefined', () => {
+    const obj = { foo: 'bar', biz: 'baz', boo: 'baa', bla: 'bee' };
+    const keys = undefined;
+
+    const expectedResult = { foo: 'bar', biz: 'baz', boo: 'baa', bla: 'bee' };
+    const actualResult = excludeKeys(obj, keys);
+
+    expect(actualResult).toEqual(expectedResult);
+  });
+
+  it('returns the given object if keys is null', () => {
+    const obj = { foo: 'bar', biz: 'baz', boo: 'baa', bla: 'bee' };
+    const keys = null;
+
+    const expectedResult = { foo: 'bar', biz: 'baz', boo: 'baa', bla: 'bee' };
+    const actualResult = excludeKeys(obj, keys);
+
+    expect(actualResult).toEqual(expectedResult);
+  });
+
+  it('returns an empty object if both obj and keys are empty', () => {
+    const obj = {};
+    const keys = [];
+
+    const expectedResult = {};
+    const actualResult = excludeKeys(obj, keys);
 
     expect(actualResult).toEqual(expectedResult);
   });
