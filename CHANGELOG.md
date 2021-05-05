@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.4.0] - 2021-05-05
+
+### Added
+
+- Added the ability to set a default UI schema for new elements (`newElementDefaultUiSchema` mod).
+
 ## [2.3.1] - 2021-05-05
 
 ### Fixed
