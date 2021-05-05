@@ -915,7 +915,7 @@ export function addCardObj(parameters: {
     name: `newInput${i}`,
     required: false,
     dataOptions: dataOptions,
-    uiOptions: {},
+    uiOptions: (mods && mods.newElementDefaultUiSchema) || {},
     propType: 'card',
     schema: {},
     uischema: {},
