@@ -271,9 +271,9 @@ mods = {
 
 This will hide these Input Types on the `FormBuilder` component.
 
-### Default New Form Element (newElementDefaultDataOptions)
+### Default New Form Element (newElementDefaultDataOptions and newElementDefaultUiSchema)
 
-By default, when adding a new form element, the dataOptions are set to:
+By default, when adding a new form element, the schema for the new form element is set to:
 
 ```react
 {
@@ -283,7 +283,7 @@ By default, when adding a new form element, the dataOptions are set to:
 }
 ```
 
-This means that by default, a new form element has the "Short answer" input type.  If you wish to override this (for example, if the "Short answer" input is deactivated), you can do so by using the `newElementDefaultDataOptions` mod.  For example, setting the mods to the following:
+and the UI schema is not set at all. This means that by default, a new form element has the "Short answer" input type.  If you wish to override this (for example, if the "Short answer" input is deactivated), you can do so by using the `newElementDefaultDataOptions` and `newElementDefaultUiSchema` mods.  For example, setting the mods to the following:
 
 ```react
 mods = {
@@ -294,7 +294,17 @@ mods = {
 };
 ```
 
-will default new form elements to a "Reference" type to some definition "firstNames" defined in the schema.
+will default new form elements to a "Reference" type to some definition "firstNames" defined in the schema. Setting the mods to the following:
+
+```react
+mods = {
+  newElementDefaultUiSchema: {
+    'ui:widget': 'customWidget',
+  }
+};
+```
+
+will set the UI schema for a new element to use the `customWidget` widget.
 
 ### Styling
 

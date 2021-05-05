@@ -136,6 +136,7 @@ export type Mods = {
   showFormHead?: boolean,
   deactivatedFormInputs?: Array<string>,
   newElementDefaultDataOptions?: DataOptions,
+  newElementDefaultUiSchema?: { [string]: any },
 };
 
 export type FormInput = FormInputType<Mods>;

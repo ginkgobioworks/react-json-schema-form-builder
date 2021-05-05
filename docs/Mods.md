@@ -41,6 +41,7 @@ declare type Mods = {|
     $ref?: string,
     default?: string,
   },
+  newElementDefaultUiSchema?: { [string]: any },
 |};
 ```
 
