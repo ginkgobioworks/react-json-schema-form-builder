@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.4.1] - 2021-05-06
+
+### Fixed
+
+- Ablity to deactivate shortAnswer form input type without the form builder crashing when it cannot recognize a form input type in a schema.
+
 ## [2.4.0] - 2021-05-05
 
 ### Added
