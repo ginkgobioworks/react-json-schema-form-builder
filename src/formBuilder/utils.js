@@ -43,7 +43,10 @@ export function getCardBody(
   category: string,
   allFormInputs: { [string]: FormInput },
 ) {
-  return allFormInputs[category].cardBody;
+  return (
+    (allFormInputs[category] && allFormInputs[category].cardBody) ||
+    (() => null)
+  );
 }
 export function categoryToNameMap(
   category: string,
@@ -833,7 +836,10 @@ export function getCardParameterInputComponentForType(
   category: string,
   allFormInputs: { [string]: FormInput },
 ) {
-  return allFormInputs[category].modalBody || (() => null);
+  return (
+    (allFormInputs[category] && allFormInputs[category].modalBody) ||
+    (() => null)
+  );
 }
 
 // takes in an array of Card Objects and updates both schemas
