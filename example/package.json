@@ -18,7 +18,7 @@
     "@ginkgo-bioworks/react-json-schema-form-builder": "file:..",
     "@rjsf/bootstrap-4": "^2.4.1",
     "@rjsf/core": "^2.4.1",
-    "bootstrap": "^4.6.0",
+    "bootstrap": "^5.0.0",
     "react": "file:../node_modules/react",
     "react-bootstrap": "^1.4.2",
     "react-dom": "file:../node_modules/react-dom",
