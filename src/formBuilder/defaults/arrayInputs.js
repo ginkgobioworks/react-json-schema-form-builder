@@ -135,9 +135,8 @@ function getInnerCardComponent({
             });
           },
           path: typeof parameters.path === 'string' ? parameters.path : 'array',
-          definitionData:
-            typeof definitionData === 'string' ? definitionData : {},
-          definitionUi: typeof definitionUi === 'string' ? definitionUi : {},
+          definitionData,
+          definitionUi,
           hideKey: true,
           cardOpenArray: [cardOpen],
           setCardOpenArray: (newArr) => setCardOpen(newArr[0]),
