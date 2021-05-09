@@ -97,6 +97,7 @@ export default function CardModal({
         <Button
           onClick={() => {
             onClose();
+            setComponentProps(componentProps);
           }}
           color='secondary'
         >
