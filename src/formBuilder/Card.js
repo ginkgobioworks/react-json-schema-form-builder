@@ -33,6 +33,9 @@ const useStyles = createUseStyles({
       width: '50%',
       'text-align': 'left',
       padding: '0.5em',
+      '&.wide-card-entry': {
+        width: '100%',
+      },
     },
     '& input': {
       border: '1px solid gray',
@@ -103,6 +106,7 @@ export default function Card({
   setCardOpen,
   allFormInputs,
   mods,
+  showObjectNameInput = true,
 }: {
   componentProps: {
     [string]: string | number | boolean | Array<string | number>,
@@ -121,6 +125,7 @@ export default function Card({
   setCardOpen: (newState: boolean) => void,
   mods?: Mods,
   allFormInputs: { [string]: FormInput },
+  showObjectNameInput?: boolean,
 }) {
   const classes = useStyles();
   const [modalOpen, setModalOpen] = React.useState(false);
@@ -191,6 +196,7 @@ export default function Card({
             onChange={onChange}
             allFormInputs={allFormInputs}
             mods={mods}
+            showObjectNameInput={showObjectNameInput}
           />
         </div>
         <div className={classes.cardInteractions}>
