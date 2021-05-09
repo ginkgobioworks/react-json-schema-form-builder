@@ -125,13 +125,13 @@ function getInnerCardComponent({
           }_issection`}
         />
         {generateElementComponentsFromSchemas({
-          schemaData: { properties: { Item: newDataProps.items } },
-          uiSchemaData: { Item: newUiProps.items },
+          schemaData: { properties: { item: newDataProps.items } },
+          uiSchemaData: { item: newUiProps.items },
           onChange: (schema, uischema) => {
             onChange({
               ...parameters,
-              items: schema.properties.Item,
-              'ui:*items': uischema.Item || {},
+              items: schema.properties.item,
+              'ui:*items': uischema.item || {},
             });
           },
           path: typeof parameters.path === 'string' ? parameters.path : 'array',
@@ -143,7 +143,7 @@ function getInnerCardComponent({
           allFormInputs,
           mods,
           categoryHash: generateCategoryHash(allFormInputs),
-          Card,
+          Card: (props) => <Card {...props} showObjectNameInput={false} />,
           Section,
         })}
       </div>
