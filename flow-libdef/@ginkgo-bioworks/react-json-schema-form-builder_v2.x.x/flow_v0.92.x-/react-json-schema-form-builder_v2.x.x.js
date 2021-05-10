@@ -20,8 +20,7 @@ declare module '@ginkgo-bioworks/react-json-schema-form-builder' {
     | 'boolean'
     | 'integer'
     | 'array'
-    | '*'
-    | null;
+    | 'object'
 
   declare type MatchType = {|
     types: Array<DataType>,
@@ -89,13 +88,13 @@ declare module '@ginkgo-bioworks/react-json-schema-form-builder' {
     showFormHead?: boolean,
     deactivatedFormInputs?: Array<string>,
     newElementDefaultDataOptions?: DataOptions,
-    newElementDefaultUiSchema?: { [string]: any },
+    newElementDefaultUiSchema?: { [string]: any, ... },
   |};
 
   declare type FormBuilderProps = {|
     schema: string,
     uischema: string,
-    onChange: (string, string) => any,
+    onChange: (schema: string, uiSchema: string) => any,
     mods?: Mods,
     className?: string,
   |};

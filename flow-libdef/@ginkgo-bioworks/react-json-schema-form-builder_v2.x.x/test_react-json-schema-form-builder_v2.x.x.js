@@ -66,7 +66,28 @@ describe('@ginkgo-bioworks/react-json-schema-form-builder', () => {
         cardDisplayName: 'card display name text',
         cardDescription: 'card description text',
         cardInputType: 'card input type text',
+        cardSectionObjectName: 'card section object name text',
+        cardSectionDisplayName: 'card section display name text',
+        cardSectionDescription: 'card section description text',
       },
+      labels: {
+        formNameLabel: 'alternative form name label',
+        formDescriptionLabel: 'alternative form description label',
+        objectNameLabel: 'alternative object name label',
+        displayNameLabel: 'alternative display name label',
+        descriptionLabel: 'alternative description label',
+        inputTypeLabel: 'alternative input type lablel',
+      },
+      showFormHead: false,
+      deactivatedFormInputs: ['shortAnswer'],
+      newElementDefaultDataOptions: {
+        title: 'new title',
+        type: 'string',
+        description: 'new description',
+        $ref: '#/definitions/newDefinition',
+        default: 'new default value',
+      },
+      newElementDefaultUiSchema: { 'ui:widget': 'foobiz' },
     },
   };
   const extraneousProps = {
@@ -99,12 +120,12 @@ describe('@ginkgo-bioworks/react-json-schema-form-builder', () => {
   });
 
   it('form builder errors on extraneous properties passed in', () => {
-    // $FlowExpectedError
+    // $FlowExpectedError[prop-missing]
     <FormBuilder {...extraneousProps} />
   });
 
   it('form builder errors on improper mods passed in', () => {
-    // $FlowExpectedError
+    // $FlowExpectedError[prop-missing]
     <FormBuilder {...malformedMods} />
   });
 
@@ -121,12 +142,12 @@ describe('@ginkgo-bioworks/react-json-schema-form-builder', () => {
   })
 
   it('predefined gallery errors on extraneous properties passed in', () => {
-    // $FlowExpectedError
+    // $FlowExpectedError[prop-missing]
     <PredefinedGallery {...extraneousProps} />
   });
 
   it('predefined gallery errors on improper mods passed in', () => {
-    // $FlowExpectedError
+    // $FlowExpectedError[prop-missing]
     <PredefinedGallery {...malformedMods} />
   });
 });
