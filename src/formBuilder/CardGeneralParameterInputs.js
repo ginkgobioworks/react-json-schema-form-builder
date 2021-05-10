@@ -3,6 +3,7 @@
 import React from 'react';
 import Select from 'react-select';
 import { Input } from 'reactstrap';
+import classnames from 'classnames';
 import GeneralParameterInputs from './GeneralParameterInputs';
 import {
   defaultUiProps,
@@ -20,11 +21,13 @@ export default function CardGeneralParameterInputs({
   onChange,
   allFormInputs,
   mods,
+  showObjectNameInput = true,
 }: {
   parameters: Parameters,
   onChange: (newParams: Parameters) => void,
   mods?: Mods,
   allFormInputs: { [string]: FormInput },
+  showObjectNameInput?: boolean,
 }) {
   const [keyState, setKeyState] = React.useState(parameters.name);
   const [titleState, setTitleState] = React.useState(parameters.title);
@@ -62,38 +65,40 @@ export default function CardGeneralParameterInputs({
 
   return (
     <div>
-      <div className='card-entry'>
-        <h5>
-          {`${objectNameLabel} `}
-          <Tooltip
-            text={
-              mods &&
-              mods.tooltipDescriptions &&
-              typeof mods.tooltipDescriptions.cardObjectName === 'string'
-                ? mods.tooltipDescriptions.cardObjectName
-                : 'The back-end name of the object'
-            }
-            id={`${(keyState: string)}_nameinfo`}
-            type='help'
-          />
-        </h5>
+      {showObjectNameInput && (
+        <div className='card-entry'>
+          <h5>
+            {`${objectNameLabel} `}
+            <Tooltip
+              text={
+                mods &&
+                mods.tooltipDescriptions &&
+                typeof mods.tooltipDescriptions.cardObjectName === 'string'
+                  ? mods.tooltipDescriptions.cardObjectName
+                  : 'The back-end name of the object'
+              }
+              id={`${(keyState: string)}_nameinfo`}
+              type='help'
+            />
+          </h5>
 
-        <Input
-          value={keyState || ''}
-          placeholder='Key'
-          type='text'
-          onChange={(ev: SyntheticInputEvent<HTMLInputElement>) =>
-            setKeyState(ev.target.value.replace(/\W/g, '_'))
-          }
-          onBlur={(ev: SyntheticInputEvent<HTMLInputElement>) =>
-            onChange({
-              ...parameters,
-              name: ev.target.value,
-            })
-          }
-          className='card-text'
-        />
-      </div>
+          <Input
+            value={keyState || ''}
+            placeholder='Key'
+            type='text'
+            onChange={(ev: SyntheticInputEvent<HTMLInputElement>) =>
+              setKeyState(ev.target.value.replace(/\W/g, '_'))
+            }
+            onBlur={(ev: SyntheticInputEvent<HTMLInputElement>) =>
+              onChange({
+                ...parameters,
+                name: ev.target.value,
+              })
+            }
+            className='card-text'
+          />
+        </div>
+      )}
       <div
         className={`card-entry ${
           parameters.$ref === undefined ? '' : 'disabled-input'
@@ -154,7 +159,11 @@ export default function CardGeneralParameterInputs({
           className='card-text'
         />
       </div>
-      <div className='card-entry'>
+      <div
+        className={classnames('card-entry', {
+          'wide-card-entry': !showObjectNameInput,
+        })}
+      >
         <h5>
           {`${inputTypeLabel} `}
           <Tooltip
