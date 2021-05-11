@@ -20,7 +20,7 @@
     "@rjsf/core": "^2.4.1",
     "bootstrap": "^4.6.0",
     "react": "file:../node_modules/react",
-    "react-bootstrap": "^1.4.2",
+    "react-bootstrap": "^1.6.0",
     "react-dom": "file:../node_modules/react-dom",
     "react-json-editor-ajrm": "^2.5.13"
   },
