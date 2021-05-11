@@ -49,9 +49,8 @@ export default function CardModal({
 }) {
   const classes = useStyles();
   // assign state values for parameters that should only change on hitting "Save"
-  const [componentPropsState, setComponentProps] = React.useState(
-    componentProps,
-  );
+  const [componentPropsState, setComponentProps] =
+    React.useState(componentProps);
 
   React.useEffect(() => {
     setComponentProps(componentProps);
