@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.4.2] - 2021-05-09
+
+### Fixed
+
+- CardModal state was not being reverted when the cancel button was pressed. (See [issue #98](https://github.com/ginkgobioworks/react-json-schema-form-builder/issues/98).)
+- Object name of array item was editable when it should not have been. (See [issue #31](https://github.com/ginkgobioworks/react-json-schema-form-builder/issues/31).)
+- Could not select Reference as input type for array item. (See [pr #97](https://github.com/ginkgobioworks/react-json-schema-form-builder/pull/97).)
+
+### Changed
+
+- Updated dependencies
+
 ## [2.4.1] - 2021-05-06
 
 ### Fixed
