@@ -431,13 +431,8 @@ export function generateElementPropsFromSchemas(parameters: {
   definitionUi?: { [string]: any },
   categoryHash: { [string]: string },
 }) {
-  const {
-    schema,
-    uischema,
-    definitionData,
-    definitionUi,
-    categoryHash,
-  } = parameters;
+  const { schema, uischema, definitionData, definitionUi, categoryHash } =
+    parameters;
 
   if (!schema.properties) return [];
 

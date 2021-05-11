@@ -66,7 +66,6 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-react": "^7.21.5",
     "eslint-plugin-react-hooks": "^4.2.0",
-    "eslint-plugin-standard": "^5.0.0",
     "flow-bin": "^0.101.0",
     "flow-typed": "^3.2.1",
     "microbundle-crl": "^0.13.10",
@@ -85,8 +84,6 @@
     "react-beautiful-dnd": "^13.0.0",
     "react-jss": "^10.4.0",
     "react-select": "^4.3.0",
-    "react-spinners": "^0.10.6",
-    "react-switch": "^6.0.0",
     "reactstrap": "^8.6.0"
   },
   "jest": {
