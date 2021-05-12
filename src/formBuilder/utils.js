@@ -148,7 +148,7 @@ const supportedUiParameters = new Set([
   'ui:widget',
   'ui:autofocus',
   'ui:autocomplete',
-  'ui:option',
+  'ui:options',
   'ui:field',
   'items',
   'definitions',
