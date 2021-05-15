@@ -53,7 +53,7 @@ export type Parameters = {
   definitionData: { [string]: any },
   definitionUi: { [string]: any },
   category: string,
-  'ui:option': { [string]: any },
+  'ui:options': { [string]: any },
 };
 
 type DataType =

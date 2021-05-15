@@ -148,7 +148,7 @@ const supportedUiParameters = new Set([
   'ui:widget',
   'ui:autofocus',
   'ui:autocomplete',
-  'ui:option',
+  'ui:options',
   'ui:field',
   'items',
   'definitions',
@@ -289,12 +289,12 @@ function checkObjectForUnsupportedFeatures(
               );
 
             // check unsupported ui option
-            if (uiProp === 'ui:option')
-              Object.keys(uischema[parameter]['ui:option']).forEach(
+            if (uiProp === 'ui:options')
+              Object.keys(uischema[parameter]['ui:options']).forEach(
                 (uiOption) => {
                   if (!supportedOptions.has(uiOption))
                     unsupportedFeatures.push(
-                      `UI Property: ui:option.${uiOption} for ${parameter}`,
+                      `UI Property: ui:options.${uiOption} for ${parameter}`,
                     );
                 },
               );
