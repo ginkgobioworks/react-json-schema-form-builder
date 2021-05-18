@@ -15,6 +15,9 @@ import {
   subtractArray,
   excludeKeys,
   getNewElementDefaultDataOptions,
+  addCardObj,
+  addSectionObj,
+  DEFAULT_INPUT_NAME
 } from './utils';
 import DEFAULT_FORM_INPUTS from './defaults/defaultFormInputs';
 
@@ -71,6 +74,20 @@ const elementPropArr = [
     propType: 'card',
   },
 ];
+
+function generateSchemaWithUnnamedProperties(amount: number) {
+  const properties = [...Array(10).keys()].reduce((acc, id) => {
+    return { ...acc, [`${DEFAULT_INPUT_NAME}${id + 1}`]: { type: 'string' } };
+  }, {});
+
+  return {
+    $id: 'https://example.com/person.schema.json',
+    $schema: 'https://json-schema.org/draft/2020-12/schema',
+    title: 'Test',
+    type: 'object',
+    properties: properties
+  };
+}
 
 describe('parse', () => {
   it('parses valid JSON into a JS object', () => {
@@ -709,5 +726,49 @@ describe('getNewElementDefaultDataOptions', () => {
     const actualDataOptions = getNewElementDefaultDataOptions(i, mods);
 
     expect(actualDataOptions).toEqual(expectedDataOptions);
+  });
+});
+
+describe('addCardObj', () => {
+  it('should be able to add more than 10 unnamed CardObj', () => {
+    const mockEvent = jest.fn(() => { });
+    const defaultUiSchema = {};
+    const props = {
+      schema: generateSchemaWithUnnamedProperties(10),
+      uischema: defaultUiSchema,
+      onChange: (schema, uischema) => mockEvent(schema, uischema),
+      definitionData: {},
+      definitionUi: {},
+      categoryHash: {}
+    };
+
+    addCardObj(props);
+
+    const currentSchema = mockEvent.mock.calls[0][0];
+    const inputElementsCount = Object.keys(currentSchema.properties).length;
+
+    expect(inputElementsCount).toEqual(11)
+  });
+});
+
+describe('addSectionObj', () => {
+  it('should be able to add more than 10 unnamed SectionObj', () => {
+    const mockEvent = jest.fn(() => { });
+    const defaultUiSchema = {};
+    const props = {
+      schema: generateSchemaWithUnnamedProperties(10),
+      uischema: defaultUiSchema,
+      onChange: (schema, uischema) => mockEvent(schema, uischema),
+      definitionData: {},
+      definitionUi: {},
+      categoryHash: {}
+    };
+
+    addSectionObj(props);
+
+    const currentSchema = mockEvent.mock.calls[0][0];
+    const inputElementsCount = Object.keys(currentSchema.properties).length;
+
+    expect(inputElementsCount).toEqual(11)
   });
 });

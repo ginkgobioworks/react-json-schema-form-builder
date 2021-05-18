@@ -867,6 +867,8 @@ export function updateSchemas(
   onChange(newSchema, newUiSchema);
 }
 
+export const DEFAULT_INPUT_NAME = 'newInput';
+
 // given an initial schema, update with a new card appended
 export function addCardObj(parameters: {
   schema: { [string]: any },
