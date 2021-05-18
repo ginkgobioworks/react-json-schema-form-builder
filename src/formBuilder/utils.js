@@ -869,6 +869,21 @@ export function updateSchemas(
 
 export const DEFAULT_INPUT_NAME = 'newInput';
 
+// ensure that each added block has a unique name
+function getIdFromElementsBlock(elements: Array<string>) {
+  const names = elements.map((element) => element.name);
+
+  return names.length > 0
+    ? Math.max(
+        ...names.map((name) =>
+          name.startsWith(DEFAULT_INPUT_NAME)
+            ? Number.parseInt(name.charAt(8), 10)
+            : 0,
+        ),
+      ) + 1
+    : 1;
+}
+
 // given an initial schema, update with a new card appended
 export function addCardObj(parameters: {
   schema: { [string]: any },
@@ -898,24 +913,11 @@ export function addCardObj(parameters: {
     categoryHash,
   });
 
-  // ensure that each added block has a unique name
-
-  const names = newElementObjArr.map((element) => element.name);
-  const i =
-    names.length > 0
-      ? Math.max(
-          ...names.map((name) =>
-            name.startsWith('newInput')
-              ? Number.parseInt(name.charAt(8), 10)
-              : 0,
-          ),
-        ) + 1
-      : 1;
-
+  const i = getIdFromElementsBlock(newElementObjArr);
   const dataOptions = getNewElementDefaultDataOptions(i, mods);
 
   const newElement = ({
-    name: `newInput${i}`,
+    name: `${DEFAULT_INPUT_NAME}${i}`,
     required: false,
     dataOptions: dataOptions,
     uiOptions: (mods && mods.newElementDefaultUiSchema) || {},
@@ -966,21 +968,10 @@ export function addSectionObj(parameters: {
     categoryHash,
   });
 
-  // ensure that each added block has a unique name
-  const names = newElementObjArr.map((element) => element.name);
-  const i =
-    names.length > 0
-      ? Math.max(
-          ...names.map((name) =>
-            name.startsWith('newInput')
-              ? Number.parseInt(name.charAt(8), 10)
-              : 0,
-          ),
-        ) + 1
-      : 1;
+  const i = getIdFromElementsBlock(newElementObjArr);
 
   const newElement = ({
-    name: `newInput${i}`,
+    name: `${DEFAULT_INPUT_NAME}${i}`,
     required: false,
     dataOptions: {
       title: `New Input ${i}`,
