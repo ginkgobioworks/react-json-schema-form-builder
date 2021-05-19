@@ -17,7 +17,7 @@ import {
   getNewElementDefaultDataOptions,
   addCardObj,
   addSectionObj,
-  DEFAULT_INPUT_NAME
+  DEFAULT_INPUT_NAME,
 } from './utils';
 import DEFAULT_FORM_INPUTS from './defaults/defaultFormInputs';
 
@@ -85,7 +85,7 @@ function generateSchemaWithUnnamedProperties(amount: number) {
     $schema: 'https://json-schema.org/draft/2020-12/schema',
     title: 'Test',
     type: 'object',
-    properties: properties
+    properties: properties,
   };
 }
 
@@ -731,7 +731,7 @@ describe('getNewElementDefaultDataOptions', () => {
 
 describe('addCardObj', () => {
   it('should be able to add more than 10 unnamed CardObj', () => {
-    const mockEvent = jest.fn(() => { });
+    const mockEvent = jest.fn(() => {});
     const defaultUiSchema = {};
     const props = {
       schema: generateSchemaWithUnnamedProperties(10),
@@ -739,7 +739,7 @@ describe('addCardObj', () => {
       onChange: (schema, uischema) => mockEvent(schema, uischema),
       definitionData: {},
       definitionUi: {},
-      categoryHash: {}
+      categoryHash: {},
     };
 
     addCardObj(props);
@@ -747,13 +747,13 @@ describe('addCardObj', () => {
     const currentSchema = mockEvent.mock.calls[0][0];
     const inputElementsCount = Object.keys(currentSchema.properties).length;
 
-    expect(inputElementsCount).toEqual(11)
+    expect(inputElementsCount).toEqual(11);
   });
 });
 
 describe('addSectionObj', () => {
   it('should be able to add more than 10 unnamed SectionObj', () => {
-    const mockEvent = jest.fn(() => { });
+    const mockEvent = jest.fn(() => {});
     const defaultUiSchema = {};
     const props = {
       schema: generateSchemaWithUnnamedProperties(10),
@@ -761,7 +761,7 @@ describe('addSectionObj', () => {
       onChange: (schema, uischema) => mockEvent(schema, uischema),
       definitionData: {},
       definitionUi: {},
-      categoryHash: {}
+      categoryHash: {},
     };
 
     addSectionObj(props);
@@ -769,6 +769,6 @@ describe('addSectionObj', () => {
     const currentSchema = mockEvent.mock.calls[0][0];
     const inputElementsCount = Object.keys(currentSchema.properties).length;
 
-    expect(inputElementsCount).toEqual(11)
+    expect(inputElementsCount).toEqual(11);
   });
 });

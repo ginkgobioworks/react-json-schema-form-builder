@@ -870,7 +870,7 @@ export function updateSchemas(
 export const DEFAULT_INPUT_NAME = 'newInput';
 
 // ensure that each added block has a unique name
-function getIdFromElementsBlock(elements: Array<string>) {
+function getIdFromElementsBlock(elements: Array<ElementProps>) {
   const names = elements.map((element) => element.name);
   const defaultNameLength = DEFAULT_INPUT_NAME.length;
 
