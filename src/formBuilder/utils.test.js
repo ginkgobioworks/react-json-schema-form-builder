@@ -75,7 +75,7 @@ const elementPropArr = [
   },
 ];
 
-function generateSchemaWithUnnamedProperties(amount: number) {
+function generateSchemaWithUnnamedProperties(amount) {
   const properties = [...Array(10).keys()].reduce((acc, id) => {
     return { ...acc, [`${DEFAULT_INPUT_NAME}${id + 1}`]: { type: 'string' } };
   }, {});
