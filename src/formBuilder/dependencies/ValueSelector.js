@@ -1,12 +1,13 @@
 // @flow
 
-import * as React from 'react';
+import React, { useState } from 'react';
 import { Input } from 'reactstrap';
 import { faTimes, faPlus } from '@fortawesome/free-solid-svg-icons';
 import CardEnumOptions from '../CardEnumOptions';
 import CardSelector from './CardSelector';
 import FBCheckbox from '../checkbox/FBCheckbox';
 import FontAwesomeIcon from '../FontAwesomeIcon';
+import { getRandomId } from '../utils';
 
 // handle value options for different card types
 export default function ValueSelector({
@@ -32,6 +33,7 @@ export default function ValueSelector({
   parentSchema?: any,
   path: string,
 }) {
+  const [elementId] = useState(getRandomId());
   if (possibility.value) {
     // enum type
     if (parentEnums) {
@@ -95,7 +97,7 @@ export default function ValueSelector({
       return (
         <div>
           {enumArr.map((combination, index) => (
-            <li key={`${path}_possibleValue${index}`}>
+            <li key={`${elementId}_possibleValue${index}`}>
               {Object.keys(combination).map((key) => {
                 const val = combination[key];
                 return (

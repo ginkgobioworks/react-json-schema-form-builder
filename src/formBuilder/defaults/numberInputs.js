@@ -1,9 +1,10 @@
 // @flow
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Input } from 'reactstrap';
 import FBCheckbox from '../checkbox/FBCheckbox';
 import Tooltip from '../Tooltip';
+import { getRandomId } from '../utils';
 import type { Parameters } from '../types';
 
 // specify the inputs required for a number type object
@@ -14,12 +15,13 @@ function CardNumberParameterInputs({
   parameters: Parameters,
   onChange: (newParams: Parameters) => void,
 }) {
+  const [elementId] = useState(getRandomId());
   return (
     <div>
       <h4>
         Multiple of{' '}
         <Tooltip
-          id={`${parameters.path}_multiple`}
+          id={`${elementId}_multiple`}
           type='help'
           text='Require number to be a multiple of this number'
         />

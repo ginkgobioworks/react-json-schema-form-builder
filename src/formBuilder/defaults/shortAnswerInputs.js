@@ -1,10 +1,11 @@
 // @flow
 
-import React from 'react';
+import React, { useState } from 'react';
 import Select from 'react-select';
 import { Input } from 'reactstrap';
 import FBCheckbox from '../checkbox/FBCheckbox';
 import Tooltip from '../Tooltip';
+import { getRandomId } from '../utils';
 import type { Parameters } from '../types';
 
 const formatDictionary = {
@@ -34,6 +35,7 @@ function CardShortAnswerParameterInputs({
   parameters: Parameters,
   onChange: (newParams: Parameters) => void,
 }) {
+  const [elementId] = useState(getRandomId());
   return (
     <div>
       <h4>Minimum Length</h4>
@@ -72,7 +74,7 @@ function CardShortAnswerParameterInputs({
           rel='noopener noreferrer'
         >
           <Tooltip
-            id={`${parameters.path}_regex`}
+            id={`${elementId}_regex`}
             type='help'
             text='Regular expression pattern that this must satisfy'
           />
@@ -94,7 +96,7 @@ function CardShortAnswerParameterInputs({
       <h4>
         Format{' '}
         <Tooltip
-          id={`${parameters.path}_format`}
+          id={`${elementId}_format`}
           type='help'
           text='Require string input to match a certain common format'
         />
@@ -134,7 +136,7 @@ function CardShortAnswerParameterInputs({
           rel='noopener noreferrer'
         >
           <Tooltip
-            id={`${parameters.path}_autocomplete`}
+            id={`${elementId}_autocomplete`}
             type='help'
             text="Suggest entries based on the user's browser history"
           />

@@ -12,6 +12,7 @@ import { createUseStyles } from 'react-jss';
 import { faPlusSquare } from '@fortawesome/free-solid-svg-icons';
 import FontAwesomeIcon from './FontAwesomeIcon';
 import FBRadioGroup from './radio/FBRadioGroup';
+import { getRandomId } from './utils';
 
 const useStyles = createUseStyles({
   addDetails: {
@@ -33,36 +34,35 @@ const useStyles = createUseStyles({
 });
 
 export default function Add({
-  name,
   addElem,
   hidden,
 }: {
-  name: string,
   addElem: (choice: string) => void,
   hidden?: boolean,
 }) {
   const classes = useStyles();
   const [popoverOpen, setPopoverOpen] = useState(false);
   const [createChoice, setCreateChoice] = useState('card');
+  const [elementId] = useState(getRandomId());
 
   return (
     <div style={{ display: hidden ? 'none' : 'initial' }}>
-      <span id={`${name}_add`}>
+      <span id={`${elementId}_add`}>
         <FontAwesomeIcon
           icon={faPlusSquare}
           onClick={() => setPopoverOpen(true)}
         />
       </span>
-      <UncontrolledTooltip placement='top' target={`${name}_add`}>
+      <UncontrolledTooltip placement='top' target={`${elementId}_add`}>
         Create new form element
       </UncontrolledTooltip>
       <Popover
         placement='bottom'
-        target={`${name}_add`}
+        target={`${elementId}_add`}
         isOpen={popoverOpen}
         toggle={() => setPopoverOpen(false)}
         className={`add-details ${classes.addDetails}`}
-        id={`${name}_add_popover`}
+        id={`${elementId}_add_popover`}
       >
         <PopoverHeader>Create New</PopoverHeader>
         <PopoverBody>

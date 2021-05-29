@@ -217,12 +217,6 @@ function checkObjectForUnsupportedFeatures(
   if (schema.properties)
     Object.entries(schema.properties).forEach(
       ([parameter, element]: [string, any]) => {
-        const correctName = parameter.replace(/\W/g, '_');
-        if (parameter !== correctName) {
-          unsupportedFeatures.push(
-            `Improper name '${parameter}': using '${correctName}' instead`,
-          );
-        }
         if (
           element &&
           typeof element === 'object' &&
@@ -1644,4 +1638,41 @@ export function getNewElementDefaultDataOptions(i: number, mods?: Mods) {
       default: '',
     };
   }
+}
+
+export function getRandomId() {
+  const chars = [
+    'a',
+    'b',
+    'c',
+    'd',
+    'e',
+    'f',
+    'g',
+    'h',
+    'i',
+    'j',
+    'k',
+    'l',
+    'm',
+    'n',
+    'o',
+    'p',
+    'q',
+    'r',
+    's',
+    't',
+    'u',
+    'v',
+    'w',
+    'x',
+    'y',
+    'z',
+  ];
+  const numberOfChars = chars.length;
+  const randomIdLength = 50;
+
+  return Array.from({ length: randomIdLength })
+    .map(() => chars[Math.floor(Math.random() * numberOfChars)])
+    .join('');
 }

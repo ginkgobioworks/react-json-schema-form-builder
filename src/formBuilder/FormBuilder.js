@@ -384,7 +384,6 @@ export default function FormBuilder({
       </div>
       <div className={`form-footer ${classes.formFooter}`}>
         <Add
-          name='form-builder'
           addElem={(choice: string) => {
             if (choice === 'card') {
               addCardObj({

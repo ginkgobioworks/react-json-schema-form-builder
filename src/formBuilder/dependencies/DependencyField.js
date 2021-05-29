@@ -1,6 +1,6 @@
 // @flow
 
-import * as React from 'react';
+import React, { useState } from 'react';
 import { UncontrolledTooltip } from 'reactstrap';
 import { createUseStyles } from 'react-jss';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
@@ -9,6 +9,7 @@ import Tooltip from '../Tooltip';
 import DependencyWarning from './DependencyWarning';
 import DependencyPossibility from './DependencyPossibility';
 import FontAwesomeIcon from '../FontAwesomeIcon';
+import { getRandomId } from '../utils';
 
 const useStyles = createUseStyles({
   dependencyField: {
@@ -75,6 +76,7 @@ export default function DependencyField({
   parameters: DependencyParams,
   onChange: (newParams: DependencyParams) => void,
 }) {
+  const [elementId] = useState(getRandomId());
   const classes = useStyles();
   const valueBased = checkIfValueBasedDependency(parameters.dependents || []);
   return (
@@ -82,7 +84,7 @@ export default function DependencyField({
       <h4>
         Dependencies{' '}
         <Tooltip
-          id={`${parameters.path}_dependent`}
+          id={`${elementId}_dependent`}
           type='help'
           text='Control whether other form elements show based on this one'
         />
@@ -103,7 +105,7 @@ export default function DependencyField({
                   <React.Fragment>
                     Specific value dependency{' '}
                     <Tooltip
-                      id={`${parameters.path}_valuebased`}
+                      id={`${elementId}_valuebased`}
                       type='help'
                       text="Specify whether these elements should show based on this element's value"
                     />
@@ -150,7 +152,7 @@ export default function DependencyField({
                 parentName={parameters.name}
                 parentSchema={parameters.schema}
                 path={parameters.path}
-                key={`${parameters.path}_possibility${index}`}
+                key={`${elementId}_possibility${index}`}
                 onChange={(newPossibility: {
                   children: Array<string>,
                   value?: any,
@@ -180,7 +182,7 @@ export default function DependencyField({
             ))
           : ''}
 
-        <span className='plus' id={`${parameters.path}_adddependency`}>
+        <span className='plus' id={`${elementId}_adddependency`}>
           <FontAwesomeIcon
             icon={faPlus}
             onClick={() => {
@@ -200,7 +202,7 @@ export default function DependencyField({
         </span>
         <UncontrolledTooltip
           placement='top'
-          target={`${parameters.path}_adddependency`}
+          target={`${elementId}_adddependency`}
         >
           Add another dependency relation linking this element and other form
           elements
