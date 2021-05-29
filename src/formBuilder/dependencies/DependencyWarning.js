@@ -1,6 +1,7 @@
 // @flow
 
-import * as React from 'react';
+import React, { useState } from 'react';
+import { getRandomId } from '../utils';
 import Tooltip from '../Tooltip';
 
 // warning message if not all possibilities specified
@@ -20,6 +21,7 @@ export default function DependencyWarning({
     schema?: string,
   },
 }) {
+  const [elementId] = useState(getRandomId());
   if (
     parameters.enum &&
     parameters.dependents &&
@@ -44,7 +46,7 @@ export default function DependencyWarning({
           Warning! The following values do not have associated dependency
           values:{' '}
           <Tooltip
-            id={`${parameters.path}_valuewarning`}
+            id={`${elementId}_valuewarning`}
             type='help'
             text='Each possible value for a value-based dependency must be defined to work properly'
           />

@@ -11,6 +11,7 @@ import {
   categoryToNameMap,
   categoryType,
   subtractArray,
+  getRandomId,
 } from './utils';
 import type { Parameters, Mods, FormInput } from './types';
 import Tooltip from './Tooltip';
@@ -34,6 +35,7 @@ export default function CardGeneralParameterInputs({
   const [descriptionState, setDescriptionState] = React.useState(
     parameters.description,
   );
+  const [elementId] = React.useState(getRandomId());
   const categoryMap = categoryToNameMap(parameters.category, allFormInputs);
 
   const fetchLabel = (labelName: string, defaultLabel: string): string => {
@@ -77,7 +79,7 @@ export default function CardGeneralParameterInputs({
                   ? mods.tooltipDescriptions.cardObjectName
                   : 'The back-end name of the object'
               }
-              id={`${(keyState: string)}_nameinfo`}
+              id={`${elementId}_nameinfo`}
               type='help'
             />
           </h5>
@@ -87,7 +89,7 @@ export default function CardGeneralParameterInputs({
             placeholder='Key'
             type='text'
             onChange={(ev: SyntheticInputEvent<HTMLInputElement>) =>
-              setKeyState(ev.target.value.replace(/\W/g, '_'))
+              setKeyState(ev.target.value)
             }
             onBlur={(ev: SyntheticInputEvent<HTMLInputElement>) =>
               onChange({
@@ -114,7 +116,7 @@ export default function CardGeneralParameterInputs({
                 ? mods.tooltipDescriptions.cardDisplayName
                 : 'The user-facing name of this object'
             }
-            id={`${(keyState: string)}-titleinfo`}
+            id={`${elementId}-titleinfo`}
             type='help'
           />
         </h5>
@@ -142,7 +144,7 @@ export default function CardGeneralParameterInputs({
                 ? mods.tooltipDescriptions.cardDescription
                 : 'This will appear as help text on the form'
             }
-            id={`${(keyState: string)}-descriptioninfo`}
+            id={`${elementId}-descriptioninfo`}
             type='help'
           />
         </h5>
@@ -174,7 +176,7 @@ export default function CardGeneralParameterInputs({
                 ? mods.tooltipDescriptions.cardInputType
                 : 'The type of form input displayed on the form'
             }
-            id={`${(keyState: string)}-inputinfo`}
+            id={`${elementId}-inputinfo`}
             type='help'
           />
         </h5>

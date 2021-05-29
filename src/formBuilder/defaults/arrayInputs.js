@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Input } from 'reactstrap';
 import {
   generateElementComponentsFromSchemas,
@@ -13,6 +13,7 @@ import shortAnswerInputs from './shortAnswerInputs';
 import longAnswerInputs from './longAnswerInputs';
 import numberInputs from './numberInputs';
 import defaultInputs from './defaultInputs';
+import { getRandomId } from '../utils';
 import type { Parameters, Mods, FormInput } from '../types';
 
 // specify the inputs required for a string type object
@@ -71,6 +72,7 @@ function getInnerCardComponent({
     onChange: (newParams: Parameters) => void,
     mods?: Mods,
   }) {
+    const [elementId] = useState(getRandomId);
     const newDataProps = {};
     const newUiProps = {};
     const allFormInputs = {
@@ -120,9 +122,7 @@ function getInnerCardComponent({
           }}
           isChecked={newDataProps.items.type === 'object'}
           label='Section'
-          id={`${
-            typeof parameters.path === 'string' ? parameters.path : ''
-          }_issection`}
+          id={`${elementId}_issection`}
         />
         {generateElementComponentsFromSchemas({
           schemaData: { properties: { item: newDataProps.items } },
@@ -134,7 +134,7 @@ function getInnerCardComponent({
               'ui:*items': uischema.item || {},
             });
           },
-          path: typeof parameters.path === 'string' ? parameters.path : 'array',
+          path: elementId,
           definitionData,
           definitionUi,
           hideKey: true,

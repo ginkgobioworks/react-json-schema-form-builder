@@ -1,9 +1,10 @@
 // @flow
 
-import * as React from 'react';
+import React, { useState } from 'react';
 import Select from 'react-select';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import FontAwesomeIcon from '../FontAwesomeIcon';
+import { getRandomId } from '../utils';
 
 // a field that lets you choose adjacent blocks
 export default function CardSelector({
@@ -19,11 +20,12 @@ export default function CardSelector({
   placeholder: string,
   path: string,
 }) {
+  const [elementId] = useState(getRandomId());
   return (
     <React.Fragment>
       <ul>
         {chosenChoices.map((chosenChoice, index) => (
-          <li key={`${path}_neighbor_${index}`}>
+          <li key={`${elementId}_neighbor_${index}`}>
             {chosenChoice}{' '}
             <FontAwesomeIcon
               icon={faTimes}

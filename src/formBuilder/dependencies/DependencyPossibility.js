@@ -1,11 +1,12 @@
 // @flow
 
-import * as React from 'react';
+import React, { useState } from 'react';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import Tooltip from '../Tooltip';
 import CardSelector from './CardSelector';
 import ValueSelector from './ValueSelector';
 import FontAwesomeIcon from '../FontAwesomeIcon';
+import { getRandomId } from '../utils';
 
 // a possible dependency
 export default function DependencyPossibility({
@@ -35,12 +36,13 @@ export default function DependencyPossibility({
   parentName?: string,
   parentSchema?: any,
 }) {
+  const [elementId] = useState(getRandomId());
   return (
     <div className='form-dependency-condition'>
       <h5>
         Display the following:{' '}
         <Tooltip
-          id={`${path}_bulk`}
+          id={`${elementId}_bulk`}
           type='help'
           text='Choose the other form elements that depend on this one'
         />

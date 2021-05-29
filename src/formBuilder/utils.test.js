@@ -18,6 +18,7 @@ import {
   addCardObj,
   addSectionObj,
   DEFAULT_INPUT_NAME,
+  getRandomId,
 } from './utils';
 import DEFAULT_FORM_INPUTS from './defaults/defaultFormInputs';
 
@@ -770,5 +771,11 @@ describe('addSectionObj', () => {
     const inputElementsCount = Object.keys(currentSchema.properties).length;
 
     expect(inputElementsCount).toEqual(11);
+  });
+});
+
+describe('getRandomId', () => {
+  it('should return string of length 50 of random lower case letters', () => {
+    expect(getRandomId()).toMatch(/^[a-z]{50}$/);
   });
 });
