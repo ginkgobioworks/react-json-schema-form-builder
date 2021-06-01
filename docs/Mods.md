@@ -92,8 +92,8 @@ declare type DataType =
   | 'boolean'
   | 'integer'
   | 'array'
-  | '*'
-  | null;
+  | 'object'
+  | 'null';
 ```
 
 `cardBody` refers to a React component that gets rendered in the card itself, when expanded. This React component gets a set of `Parameters` that provide additional information about the FormInput, such as the `title` or the `default` properties. For more information, see the *Parameters* section.
@@ -152,7 +152,7 @@ declare export type CardBodyProps = {|
 
 ```react
 declare type Parameters = {|
-  [string]: string | number | boolean | Array<string | number>,
+  [string]: any,
   name: string,
   path: string,
   definitionData: { [string]: any, ... },

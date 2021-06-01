@@ -31,7 +31,7 @@ export default function Example({
   text: Node,
   type: 'alert' | 'help',
   id: string,
-}) {
+}): Node {
   const classes = useStyles();
 
   return (

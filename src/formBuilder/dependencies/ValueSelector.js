@@ -8,6 +8,7 @@ import CardSelector from './CardSelector';
 import FBCheckbox from '../checkbox/FBCheckbox';
 import FontAwesomeIcon from '../FontAwesomeIcon';
 import { getRandomId } from '../utils';
+import type { Node } from 'react';
 
 // handle value options for different card types
 export default function ValueSelector({
@@ -32,7 +33,7 @@ export default function ValueSelector({
   parentName?: string,
   parentSchema?: any,
   path: string,
-}) {
+}): Node {
   const [elementId] = useState(getRandomId());
   if (possibility.value) {
     // enum type

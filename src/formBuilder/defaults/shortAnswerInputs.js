@@ -6,7 +6,7 @@ import { Input } from 'reactstrap';
 import FBCheckbox from '../checkbox/FBCheckbox';
 import Tooltip from '../Tooltip';
 import { getRandomId } from '../utils';
-import type { Parameters } from '../types';
+import type { Parameters, FormInput } from '../types';
 
 const formatDictionary = {
   '': 'None',
@@ -241,7 +241,7 @@ function Password({
   );
 }
 
-const shortAnswerInput = {
+const shortAnswerInput: { [string]: FormInput } = {
   shortAnswer: {
     displayName: 'Short Answer',
     matchIf: [
