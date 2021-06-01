@@ -27,6 +27,7 @@ import {
 } from './utils';
 import FontAwesomeIcon from './FontAwesomeIcon';
 import { getRandomId } from './utils';
+import type { Node } from 'react';
 import type { FormInput, Mods } from './types';
 
 const useStyles = createUseStyles({
@@ -153,7 +154,7 @@ export default function Section({
   allFormInputs: { [string]: FormInput },
   mods?: Mods,
   categoryHash: { [string]: string },
-}) {
+}): Node {
   const classes = useStyles();
   const unsupportedFeatures = checkForUnsupportedFeatures(
     schema || {},

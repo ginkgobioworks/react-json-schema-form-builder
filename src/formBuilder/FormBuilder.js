@@ -20,6 +20,7 @@ import {
   excludeKeys,
 } from './utils';
 import DEFAULT_FORM_INPUTS from './defaults/defaultFormInputs';
+import type { Node } from 'react';
 import type { Mods } from './types';
 
 const useStyles = createUseStyles({
@@ -232,16 +233,17 @@ export default function FormBuilder({
   onChange: (string, string) => any,
   mods?: Mods,
   className?: string,
-}) {
+}): Node {
   const classes = useStyles();
   const schemaData = (parse(schema): { [string]: any }) || {};
   schemaData.type = 'object';
   const uiSchemaData = (parse(uischema): { [string]: any }) || {};
   const allFormInputs = excludeKeys(
-    {
-      ...DEFAULT_FORM_INPUTS,
-      ...(mods && mods.customFormInputs),
-    },
+    Object.assign(
+      {},
+      DEFAULT_FORM_INPUTS,
+      (mods && mods.customFormInputs) || {},
+    ),
     mods && mods.deactivatedFormInputs,
   );
 

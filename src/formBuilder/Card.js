@@ -17,6 +17,7 @@ import Add from './Add';
 import FontAwesomeIcon from './FontAwesomeIcon';
 import Tooltip from './Tooltip';
 import { getRandomId } from './utils';
+import type { Node } from 'react';
 import type { Parameters, Mods, FormInput } from './types';
 
 const useStyles = createUseStyles({
@@ -127,7 +128,7 @@ export default function Card({
   mods?: Mods,
   allFormInputs: { [string]: FormInput },
   showObjectNameInput?: boolean,
-}) {
+}): Node {
   const classes = useStyles();
   const [modalOpen, setModalOpen] = React.useState(false);
   const [elementId] = React.useState(getRandomId());

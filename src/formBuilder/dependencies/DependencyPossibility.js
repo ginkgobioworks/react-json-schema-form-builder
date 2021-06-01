@@ -7,6 +7,7 @@ import CardSelector from './CardSelector';
 import ValueSelector from './ValueSelector';
 import FontAwesomeIcon from '../FontAwesomeIcon';
 import { getRandomId } from '../utils';
+import type { Node } from 'react';
 
 // a possible dependency
 export default function DependencyPossibility({
@@ -35,7 +36,7 @@ export default function DependencyPossibility({
   parentType?: string,
   parentName?: string,
   parentSchema?: any,
-}) {
+}): Node {
   const [elementId] = useState(getRandomId());
   return (
     <div className='form-dependency-condition'>

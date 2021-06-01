@@ -13,6 +13,7 @@ import {
   subtractArray,
   getRandomId,
 } from './utils';
+import type { Node } from 'react';
 import type { Parameters, Mods, FormInput } from './types';
 import Tooltip from './Tooltip';
 
@@ -29,7 +30,7 @@ export default function CardGeneralParameterInputs({
   mods?: Mods,
   allFormInputs: { [string]: FormInput },
   showObjectNameInput?: boolean,
-}) {
+}): Node {
   const [keyState, setKeyState] = React.useState(parameters.name);
   const [titleState, setTitleState] = React.useState(parameters.title);
   const [descriptionState, setDescriptionState] = React.useState(

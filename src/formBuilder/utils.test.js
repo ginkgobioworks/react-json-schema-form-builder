@@ -409,6 +409,23 @@ describe('generateSchemaFromElementProps', () => {
 
     expect(schemaProps.required).toEqual(['card1', 'card3']);
   });
+
+  it('throws an exception if propType is invalid', () => {
+    expect(() =>
+      generateSchemaFromElementProps(
+        [
+          {
+            name: 'card3',
+            required: true,
+            dataOptions: { type: 'boolean' },
+            uiOptions: { 'ui:widget': 'boolean' },
+            propType: 'foobar',
+          },
+        ],
+        DEFAULT_FORM_INPUTS,
+      ),
+    ).toThrow(new Error('Element that is neither card, section, nor ref'));
+  });
 });
 
 describe('generateUiSchemaFromElementProps', () => {

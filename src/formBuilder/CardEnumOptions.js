@@ -5,6 +5,7 @@ import { Input } from 'reactstrap';
 import { createUseStyles } from 'react-jss';
 import { faPlus, faTimes } from '@fortawesome/free-solid-svg-icons';
 import FontAwesomeIcon from './FontAwesomeIcon';
+import type { Node } from 'react';
 
 const useStyles = createUseStyles({
   cardEnumOption: {
@@ -34,7 +35,7 @@ export default function CardEnumOptions({
   showNames: boolean,
   onChange: (newEnums: Array<any>, newEnumNames?: Array<string>) => void,
   type: string,
-}) {
+}): Node {
   const classes = useStyles();
 
   const possibleValues = [];

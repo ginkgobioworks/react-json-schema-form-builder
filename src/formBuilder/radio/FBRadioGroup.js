@@ -36,7 +36,7 @@ type Props = {
   onChange: (any) => void,
 };
 
-export default function FBRadioGroup(props: Props) {
+export default function FBRadioGroup(props: Props): Node {
   const {
     options,
     defaultValue,

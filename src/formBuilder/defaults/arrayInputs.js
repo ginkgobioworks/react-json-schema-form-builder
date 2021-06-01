@@ -14,7 +14,7 @@ import longAnswerInputs from './longAnswerInputs';
 import numberInputs from './numberInputs';
 import defaultInputs from './defaultInputs';
 import { getRandomId } from '../utils';
-import type { Parameters, Mods, FormInput } from '../types';
+import type { CardBody, Parameters, Mods, FormInput } from '../types';
 
 // specify the inputs required for a string type object
 function CardArrayParameterInputs({
@@ -62,7 +62,7 @@ function getInnerCardComponent({
   defaultFormInputs,
 }: {
   defaultFormInputs: { [string]: FormInput },
-}) {
+}): CardBody {
   return function InnerCard({
     parameters,
     onChange,
@@ -75,10 +75,14 @@ function getInnerCardComponent({
     const [elementId] = useState(getRandomId);
     const newDataProps = {};
     const newUiProps = {};
-    const allFormInputs = {
-      ...defaultFormInputs,
-      ...(mods && mods.customFormInputs),
-    };
+    const allFormInputs = Object.assign(
+      {
+        ...defaultFormInputs,
+      },
+      {
+        ...(mods && mods.customFormInputs),
+      },
+    );
     // parse components into data and ui relevant pieces
     Object.keys(parameters).forEach((propName) => {
       if (propName.startsWith('ui:*')) {
@@ -173,7 +177,7 @@ defaultFormInputs.array = {
   modalBody: CardArrayParameterInputs,
 };
 
-const ArrayInputs = {
+const ArrayInputs: { [string]: FormInput } = {
   array: {
     displayName: 'Array',
     matchIf: [

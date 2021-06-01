@@ -6,7 +6,8 @@ import { createUseStyles } from 'react-jss';
 import FBCheckbox from '../checkbox/FBCheckbox';
 import CardEnumOptions from '../CardEnumOptions';
 import { getRandomId } from '../utils';
-import type { Parameters } from '../types';
+import type { Node } from 'react';
+import type { Parameters, FormInput } from '../types';
 
 const useStyles = createUseStyles({
   hidden: {
@@ -15,7 +16,13 @@ const useStyles = createUseStyles({
 });
 
 // specify the inputs required for a string type object
-export function CardDefaultParameterInputs() {
+export function CardDefaultParameterInputs({
+  parameters,
+  onChange,
+}: {
+  parameters: Parameters,
+  onChange: (Parameters) => void,
+}): Node {
   return <div />;
 }
 
@@ -197,7 +204,7 @@ function RefChoice({
   );
 }
 
-const defaultInputs = {
+const defaultInputs: { [string]: FormInput } = {
   time: {
     displayName: 'Time',
     matchIf: [
@@ -231,7 +238,7 @@ const defaultInputs = {
     displayName: 'Reference',
     matchIf: [
       {
-        types: [null],
+        types: ['null'],
         $ref: true,
       },
     ],
@@ -241,7 +248,7 @@ const defaultInputs = {
       description: '',
     },
     defaultUiSchema: {},
-    type: null,
+    type: 'string',
     cardBody: RefChoice,
     modalBody: CardDefaultParameterInputs,
   },
@@ -249,7 +256,7 @@ const defaultInputs = {
     displayName: 'Radio',
     matchIf: [
       {
-        types: ['string', 'number', 'integer', 'array', 'boolean', null],
+        types: ['string', 'number', 'integer', 'array', 'boolean', 'null'],
         widget: 'radio',
         enum: true,
       },
@@ -266,7 +273,7 @@ const defaultInputs = {
     displayName: 'Dropdown',
     matchIf: [
       {
-        types: ['string', 'number', 'integer', 'array', 'boolean', null],
+        types: ['string', 'number', 'integer', 'array', 'boolean', 'null'],
         enum: true,
       },
     ],

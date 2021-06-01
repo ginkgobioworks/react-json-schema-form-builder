@@ -13,6 +13,7 @@ import { faPlusSquare } from '@fortawesome/free-solid-svg-icons';
 import FontAwesomeIcon from './FontAwesomeIcon';
 import FBRadioGroup from './radio/FBRadioGroup';
 import { getRandomId } from './utils';
+import type { Node } from 'react';
 
 const useStyles = createUseStyles({
   addDetails: {
@@ -39,7 +40,7 @@ export default function Add({
 }: {
   addElem: (choice: string) => void,
   hidden?: boolean,
-}) {
+}): Node {
   const classes = useStyles();
   const [popoverOpen, setPopoverOpen] = useState(false);
   const [createChoice, setCreateChoice] = useState('card');

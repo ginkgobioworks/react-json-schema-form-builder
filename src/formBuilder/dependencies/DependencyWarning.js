@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { getRandomId } from '../utils';
 import Tooltip from '../Tooltip';
+import type { Node } from 'react';
 
 // warning message if not all possibilities specified
 export default function DependencyWarning({
@@ -20,7 +21,7 @@ export default function DependencyWarning({
     neighborNames?: Array<string>,
     schema?: string,
   },
-}) {
+}): Node {
   const [elementId] = useState(getRandomId());
   if (
     parameters.enum &&
@@ -30,7 +31,7 @@ export default function DependencyWarning({
   ) {
     // get the set of defined enum values
     const definedVals = new Set([]);
-    parameters.dependents.forEach((possibility) => {
+    (parameters.dependents || []).forEach((possibility) => {
       if (possibility.value && possibility.value.enum)
         possibility.value.enum.forEach((val) => definedVals.add(val));
     });

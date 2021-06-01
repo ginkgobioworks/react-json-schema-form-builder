@@ -5,7 +5,7 @@ import { Input } from 'reactstrap';
 import FBCheckbox from '../checkbox/FBCheckbox';
 import Tooltip from '../Tooltip';
 import { getRandomId } from '../utils';
-import type { Parameters } from '../types';
+import type { Parameters, FormInput } from '../types';
 
 // specify the inputs required for a number type object
 function CardNumberParameterInputs({
@@ -171,7 +171,7 @@ function NumberField({
   );
 }
 
-const numberInputs = {
+const numberInputs: { [string]: FormInput } = {
   integer: {
     displayName: 'Integer',
     matchIf: [

@@ -5,6 +5,7 @@ import Select from 'react-select';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import FontAwesomeIcon from '../FontAwesomeIcon';
 import { getRandomId } from '../utils';
+import type { Node } from 'react';
 
 // a field that lets you choose adjacent blocks
 export default function CardSelector({
@@ -19,7 +20,7 @@ export default function CardSelector({
   onChange: (chosenChoices: Array<string>) => void,
   placeholder: string,
   path: string,
-}) {
+}): Node {
   const [elementId] = useState(getRandomId());
   return (
     <React.Fragment>

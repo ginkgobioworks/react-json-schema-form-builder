@@ -10,6 +10,7 @@ import DependencyWarning from './DependencyWarning';
 import DependencyPossibility from './DependencyPossibility';
 import FontAwesomeIcon from '../FontAwesomeIcon';
 import { getRandomId } from '../utils';
+import type { Node } from 'react';
 
 const useStyles = createUseStyles({
   dependencyField: {
@@ -75,7 +76,7 @@ export default function DependencyField({
 }: {
   parameters: DependencyParams,
   onChange: (newParams: DependencyParams) => void,
-}) {
+}): Node {
   const [elementId] = useState(getRandomId());
   const classes = useStyles();
   const valueBased = checkIfValueBasedDependency(parameters.dependents || []);
