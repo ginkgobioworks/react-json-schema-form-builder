@@ -26,28 +26,29 @@ export function CardDefaultParameterInputs({
   return <div />;
 }
 
-function TimeField({
-  parameters,
-  onChange,
-}: {
-  parameters: Parameters,
-  onChange: (newParams: Parameters) => void,
-}) {
-  return (
-    <React.Fragment>
-      <h5>Default time</h5>
-      <Input
-        value={parameters.default || ''}
-        placeholder='Default'
-        type='datetime-local'
-        onChange={(ev: SyntheticInputEvent<HTMLInputElement>) =>
-          onChange({ ...parameters, default: ev.target.value })
-        }
-        className='card-text'
-      />
-    </React.Fragment>
-  );
-}
+const getInputCardBodyComponent = ({ type }: { type: string }) =>
+  function InputCardBodyComponent({
+    parameters,
+    onChange,
+  }: {
+    parameters: Parameters,
+    onChange: (newParams: Parameters) => void,
+  }) {
+    return (
+      <React.Fragment>
+        <h5>Default value</h5>
+        <Input
+          value={parameters.default || ''}
+          placeholder='Default'
+          type={type}
+          onChange={(ev: SyntheticInputEvent<HTMLInputElement>) =>
+            onChange({ ...parameters, default: ev.target.value })
+          }
+          className='card-text'
+        />
+      </React.Fragment>
+    );
+  };
 
 function Checkbox({
   parameters,
@@ -205,8 +206,8 @@ function RefChoice({
 }
 
 const defaultInputs: { [string]: FormInput } = {
-  time: {
-    displayName: 'Time',
+  dateTime: {
+    displayName: 'Date-Time',
     matchIf: [
       {
         types: ['string'],
@@ -218,7 +219,39 @@ const defaultInputs: { [string]: FormInput } = {
     },
     defaultUiSchema: {},
     type: 'string',
-    cardBody: TimeField,
+    cardBody: getInputCardBodyComponent({ type: 'datetime-local' }),
+    modalBody: CardDefaultParameterInputs,
+  },
+  date: {
+    displayName: 'Date',
+    matchIf: [
+      {
+        types: ['string'],
+        format: 'date',
+      },
+    ],
+    defaultDataSchema: {
+      format: 'date',
+    },
+    defaultUiSchema: {},
+    type: 'string',
+    cardBody: getInputCardBodyComponent({ type: 'date' }),
+    modalBody: CardDefaultParameterInputs,
+  },
+  time: {
+    displayName: 'Time',
+    matchIf: [
+      {
+        types: ['string'],
+        format: 'time',
+      },
+    ],
+    defaultDataSchema: {
+      format: 'time',
+    },
+    defaultUiSchema: {},
+    type: 'string',
+    cardBody: getInputCardBodyComponent({ type: 'time' }),
     modalBody: CardDefaultParameterInputs,
   },
   checkbox: {
