@@ -63,7 +63,9 @@ export default function CardGeneralParameterInputs({
     // Exclude hidden inputs based on mods
     if (mods) inputKeys = subtractArray(inputKeys, mods.deactivatedFormInputs);
 
-    return inputKeys.map((key) => ({ value: key, label: categoryMap[key] }));
+    return inputKeys
+      .map((key) => ({ value: key, label: categoryMap[key] }))
+      .sort((a, b) => a.label.localeCompare(b.label));
   };
 
   return (
@@ -186,7 +188,7 @@ export default function CardGeneralParameterInputs({
             value: parameters.category,
             label: categoryMap[parameters.category],
           }}
-          placeholder='Category'
+          placeholder={inputTypeLabel}
           options={availableInputTypes()}
           onChange={(val: any) => {
             // figure out the new 'type'
