@@ -10,12 +10,15 @@ import type { Parameters, FormInput } from '../types';
 
 const formatDictionary = {
   '': 'None',
-  'date-time': 'Date-Time',
   email: 'Email',
   hostname: 'Hostname',
-  time: 'Time',
   uri: 'URI',
   regex: 'Regular Expression',
+};
+
+const formatTypeDictionary = {
+  email: 'email',
+  url: 'uri',
 };
 
 const autoDictionary = {
@@ -208,7 +211,7 @@ function ShortAnswerField({
       <Input
         value={parameters.default}
         placeholder='Default'
-        type='text'
+        type={formatTypeDictionary[parameters.format] || 'text'}
         onChange={(ev: SyntheticInputEvent<HTMLInputElement>) =>
           onChange({ ...parameters, default: ev.target.value })
         }
@@ -248,6 +251,10 @@ const shortAnswerInput: { [string]: FormInput } = {
       {
         types: ['string'],
       },
+      ...['email', 'hostname', 'uri', 'regex'].map((format) => ({
+        types: ['string'],
+        format,
+      })),
     ],
     defaultDataSchema: {},
     defaultUiSchema: {},
