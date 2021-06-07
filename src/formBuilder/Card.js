@@ -29,8 +29,10 @@ const useStyles = createUseStyles({
       'font-size': '14px',
       'font-weight': 'bold',
     },
+    '& .card-entry-row': {
+      display: 'flex',
+    },
     '& .card-entry': {
-      display: 'inline-block',
       margin: 0,
       width: '50%',
       'text-align': 'left',
