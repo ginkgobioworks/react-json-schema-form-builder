@@ -3,7 +3,13 @@ import React, { useState } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import Select from 'react-select';
 import { createUseStyles } from 'react-jss';
-import { Alert, Input, UncontrolledTooltip } from 'reactstrap';
+import {
+  Alert,
+  Input,
+  UncontrolledTooltip,
+  FormGroup,
+  FormFeedback,
+} from 'reactstrap';
 import {
   faArrowUp,
   faArrowDown,
@@ -33,17 +39,15 @@ import type { FormInput, Mods } from './types';
 const useStyles = createUseStyles({
   sectionContainer: {
     '& .section-head': {
+      display: 'flex',
       borderBottom: '1px solid var(--gray)',
       margin: '0.5em 1.5em 0 1.5em',
       '& h5': {
         color: 'black',
         fontSize: '14px',
         fontWeight: 'bold',
-        margin: '0',
       },
       '& .section-entry': {
-        display: 'inline-block',
-        margin: '0',
         width: '33%',
         textAlign: 'left',
         padding: '0.5em',
@@ -169,6 +173,7 @@ export default function Section({
   );
   // keep name in state to avoid losing focus
   const [keyName, setKeyName] = React.useState(name);
+  const [keyError, setKeyError] = React.useState(null);
   // keep requirements in state to avoid rapid updates
   const [modalOpen, setModalOpen] = React.useState(false);
   const [elementId] = React.useState(getRandomId());
@@ -267,19 +272,34 @@ export default function Section({
                   type='help'
                 />
               </h5>
-              <Input
-                value={keyName || ''}
-                placeholder='Key'
-                type='text'
-                onChange={(ev: SyntheticInputEvent<HTMLInputElement>) =>
-                  setKeyName(ev.target.value)
-                }
-                onBlur={(ev: SyntheticInputEvent<HTMLInputElement>) =>
-                  onNameChange(ev.target.value)
-                }
-                className='card-text'
-                readOnly={hideKey}
-              />
+              <FormGroup>
+                <Input
+                  invalid={keyError !== null}
+                  value={keyName || ''}
+                  placeholder='Key'
+                  type='text'
+                  onChange={(ev: SyntheticInputEvent<HTMLInputElement>) =>
+                    setKeyName(ev.target.value)
+                  }
+                  onBlur={(ev: SyntheticInputEvent<HTMLInputElement>) => {
+                    const { value } = ev.target;
+                    if (
+                      value === name ||
+                      !(neighborNames && neighborNames.includes(value))
+                    ) {
+                      setKeyError(null);
+                      onNameChange(value);
+                    } else {
+                      setKeyName(name);
+                      setKeyError(`"${value}" is already in use.`);
+                      onNameChange(name);
+                    }
+                  }}
+                  className='card-text'
+                  readOnly={hideKey}
+                />
+                <FormFeedback>{keyError}</FormFeedback>
+              </FormGroup>
             </div>
             <div className='section-entry' data-test='section-display-name'>
               <h5>
