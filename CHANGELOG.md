@@ -1,5 +1,27 @@
 # Changelog
 
+## [2.5.0] - 2021-06-20
+
+### Added
+
+- Object and Section Name are no longer restricted.
+
+### Fixed
+
+- Support ui:options in UI Schema. (See [pr #107](https://github.com/ginkgobioworks/react-json-schema-form-builder/pull/107).)
+- Support adding more than 10 elements using default naming. (See [issue #115](https://github.com/ginkgobioworks/react-json-schema-form-builder/issues/115).)
+- A number of issues in Flow that manifested with flow-bin upgrade. 
+- Fixed missing matchIf entries for the various format options in Short Answer. (See [issue #119](https://github.com/ginkgobioworks/react-json-schema-form-builder/issues/119).)
+- Removed broken format dropdown from Long Answer input type.
+- Prevent duplicate object names. (See [issue #113](https://github.com/ginkgobioworks/react-json-schema-form-builder/issues/113).)
+
+
+### Changed
+
+- Updated dependencies in package-lock.json
+- Input type dropdown is sorted
+- Time, Date, and Date-Time are now input types included by default. Time and Date-time are no longer format options for Short Answer.
+
 ## [2.4.2] - 2021-05-09
 
 ### Fixed
