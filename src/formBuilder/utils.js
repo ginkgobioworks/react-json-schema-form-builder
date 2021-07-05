@@ -141,6 +141,7 @@ const supportedPropertyParameters = new Set([
   '$id',
   '$schema',
   'meta',
+  'additionalProperties',
 ]);
 
 const supportedUiParameters = new Set([
