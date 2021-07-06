@@ -302,6 +302,7 @@ describe('FormBuilder', () => {
     const jsonSchema = {
       $schema: `http://json-schema.org/draft-07/schema#`,
       properties: {},
+      required: [],
       additionalProperties: false,
     };
 
