@@ -19,7 +19,12 @@ const useStyles = createUseStyles({
 });
 
 // Can be used to set initial schemas and mods (useful for development)
-const initialJsonSchema = {};
+const initialJsonSchema = {
+  type: 'object',
+  properties: {},
+  required: [],
+  additionalProperties: false,
+};
 const initialUiSchema = {};
 const mods = {};
 
