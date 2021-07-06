@@ -84,8 +84,7 @@ describe('FormBuilder', () => {
       },
       "obj3": {
          "type": "boolean"
-      },
-      additionalProperties: false,
+      }
    }
 }`,
       uischema: `{
