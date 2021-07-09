@@ -52,6 +52,7 @@ export default function CardGeneralParameterInputs({
   const objectNameLabel = fetchLabel('objectNameLabel', 'Object Name');
   const displayNameLabel = fetchLabel('displayNameLabel', 'Display Name');
   const descriptionLabel = fetchLabel('descriptionLabel', 'Description');
+  const placeHolderLabel = fetchLabel('placeholderLabel', 'Placeholder');
   const inputTypeLabel = fetchLabel('inputTypeLabel', 'Input Type');
   const placeHolderLabel = fetchLabel('placeHolderLabel', 'Placeholder');
 
