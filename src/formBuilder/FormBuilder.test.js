@@ -290,4 +290,83 @@ describe('FormBuilder', () => {
       .map((error) => error.text());
     expect(errors).toEqual([]);
   });
+
+  it('support ui:placeholder without schema definition', () => {
+    const jsonSchema = {
+      $schema: 'http://json-schema.org/draft-07/schema#',
+      type: 'object',
+      properties: {
+        input1: {
+          type: 'string',
+          title: 'First Name',
+          description: 'Please enter your first name',
+        },
+      },
+    };
+
+    const uischema = {
+      input1: {
+        'ui:placeholder': 'wow placeholder change',
+      },
+      'ui:order': ['input1'],
+    };
+
+    const props = {
+      schema: JSON.stringify(jsonSchema),
+      uischema: JSON.stringify(uischema),
+      onChange: jest.fn(() => {}),
+      mods: {},
+      className: 'my-form-builder',
+    };
+    const div = document.createElement('div');
+    document.body.appendChild(div);
+    const wrapper = mount(<FormBuilder {...props} />, { attachTo: div });
+    const placeholder = wrapper
+      .find('.card-container')
+      .first()
+      .find('.card-text')
+      .get(6);
+    expect(placeholder.props.value).toEqual('wow placeholder change');
+  });
+
+  it('support ui:placeholder with schema definition', () => {
+    const div = document.createElement('div');
+    document.body.appendChild(div);
+    const jsonSchema = {
+      $schema: 'http://json-schema.org/draft-07/schema#',
+      type: 'object',
+      properties: {
+        input1: {
+          $ref: '#/definitions/name',
+          title: 'First Name',
+          description: 'Please enter your first name',
+        },
+      },
+      definitions: {
+        name: { type: 'string' },
+      },
+    };
+
+    const uischema = {
+      input1: {
+        'ui:placeholder': 'wow placeholder change',
+      },
+      'ui:order': ['input1'],
+    };
+
+    const props = {
+      schema: JSON.stringify(jsonSchema),
+      uischema: JSON.stringify(uischema),
+      onChange: jest.fn(() => {}),
+      mods: {},
+      className: 'my-form-builder',
+    };
+    const wrapper = mount(<FormBuilder {...props} />, { attachTo: div });
+    const placeholder = wrapper
+      .find('.card-container')
+      .first()
+      .find('.card-text')
+      .get(6);
+    expect(placeholder.props.value).toEqual('wow placeholder change');
+  });
 });

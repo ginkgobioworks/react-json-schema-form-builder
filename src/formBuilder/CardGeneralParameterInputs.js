@@ -34,6 +34,9 @@ export default function CardGeneralParameterInputs({
   const [keyState, setKeyState] = React.useState(parameters.name);
   const [keyError, setKeyError] = React.useState(null);
   const [titleState, setTitleState] = React.useState(parameters.title);
+  const [placeholderState, setPlaceholderState] = React.useState(
+    parameters['ui:placeholder'],
+  );
   const [descriptionState, setDescriptionState] = React.useState(
     parameters.description,
   );
@@ -49,6 +52,7 @@ export default function CardGeneralParameterInputs({
   const objectNameLabel = fetchLabel('objectNameLabel', 'Object Name');
   const displayNameLabel = fetchLabel('displayNameLabel', 'Display Name');
   const descriptionLabel = fetchLabel('descriptionLabel', 'Description');
+  const placeHolderLabel = fetchLabel('placeholderLabel', 'Placeholder');
   const inputTypeLabel = fetchLabel('inputTypeLabel', 'Input Type');
 
   const availableInputTypes = () => {
@@ -175,18 +179,20 @@ export default function CardGeneralParameterInputs({
               type='help'
             />
           </h5>
-          <Input
-            value={descriptionState || ''}
-            placeholder='Description'
-            type='text'
-            onChange={(ev: SyntheticInputEvent<HTMLInputElement>) =>
-              setDescriptionState(ev.target.value)
-            }
-            onBlur={(ev: SyntheticInputEvent<HTMLInputElement>) => {
-              onChange({ ...parameters, description: ev.target.value });
-            }}
-            className='card-text'
-          />
+          <FormGroup>
+            <Input
+              value={descriptionState || ''}
+              placeholder='Description'
+              type='text'
+              onChange={(ev: SyntheticInputEvent<HTMLInputElement>) =>
+                setDescriptionState(ev.target.value)
+              }
+              onBlur={(ev: SyntheticInputEvent<HTMLInputElement>) => {
+                onChange({ ...parameters, description: ev.target.value });
+              }}
+              className='card-text'
+            />
+          </FormGroup>
         </div>
         <div
           className={classnames('card-entry', {
@@ -241,6 +247,27 @@ export default function CardGeneralParameterInputs({
             }}
             className='card-select'
           />
+        </div>
+      </div>
+      <div className='card-entry-row'>
+        <div
+          className={`card-entry ${parameters.$ref ? 'disabled-input' : ''}`}
+        >
+          <h5>{`${placeHolderLabel} `}</h5>
+          <FormGroup>
+            <Input
+              value={placeholderState || ''}
+              placeholder='Placeholder'
+              type='text'
+              onChange={(ev: SyntheticInputEvent<HTMLInputElement>) =>
+                setPlaceholderState(ev.target.value)
+              }
+              onBlur={(ev: SyntheticInputEvent<HTMLInputElement>) => {
+                onChange({ ...parameters, 'ui:placeholder': ev.target.value });
+              }}
+              className='card-text'
+            />
+          </FormGroup>
         </div>
       </div>
       <div className='card-category-options'>
