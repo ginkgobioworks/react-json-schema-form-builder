@@ -306,7 +306,7 @@ describe('FormBuilder', () => {
 
     const uischema = {
       input1: {
-        'ui:placeholder': 'wow placeholder change',
+        'ui:placeholder': 'Custom Placeholder',
       },
       'ui:order': ['input1'],
     };
