@@ -253,7 +253,7 @@ export default function CardGeneralParameterInputs({
         <div
           className={`card-entry ${parameters.$ref ? 'disabled-input' : ''}`}
         >
-          <h5>{`${placeHolderLabel} `}</h5>
+          <h5>{placeHolderLabel}</h5>
           <FormGroup>
             <Input
               value={placeholderState || ''}

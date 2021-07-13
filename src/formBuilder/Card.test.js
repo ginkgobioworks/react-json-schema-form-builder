@@ -231,7 +231,7 @@ describe('Card', () => {
     expect(placeHolderLabel).toContain('Custom Placeholder');
   });
 
-  it('successfully populate placeholder input field', () => {
+  it('should successfully populates placeholder input field', () => {
     const div = document.createElement('div');
     document.body.appendChild(div);
 
