@@ -11,6 +11,7 @@ import {
   categoryToNameMap,
   categoryType,
   subtractArray,
+  availableColumnSizes,
 } from './utils';
 import type { Parameters, Mods, FormInput } from './types';
 import Tooltip from './Tooltip';
@@ -31,6 +32,7 @@ export default function CardGeneralParameterInputs({
 }) {
   const [keyState, setKeyState] = React.useState(parameters.name);
   const [titleState, setTitleState] = React.useState(parameters.title);
+  const [columnSize, setColumnSize] = React.useState({});
   const [descriptionState, setDescriptionState] = React.useState(
     parameters.description,
   );
@@ -46,6 +48,10 @@ export default function CardGeneralParameterInputs({
   const displayNameLabel = fetchLabel('displayNameLabel', 'Display Name');
   const descriptionLabel = fetchLabel('descriptionLabel', 'Description');
   const inputTypeLabel = fetchLabel('inputTypeLabel', 'Input Type');
+  const inputColumnSize = fetchLabel(
+    'inputColumnSizeLabel',
+    'Input Column Size',
+  );
 
   const availableInputTypes = () => {
     const definitionsInSchema =
@@ -56,7 +62,6 @@ export default function CardGeneralParameterInputs({
     let inputKeys = Object.keys(categoryMap).filter(
       (key) => key !== 'ref' || definitionsInSchema,
     );
-
     // Exclude hidden inputs based on mods
     if (mods) inputKeys = subtractArray(inputKeys, mods.deactivatedFormInputs);
 
@@ -211,6 +216,48 @@ export default function CardGeneralParameterInputs({
           className='card-select'
         />
       </div>
+
+      <div
+        className={classnames('card-entry', {
+          'wide-card-entry': !showObjectNameInput,
+        })}
+      >
+        <h5>
+          {`${inputColumnSize} `}
+          <Tooltip
+            text={
+              mods &&
+              mods.tooltipDescriptions &&
+              typeof mods.tooltipDescriptions.inputColumnSize === 'string'
+                ? mods.tooltipDescriptions.inputColumnSize
+                : 'The size of form input displayed on the form'
+            }
+            id={`${(keyState: string)}-inputinfo`}
+            type='help'
+          />
+        </h5>
+        <Select
+          value={{
+            label: columnSize.label,
+            value: columnSize.value,
+          }}
+          placeholder='input column size'
+          options={availableColumnSizes()}
+          onChange={(val: any) => {
+            setColumnSize({
+              ...val,
+            });
+            onChange({ ...parameters, 'ui:column': `${val.value}` });
+          }}
+          className='card-select'
+        />
+      </div>
+      <div
+      className={classnames('card-entry', {
+        'wide-card-entry': !showObjectNameInput,
+      })}
+    />
+
       <div className='card-category-options'>
         <GeneralParameterInputs
           category={parameters.category}
