@@ -4,6 +4,7 @@ import type {
   CardProps,
   ElementProps,
   FormInput,
+  ColumnInputSize,
   Mods,
   DataOptions,
 } from './types';
@@ -150,6 +151,7 @@ const supportedUiParameters = new Set([
   'ui:autocomplete',
   'ui:option',
   'ui:field',
+  'ui:column',
   'items',
   'definitions',
 ]);
@@ -1643,4 +1645,14 @@ export function getNewElementDefaultDataOptions(i: number, mods?: Mods) {
       default: '',
     };
   }
+}
+
+export function availableColumnSizes() {
+  return [
+    { value: '4', label: '4' },
+    { value: '6', label: '6' },
+    { value: '8', label: '8' },
+    { value: '10', label: '10' },
+    { value: '12', label: '12' },
+  ];
 }
