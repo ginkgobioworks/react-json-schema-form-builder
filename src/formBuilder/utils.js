@@ -1,22 +1,26 @@
 // @flow
 import * as React from 'react';
+import type { Node } from 'react';
 import type {
+  CardBody,
   CardProps,
   ElementProps,
   FormInput,
   ColumnInputSize,
   Mods,
+  ModalBody,
   DataOptions,
+  DataType,
 } from './types';
 
 // parse in either YAML or JSON
-export function parse(text: string) {
+export function parse(text: string): any {
   if (!text) return {};
   return JSON.parse(text);
 }
 
 // stringify in either YAML or JSON
-export function stringify(obj: any) {
+export function stringify(obj: any): string {
   if (!obj) return '{}';
   return JSON.stringify(obj);
 }
@@ -24,26 +28,26 @@ export function stringify(obj: any) {
 export function defaultDataProps(
   category: string,
   allFormInputs: { [string]: FormInput },
-) {
+): { [string]: any } {
   return allFormInputs[category].defaultDataSchema;
 }
 
 export function defaultUiProps(
   category: string,
   allFormInputs: { [string]: FormInput },
-) {
+): { [string]: any } {
   return allFormInputs[category].defaultUiSchema;
 }
 export function categoryType(
   category: string,
   allFormInputs: { [string]: FormInput },
-) {
+): DataType {
   return allFormInputs[category].type;
 }
 export function getCardBody(
   category: string,
   allFormInputs: { [string]: FormInput },
-) {
+): CardBody {
   return (
     (allFormInputs[category] && allFormInputs[category].cardBody) ||
     (() => null)
@@ -52,7 +56,7 @@ export function getCardBody(
 export function categoryToNameMap(
   category: string,
   allFormInputs: { [string]: FormInput },
-) {
+): { [string]: string } {
   const categoryNameMap = {};
   Object.keys(allFormInputs).forEach((inputName) => {
     categoryNameMap[inputName] = allFormInputs[inputName].displayName;
@@ -69,15 +73,17 @@ function updateElementNames(elementArray: Array<ElementProps>) {
   });
 }
 
-export function generateCategoryHash(allFormInputs: { [string]: FormInput }) {
+export function generateCategoryHash(allFormInputs: { [string]: FormInput }): {
+  [string]: string,
+} {
   const categoryHash = {};
   Object.keys(allFormInputs).forEach((categoryName) => {
     const formInput = allFormInputs[categoryName];
     formInput.matchIf.forEach((match) => {
       match.types.forEach((type) => {
-        const hash = `type:${type || ''};widget:${match.widget || ''};field:${
-          match.field || ''
-        };format:${match.format || ''};$ref:${
+        const hash = `type:${type === 'null' ? '' : type};widget:${
+          match.widget || ''
+        };field:${match.field || ''};format:${match.format || ''};$ref:${
           match.$ref ? 'true' : 'false'
         };enum:${match.enum ? 'true' : 'false'}`;
         if (categoryHash[hash]) {
@@ -87,7 +93,6 @@ export function generateCategoryHash(allFormInputs: { [string]: FormInput }) {
       });
     });
   });
-
   return categoryHash;
 }
 
@@ -96,7 +101,7 @@ export function generateCategoryHash(allFormInputs: { [string]: FormInput }) {
 export function getCardCategory(
   cardProps: CardProps,
   categoryHash: { [string]: string },
-) {
+): string {
   const currentHash = `type:${cardProps.dataOptions.type || ''};widget:${
     cardProps.uiOptions['ui:widget'] || ''
   };field:${cardProps.uiOptions['ui:field'] || ''};format:${
@@ -142,6 +147,7 @@ const supportedPropertyParameters = new Set([
   '$id',
   '$schema',
   'meta',
+  'additionalProperties',
 ]);
 
 const supportedUiParameters = new Set([
@@ -149,7 +155,7 @@ const supportedUiParameters = new Set([
   'ui:widget',
   'ui:autofocus',
   'ui:autocomplete',
-  'ui:option',
+  'ui:options',
   'ui:field',
   'ui:column',
   'items',
@@ -219,12 +225,6 @@ function checkObjectForUnsupportedFeatures(
   if (schema.properties)
     Object.entries(schema.properties).forEach(
       ([parameter, element]: [string, any]) => {
-        const correctName = parameter.replace(/\W/g, '_');
-        if (parameter !== correctName) {
-          unsupportedFeatures.push(
-            `Improper name '${parameter}': using '${correctName}' instead`,
-          );
-        }
         if (
           element &&
           typeof element === 'object' &&
@@ -291,12 +291,12 @@ function checkObjectForUnsupportedFeatures(
               );
 
             // check unsupported ui option
-            if (uiProp === 'ui:option')
-              Object.keys(uischema[parameter]['ui:option']).forEach(
+            if (uiProp === 'ui:options')
+              Object.keys(uischema[parameter]['ui:options']).forEach(
                 (uiOption) => {
                   if (!supportedOptions.has(uiOption))
                     unsupportedFeatures.push(
-                      `UI Property: ui:option.${uiOption} for ${parameter}`,
+                      `UI Property: ui:options.${uiOption} for ${parameter}`,
                     );
                 },
               );
@@ -312,7 +312,7 @@ export function checkForUnsupportedFeatures(
   schema: { [string]: any },
   uischema: { [string]: any },
   allFormInputs: { [string]: FormInput },
-) {
+): string[] {
   // add each unsupported feature to this array
   const unsupportedFeatures = [];
 
@@ -432,7 +432,7 @@ export function generateElementPropsFromSchemas(parameters: {
   definitionData?: { [string]: any },
   definitionUi?: { [string]: any },
   categoryHash: { [string]: string },
-}) {
+}): Array<ElementProps> {
   const { schema, uischema, definitionData, definitionUi, categoryHash } =
     parameters;
 
@@ -615,7 +615,7 @@ export function generateElementPropsFromSchemas(parameters: {
 }
 
 // determine the number of element objects from schema and uischema
-export function countElementsFromSchema(schemaData: any) {
+export function countElementsFromSchema(schemaData: any): number {
   if (!schemaData.properties) return 0;
   const elementDict = {};
   let elementCount = 0;
@@ -718,7 +718,7 @@ function generateSchemaElementFromElement(element: ElementProps) {
 // generate a new schema from a complete array of card objects
 export function generateSchemaFromElementProps(
   elementArr: Array<ElementProps>,
-) {
+): { [string]: any, definitions?: { [string]: any }, ... } {
   if (!elementArr) return {};
   const newSchema = {};
 
@@ -794,7 +794,7 @@ export function generateSchemaFromElementProps(
 export function generateUiSchemaFromElementProps(
   elementArr: Array<ElementProps>,
   definitionUi: any,
-) {
+): { [string]: any, definitions?: { [string]: any }, ... } {
   if (!elementArr) return {};
 
   const uiSchema = {};
@@ -832,7 +832,7 @@ export function generateUiSchemaFromElementProps(
 export function getCardParameterInputComponentForType(
   category: string,
   allFormInputs: { [string]: FormInput },
-) {
+): ModalBody {
   return (
     (allFormInputs[category] && allFormInputs[category].modalBody) ||
     (() => null)
@@ -843,8 +843,8 @@ export function getCardParameterInputComponentForType(
 export function updateSchemas(
   elementArr: Array<ElementProps>,
   parameters: {
-    schema: { [string]: any },
-    uischema: { [string]: any },
+    schema: { [string]: any, definitions?: { [string]: any }, ... },
+    uischema: { [string]: any, definitions?: { [string]: any }, ... },
     onChange: ({ [string]: any }, { [string]: any }) => any,
     definitionData?: { [string]: any },
     definitionUi?: { [string]: any },
@@ -854,19 +854,45 @@ export function updateSchemas(
   const definedUi = (uischema || {}).definitions
     ? { definitions: uischema.definitions }
     : {};
-  const newUiSchema = ({
-    ...definedUi,
-    ...generateUiSchemaFromElementProps(elementArr, definitionUi),
-  }: { [string]: any });
-  const newSchema = ({
-    ...schema,
-    ...generateSchemaFromElementProps(elementArr),
-  }: { [string]: any });
+
+  const newUiSchema = Object.assign(
+    definedUi,
+    generateUiSchemaFromElementProps(elementArr, definitionUi),
+  );
+  const newSchema = Object.assign(
+    { ...schema },
+    generateSchemaFromElementProps(elementArr),
+  );
 
   // mandate that the type is an object if not already done
   newSchema.type = 'object';
 
   onChange(newSchema, newUiSchema);
+}
+
+export const DEFAULT_INPUT_NAME = 'newInput';
+
+// ensure that each added block has a unique name
+function getIdFromElementsBlock(elements: Array<ElementProps>) {
+  const names = elements.map((element) => element.name);
+  const defaultNameLength = DEFAULT_INPUT_NAME.length;
+
+  return names.length > 0
+    ? Math.max(
+        ...names.map((name) => {
+          if (name.startsWith(DEFAULT_INPUT_NAME)) {
+            const index = name.substring(defaultNameLength, name.length);
+            const value = Number.parseInt(index);
+
+            if (!isNaN(value)) {
+              return value;
+            }
+          }
+
+          return 0;
+        }),
+      ) + 1
+    : 1;
 }
 
 // given an initial schema, update with a new card appended
@@ -898,24 +924,11 @@ export function addCardObj(parameters: {
     categoryHash,
   });
 
-  // ensure that each added block has a unique name
-
-  const names = newElementObjArr.map((element) => element.name);
-  const i =
-    names.length > 0
-      ? Math.max(
-          ...names.map((name) =>
-            name.startsWith('newInput')
-              ? Number.parseInt(name.charAt(8), 10)
-              : 0,
-          ),
-        ) + 1
-      : 1;
-
+  const i = getIdFromElementsBlock(newElementObjArr);
   const dataOptions = getNewElementDefaultDataOptions(i, mods);
 
   const newElement = ({
-    name: `newInput${i}`,
+    name: `${DEFAULT_INPUT_NAME}${i}`,
     required: false,
     dataOptions: dataOptions,
     uiOptions: (mods && mods.newElementDefaultUiSchema) || {},
@@ -966,21 +979,10 @@ export function addSectionObj(parameters: {
     categoryHash,
   });
 
-  // ensure that each added block has a unique name
-  const names = newElementObjArr.map((element) => element.name);
-  const i =
-    names.length > 0
-      ? Math.max(
-          ...names.map((name) =>
-            name.startsWith('newInput')
-              ? Number.parseInt(name.charAt(8), 10)
-              : 0,
-          ),
-        ) + 1
-      : 1;
+  const i = getIdFromElementsBlock(newElementObjArr);
 
   const newElement = ({
-    name: `newInput${i}`,
+    name: `${DEFAULT_INPUT_NAME}${i}`,
     required: false,
     dataOptions: {
       title: `New Input ${i}`,
@@ -1024,7 +1026,7 @@ export function generateElementComponentsFromSchemas(parameters: {
   categoryHash: { [string]: string },
   Card: React.AbstractComponent<{ [string]: any }>,
   Section: React.AbstractComponent<{ [string]: any }>,
-}) {
+}): Node[] {
   const {
     schemaData,
     uiSchemaData,
@@ -1054,7 +1056,7 @@ export function generateElementComponentsFromSchemas(parameters: {
     categoryHash,
   });
 
-  const elementList = elementPropArr.map<React.Node>((elementProp, index) => {
+  const elementList = elementPropArr.map((elementProp, index) => {
     const expanded =
       (cardOpenArray && index < cardOpenArray.length && cardOpenArray[index]) ||
       false;
@@ -1068,20 +1070,22 @@ export function generateElementComponentsFromSchemas(parameters: {
       // add a fully defined card component to the list of components
       return (
         <Card
-          componentProps={{
-            name: elementPropArr[index].name,
-            required: elementPropArr[index].required,
-            hideKey,
-            path: `${path}_${elementPropArr[index].name}`,
-            definitionData,
-            definitionUi,
-            neighborNames: elementPropArr[index].neighborNames,
-            dependents: elementPropArr[index].dependents,
-            dependent: elementPropArr[index].dependent,
-            parent: elementPropArr[index].parent,
-            ...elementPropArr[index].uiOptions,
-            ...elementPropArr[index].dataOptions,
-          }}
+          componentProps={Object.assign(
+            {
+              name: elementPropArr[index].name,
+              required: elementPropArr[index].required,
+              hideKey,
+              path: `${path}_${elementPropArr[index].name}`,
+              definitionData,
+              definitionUi,
+              neighborNames: elementPropArr[index].neighborNames,
+              dependents: elementPropArr[index].dependents,
+              dependent: elementPropArr[index].dependent,
+              parent: elementPropArr[index].parent,
+            },
+            elementPropArr[index].uiOptions,
+            elementPropArr[index].dataOptions,
+          )}
           key={`${path}_${elementPropArr[index].name}`}
           TypeSpecificParameters={TypeSpecificParameters}
           onChange={(newCardObj: { [string]: any }) => {
@@ -1549,14 +1553,14 @@ function propagateElementChange(
         definitionUi,
         categoryHash,
       );
-      const newUiSchema = {
-        ...element.uischema,
-        ...generateUiSchemaFromElementProps(updatedChildren, definitionUi),
-      };
-      const newSchema = {
-        ...element.schema,
-        ...generateSchemaFromElementProps(updatedChildren),
-      };
+      const newUiSchema = Object.assign(
+        { ...element.uischema },
+        generateSchemaFromElementProps(updatedChildren),
+      );
+      const newSchema = Object.assign(
+        { ...element.schema },
+        generateSchemaFromElementProps(updatedChildren),
+      );
       const newElement = {
         ...element,
         schema: newSchema,
@@ -1634,7 +1638,10 @@ export function excludeKeys(
   );
 }
 
-export function getNewElementDefaultDataOptions(i: number, mods?: Mods) {
+export function getNewElementDefaultDataOptions(
+  i: number,
+  mods?: Mods,
+): DataOptions {
   if (mods && mods.newElementDefaultDataOptions !== undefined) {
     const title = `${mods.newElementDefaultDataOptions.title} ${i}`;
     return { ...mods.newElementDefaultDataOptions, ...{ title: title } };
@@ -1655,4 +1662,40 @@ export function availableColumnSizes() {
     { value: '10', label: '10' },
     { value: '12', label: '12' },
   ];
+
+export function getRandomId(): string {
+  const chars = [
+    'a',
+    'b',
+    'c',
+    'd',
+    'e',
+    'f',
+    'g',
+    'h',
+    'i',
+    'j',
+    'k',
+    'l',
+    'm',
+    'n',
+    'o',
+    'p',
+    'q',
+    'r',
+    's',
+    't',
+    'u',
+    'v',
+    'w',
+    'x',
+    'y',
+    'z',
+  ];
+  const numberOfChars = chars.length;
+  const randomIdLength = 50;
+
+  return Array.from({ length: randomIdLength })
+    .map(() => chars[Math.floor(Math.random() * numberOfChars)])
+    .join('');
 }

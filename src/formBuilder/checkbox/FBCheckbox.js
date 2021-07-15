@@ -3,6 +3,7 @@
 import React from 'react';
 import classnames from 'classnames';
 import { createUseStyles } from 'react-jss';
+import type { Node } from 'react';
 
 const useStyles = createUseStyles({
   checkbox: {
@@ -27,7 +28,7 @@ type Props = {
   labelClassName?: string,
 };
 
-const FBCheckbox = ({
+export default function FBCheckbox({
   onChangeValue,
   value = '',
   isChecked = false,
@@ -37,7 +38,7 @@ const FBCheckbox = ({
   id = '',
   dataTest = '',
   labelClassName = '',
-}: Props) => {
+}: Props): Node {
   const classjss = useStyles();
   const classes = classnames('fb-checkbox', {
     'edit-checkbox': !disabled && use === 'edit',
@@ -67,6 +68,4 @@ const FBCheckbox = ({
       </div>
     </div>
   );
-};
-
-export default FBCheckbox;
+}

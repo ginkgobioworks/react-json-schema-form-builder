@@ -1,9 +1,15 @@
 // @flow
-import * as React from 'react';
+import React, { useState } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import Select from 'react-select';
 import { createUseStyles } from 'react-jss';
-import { Alert, Input, UncontrolledTooltip } from 'reactstrap';
+import {
+  Alert,
+  Input,
+  UncontrolledTooltip,
+  FormGroup,
+  FormFeedback,
+} from 'reactstrap';
 import {
   faArrowUp,
   faArrowDown,
@@ -26,22 +32,22 @@ import {
   onDragEnd,
 } from './utils';
 import FontAwesomeIcon from './FontAwesomeIcon';
+import { getRandomId } from './utils';
+import type { Node } from 'react';
 import type { FormInput, Mods } from './types';
 
 const useStyles = createUseStyles({
   sectionContainer: {
     '& .section-head': {
+      display: 'flex',
       borderBottom: '1px solid var(--gray)',
       margin: '0.5em 1.5em 0 1.5em',
       '& h5': {
         color: 'black',
         fontSize: '14px',
         fontWeight: 'bold',
-        margin: '0',
       },
       '& .section-entry': {
-        display: 'inline-block',
-        margin: '0',
         width: '33%',
         textAlign: 'left',
         padding: '0.5em',
@@ -152,7 +158,7 @@ export default function Section({
   allFormInputs: { [string]: FormInput },
   mods?: Mods,
   categoryHash: { [string]: string },
-}) {
+}): Node {
   const classes = useStyles();
   const unsupportedFeatures = checkForUnsupportedFeatures(
     schema || {},
@@ -167,8 +173,10 @@ export default function Section({
   );
   // keep name in state to avoid losing focus
   const [keyName, setKeyName] = React.useState(name);
+  const [keyError, setKeyError] = React.useState(null);
   // keep requirements in state to avoid rapid updates
   const [modalOpen, setModalOpen] = React.useState(false);
+  const [elementId] = React.useState(getRandomId());
 
   return (
     <React.Fragment>
@@ -182,7 +190,7 @@ export default function Section({
               {parent ? (
                 <Tooltip
                   text={`Depends on ${parent}`}
-                  id={`${keyName}_parentinfo`}
+                  id={`${elementId}_parentinfo`}
                   type='alert'
                 />
               ) : (
@@ -190,7 +198,7 @@ export default function Section({
               )}
             </span>
             <span className='arrows'>
-              <span id={`${path}_moveupbiginfo`}>
+              <span id={`${elementId}_moveupbiginfo`}>
                 <FontAwesomeIcon
                   icon={faArrowUp}
                   onClick={() => (onMoveUp ? onMoveUp() : {})}
@@ -198,11 +206,11 @@ export default function Section({
               </span>
               <UncontrolledTooltip
                 placement='top'
-                target={`${path}_moveupbiginfo`}
+                target={`${elementId}_moveupbiginfo`}
               >
                 Move form element up
               </UncontrolledTooltip>
-              <span id={`${path}_movedownbiginfo`}>
+              <span id={`${elementId}_movedownbiginfo`}>
                 <FontAwesomeIcon
                   icon={faArrowDown}
                   onClick={() => (onMoveDown ? onMoveDown() : {})}
@@ -210,7 +218,7 @@ export default function Section({
               </span>
               <UncontrolledTooltip
                 placement='top'
-                target={`${path}_movedownbiginfo`}
+                target={`${elementId}_movedownbiginfo`}
               >
                 Move form element down
               </UncontrolledTooltip>
@@ -260,23 +268,38 @@ export default function Section({
                       ? mods.tooltipDescriptions.cardSectionObjectName
                       : 'The key to the object that will represent this form section.'
                   }
-                  id={`${keyName}_nameinfo`}
+                  id={`${elementId}_nameinfo`}
                   type='help'
                 />
               </h5>
-              <Input
-                value={keyName || ''}
-                placeholder='Key'
-                type='text'
-                onChange={(ev: SyntheticInputEvent<HTMLInputElement>) =>
-                  setKeyName(ev.target.value.replace(/\W/g, '_'))
-                }
-                onBlur={(ev: SyntheticInputEvent<HTMLInputElement>) =>
-                  onNameChange(ev.target.value)
-                }
-                className='card-text'
-                readOnly={hideKey}
-              />
+              <FormGroup>
+                <Input
+                  invalid={keyError !== null}
+                  value={keyName || ''}
+                  placeholder='Key'
+                  type='text'
+                  onChange={(ev: SyntheticInputEvent<HTMLInputElement>) =>
+                    setKeyName(ev.target.value)
+                  }
+                  onBlur={(ev: SyntheticInputEvent<HTMLInputElement>) => {
+                    const { value } = ev.target;
+                    if (
+                      value === name ||
+                      !(neighborNames && neighborNames.includes(value))
+                    ) {
+                      setKeyError(null);
+                      onNameChange(value);
+                    } else {
+                      setKeyName(name);
+                      setKeyError(`"${value}" is already in use.`);
+                      onNameChange(name);
+                    }
+                  }}
+                  className='card-text'
+                  readOnly={hideKey}
+                />
+                <FormFeedback>{keyError}</FormFeedback>
+              </FormGroup>
             </div>
             <div className='section-entry' data-test='section-display-name'>
               <h5>
@@ -291,7 +314,7 @@ export default function Section({
                       ? mods.tooltipDescriptions.cardSectionDisplayName
                       : 'The name of the form section that will be shown to users of the form.'
                   }
-                  id={`${keyName}_titleinfo`}
+                  id={`${elementId}_titleinfo`}
                   type='help'
                 />
               </h5>
@@ -324,7 +347,7 @@ export default function Section({
                       ? mods.tooltipDescriptions.cardSectionDescription
                       : 'A description of the section which will be visible on the form.'
                   }
-                  id={`${keyName}_descriptioninfo`}
+                  id={`${elementId}_descriptioninfo`}
                   type='help'
                 />
               </h5>
@@ -352,7 +375,7 @@ export default function Section({
             >
               <h5>Unsupported Features:</h5>
               {unsupportedFeatures.map((message) => (
-                <li key={`${path}_${message}`}>{message}</li>
+                <li key={`${elementId}_${message}`}>{message}</li>
               ))}
             </Alert>
           </div>
@@ -415,7 +438,6 @@ export default function Section({
           </div>
           <div className='section-footer'>
             <Add
-              name={`${keyName}_inner`}
               addElem={(choice: string) => {
                 if (choice === 'card') {
                   addCardObj({
@@ -445,29 +467,35 @@ export default function Section({
             />
           </div>
           <div className='section-interactions'>
-            <span id={`${path}_editinfo`}>
+            <span id={`${elementId}_editinfo`}>
               <FontAwesomeIcon
                 icon={faPencilAlt}
                 onClick={() => setModalOpen(true)}
               />
             </span>
-            <UncontrolledTooltip placement='top' target={`${path}_editinfo`}>
+            <UncontrolledTooltip
+              placement='top'
+              target={`${elementId}_editinfo`}
+            >
               Additional configurations for this form element
             </UncontrolledTooltip>
-            <span id={`${path}_trashinfo`}>
+            <span id={`${elementId}_trashinfo`}>
               <FontAwesomeIcon
                 icon={faTrash}
                 onClick={() => (onDelete ? onDelete() : {})}
               />
             </span>
-            <UncontrolledTooltip placement='top' target={`${path}_trashinfo`}>
+            <UncontrolledTooltip
+              placement='top'
+              target={`${elementId}_trashinfo`}
+            >
               Delete form element
             </UncontrolledTooltip>
             <FBCheckbox
               onChangeValue={() => onRequireToggle()}
               isChecked={required}
               label='Required'
-              id={`${path}_required`}
+              id={`${elementId}_required`}
             />
           </div>
         </div>
@@ -487,11 +515,7 @@ export default function Section({
           TypeSpecificParameters={CardDefaultParameterInputs}
         />
       </Collapse>
-      {addElem ? (
-        <Add name={keyName} addElem={(choice: string) => addElem(choice)} />
-      ) : (
-        ''
-      )}
+      {addElem ? <Add addElem={(choice: string) => addElem(choice)} /> : ''}
     </React.Fragment>
   );
 }

@@ -11,6 +11,7 @@ import Card from './Card';
 import Section from './Section';
 import Add from './Add';
 import DEFAULT_FORM_INPUTS from './defaults/defaultFormInputs';
+import type { Node } from 'react';
 import type { Mods } from './types';
 
 export default function CardGallery({
@@ -25,7 +26,7 @@ export default function CardGallery({
   onChange: ({ [string]: any }, { [string]: any }) => void,
   mods?: Mods,
   categoryHash: { [string]: string },
-}) {
+}): Node {
   const elementNum = countElementsFromSchema({
     properties: definitionSchema,
   });
@@ -33,10 +34,11 @@ export default function CardGallery({
   const [cardOpenArray, setCardOpenArray] = React.useState(
     defaultCollapseStates,
   );
-  const allFormInputs = {
-    ...DEFAULT_FORM_INPUTS,
-    ...(mods && mods.customFormInputs),
-  };
+  const allFormInputs = Object.assign(
+    {},
+    DEFAULT_FORM_INPUTS,
+    (mods && mods.customFormInputs) || {},
+  );
   const componentArr = generateElementComponentsFromSchemas({
     schemaData: { properties: definitionSchema },
     uiSchemaData: definitionUiSchema,
@@ -75,7 +77,6 @@ export default function CardGallery({
       {componentArr.length === 0 && <h5>No components in "definitions"</h5>}
       <div className='form_footer'>
         <Add
-          name='form_gallery'
           addElem={(choice: string) => {
             if (choice === 'card') {
               addCardObj({

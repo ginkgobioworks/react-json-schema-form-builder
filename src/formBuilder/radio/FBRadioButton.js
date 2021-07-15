@@ -15,7 +15,7 @@ type Props = {
   onChange: (any) => void,
 };
 
-export default function FBRadioButton(props: Props) {
+export default function FBRadioButton(props: Props): Node {
   const {
     label,
     value,

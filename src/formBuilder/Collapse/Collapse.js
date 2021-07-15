@@ -37,7 +37,7 @@ type Props = {
   className?: string,
 };
 
-const Collapse = (props: Props) => {
+export default function Collapse(props: Props): Node {
   const classes = classnames(
     `collapse-element ${props.className || ''} ${useStyles().collapseElement}`,
     {
@@ -61,6 +61,4 @@ const Collapse = (props: Props) => {
       </RSCollapse>
     </div>
   );
-};
-
-export default Collapse;
+}

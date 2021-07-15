@@ -1,20 +1,24 @@
 // @flow
 
-import React from 'react';
+import React, { useState } from 'react';
 import Select from 'react-select';
 import { Input } from 'reactstrap';
 import FBCheckbox from '../checkbox/FBCheckbox';
 import Tooltip from '../Tooltip';
-import type { Parameters } from '../types';
+import { getRandomId } from '../utils';
+import type { Parameters, FormInput } from '../types';
 
 const formatDictionary = {
   '': 'None',
-  'date-time': 'Date-Time',
   email: 'Email',
   hostname: 'Hostname',
-  time: 'Time',
   uri: 'URI',
   regex: 'Regular Expression',
+};
+
+const formatTypeDictionary = {
+  email: 'email',
+  url: 'uri',
 };
 
 const autoDictionary = {
@@ -34,6 +38,7 @@ function CardShortAnswerParameterInputs({
   parameters: Parameters,
   onChange: (newParams: Parameters) => void,
 }) {
+  const [elementId] = useState(getRandomId());
   return (
     <div>
       <h4>Minimum Length</h4>
@@ -72,7 +77,7 @@ function CardShortAnswerParameterInputs({
           rel='noopener noreferrer'
         >
           <Tooltip
-            id={`${parameters.path}_regex`}
+            id={`${elementId}_regex`}
             type='help'
             text='Regular expression pattern that this must satisfy'
           />
@@ -94,7 +99,7 @@ function CardShortAnswerParameterInputs({
       <h4>
         Format{' '}
         <Tooltip
-          id={`${parameters.path}_format`}
+          id={`${elementId}_format`}
           type='help'
           text='Require string input to match a certain common format'
         />
@@ -134,7 +139,7 @@ function CardShortAnswerParameterInputs({
           rel='noopener noreferrer'
         >
           <Tooltip
-            id={`${parameters.path}_autocomplete`}
+            id={`${elementId}_autocomplete`}
             type='help'
             text="Suggest entries based on the user's browser history"
           />
@@ -206,7 +211,7 @@ function ShortAnswerField({
       <Input
         value={parameters.default}
         placeholder='Default'
-        type='text'
+        type={formatTypeDictionary[parameters.format] || 'text'}
         onChange={(ev: SyntheticInputEvent<HTMLInputElement>) =>
           onChange({ ...parameters, default: ev.target.value })
         }
@@ -239,13 +244,17 @@ function Password({
   );
 }
 
-const shortAnswerInput = {
+const shortAnswerInput: { [string]: FormInput } = {
   shortAnswer: {
     displayName: 'Short Answer',
     matchIf: [
       {
         types: ['string'],
       },
+      ...['email', 'hostname', 'uri', 'regex'].map((format) => ({
+        types: ['string'],
+        format,
+      })),
     ],
     defaultDataSchema: {},
     defaultUiSchema: {},

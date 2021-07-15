@@ -16,6 +16,8 @@ import CardGeneralParameterInputs from './CardGeneralParameterInputs';
 import Add from './Add';
 import FontAwesomeIcon from './FontAwesomeIcon';
 import Tooltip from './Tooltip';
+import { getRandomId } from './utils';
+import type { Node } from 'react';
 import type { Parameters, Mods, FormInput } from './types';
 
 const useStyles = createUseStyles({
@@ -27,8 +29,10 @@ const useStyles = createUseStyles({
       'font-size': '14px',
       'font-weight': 'bold',
     },
+    '& .card-entry-row': {
+      display: 'flex',
+    },
     '& .card-entry': {
-      display: 'inline-block',
       margin: 0,
       width: '50%',
       'text-align': 'left',
@@ -126,9 +130,10 @@ export default function Card({
   mods?: Mods,
   allFormInputs: { [string]: FormInput },
   showObjectNameInput?: boolean,
-}) {
+}): Node {
   const classes = useStyles();
   const [modalOpen, setModalOpen] = React.useState(false);
+  const [elementId] = React.useState(getRandomId());
 
   return (
     <React.Fragment>
@@ -142,7 +147,7 @@ export default function Card({
               {componentProps.parent ? (
                 <Tooltip
                   text={`Depends on ${(componentProps.parent: any)}`}
-                  id={`${componentProps.path}_parentinfo`}
+                  id={`${elementId}_parentinfo`}
                   type='alert'
                 />
               ) : (
@@ -151,7 +156,7 @@ export default function Card({
               {componentProps.$ref !== undefined ? (
                 <Tooltip
                   text={`Is an instance of pre-configured component ${(componentProps.$ref: any)}`}
-                  id={`${componentProps.path}_refinfo`}
+                  id={`${elementId}_refinfo`}
                   type='alert'
                 />
               ) : (
@@ -159,7 +164,7 @@ export default function Card({
               )}
             </span>
             <span className='arrows'>
-              <span id={`${componentProps.path}_moveupbiginfo`}>
+              <span id={`${elementId}_moveupbiginfo`}>
                 <FontAwesomeIcon
                   icon={faArrowUp}
                   onClick={() => (onMoveUp ? onMoveUp() : {})}
@@ -167,11 +172,11 @@ export default function Card({
               </span>
               <UncontrolledTooltip
                 placement='top'
-                target={`${componentProps.path}_moveupbiginfo`}
+                target={`${elementId}_moveupbiginfo`}
               >
                 Move form element up
               </UncontrolledTooltip>
-              <span id={`${componentProps.path}_movedownbiginfo`}>
+              <span id={`${elementId}_movedownbiginfo`}>
                 <FontAwesomeIcon
                   icon={faArrowDown}
                   onClick={() => (onMoveDown ? onMoveDown() : {})}
@@ -179,7 +184,7 @@ export default function Card({
               </span>
               <UncontrolledTooltip
                 placement='top'
-                target={`${componentProps.path}_movedownbiginfo`}
+                target={`${elementId}_movedownbiginfo`}
               >
                 Move form element down
               </UncontrolledTooltip>
@@ -200,24 +205,21 @@ export default function Card({
           />
         </div>
         <div className={classes.cardInteractions}>
-          <span id={`${componentProps.path}_editinfo`}>
+          <span id={`${elementId}_editinfo`}>
             <FontAwesomeIcon
               icon={faPencilAlt}
               onClick={() => setModalOpen(true)}
             />
           </span>
-          <UncontrolledTooltip
-            placement='top'
-            target={`${componentProps.path}_editinfo`}
-          >
+          <UncontrolledTooltip placement='top' target={`${elementId}_editinfo`}>
             Additional configurations for this form element
           </UncontrolledTooltip>
-          <span id={`${componentProps.path}_trashinfo`}>
+          <span id={`${elementId}_trashinfo`}>
             <FontAwesomeIcon icon={faTrash} onClick={onDelete || (() => {})} />
           </span>
           <UncontrolledTooltip
             placement='top'
-            target={`${componentProps.path}_trashinfo`}
+            target={`${elementId}_trashinfo`}
           >
             Delete form element
           </UncontrolledTooltip>
@@ -230,11 +232,7 @@ export default function Card({
             }
             isChecked={!!componentProps.required}
             label='Required'
-            id={`${
-              typeof componentProps.path === 'string'
-                ? componentProps.path
-                : 'card'
-            }_required`}
+            id={`${elementId}_required`}
           />
         </div>
         <CardModal
@@ -249,14 +247,7 @@ export default function Card({
           TypeSpecificParameters={TypeSpecificParameters}
         />
       </Collapse>
-      {addElem ? (
-        <Add
-          name={`${componentProps.path}`}
-          addElem={(choice: string) => addElem(choice)}
-        />
-      ) : (
-        ''
-      )}
+      {addElem ? <Add addElem={(choice: string) => addElem(choice)} /> : ''}
     </React.Fragment>
   );
 }

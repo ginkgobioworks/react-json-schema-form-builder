@@ -1,21 +1,12 @@
 // @flow
 
-import React from 'react';
+import React, { useState } from 'react';
 import Select from 'react-select';
 import { Input } from 'reactstrap';
 import FBCheckbox from '../checkbox/FBCheckbox';
 import Tooltip from '../Tooltip';
-import type { Parameters } from '../types';
-
-const formatDictionary = {
-  '': 'None',
-  'date-time': 'Date-Time',
-  email: 'Email',
-  hostname: 'Hostname',
-  time: 'Time',
-  uri: 'URI',
-  regex: 'Regular Expression',
-};
+import { getRandomId } from '../utils';
+import type { Parameters, FormInput } from '../types';
 
 // specify the inputs required for a string type object
 function CardLongAnswerParameterInputs({
@@ -25,6 +16,7 @@ function CardLongAnswerParameterInputs({
   parameters: Parameters,
   onChange: (newParams: Parameters) => void,
 }) {
+  const [elementId] = useState(getRandomId());
   return (
     <div>
       <h4>Minimum Length</h4>
@@ -59,7 +51,7 @@ function CardLongAnswerParameterInputs({
         Regular Expression Pattern{' '}
         <a href='https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions'>
           <Tooltip
-            id={`${parameters.path}_regex`}
+            id={`${elementId}_regex`}
             type='help'
             text='Regular expression pattern that this must satisfy'
           />
@@ -77,41 +69,6 @@ function CardLongAnswerParameterInputs({
           });
         }}
         className='card-modal-text'
-      />
-      <h4>
-        Format{' '}
-        <Tooltip
-          id={`${parameters.path}_format`}
-          type='help'
-          text='Require string input to match a certain common format'
-        />
-      </h4>
-      <Select
-        value={{
-          value: parameters.format
-            ? formatDictionary[
-                typeof parameters.format === 'string' ? parameters.format : ''
-              ]
-            : '',
-          label: parameters.format
-            ? formatDictionary[
-                typeof parameters.format === 'string' ? parameters.format : ''
-              ]
-            : 'None',
-        }}
-        placeholder='Format'
-        key='format'
-        options={Object.keys(formatDictionary).map((key) => ({
-          value: key,
-          label: formatDictionary[key],
-        }))}
-        onChange={(val: any) => {
-          onChange({
-            ...parameters,
-            format: val.value,
-          });
-        }}
-        className='card-modal-select'
       />
       <div className='card-modal-boolean'>
         <FBCheckbox
@@ -144,7 +101,7 @@ function LongAnswer({
 }) {
   return (
     <React.Fragment>
-      <h5>Default input</h5>
+      <h5>Default value</h5>
       <Input
         value={parameters.default}
         placeholder='Default'
@@ -158,7 +115,7 @@ function LongAnswer({
   );
 }
 
-const longAnswerInput = {
+const longAnswerInput: { [string]: FormInput } = {
   longAnswer: {
     displayName: 'Long Answer',
     matchIf: [
