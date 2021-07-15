@@ -253,10 +253,10 @@ export default function CardGeneralParameterInputs({
         />
       </div>
       <div
-      className={classnames('card-entry', {
-        'wide-card-entry': !showObjectNameInput,
-      })}
-    />
+        className={classnames('card-entry', {
+          'wide-card-entry': !showObjectNameInput,
+        })}
+      />
 
       <div className='card-category-options'>
         <GeneralParameterInputs
