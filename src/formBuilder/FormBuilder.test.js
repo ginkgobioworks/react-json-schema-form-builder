@@ -302,13 +302,12 @@ describe('FormBuilder', () => {
     const jsonSchema = {
       $schema: `http://json-schema.org/draft-07/schema#`,
       properties: {},
-      required: [],
-      additionalProperties: false,
+      'additionalProperties': false,
     };
 
     const props = {
       schema: JSON.stringify(jsonSchema),
-      uiSchema: JSON.stringify(uischema),
+      uiSchema: '{}',
       onChange: jest.fn(() => {}),
       mods: {},
       className: 'my-form-builder',
