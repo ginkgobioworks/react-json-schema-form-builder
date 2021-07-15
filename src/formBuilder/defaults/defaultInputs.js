@@ -5,7 +5,9 @@ import Select from 'react-select';
 import { createUseStyles } from 'react-jss';
 import FBCheckbox from '../checkbox/FBCheckbox';
 import CardEnumOptions from '../CardEnumOptions';
-import type { Parameters } from '../types';
+import { getRandomId } from '../utils';
+import type { Node } from 'react';
+import type { Parameters, FormInput } from '../types';
 
 const useStyles = createUseStyles({
   hidden: {
@@ -14,32 +16,39 @@ const useStyles = createUseStyles({
 });
 
 // specify the inputs required for a string type object
-export function CardDefaultParameterInputs() {
-  return <div />;
-}
-
-function TimeField({
+export function CardDefaultParameterInputs({
   parameters,
   onChange,
 }: {
   parameters: Parameters,
-  onChange: (newParams: Parameters) => void,
-}) {
-  return (
-    <React.Fragment>
-      <h5>Default time</h5>
-      <Input
-        value={parameters.default || ''}
-        placeholder='Default'
-        type='datetime-local'
-        onChange={(ev: SyntheticInputEvent<HTMLInputElement>) =>
-          onChange({ ...parameters, default: ev.target.value })
-        }
-        className='card-text'
-      />
-    </React.Fragment>
-  );
+  onChange: (Parameters) => void,
+}): Node {
+  return <div />;
 }
+
+const getInputCardBodyComponent = ({ type }: { type: string }) =>
+  function InputCardBodyComponent({
+    parameters,
+    onChange,
+  }: {
+    parameters: Parameters,
+    onChange: (newParams: Parameters) => void,
+  }) {
+    return (
+      <React.Fragment>
+        <h5>Default value</h5>
+        <Input
+          value={parameters.default || ''}
+          placeholder='Default'
+          type={type}
+          onChange={(ev: SyntheticInputEvent<HTMLInputElement>) =>
+            onChange({ ...parameters, default: ev.target.value })
+          }
+          className='card-text'
+        />
+      </React.Fragment>
+    );
+  };
 
 function Checkbox({
   parameters,
@@ -81,6 +90,7 @@ function MultipleChoice({
   const [isNumber, setIsNumber] = React.useState(
     !!enumArray.length && !containsString,
   );
+  const [elementId] = React.useState(getRandomId());
   return (
     <div className='card-enum'>
       <h3>Possible Values</h3>
@@ -102,7 +112,7 @@ function MultipleChoice({
         }}
         isChecked={Array.isArray(parameters.enumNames)}
         label='Display label is different from value'
-        id={`${parameters.path}_different`}
+        id={`${elementId}_different`}
       />
       <div
         className={
@@ -143,9 +153,7 @@ function MultipleChoice({
           isChecked={isNumber}
           disabled={containsUnparsableString}
           label='Force number'
-          id={`${
-            typeof parameters.path === 'string' ? parameters.path : ''
-          }_forceNumber`}
+          id={`${elementId}_forceNumber`}
         />
       </div>
       <CardEnumOptions
@@ -197,9 +205,9 @@ function RefChoice({
   );
 }
 
-const defaultInputs = {
-  time: {
-    displayName: 'Time',
+const defaultInputs: { [string]: FormInput } = {
+  dateTime: {
+    displayName: 'Date-Time',
     matchIf: [
       {
         types: ['string'],
@@ -211,7 +219,39 @@ const defaultInputs = {
     },
     defaultUiSchema: {},
     type: 'string',
-    cardBody: TimeField,
+    cardBody: getInputCardBodyComponent({ type: 'datetime-local' }),
+    modalBody: CardDefaultParameterInputs,
+  },
+  date: {
+    displayName: 'Date',
+    matchIf: [
+      {
+        types: ['string'],
+        format: 'date',
+      },
+    ],
+    defaultDataSchema: {
+      format: 'date',
+    },
+    defaultUiSchema: {},
+    type: 'string',
+    cardBody: getInputCardBodyComponent({ type: 'date' }),
+    modalBody: CardDefaultParameterInputs,
+  },
+  time: {
+    displayName: 'Time',
+    matchIf: [
+      {
+        types: ['string'],
+        format: 'time',
+      },
+    ],
+    defaultDataSchema: {
+      format: 'time',
+    },
+    defaultUiSchema: {},
+    type: 'string',
+    cardBody: getInputCardBodyComponent({ type: 'time' }),
     modalBody: CardDefaultParameterInputs,
   },
   checkbox: {
@@ -231,7 +271,7 @@ const defaultInputs = {
     displayName: 'Reference',
     matchIf: [
       {
-        types: [null],
+        types: ['null'],
         $ref: true,
       },
     ],
@@ -241,7 +281,7 @@ const defaultInputs = {
       description: '',
     },
     defaultUiSchema: {},
-    type: null,
+    type: 'string',
     cardBody: RefChoice,
     modalBody: CardDefaultParameterInputs,
   },
@@ -249,7 +289,7 @@ const defaultInputs = {
     displayName: 'Radio',
     matchIf: [
       {
-        types: ['string', 'number', 'integer', 'array', 'boolean', null],
+        types: ['string', 'number', 'integer', 'array', 'boolean', 'null'],
         widget: 'radio',
         enum: true,
       },
@@ -266,7 +306,7 @@ const defaultInputs = {
     displayName: 'Dropdown',
     matchIf: [
       {
-        types: ['string', 'number', 'integer', 'array', 'boolean', null],
+        types: ['string', 'number', 'integer', 'array', 'boolean', 'null'],
         enum: true,
       },
     ],

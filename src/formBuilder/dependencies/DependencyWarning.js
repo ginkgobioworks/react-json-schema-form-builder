@@ -1,7 +1,9 @@
 // @flow
 
-import * as React from 'react';
+import React, { useState } from 'react';
+import { getRandomId } from '../utils';
 import Tooltip from '../Tooltip';
+import type { Node } from 'react';
 
 // warning message if not all possibilities specified
 export default function DependencyWarning({
@@ -19,7 +21,8 @@ export default function DependencyWarning({
     neighborNames?: Array<string>,
     schema?: string,
   },
-}) {
+}): Node {
+  const [elementId] = useState(getRandomId());
   if (
     parameters.enum &&
     parameters.dependents &&
@@ -28,7 +31,7 @@ export default function DependencyWarning({
   ) {
     // get the set of defined enum values
     const definedVals = new Set([]);
-    parameters.dependents.forEach((possibility) => {
+    (parameters.dependents || []).forEach((possibility) => {
       if (possibility.value && possibility.value.enum)
         possibility.value.enum.forEach((val) => definedVals.add(val));
     });
@@ -44,7 +47,7 @@ export default function DependencyWarning({
           Warning! The following values do not have associated dependency
           values:{' '}
           <Tooltip
-            id={`${parameters.path}_valuewarning`}
+            id={`${elementId}_valuewarning`}
             type='help'
             text='Each possible value for a value-based dependency must be defined to work properly'
           />

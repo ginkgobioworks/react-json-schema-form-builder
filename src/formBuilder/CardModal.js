@@ -4,6 +4,7 @@ import * as React from 'react';
 import { Modal, ModalHeader, Button, ModalBody, ModalFooter } from 'reactstrap';
 import { createUseStyles } from 'react-jss';
 import DependencyField from './dependencies/DependencyField';
+import type { Node } from 'react';
 import type { Parameters } from './types';
 
 const useStyles = createUseStyles({
@@ -46,7 +47,7 @@ export default function CardModal({
     parameters: Parameters,
     onChange: (newParams: Parameters) => void,
   }>,
-}) {
+}): Node {
   const classes = useStyles();
   // assign state values for parameters that should only change on hitting "Save"
   const [componentPropsState, setComponentProps] =

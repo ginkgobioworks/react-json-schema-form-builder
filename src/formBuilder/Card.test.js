@@ -10,6 +10,7 @@ const mockEvent = jest.fn(() => {});
 const params = {
   name: 'test',
   category: 'shortAnswer',
+  neighborNames: ['test', 'input2'],
 };
 
 const props = {
@@ -122,8 +123,32 @@ describe('Card', () => {
     key.simulate('change', { target: { value: 'test' } });
     key.simulate('blur');
     expect(mockEvent.mock.calls).toEqual([
-      ['{"name":"wow_name_change","category":"shortAnswer"}'],
-      ['{"name":"test","category":"shortAnswer"}'],
+      [
+        '{"name":"wow_name_change","category":"shortAnswer","neighborNames":["test","input2"]}',
+      ],
+      [
+        '{"name":"test","category":"shortAnswer","neighborNames":["test","input2"]}',
+      ],
+    ]);
+    mockEvent.mockClear();
+  });
+
+  it('does not change the name if the name is already in use', () => {
+    const div = document.createElement('div');
+    document.body.appendChild(div);
+    const wrapper = mount(<Card {...props} />, { attachTo: div });
+    const key = wrapper
+      .find('.card-container')
+      .first()
+      .find('.card-text')
+      .at(1);
+    key.simulate('focus');
+    key.simulate('change', { target: { value: 'input2' } });
+    key.simulate('blur');
+    expect(mockEvent.mock.calls).toEqual([
+      [
+        '{"name":"test","category":"shortAnswer","neighborNames":["test","input2"]}',
+      ],
     ]);
     mockEvent.mockClear();
   });
@@ -149,9 +174,13 @@ describe('Card', () => {
     });
     description.simulate('blur');
     expect(mockEvent.mock.calls).toEqual([
-      ['{"name":"test","category":"shortAnswer","title":"wow title change"}'],
       [
-        '{"name":"test","category":"shortAnswer","description":"wow description change"}',
+        '{"name":"test","category":"shortAnswer","neighborNames":["test","input2"],"title":' +
+          '"wow title change"}',
+      ],
+      [
+        '{"name":"test","category":"shortAnswer","neighborNames":["test","input2"],' +
+          '"description":"wow description change"}',
       ],
     ]);
     mockEvent.mockClear();

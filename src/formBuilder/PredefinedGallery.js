@@ -11,6 +11,7 @@ import {
 } from './utils';
 import { arrows as arrowsStyle } from './styles';
 import DEFAULT_FORM_INPUTS from './defaults/defaultFormInputs';
+import type { Node } from 'react';
 import type { Mods } from './types';
 
 const useStyles = createUseStyles({
@@ -130,15 +131,16 @@ export default function PredefinedGallery({
   uischema: string,
   onChange: (string, string) => any,
   mods?: Mods,
-}) {
+}): Node {
   const classes = useStyles();
   const schemaData = (parse(schema): { [string]: any }) || {};
   const uiSchemaData = (parse(uischema): { [string]: any }) || {};
   const allFormInputs = excludeKeys(
-    {
-      ...DEFAULT_FORM_INPUTS,
-      ...(mods && mods.customFormInputs),
-    },
+    Object.assign(
+      {},
+      DEFAULT_FORM_INPUTS,
+      (mods && mods.customFormInputs) || {},
+    ),
     mods && mods.deactivatedFormInputs,
   );
   const categoryHash = generateCategoryHash(allFormInputs);
