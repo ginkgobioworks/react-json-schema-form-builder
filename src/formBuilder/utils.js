@@ -4,7 +4,6 @@ import type {
   CardProps,
   ElementProps,
   FormInput,
-  ColumnInputSize,
   Mods,
   DataOptions,
 } from './types';
