@@ -1661,6 +1661,7 @@ export function availableColumnSizes() {
     { value: '10', label: '10' },
     { value: '12', label: '12' },
   ];
+}
 
 export function getRandomId(): string {
   const chars = [
