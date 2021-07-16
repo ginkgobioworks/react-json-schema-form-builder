@@ -1653,7 +1653,7 @@ export function getNewElementDefaultDataOptions(
   }
 }
 
-export function availableColumnSizes() {
+export function availableColumnSizes(): Array<Object> {
   return [
     { value: '4', label: '4' },
     { value: '6', label: '6' },
