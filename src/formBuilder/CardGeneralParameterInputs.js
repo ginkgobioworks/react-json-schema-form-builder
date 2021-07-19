@@ -274,7 +274,7 @@ export default function CardGeneralParameterInputs({
             value: columnSize.value,
           }}
           placeholder='input column size'
-          options={availableColumnSizes()}
+          options={availableColumnSizes([])}
           onChange={(val: any) => {
             setColumnSize({
               ...val,
