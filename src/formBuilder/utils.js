@@ -156,6 +156,7 @@ const supportedUiParameters = new Set([
   'ui:autocomplete',
   'ui:options',
   'ui:field',
+  'ui:placeholder',
   'items',
   'definitions',
 ]);
@@ -807,7 +808,8 @@ export function generateUiSchemaFromElementProps(
         typeof element.$ref === 'string' ? element.$ref.split('/') : [];
       if (definitions && definitions[pathArr[2]])
         uiSchema[element.name] = definitions[pathArr[2]];
-    } else if (element.propType === 'card' && element.uiOptions) {
+    }
+    if (element.propType === 'card' && element.uiOptions) {
       Object.keys(element.uiOptions).forEach((uiOption) => {
         if (!uiSchema[element.name]) uiSchema[element.name] = {};
         if (uiOption.startsWith('ui:*')) {

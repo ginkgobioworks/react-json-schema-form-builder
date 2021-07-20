@@ -85,6 +85,7 @@ declare module '@ginkgo-bioworks/react-json-schema-form-builder' {
       displayNameLabel?: string,
       descriptionLabel?: string,
       inputTypeLabel?: string,
+      placeholderLabel?: string,
     |},
     showFormHead?: boolean,
     deactivatedFormInputs?: Array<string>,
