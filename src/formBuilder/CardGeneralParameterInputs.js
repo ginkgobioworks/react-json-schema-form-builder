@@ -53,7 +53,7 @@ export default function CardGeneralParameterInputs({
   const displayNameLabel = fetchLabel('displayNameLabel', 'Display Name');
   const descriptionLabel = fetchLabel('descriptionLabel', 'Description');
   const inputTypeLabel = fetchLabel('inputTypeLabel', 'Input Type');
-  const placeHolderLabel = fetchLabel('placeHolderLabel', 'Placeholder');
+  const placeholderLabel = fetchLabel('placeholderLabel', 'Placeholder');
 
   const availableInputTypes = () => {
     const definitionsInSchema =
@@ -253,7 +253,7 @@ export default function CardGeneralParameterInputs({
         <div
           className={`card-entry ${parameters.$ref ? 'disabled-input' : ''}`}
         >
-          <h5>{placeHolderLabel}</h5>
+          <h5>{placeholderLabel}</h5>
           <FormGroup>
             <Input
               value={placeholderState || ''}

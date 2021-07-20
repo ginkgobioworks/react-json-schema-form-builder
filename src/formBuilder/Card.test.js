@@ -40,7 +40,7 @@ const mods = {
     displayNameLabel: 'Custom Display Name',
     descriptionLabel: 'Custom Description',
     inputTypeLabel: 'Custom Input Type',
-    placeHolderLabel: 'Custom Placeholder',
+    placeholderLabel: 'Custom Placeholder',
   },
 };
 
@@ -204,8 +204,8 @@ describe('Card', () => {
     const inputTypeLabel = getHeadingText(wrapper, 3);
     expect(inputTypeLabel).toContain('Input Type');
 
-    const placeHolderLabel = getHeadingText(wrapper, 4);
-    expect(placeHolderLabel).toContain('Placeholder');
+    const placeholderLabel = getHeadingText(wrapper, 4);
+    expect(placeholderLabel).toContain('Placeholder');
   });
 
   it('renders with passed labels', () => {
@@ -227,8 +227,8 @@ describe('Card', () => {
     const inputTypeLabel = getHeadingText(wrapper, 3);
     expect(inputTypeLabel).toContain('Custom Input Type');
 
-    const placeHolderLabel = getHeadingText(wrapper, 4);
-    expect(placeHolderLabel).toContain('Custom Placeholder');
+    const placeholderLabel = getHeadingText(wrapper, 4);
+    expect(placeholderLabel).toContain('Custom Placeholder');
   });
 
   it('should successfully populates placeholder input field', () => {
