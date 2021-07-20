@@ -11,7 +11,6 @@ import {
   categoryToNameMap,
   categoryType,
   subtractArray,
-  availableColumnSizes,
   getRandomId,
 } from './utils';
 import type { Node } from 'react';
@@ -52,10 +51,6 @@ export default function CardGeneralParameterInputs({
   const displayNameLabel = fetchLabel('displayNameLabel', 'Display Name');
   const descriptionLabel = fetchLabel('descriptionLabel', 'Description');
   const inputTypeLabel = fetchLabel('inputTypeLabel', 'Input Type');
-  const inputColumnSize = fetchLabel(
-    'inputColumnSizeLabel',
-    'Input Column Size',
-  );
 
   const availableInputTypes = () => {
     const definitionsInSchema =
@@ -247,42 +242,6 @@ export default function CardGeneralParameterInputs({
             className='card-select'
           />
         </div>
-      </div>
-
-      <div
-        className={classnames('card-entry', {
-          'wide-card-entry': !showObjectNameInput,
-        })}
-      >
-        <h5>
-          {`${inputColumnSize} `}
-          <Tooltip
-            text={
-              mods &&
-              mods.tooltipDescriptions &&
-              typeof mods.tooltipDescriptions.inputColumnSize === 'string'
-                ? mods.tooltipDescriptions.inputColumnSize
-                : 'The size of form input displayed on the form'
-            }
-            id={`${(keyState: string)}-inputinfo`}
-            type='help'
-          />
-        </h5>
-        <Select
-          value={{
-            label: columnSize.label,
-            value: columnSize.value,
-          }}
-          placeholder='input column size'
-          options={availableColumnSizes([])}
-          onChange={(val: any) => {
-            setColumnSize({
-              ...val,
-            });
-            onChange({ ...parameters, 'ui:column': `${val.value}` });
-          }}
-          className='card-select'
-        />
       </div>
       <div
         className={classnames('card-entry', {
