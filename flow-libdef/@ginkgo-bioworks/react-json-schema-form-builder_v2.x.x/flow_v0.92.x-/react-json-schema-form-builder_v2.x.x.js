@@ -74,7 +74,6 @@ declare module '@ginkgo-bioworks/react-json-schema-form-builder' {
       cardDisplayName?: string,
       cardDescription?: string,
       cardInputType?: string,
-      inputColumnSize?: string,
       cardSectionObjectName?: string,
       cardSectionDisplayName?: string,
       cardSectionDescription?: string,
