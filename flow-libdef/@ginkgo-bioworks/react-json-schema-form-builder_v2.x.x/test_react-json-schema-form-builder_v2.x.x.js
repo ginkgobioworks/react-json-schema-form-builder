@@ -83,7 +83,6 @@ describe('@ginkgo-bioworks/react-json-schema-form-builder', () => {
         cardDisplayName: 'card display name text',
         cardDescription: 'card description text',
         cardInputType: 'card input type text',
-        inputColumnSize: 'card input size text',
         cardSectionObjectName: 'card section object name text',
         cardSectionDisplayName: 'card section display name text',
         cardSectionDescription: 'card section description text',
