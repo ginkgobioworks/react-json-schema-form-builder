@@ -34,7 +34,6 @@ export default function CardGeneralParameterInputs({
   const [keyState, setKeyState] = React.useState(parameters.name);
   const [keyError, setKeyError] = React.useState(null);
   const [titleState, setTitleState] = React.useState(parameters.title);
-  const [columnSize, setColumnSize] = React.useState({});
   const [descriptionState, setDescriptionState] = React.useState(
     parameters.description,
   );
