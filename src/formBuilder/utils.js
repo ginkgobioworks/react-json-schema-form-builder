@@ -783,7 +783,7 @@ export function generateSchemaFromElementProps(
   newSchema.dependencies = dependencies;
   newSchema.required = elementArr
     .filter(({ required, dependent }) => required && !dependent)
-    .map<string>(({ name }) => name);
+    .map(({ name }) => name);
 
   return newSchema;
 }
