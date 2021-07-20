@@ -20,7 +20,6 @@ declare type Mods = {|
     cardDisplayName?: string,
     cardDescription?: string,
     cardInputType?: string,
-    inputColumnSize?: string,
     cardSectionObjectName?: string,
     cardSectionDisplayName?: string,
     cardSectionDescription?: string,
@@ -174,7 +173,6 @@ By passing in alternative text to the `tooltipDescriptions` object of the `mods`
 - `cardDisplayName` - The tooltip for the "Display Name" field for a form element.
 - `cardDescription` - The tooltip for the "Description" field for a form element.
 - `cardInputType` - The tooltip for the "Input Type" field for a form element.
-- `inputColumnSize` - The tooltip for the "Input Column Size" field for a form element.
 - `cardSectionObjectName` - The tooltip for the "Object Name" field for a form section.
 - `cardSectionDisplayName` - The tooltip for the "Display Name" field for a form section.
 - `cardSectionDescription` - The tooltip for the "Description" field for a form section.
