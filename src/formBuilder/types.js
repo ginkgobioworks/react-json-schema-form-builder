@@ -131,7 +131,6 @@ export type Mods = {|
     cardDisplayName?: string,
     cardDescription?: string,
     cardInputType?: string,
-    inputColumnSize?: string,
     cardSectionObjectName?: string,
     cardSectionDisplayName?: string,
     cardSectionDescription?: string,
