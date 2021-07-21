@@ -156,6 +156,7 @@ const supportedUiParameters = new Set([
   'ui:autocomplete',
   'ui:options',
   'ui:field',
+  'ui:column',
   'items',
   'definitions',
 ]);
