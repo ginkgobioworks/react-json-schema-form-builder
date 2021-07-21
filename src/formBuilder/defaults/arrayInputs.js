@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { Input } from 'reactstrap';
 import {
+  excludeKeys,
   generateElementComponentsFromSchemas,
   generateCategoryHash,
 } from '../utils';
@@ -75,14 +76,15 @@ function getInnerCardComponent({
     const [elementId] = useState(getRandomId);
     const newDataProps = {};
     const newUiProps = {};
-    const allFormInputs = Object.assign(
-      {
-        ...defaultFormInputs,
-      },
-      {
-        ...(mods && mods.customFormInputs),
-      },
+    const allFormInputs = excludeKeys(
+      Object.assign(
+        {},
+        defaultFormInputs,
+        (mods && mods.customFormInputs) || {},
+      ),
+      mods && mods.deactivatedFormInputs,
     );
+
     // parse components into data and ui relevant pieces
     Object.keys(parameters).forEach((propName) => {
       if (propName.startsWith('ui:*')) {
