@@ -274,7 +274,7 @@ describe('FormBuilder', () => {
 
     const uischema = {
       newInput1: {
-        'ui:column': '4',
+        'ui:column': 4,
       },
       'ui:order': ['newInput1'],
     };
