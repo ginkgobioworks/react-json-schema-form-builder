@@ -1,7 +1,14 @@
 // @flow
 
 import * as React from 'react';
-import {Modal, ModalHeader, Button, ModalBody, ModalFooter, Input} from 'reactstrap';
+import {
+  Modal,
+  ModalHeader,
+  Button,
+  ModalBody,
+  ModalFooter,
+  Input,
+} from 'reactstrap';
 import { createUseStyles } from 'react-jss';
 import DependencyField from './dependencies/DependencyField';
 import type { Node } from 'react';
