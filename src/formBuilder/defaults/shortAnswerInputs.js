@@ -176,33 +176,6 @@ function CardShortAnswerParameterInputs({
         }}
         className='card-modal-select'
       />
-      <h4>
-        Column Size{' '}
-        <a
-          href='https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Grid_Layout/Basic_Concepts_of_Grid_Layout'
-          target='_blank'
-          rel='noopener noreferrer'
-        >
-          <Tooltip
-            id={`${elementId}_column_size`}
-            type='help'
-            text='Set the column size of the input'
-          />
-        </a>
-      </h4>
-      <Input
-        value={parameters['ui:column'] ? parameters['ui:column'] : ''}
-        placeholder='Column size'
-        key='ui:column'
-        type='number'
-        onChange={(ev: SyntheticInputEvent<HTMLInputElement>) => {
-          onChange({
-            ...parameters,
-            'ui:column': ev.target.value,
-          });
-        }}
-        className='card-modal-text'
-      />
       <div className='card-modal-boolean'>
         <FBCheckbox
           onChangeValue={() => {
