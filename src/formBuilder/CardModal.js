@@ -97,6 +97,7 @@ export default function CardModal({
             placeholder='Column size'
             key='ui:column'
             type='number'
+            min={0}
             onChange={(ev: SyntheticInputEvent<HTMLInputElement>) => {
               onChange({
                 ...componentProps,
