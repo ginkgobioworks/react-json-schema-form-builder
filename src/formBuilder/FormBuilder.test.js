@@ -291,47 +291,7 @@ describe('FormBuilder', () => {
     expect(errors).toEqual([]);
   });
 
-  it('initializes the FormBuilder with the ui:placeholder specified in the initial uiSchema in non-definition fields', () => {
-    const jsonSchema = {
-      $schema: 'http://json-schema.org/draft-07/schema#',
-      type: 'object',
-      properties: {
-        input1: {
-          type: 'string',
-          title: 'First Name',
-          description: 'Please enter your first name',
-        },
-      },
-    };
-
-    const uischema = {
-      input1: {
-        'ui:placeholder': 'Custom Placeholder',
-      },
-      'ui:order': ['input1'],
-    };
-
-    const props = {
-      schema: JSON.stringify(jsonSchema),
-      uischema: JSON.stringify(uischema),
-      onChange: jest.fn(() => {}),
-      mods: {},
-      className: 'my-form-builder',
-    };
-    const div = document.createElement('div');
-    document.body.appendChild(div);
-    const wrapper = mount(<FormBuilder {...props} />, { attachTo: div });
-    const placeholder = wrapper
-      .find('.card-container')
-      .first()
-      .find('.card-text')
-      .get(6);
-    expect(placeholder.props.value).toEqual('Custom Placeholder');
-  });
-
-  it('initializes the FormBuilder with the ui:placeholder specified in the initial uiSchema in definition fields', () => {
-    const div = document.createElement('div');
-    document.body.appendChild(div);
+  it('should supports placeholder', () => {
     const jsonSchema = {
       $schema: 'http://json-schema.org/draft-07/schema#',
       type: 'object',
@@ -341,9 +301,10 @@ describe('FormBuilder', () => {
           title: 'First Name',
           description: 'Please enter your first name',
         },
-      },
-      definitions: {
-        name: { type: 'string' },
+        input2: {
+          title: 'Last Name',
+          type: 'string',
+        },
       },
     };
 
@@ -351,22 +312,28 @@ describe('FormBuilder', () => {
       input1: {
         'ui:placeholder': 'Custom Placeholder',
       },
-      'ui:order': ['input1'],
+      input2: {
+        'ui:placeholder': 'Custom Placeholder',
+      },
+      'ui:order': ['input1', 'input2'],
     };
 
     const props = {
       schema: JSON.stringify(jsonSchema),
-      uischema: JSON.stringify(uischema),
+      uiSchema: JSON.stringify(uischema),
       onChange: jest.fn(() => {}),
       mods: {},
       className: 'my-form-builder',
     };
+
+    const div = document.createElement('div');
+    document.body.appendChild(div);
     const wrapper = mount(<FormBuilder {...props} />, { attachTo: div });
-    const placeholder = wrapper
-      .find('.card-container')
+    const errors = wrapper
+      .find('.alert-warning')
       .first()
-      .find('.card-text')
-      .get(6);
-    expect(placeholder.props.value).toEqual('Custom Placeholder');
+      .find('li')
+      .map((error) => error.text());
+    expect(errors).toEqual([]);
   });
 });

@@ -249,27 +249,6 @@ export default function CardGeneralParameterInputs({
           />
         </div>
       </div>
-      <div className='card-entry-row'>
-        <div
-          className={`card-entry ${parameters.$ref ? 'disabled-input' : ''}`}
-        >
-          <h5>{placeholderLabel}</h5>
-          <FormGroup>
-            <Input
-              value={placeholderState || ''}
-              placeholder='Placeholder'
-              type='text'
-              onChange={(ev: SyntheticInputEvent<HTMLInputElement>) =>
-                setPlaceholderState(ev.target.value)
-              }
-              onBlur={(ev: SyntheticInputEvent<HTMLInputElement>) => {
-                onChange({ ...parameters, 'ui:placeholder': ev.target.value });
-              }}
-              className='card-text'
-            />
-          </FormGroup>
-        </div>
-      </div>
       <div className='card-category-options'>
         <GeneralParameterInputs
           category={parameters.category}

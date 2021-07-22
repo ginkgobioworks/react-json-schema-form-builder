@@ -203,9 +203,6 @@ describe('Card', () => {
 
     const inputTypeLabel = getHeadingText(wrapper, 3);
     expect(inputTypeLabel).toContain('Input Type');
-
-    const placeholderLabel = getHeadingText(wrapper, 4);
-    expect(placeholderLabel).toContain('Placeholder');
   });
 
   it('renders with passed labels', () => {
@@ -226,28 +223,5 @@ describe('Card', () => {
 
     const inputTypeLabel = getHeadingText(wrapper, 3);
     expect(inputTypeLabel).toContain('Custom Input Type');
-
-    const placeholderLabel = getHeadingText(wrapper, 4);
-    expect(placeholderLabel).toContain('Custom Placeholder');
-  });
-
-  it('should successfully populates placeholder input field', () => {
-    const div = document.createElement('div');
-    document.body.appendChild(div);
-
-    const wrapper = mount(<Card {...props} />, { attachTo: div });
-    const placeholder = wrapper
-      .find('.card-container')
-      .first()
-      .find('.card-text')
-      .at(6);
-    placeholder.simulate('change', { target: { value: 'New Placeholder' } });
-    placeholder.simulate('blur');
-    expect(mockEvent.mock.calls).toEqual([
-      [
-        '{"name":"test","category":"shortAnswer","neighborNames":["test","input2"],"ui:placeholder":' +
-          '"New Placeholder"}',
-      ],
-    ]);
   });
 });

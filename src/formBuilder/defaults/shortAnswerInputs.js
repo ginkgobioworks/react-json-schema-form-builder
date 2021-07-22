@@ -176,6 +176,33 @@ function CardShortAnswerParameterInputs({
         }}
         className='card-modal-select'
       />
+      <h4>
+        Placeholder{' '}
+        <a
+          href='https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-placeholder'
+          target='_blank'
+          rel='noopener noreferrer'
+        >
+          <Tooltip
+            id={`${elementId}_placeholder`}
+            type='help'
+            text='Hint to the user as to what kind of information is expected in the field'
+          />
+        </a>
+      </h4>
+      <Input
+        value={parameters['ui:placeholder']}
+        placeholder='Placeholder'
+        key='placeholder'
+        type='text'
+        onChange={(ev: SyntheticInputEvent<HTMLInputElement>) => {
+          onChange({
+            ...parameters,
+            'ui:placeholder': ev.target.value,
+          });
+        }}
+        className='card-modal-text'
+      />
       <div className='card-modal-boolean'>
         <FBCheckbox
           onChangeValue={() => {
