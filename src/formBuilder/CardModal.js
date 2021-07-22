@@ -1,11 +1,12 @@
 // @flow
 
 import * as React from 'react';
-import { Modal, ModalHeader, Button, ModalBody, ModalFooter } from 'reactstrap';
+import {Modal, ModalHeader, Button, ModalBody, ModalFooter, Input} from 'reactstrap';
 import { createUseStyles } from 'react-jss';
 import DependencyField from './dependencies/DependencyField';
 import type { Node } from 'react';
 import type { Parameters } from './types';
+import Tooltip from "./Tooltip";
 
 const useStyles = createUseStyles({
   cardModal: {
@@ -74,6 +75,37 @@ export default function CardModal({
             });
           }}
         />
+        <div>
+          <h4>
+            Column Size{' '}
+            <a
+              href='https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Grid_Layout/Basic_Concepts_of_Grid_Layout'
+              target='_blank'
+              rel='noopener noreferrer'
+            >
+              <Tooltip
+                id='column_size_tooltip'
+                type='help'
+                text='Set the column size of the input'
+              />
+            </a>
+          </h4>
+          <Input
+            value={
+              componentProps['ui:column'] ? componentProps['ui:column'] : ''
+            }
+            placeholder='Column size'
+            key='ui:column'
+            type='number'
+            onChange={(ev: SyntheticInputEvent<HTMLInputElement>) => {
+              onChange({
+                ...componentProps,
+                'ui:column': ev.target.value,
+              });
+            }}
+            className='card-modal-text'
+          />
+        </div>
         <DependencyField
           parameters={(componentPropsState: { [string]: any })}
           onChange={(newState: any) => {
