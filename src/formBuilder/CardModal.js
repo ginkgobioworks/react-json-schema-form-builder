@@ -13,7 +13,7 @@ import { createUseStyles } from 'react-jss';
 import DependencyField from './dependencies/DependencyField';
 import type { Node } from 'react';
 import type { Parameters } from './types';
-import Tooltip from "./Tooltip";
+import Tooltip from './Tooltip';
 
 const useStyles = createUseStyles({
   cardModal: {
