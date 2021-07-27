@@ -355,7 +355,7 @@ export function checkForUnsupportedFeatures(
 }
 
 // make an element out of the corresponding properties and UI properties
-function generateElement(
+function generateDependencyElement(
   name: string,
   dataProps: any,
   uiProperties: any,
@@ -371,8 +371,9 @@ function generateElement(
   const newElement = {};
   let elementDetails =
     dataProps && typeof dataProps === 'object' ? dataProps : {};
+
   // populate newElement with reference if applicable
-  if (elementDetails.$ref !== undefined && definitionData && useReferenceDetails === true) {
+  if (elementDetails.$ref !== undefined && definitionData) {
     const pathArr =
       typeof elementDetails.$ref === 'string'
         ? elementDetails.$ref.split('/')
@@ -380,7 +381,8 @@ function generateElement(
     if (
       pathArr[0] === '#' &&
       pathArr[1] === 'definitions' &&
-      definitionData[pathArr[2]]
+      definitionData[pathArr[2]]  &&
+      useReferenceDetails === true
     ) {
       elementDetails = {
         ...elementDetails,
@@ -511,6 +513,7 @@ export function generateElementPropsFromSchemas(parameters: {
   });
   // read dependent elements from dependencies
   if (schema.dependencies) {
+    const notUseReferenceDetails = false;
     Object.keys(schema.dependencies).forEach((parent) => {
       const group = schema.dependencies[parent];
       if (group.oneOf) {
@@ -528,7 +531,7 @@ export function generateElementPropsFromSchemas(parameters: {
             ([parameter, element]) => {
               // create a new element if not present in main properties
               if (!Object.keys(elementDict).includes(parameter)) {
-                const newElement = generateElement(
+                const newElement = generateDependencyElement(
                   parameter,
                   element,
                   uischema[parameter],
@@ -536,7 +539,7 @@ export function generateElementPropsFromSchemas(parameters: {
                   definitionData,
                   definitionUi,
                   categoryHash,
-                  false, //do not replace the element's title and other details with the reference's details.
+                  notUseReferenceDetails,
                 );
                 newElement.required = requiredValues.includes(newElement.name);
                 elementDict[newElement.name] = newElement;
@@ -556,7 +559,7 @@ export function generateElementPropsFromSchemas(parameters: {
       } else if (group.properties) {
         const requiredValues = group.required || [];
         Object.entries(group.properties).forEach(([parameter, element]) => {
-          const newElement = generateElement(
+          const newElement = generateDependencyElement(
             parameter,
             element,
             uischema[parameter],
@@ -564,6 +567,7 @@ export function generateElementPropsFromSchemas(parameters: {
             definitionData,
             definitionUi,
             categoryHash,
+            notUseReferenceDetails,
           );
           newElement.required = requiredValues.includes(newElement.name);
           newElement.dependent = true;
