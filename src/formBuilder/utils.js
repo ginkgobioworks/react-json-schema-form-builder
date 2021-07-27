@@ -363,6 +363,7 @@ function generateElement(
   definitionData?: { [string]: any },
   definitionUi?: { [string]: any },
   categoryHash: { [string]: string },
+  useReferenceDetails: boolean = true, //determines whether to use reference details or not.
 ) {
   let uiProps = {
     ...uiProperties,
@@ -370,9 +371,8 @@ function generateElement(
   const newElement = {};
   let elementDetails =
     dataProps && typeof dataProps === 'object' ? dataProps : {};
-
   // populate newElement with reference if applicable
-  if (elementDetails.$ref !== undefined && definitionData) {
+  if (elementDetails.$ref !== undefined && definitionData && useReferenceDetails === true) {
     const pathArr =
       typeof elementDetails.$ref === 'string'
         ? elementDetails.$ref.split('/')
@@ -479,7 +479,6 @@ export function generateElementPropsFromSchemas(parameters: {
         ...uischema[parameter],
       };
     }
-
     newElement.name = parameter;
     newElement.required = requiredNames.includes(parameter);
     newElement.$ref = elementDetails.$ref;
@@ -537,6 +536,7 @@ export function generateElementPropsFromSchemas(parameters: {
                   definitionData,
                   definitionUi,
                   categoryHash,
+                  false, //do not replace the element's title and other details with the reference's details.
                 );
                 newElement.required = requiredValues.includes(newElement.name);
                 elementDict[newElement.name] = newElement;
