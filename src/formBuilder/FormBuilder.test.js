@@ -291,7 +291,7 @@ describe('FormBuilder', () => {
     expect(errors).toEqual([]);
   });
 
-  it('should supports placeholder', () => {
+  it('should support placeholder in the UI schema', () => {
     const jsonSchema = {
       $schema: 'http://json-schema.org/draft-07/schema#',
       type: 'object',
@@ -310,10 +310,10 @@ describe('FormBuilder', () => {
 
     const uischema = {
       input1: {
-        'ui:placeholder': 'Custom Placeholder',
+        'ui:placeholder': 'Reference Placeholder',
       },
       input2: {
-        'ui:placeholder': 'Custom Placeholder',
+        'ui:placeholder': 'ShortAnswer Placeholder',
       },
       'ui:order': ['input1', 'input2'],
     };

@@ -3,9 +3,7 @@
 import type { FormInput, Parameters } from '../types';
 import Select from 'react-select';
 import React, { useState } from 'react';
-import { Input } from 'reactstrap';
-import Tooltip from '../Tooltip';
-import { getRandomId } from '../utils';
+import { PlaceholderInput } from '../inputs/PlaceholderInput';
 
 export function CardReferenceParameterInputs({
   parameters,
@@ -14,36 +12,9 @@ export function CardReferenceParameterInputs({
   parameters: Parameters,
   onChange: (Parameters) => void,
 }): Node {
-  const [elementId] = useState(getRandomId());
   return (
     <div>
-      <h4>
-        Placeholder{' '}
-        <a
-          href='https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-placeholder'
-          target='_blank'
-          rel='noopener noreferrer'
-        >
-          <Tooltip
-            id={`${elementId}_placeholder`}
-            type='help'
-            text='Hint to the user as to what kind of information is expected in the field'
-          />
-        </a>
-      </h4>
-      <Input
-        value={parameters['ui:placeholder']}
-        placeholder='Placeholder'
-        key='placeholder'
-        type='text'
-        onChange={(ev: SyntheticInputEvent<HTMLInputElement>) => {
-          onChange({
-            ...parameters,
-            'ui:placeholder': ev.target.value,
-          });
-        }}
-        className='card-modal-text'
-      />
+      <PlaceholderInput parameters={parameters} onChange={onChange} />
     </div>
   );
 }

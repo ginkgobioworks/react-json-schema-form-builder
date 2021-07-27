@@ -1,12 +1,12 @@
 // @flow
 
 import React, { useState } from 'react';
-import Select from 'react-select';
 import { Input } from 'reactstrap';
 import FBCheckbox from '../checkbox/FBCheckbox';
 import Tooltip from '../Tooltip';
 import { getRandomId } from '../utils';
 import type { Parameters, FormInput } from '../types';
+import { PlaceholderInput } from '../inputs/PlaceholderInput';
 
 // specify the inputs required for a string type object
 function CardLongAnswerParameterInputs({
@@ -70,33 +70,7 @@ function CardLongAnswerParameterInputs({
         }}
         className='card-modal-text'
       />
-      <h4>
-        Placeholder{' '}
-        <a
-          href='https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-placeholder'
-          target='_blank'
-          rel='noopener noreferrer'
-        >
-          <Tooltip
-            id={`${elementId}_placeholder`}
-            type='help'
-            text='Hint to the user as to what kind of information is expected in the field'
-          />
-        </a>
-      </h4>
-      <Input
-        value={parameters['ui:placeholder']}
-        placeholder='Placeholder'
-        key='placeholder'
-        type='text'
-        onChange={(ev: SyntheticInputEvent<HTMLInputElement>) => {
-          onChange({
-            ...parameters,
-            'ui:placeholder': ev.target.value,
-          });
-        }}
-        className='card-modal-text'
-      />
+      <PlaceholderInput parameters={parameters} onChange={onChange} />
       <div className='card-modal-boolean'>
         <FBCheckbox
           onChangeValue={() => {

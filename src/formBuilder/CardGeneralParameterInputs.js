@@ -34,9 +34,6 @@ export default function CardGeneralParameterInputs({
   const [keyState, setKeyState] = React.useState(parameters.name);
   const [keyError, setKeyError] = React.useState(null);
   const [titleState, setTitleState] = React.useState(parameters.title);
-  const [placeholderState, setPlaceholderState] = React.useState(
-    parameters['ui:placeholder'],
-  );
   const [descriptionState, setDescriptionState] = React.useState(
     parameters.description,
   );
@@ -53,7 +50,6 @@ export default function CardGeneralParameterInputs({
   const displayNameLabel = fetchLabel('displayNameLabel', 'Display Name');
   const descriptionLabel = fetchLabel('descriptionLabel', 'Description');
   const inputTypeLabel = fetchLabel('inputTypeLabel', 'Input Type');
-  const placeholderLabel = fetchLabel('placeholderLabel', 'Placeholder');
 
   const availableInputTypes = () => {
     const definitionsInSchema =

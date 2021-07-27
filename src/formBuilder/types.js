@@ -142,7 +142,6 @@ export type Mods = {|
     displayNameLabel?: string,
     descriptionLabel?: string,
     inputTypeLabel?: string,
-    placeholderLabel?: string,
   |},
   showFormHead?: boolean,
   deactivatedFormInputs?: Array<string>,

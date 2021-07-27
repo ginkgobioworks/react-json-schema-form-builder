@@ -40,7 +40,6 @@ const mods = {
     displayNameLabel: 'Custom Display Name',
     descriptionLabel: 'Custom Description',
     inputTypeLabel: 'Custom Input Type',
-    placeholderLabel: 'Custom Placeholder',
   },
 };
 

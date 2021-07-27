@@ -31,7 +31,6 @@ declare type Mods = {|
     displayNameLabel?: string,
     descriptionLabel?: string,
     inputTypeLabel?: string,
-    placeholderLabel?: string,
   |},
   showFormHead?: boolean,
   deactivatedFormInputs?: Array<string>,
@@ -186,4 +185,3 @@ The text for the labels of a few of the inputs in the Form Builder can similarly
 - `displayNameLabel` - The label for the "Display Name" field.
 - `descriptionLabel` - The label for the "Description" field.
 - `inputTypeLabel` - The label for the "Input Type" field.
-- `placeholderLabel` - The label for the "Placeholder" field.
