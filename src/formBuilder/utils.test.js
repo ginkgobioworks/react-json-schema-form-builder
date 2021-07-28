@@ -398,7 +398,7 @@ describe('generateElementPropsFromSchemas', () => {
         type: 'object',
         properties: {
           newInputA: {
-            $ref: '#/definitions/first_names',
+            $ref: '#/definitions/firstName',
             title: 'A',
             description: ''
           }
