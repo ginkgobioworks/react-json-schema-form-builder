@@ -392,6 +392,54 @@ describe('generateElementPropsFromSchemas', () => {
     expect(cardObjArr[1].name).toEqual('obj3');
     expect(cardObjArr[2].name).toEqual('obj1');
   });
+  it('generates an array of card objects with titles that remain the same for dependency updates', () => {
+    const dependencySchema = {
+        type: 'object',
+        properties: {
+          newInputA: {
+            $ref: '#/definitions/first_names',
+            title: 'A',
+            description: ''
+          }
+        },
+        dependencies: {
+          newInputA: {
+            properties: {
+              newInputB: {
+                $ref: '#/definitions/first_names',
+                title: 'B',
+                description: ''
+              }
+            },
+            required: []
+          }
+        },
+        definitions: {
+          first_names: {
+            title: 'First Names',
+            type: 'string'
+          }
+        },
+        required: [],
+      };
+
+      const dependencyUiSchema = {
+        'ui:order': ['newInputA', 'newInputB'],
+      };
+
+    const cardObjArr = generateElementPropsFromSchemas({
+      schema: dependencySchema,
+      uischema: dependencyUiSchema,
+      categoryHash: generateCategoryHash(DEFAULT_FORM_INPUTS),
+      allFormInputs: DEFAULT_FORM_INPUTS,
+    });
+    expect(cardObjArr).toHaveLength(2);
+
+    //check that the dependency element title remains the same.
+    expect(cardObjArr[1].dataOptions.title).toEqual('B');
+    //check that the dependency element title is not the definition's title.
+    expect(cardObjArr[1].dataOptions.title).not.toEqual('First Names');
+  });
 });
 
 describe('generateSchemaFromElementProps', () => {
