@@ -395,38 +395,38 @@ describe('generateElementPropsFromSchemas', () => {
 
   it('generates an array of card objects with titles that remain the same for dependency updates', () => {
     const dependencySchema = {
-        type: 'object',
-        properties: {
-            parentFirstNames: {
-            $ref: '#/definitions/firstNames',
-            title: 'Parent First Names',
-            description: ''
-          }
-        },
-        dependencies: {
-          parentFirstNames: {
-            properties: {
-              childFirstNames: {
-                $ref: '#/definitions/firstNames',
-                title: 'Child First Names',
-                description: ''
-              }
-            },
-            required: []
-          }
-        },
-        definitions: {
-          first_names: {
-            title: 'First Names',
-            type: 'string'
-          }
-        },
-        required: [],
-      };
+      type: 'object',
+      properties: {
+        parentFirstNames: {
+          $ref: '#/definitions/firstNames',
+          title: 'Parent First Names',
+          description: '',
+        },
+      },
+      dependencies: {
+        parentFirstNames: {
+          properties: {
+            childFirstNames: {
+              $ref: '#/definitions/firstNames',
+              title: 'Child First Names',
+              description: '',
+            },
+          },
+          required: [],
+        },
+      },
+      definitions: {
+        first_names: {
+          title: 'First Names',
+          type: 'string',
+        },
+      },
+      required: [],
+    };
 
-      const dependencyUiSchema = {
-        'ui:order': ['parentFirstNames', 'childFirstNames'],
-      };
+    const dependencyUiSchema = {
+      'ui:order': ['parentFirstNames', 'childFirstNames'],
+    };
 
     const cardObjArr = generateElementPropsFromSchemas({
       schema: dependencySchema,
