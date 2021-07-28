@@ -381,7 +381,7 @@ function generateDependencyElement(
     if (
       pathArr[0] === '#' &&
       pathArr[1] === 'definitions' &&
-      definitionData[pathArr[2]]  &&
+      definitionData[pathArr[2]] &&
       useReferenceDetails === true
     ) {
       elementDetails = {
