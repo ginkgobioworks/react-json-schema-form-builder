@@ -539,7 +539,7 @@ export function generateElementPropsFromSchemas(parameters: {
                   definitionData,
                   definitionUi,
                   categoryHash,
-                  notUseReferenceDetails,
+                  useReferenceDetails,
                 );
                 newElement.required = requiredValues.includes(newElement.name);
                 elementDict[newElement.name] = newElement;
