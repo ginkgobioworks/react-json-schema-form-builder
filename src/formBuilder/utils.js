@@ -363,7 +363,7 @@ function generateDependencyElement(
   definitionData?: { [string]: any },
   definitionUi?: { [string]: any },
   categoryHash: { [string]: string },
-  useReferenceDetails: boolean = true, // determines whether to use reference details or not.
+  useDefinitionDetails: boolean = true, // determines whether to use an element's definition details or not.
 ) {
   let uiProps = {
     ...uiProperties,
@@ -382,7 +382,7 @@ function generateDependencyElement(
       pathArr[0] === '#' &&
       pathArr[1] === 'definitions' &&
       definitionData[pathArr[2]] &&
-      useReferenceDetails === true
+      useDefinitionDetails === true
     ) {
       elementDetails = {
         ...elementDetails,
@@ -513,7 +513,7 @@ export function generateElementPropsFromSchemas(parameters: {
   });
   // read dependent elements from dependencies
   if (schema.dependencies) {
-    const useReferenceDetails = false;
+    const useDefinitionDetails = false;
     Object.keys(schema.dependencies).forEach((parent) => {
       const group = schema.dependencies[parent];
       if (group.oneOf) {
@@ -539,7 +539,7 @@ export function generateElementPropsFromSchemas(parameters: {
                   definitionData,
                   definitionUi,
                   categoryHash,
-                  useReferenceDetails,
+                  useDefinitionDetails,
                 );
                 newElement.required = requiredValues.includes(newElement.name);
                 elementDict[newElement.name] = newElement;
@@ -567,7 +567,7 @@ export function generateElementPropsFromSchemas(parameters: {
             definitionData,
             definitionUi,
             categoryHash,
-            notUseReferenceDetails,
+            useDefinitionDetails,
           );
           newElement.required = requiredValues.includes(newElement.name);
           newElement.dependent = true;
