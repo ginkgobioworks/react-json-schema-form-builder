@@ -93,7 +93,7 @@ describe('@ginkgo-bioworks/react-json-schema-form-builder', () => {
         objectNameLabel: 'alternative object name label',
         displayNameLabel: 'alternative display name label',
         descriptionLabel: 'alternative description label',
-        inputTypeLabel: 'alternative input type lablel',
+        inputTypeLabel: 'alternative input type label',
       },
       showFormHead: false,
       deactivatedFormInputs: ['shortAnswer'],

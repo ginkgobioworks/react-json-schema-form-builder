@@ -174,18 +174,20 @@ export default function CardGeneralParameterInputs({
               type='help'
             />
           </h5>
-          <Input
-            value={descriptionState || ''}
-            placeholder='Description'
-            type='text'
-            onChange={(ev: SyntheticInputEvent<HTMLInputElement>) =>
-              setDescriptionState(ev.target.value)
-            }
-            onBlur={(ev: SyntheticInputEvent<HTMLInputElement>) => {
-              onChange({ ...parameters, description: ev.target.value });
-            }}
-            className='card-text'
-          />
+          <FormGroup>
+            <Input
+              value={descriptionState || ''}
+              placeholder='Description'
+              type='text'
+              onChange={(ev: SyntheticInputEvent<HTMLInputElement>) =>
+                setDescriptionState(ev.target.value)
+              }
+              onBlur={(ev: SyntheticInputEvent<HTMLInputElement>) => {
+                onChange({ ...parameters, description: ev.target.value });
+              }}
+              className='card-text'
+            />
+          </FormGroup>
         </div>
         <div
           className={classnames('card-entry', {
