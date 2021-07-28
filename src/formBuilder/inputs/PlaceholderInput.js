@@ -1,6 +1,7 @@
 // @flow
 
 import React, { useState } from 'react';
+import type { Node } from 'react';
 import type { Parameters } from '../types';
 import { getRandomId } from '../utils';
 import Tooltip from '../Tooltip';
