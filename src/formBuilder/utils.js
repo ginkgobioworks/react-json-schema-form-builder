@@ -157,6 +157,7 @@ const supportedUiParameters = new Set([
   'ui:options',
   'ui:field',
   'ui:placeholder',
+  'ui:column',
   'items',
   'definitions',
 ]);
@@ -785,7 +786,7 @@ export function generateSchemaFromElementProps(
   newSchema.dependencies = dependencies;
   newSchema.required = elementArr
     .filter(({ required, dependent }) => required && !dependent)
-    .map<string>(({ name }) => name);
+    .map(({ name }) => name);
 
   return newSchema;
 }

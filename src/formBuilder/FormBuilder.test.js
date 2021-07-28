@@ -264,11 +264,44 @@ describe('FormBuilder', () => {
     expect(errors).toEqual([]);
   });
 
+  it('supports column size', () => {
+    const jsonSchema = {
+      $schema: 'http://json-schema.org/draft-07/schema#',
+      meta: {
+        some: 'meta information',
+      },
+    };
+
+    const uischema = {
+      newInput1: {
+        'ui:column': 4,
+      },
+      'ui:order': ['newInput1'],
+    };
+
+    const props = {
+      schema: JSON.stringify(jsonSchema),
+      uiSchema: JSON.stringify(uischema),
+      onChange: jest.fn(() => {}),
+      mods: {},
+      className: 'my-form-builder',
+    };
+
+    const div = document.createElement('div');
+    document.body.appendChild(div);
+    const wrapper = mount(<FormBuilder {...props} />, { attachTo: div });
+    const errors = wrapper
+      .find('.alert-warning')
+      .first()
+      .find('li')
+      .map((error) => error.text());
+    expect(errors).toEqual([]);
+  });
+
   it('validates additionalProperties as a valid property', () => {
     const jsonSchema = {
       $schema: `http://json-schema.org/draft-07/schema#`,
       properties: {},
-      required: [],
       additionalProperties: false,
     };
 

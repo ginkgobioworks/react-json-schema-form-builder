@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.5.1] - 2021-07-19
+
+### Fixed
+
+- Deactivate form inputs in arrays when specified in `deactivatedFormInputs`.
+
+### Changed
+
+- Updated dependencies in package-lock.json
+- Updated dependencies in example/package.json and example/package-lock.json
+
 ## [2.5.0] - 2021-06-20
 
 ### Added

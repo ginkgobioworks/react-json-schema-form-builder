@@ -60,7 +60,6 @@ export default function CardGeneralParameterInputs({
     let inputKeys = Object.keys(categoryMap).filter(
       (key) => key !== 'ref' || definitionsInSchema,
     );
-
     // Exclude hidden inputs based on mods
     if (mods) inputKeys = subtractArray(inputKeys, mods.deactivatedFormInputs);
 
@@ -245,6 +244,7 @@ export default function CardGeneralParameterInputs({
           />
         </div>
       </div>
+
       <div className='card-category-options'>
         <GeneralParameterInputs
           category={parameters.category}
