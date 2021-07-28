@@ -392,6 +392,7 @@ describe('generateElementPropsFromSchemas', () => {
     expect(cardObjArr[1].name).toEqual('obj3');
     expect(cardObjArr[2].name).toEqual('obj1');
   });
+  
   it('generates an array of card objects with titles that remain the same for dependency updates', () => {
     const dependencySchema = {
         type: 'object',
