@@ -392,23 +392,23 @@ describe('generateElementPropsFromSchemas', () => {
     expect(cardObjArr[1].name).toEqual('obj3');
     expect(cardObjArr[2].name).toEqual('obj1');
   });
-  
+
   it('generates an array of card objects with titles that remain the same for dependency updates', () => {
     const dependencySchema = {
         type: 'object',
         properties: {
-          newInputA: {
-            $ref: '#/definitions/firstName',
-            title: 'A',
+            parentFirstNames: {
+            $ref: '#/definitions/firstNames',
+            title: 'Parent First Names',
             description: ''
           }
         },
         dependencies: {
-          newInputA: {
+          parentFirstNames: {
             properties: {
-              newInputB: {
-                $ref: '#/definitions/first_names',
-                title: 'B',
+              childFirstNames: {
+                $ref: '#/definitions/firstNames',
+                title: 'Child First Names',
                 description: ''
               }
             },
@@ -425,7 +425,7 @@ describe('generateElementPropsFromSchemas', () => {
       };
 
       const dependencyUiSchema = {
-        'ui:order': ['newInputA', 'newInputB'],
+        'ui:order': ['parentFirstNames', 'childFirstNames'],
       };
 
     const cardObjArr = generateElementPropsFromSchemas({
@@ -437,7 +437,7 @@ describe('generateElementPropsFromSchemas', () => {
     expect(cardObjArr).toHaveLength(2);
 
     //check that the dependency element's title remains the same.
-    expect(cardObjArr[1].dataOptions.title).toEqual('B');
+    expect(cardObjArr[1].dataOptions.title).toEqual('Child First Names');
     //check that the dependency element's title is not the definition's title.
     expect(cardObjArr[1].dataOptions.title).not.toEqual('First Names');
   });
