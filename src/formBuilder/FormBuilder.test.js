@@ -323,4 +323,50 @@ describe('FormBuilder', () => {
       .map((error) => error.text());
     expect(errors).toEqual([]);
   });
+
+  it('should support placeholder in the UI schema', () => {
+    const jsonSchema = {
+      $schema: 'http://json-schema.org/draft-07/schema#',
+      type: 'object',
+      properties: {
+        input1: {
+          $ref: '#/definitions/name',
+          title: 'First Name',
+          description: 'Please enter your first name',
+        },
+        input2: {
+          title: 'Last Name',
+          type: 'string',
+        },
+      },
+    };
+
+    const uischema = {
+      input1: {
+        'ui:placeholder': 'Reference Placeholder',
+      },
+      input2: {
+        'ui:placeholder': 'ShortAnswer Placeholder',
+      },
+      'ui:order': ['input1', 'input2'],
+    };
+
+    const props = {
+      schema: JSON.stringify(jsonSchema),
+      uiSchema: JSON.stringify(uischema),
+      onChange: jest.fn(() => {}),
+      mods: {},
+      className: 'my-form-builder',
+    };
+
+    const div = document.createElement('div');
+    document.body.appendChild(div);
+    const wrapper = mount(<FormBuilder {...props} />, { attachTo: div });
+    const errors = wrapper
+      .find('.alert-warning')
+      .first()
+      .find('li')
+      .map((error) => error.text());
+    expect(errors).toEqual([]);
+  });
 });

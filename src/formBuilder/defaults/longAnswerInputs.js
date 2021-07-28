@@ -1,12 +1,12 @@
 // @flow
 
 import React, { useState } from 'react';
-import Select from 'react-select';
 import { Input } from 'reactstrap';
 import FBCheckbox from '../checkbox/FBCheckbox';
 import Tooltip from '../Tooltip';
 import { getRandomId } from '../utils';
 import type { Parameters, FormInput } from '../types';
+import { PlaceholderInput } from '../inputs/PlaceholderInput';
 
 // specify the inputs required for a string type object
 function CardLongAnswerParameterInputs({
@@ -70,6 +70,7 @@ function CardLongAnswerParameterInputs({
         }}
         className='card-modal-text'
       />
+      <PlaceholderInput parameters={parameters} onChange={onChange} />
       <div className='card-modal-boolean'>
         <FBCheckbox
           onChangeValue={() => {
