@@ -513,7 +513,7 @@ export function generateElementPropsFromSchemas(parameters: {
   });
   // read dependent elements from dependencies
   if (schema.dependencies) {
-    const notUseReferenceDetails = false;
+    const useReferenceDetails = false;
     Object.keys(schema.dependencies).forEach((parent) => {
       const group = schema.dependencies[parent];
       if (group.oneOf) {
