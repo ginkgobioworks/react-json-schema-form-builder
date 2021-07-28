@@ -363,7 +363,7 @@ function generateDependencyElement(
   definitionData?: { [string]: any },
   definitionUi?: { [string]: any },
   categoryHash: { [string]: string },
-  useReferenceDetails: boolean = true, //determines whether to use reference details or not.
+  useReferenceDetails: boolean = true, // determines whether to use reference details or not.
 ) {
   let uiProps = {
     ...uiProperties,
