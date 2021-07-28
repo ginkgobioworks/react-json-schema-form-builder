@@ -435,9 +435,9 @@ describe('generateElementPropsFromSchemas', () => {
     });
     expect(cardObjArr).toHaveLength(2);
 
-    //check that the dependency element title remains the same.
+    //check that the dependency element's title remains the same.
     expect(cardObjArr[1].dataOptions.title).toEqual('B');
-    //check that the dependency element title is not the definition's title.
+    //check that the dependency element's title is not the definition's title.
     expect(cardObjArr[1].dataOptions.title).not.toEqual('First Names');
   });
 });
