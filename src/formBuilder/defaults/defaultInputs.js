@@ -177,34 +177,6 @@ function MultipleChoice({
   );
 }
 
-function RefChoice({
-  parameters,
-  onChange,
-}: {
-  parameters: Parameters,
-  onChange: (newParams: Parameters) => void,
-}) {
-  return (
-    <div className='card-select'>
-      <Select
-        value={{
-          value: parameters.$ref,
-          label: parameters.$ref,
-        }}
-        placeholder='Reference'
-        options={Object.keys(parameters.definitionData || {}).map((key) => ({
-          value: `#/definitions/${key}`,
-          label: `#/definitions/${key}`,
-        }))}
-        onChange={(val: any) => {
-          onChange({ ...parameters, $ref: val.value });
-        }}
-        className='card-select'
-      />
-    </div>
-  );
-}
-
 const defaultInputs: { [string]: FormInput } = {
   dateTime: {
     displayName: 'Date-Time',
@@ -265,24 +237,6 @@ const defaultInputs: { [string]: FormInput } = {
     defaultUiSchema: {},
     type: 'boolean',
     cardBody: Checkbox,
-    modalBody: CardDefaultParameterInputs,
-  },
-  ref: {
-    displayName: 'Reference',
-    matchIf: [
-      {
-        types: ['null'],
-        $ref: true,
-      },
-    ],
-    defaultDataSchema: {
-      $ref: '',
-      title: '',
-      description: '',
-    },
-    defaultUiSchema: {},
-    type: 'string',
-    cardBody: RefChoice,
     modalBody: CardDefaultParameterInputs,
   },
   radio: {

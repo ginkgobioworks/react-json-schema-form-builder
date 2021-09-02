@@ -7,6 +7,7 @@ import FBCheckbox from '../checkbox/FBCheckbox';
 import Tooltip from '../Tooltip';
 import { getRandomId } from '../utils';
 import type { Parameters, FormInput } from '../types';
+import { PlaceholderInput } from '../inputs/PlaceholderInput';
 
 const formatDictionary = {
   '': 'None',
@@ -176,6 +177,7 @@ function CardShortAnswerParameterInputs({
         }}
         className='card-modal-select'
       />
+      <PlaceholderInput parameters={parameters} onChange={onChange} />
       <h4>
         Column Size{' '}
         <a

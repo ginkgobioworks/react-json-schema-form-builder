@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.6.0] - 2021-07-29
+
+### Fixed
+
+- Configuring a dependency overrides the element's title, used for the label, to the definition's title. (See [issue #162](https://github.com/ginkgobioworks/react-json-schema-form-builder/issues/162).)
+
+### Added
+
+- Added ability to change `ui:column`.
+- Added ability to change input's placeholder.
+
 ## [2.5.1] - 2021-07-19
 
 ### Fixed
