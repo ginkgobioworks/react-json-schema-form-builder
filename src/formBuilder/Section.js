@@ -1,40 +1,39 @@
 // @flow
-import React, { useState } from 'react';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import Select from 'react-select';
-import { createUseStyles } from 'react-jss';
 import {
-  Alert,
-  Input,
-  UncontrolledTooltip,
-  FormGroup,
-  FormFeedback,
-} from 'reactstrap';
-import {
-  faArrowUp,
   faArrowDown,
+  faArrowUp,
   faPencilAlt,
   faTrash,
 } from '@fortawesome/free-solid-svg-icons';
-import FBCheckbox from './checkbox/FBCheckbox';
-import Collapse from './Collapse/Collapse';
-import CardModal from './CardModal';
-import { CardDefaultParameterInputs } from './defaults/defaultInputs';
-import Tooltip from './Tooltip';
+import type { Node } from 'react';
+import React from 'react';
+import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+import { createUseStyles } from 'react-jss';
+import Select from 'react-select';
+import {
+  Alert,
+  FormFeedback,
+  FormGroup,
+  Input,
+  UncontrolledTooltip,
+} from 'reactstrap';
 import Add from './Add';
 import Card from './Card';
+import CardModal from './CardModal';
+import FBCheckbox from './checkbox/FBCheckbox';
+import Collapse from './Collapse/Collapse';
+import { CardDefaultParameterInputs } from './defaults/defaultInputs';
+import FontAwesomeIcon from './FontAwesomeIcon';
+import Tooltip from './Tooltip';
 import {
-  checkForUnsupportedFeatures,
-  generateElementComponentsFromSchemas,
-  countElementsFromSchema,
   addCardObj,
   addSectionObj,
+  checkForUnsupportedFeatures,
+  countElementsFromSchema,
+  generateElementComponentsFromSchemas,
+  getRandomId,
   onDragEnd,
 } from './utils';
-import FontAwesomeIcon from './FontAwesomeIcon';
-import { getRandomId } from './utils';
-import type { Node } from 'react';
-import type { FormInput, Mods } from './types';
 
 const useStyles = createUseStyles({
   sectionContainer: {
@@ -506,11 +505,17 @@ export default function Section({
             name: keyName,
             schema,
             type: 'object',
+            'ui:column': uischema['ui:column'] ?? '',
           }}
           isOpen={modalOpen}
           onClose={() => setModalOpen(false)}
           onChange={(newComponentProps: { [string]: any }) => {
             onDependentsChange(newComponentProps.dependents);
+
+            onChange(schema, {
+              ...uischema,
+              'ui:column': newComponentProps['ui:column'],
+            });
           }}
           TypeSpecificParameters={CardDefaultParameterInputs}
         />

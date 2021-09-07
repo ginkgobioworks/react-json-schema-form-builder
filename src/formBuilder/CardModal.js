@@ -1,19 +1,19 @@
 // @flow
 
+import type { Node } from 'react';
 import * as React from 'react';
+import { createUseStyles } from 'react-jss';
 import {
-  Modal,
-  ModalHeader,
   Button,
+  Input,
+  Modal,
   ModalBody,
   ModalFooter,
-  Input,
+  ModalHeader,
 } from 'reactstrap';
-import { createUseStyles } from 'react-jss';
 import DependencyField from './dependencies/DependencyField';
-import type { Node } from 'react';
-import type { Parameters } from './types';
 import Tooltip from './Tooltip';
+import type { Parameters } from './types';
 
 const useStyles = createUseStyles({
   cardModal: {
@@ -64,7 +64,6 @@ export default function CardModal({
   React.useEffect(() => {
     setComponentProps(componentProps);
   }, [componentProps]);
-
   return (
     <Modal isOpen={isOpen} data-test='card-modal' className={classes.cardModal}>
       <ModalHeader className='card-modal-header'>
@@ -99,15 +98,17 @@ export default function CardModal({
           </h4>
           <Input
             value={
-              componentProps['ui:column'] ? componentProps['ui:column'] : ''
+              componentPropsState['ui:column']
+                ? componentPropsState['ui:column']
+                : ''
             }
             placeholder='Column size'
             key='ui:column'
             type='number'
             min={0}
             onChange={(ev: SyntheticInputEvent<HTMLInputElement>) => {
-              onChange({
-                ...componentProps,
+              setComponentProps({
+                ...componentPropsState,
                 'ui:column': ev.target.value,
               });
             }}
