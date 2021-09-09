@@ -414,15 +414,16 @@ describe('FormBuilder', () => {
       type: 'object',
     };
 
-    const innerProps = {
-      ...props,
+    const props = {
       schema: JSON.stringify(jsonSchema),
       uiSchema: JSON.stringify(uiSchema),
+      onChange: (newSchema, newUiSchema) => mockEvent(newSchema, newUiSchema),
+      className: 'my-form-builder',
     };
 
     const div = document.createElement('div');
     document.body.appendChild(div);
-    const wrapper = mount(<FormBuilder {...innerProps} />, { attachTo: div });
+    const wrapper = mount(<FormBuilder {...props} />, { attachTo: div });
 
     const sectionHeadInputs = wrapper
       .find('.section-container')
@@ -491,15 +492,16 @@ describe('FormBuilder', () => {
       type: 'object',
     };
 
-    const innerProps = {
-      ...props,
+    const props = {
       schema: JSON.stringify(jsonSchema),
       uiSchema: JSON.stringify(uiSchema),
+      onChange: (newSchema, newUiSchema) => mockEvent(newSchema, newUiSchema),
+      className: 'my-form-builder',
     };
 
     const div = document.createElement('div');
     document.body.appendChild(div);
-    const wrapper = mount(<FormBuilder {...innerProps} />, { attachTo: div });
+    const wrapper = mount(<FormBuilder {...props} />, { attachTo: div });
 
     const sectionHeadInputs = wrapper
       .find('.section-container')
