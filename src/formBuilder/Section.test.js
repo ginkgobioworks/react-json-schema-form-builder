@@ -1,5 +1,5 @@
-import React from 'react';
 import { mount } from 'enzyme';
+import React from 'react';
 import DEFAULT_FORM_INPUTS from './defaults/defaultFormInputs';
 import Section from './Section';
 
@@ -96,6 +96,20 @@ describe('Section', () => {
     const titleInput = wrapper.find('.card-text').at(2);
     titleInput.simulate('change', { target: { value: 'wow title change' } });
     expect(mockEvent.mock.calls).toEqual([[{ title: 'wow title change' }, {}]]);
+    mockEvent.mockClear();
+  });
+
+  it('changes the section description', () => {
+    const div = document.createElement('div');
+    document.body.appendChild(div);
+    const wrapper = mount(<Section {...props} />, { attachTo: div });
+    const descriptionInput = wrapper.find('.card-text').at(3);
+    descriptionInput.simulate('change', {
+      target: { value: 'wow description change' },
+    });
+    expect(mockEvent.mock.calls).toEqual([
+      [{ title: 'wow description change' }, {}],
+    ]);
     mockEvent.mockClear();
   });
 
