@@ -446,7 +446,8 @@ describe('FormBuilder', () => {
     );
     mockEvent.mockClear();
   });
-  it('should allow changing of Section Description ', () => {
+  
+  it("should allow changing of a Section's Description", () => {
     const uiSchema = {
       definitions: {
         full_names: {
