@@ -369,7 +369,7 @@ describe('FormBuilder', () => {
     expect(errors).toEqual([]);
   });
 
-  it('should allow changing of Section Display Name ', () => {
+  it("should allow changing of Section's Display Name", () => {
     const uiSchema = {
       definitions: {
         full_names: {
