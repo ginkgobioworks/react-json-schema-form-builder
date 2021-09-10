@@ -1,26 +1,26 @@
-import React from 'react';
 import { mount } from 'enzyme';
+import React from 'react';
 import Card from './Card';
+import DEFAULT_FORM_INPUTS from './defaults/defaultFormInputs';
 import Section from './Section';
 import {
-  parse,
-  stringify,
-  getCardCategory,
+  addCardObj,
+  addSectionObj,
   checkForUnsupportedFeatures,
+  DEFAULT_INPUT_NAME,
+  excludeKeys,
+  generateCategoryHash,
+  generateElementComponentsFromSchemas,
   generateElementPropsFromSchemas,
   generateSchemaFromElementProps,
   generateUiSchemaFromElementProps,
-  generateCategoryHash,
-  generateElementComponentsFromSchemas,
-  subtractArray,
-  excludeKeys,
+  getCardCategory,
   getNewElementDefaultDataOptions,
-  addCardObj,
-  addSectionObj,
-  DEFAULT_INPUT_NAME,
   getRandomId,
+  parse,
+  stringify,
+  subtractArray,
 } from './utils';
-import DEFAULT_FORM_INPUTS from './defaults/defaultFormInputs';
 
 const schema = {
   type: 'object',
@@ -474,6 +474,58 @@ describe('generateSchemaFromElementProps', () => {
         DEFAULT_FORM_INPUTS,
       ),
     ).toThrow(new Error('Element that is neither card, section, nor ref'));
+  });
+
+  it('generates schema from element with schema prop', () => {
+    const expectedSchemaElement = {
+      $ref: '#/definitions/someDefinition',
+      title: 'Input Field',
+      description: 'This is an example description',
+    };
+
+    const result = generateSchemaFromElementProps(
+      [
+        {
+          name: 'exampleCard',
+          required: true,
+          $ref: '#/definitions/someDefinition',
+          schema: {
+            description: 'This is an example description',
+            title: 'Input Field',
+          },
+          propType: 'card',
+        },
+      ],
+      DEFAULT_FORM_INPUTS,
+    );
+
+    expect(result.properties.exampleCard).toEqual(expectedSchemaElement);
+  });
+
+  it('generates schema from element with dataOptions prop', () => {
+    const expectedSchemaElement = {
+      $ref: '#/definitions/someDefinition',
+      title: 'Input Field',
+      description: 'This is an example description',
+    };
+
+    const result = generateSchemaFromElementProps(
+      [
+        {
+          name: 'exampleCard',
+          required: true,
+          $ref: '#/definitions/someDefinition',
+          dataOptions: {
+            description: 'This is an example description',
+            title: 'Input Field',
+          },
+          propType: 'card',
+        },
+      ],
+      DEFAULT_FORM_INPUTS,
+    );
+
+    expect(result.properties.exampleCard).toEqual(expectedSchemaElement);
   });
 });
 
