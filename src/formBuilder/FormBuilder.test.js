@@ -1,6 +1,5 @@
-import React from 'react';
 import { mount } from 'enzyme';
-
+import React from 'react';
 import FormBuilder from './FormBuilder';
 
 // mocks to record events
@@ -368,5 +367,161 @@ describe('FormBuilder', () => {
       .find('li')
       .map((error) => error.text());
     expect(errors).toEqual([]);
+  });
+
+  it("should allow changing of Section's Display Name", () => {
+    const uiSchema = {
+      definitions: {
+        full_names: {
+          'ui:order': ['first_names', 'last_names'],
+        },
+      },
+      user_full_names: {
+        'ui:order': ['first_names', 'last_names'],
+      },
+      'ui:order': ['user_full_names'],
+    };
+
+    const jsonSchema = {
+      definitions: {
+        full_names: {
+          title: 'Full Names',
+          type: 'object',
+          description: 'This is a composite field',
+          properties: {
+            first_names: {
+              title: 'First Names',
+              type: 'string',
+            },
+            last_names: {
+              title: 'Last Names',
+              type: 'string',
+            },
+          },
+          dependencies: {},
+          required: [],
+        },
+      },
+      properties: {
+        user_full_names: {
+          $ref: '#/definitions/full_names',
+          title: 'User Full Names',
+          description: 'Full names description',
+        },
+      },
+      dependencies: {},
+      required: [],
+      type: 'object',
+    };
+
+    const innerProps = {
+      ...props,
+      schema: JSON.stringify(jsonSchema),
+      uiSchema: JSON.stringify(uiSchema),
+    };
+
+    const div = document.createElement('div');
+    document.body.appendChild(div);
+    const wrapper = mount(<FormBuilder {...innerProps} />, { attachTo: div });
+
+    const sectionHeadInputs = wrapper
+      .find('.section-container')
+      .first()
+      .find('.section-head')
+      .first()
+      .find('input');
+
+    const titleInput = sectionHeadInputs.at(2);
+
+    titleInput.simulate('change', {
+      target: {
+        value: 'new title change',
+      },
+    });
+
+    const updatedSchema = JSON.parse(mockEvent.mock.calls[0][0]);
+
+    expect(updatedSchema.properties.user_full_names.title).toEqual(
+      'new title change',
+    );
+    mockEvent.mockClear();
+  });
+
+  it("should allow changing of a Section's Description", () => {
+    const uiSchema = {
+      definitions: {
+        full_names: {
+          'ui:order': ['first_names', 'last_names'],
+        },
+      },
+      user_full_names: {
+        'ui:order': ['first_names', 'last_names'],
+      },
+      'ui:order': ['user_full_names'],
+    };
+
+    const jsonSchema = {
+      definitions: {
+        full_names: {
+          title: 'Full Names',
+          type: 'object',
+          description: 'This is a composite field',
+          properties: {
+            first_names: {
+              title: 'First Names',
+              type: 'string',
+            },
+            last_names: {
+              title: 'Last Names',
+              type: 'string',
+            },
+          },
+          dependencies: {},
+          required: [],
+        },
+      },
+      properties: {
+        user_full_names: {
+          $ref: '#/definitions/full_names',
+          title: 'User Full Names',
+          description: 'Full names description',
+        },
+      },
+      dependencies: {},
+      required: [],
+      type: 'object',
+    };
+
+    const innerProps = {
+      ...props,
+      schema: JSON.stringify(jsonSchema),
+      uiSchema: JSON.stringify(uiSchema),
+    };
+
+    const div = document.createElement('div');
+    document.body.appendChild(div);
+    const wrapper = mount(<FormBuilder {...innerProps} />, { attachTo: div });
+
+    const sectionHeadInputs = wrapper
+      .find('.section-container')
+      .first()
+      .find('.section-head')
+      .first()
+      .find('input');
+
+    const titleInput = sectionHeadInputs.at(3);
+
+    titleInput.simulate('change', {
+      target: {
+        value: 'new description change',
+      },
+    });
+
+    const updatedSchema = JSON.parse(mockEvent.mock.calls[0][0]);
+
+    expect(updatedSchema.properties.user_full_names.description).toEqual(
+      'new description change',
+    );
+    mockEvent.mockClear();
   });
 });

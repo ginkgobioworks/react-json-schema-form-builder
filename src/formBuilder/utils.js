@@ -1,15 +1,15 @@
 // @flow
-import * as React from 'react';
 import type { Node } from 'react';
+import * as React from 'react';
 import type {
   CardBody,
   CardProps,
-  ElementProps,
-  FormInput,
-  Mods,
-  ModalBody,
   DataOptions,
   DataType,
+  ElementProps,
+  FormInput,
+  ModalBody,
+  Mods,
 } from './types';
 
 // parse in either YAML or JSON
@@ -683,10 +683,18 @@ export function countElementsFromSchema(schemaData: any): number {
 // convert an element into a schema equivalent
 function generateSchemaElementFromElement(element: ElementProps) {
   if (element.$ref !== undefined) {
+    const title =
+      element.schema !== undefined && element.schema.title !== undefined
+        ? element.schema.title
+        : element.dataOptions.title;
+    const description =
+      element.schema !== undefined && element.schema.description !== undefined
+        ? element.schema.description
+        : element.dataOptions.description;
     return {
       $ref: element.$ref,
-      title: element.dataOptions.title,
-      description: element.dataOptions.description,
+      title: title,
+      description: description,
     };
   } else if (element.propType === 'card') {
     if (element.dataOptions.category === 'section') {
