@@ -864,12 +864,9 @@ export function updateSchemas(
   },
 ) {
   const { schema, uischema, onChange, definitionUi } = parameters;
-  const definedUi = (uischema || {}).definitions
-    ? { definitions: uischema.definitions }
-    : {};
 
   const newUiSchema = Object.assign(
-    definedUi,
+    { ...uischema },
     generateUiSchemaFromElementProps(elementArr, definitionUi),
   );
   const newSchema = Object.assign(
@@ -879,7 +876,6 @@ export function updateSchemas(
 
   // mandate that the type is an object if not already done
   newSchema.type = 'object';
-
   onChange(newSchema, newUiSchema);
 }
 
