@@ -34,6 +34,7 @@ import {
   getRandomId,
   onDragEnd,
 } from './utils';
+import type { FormInput, Mods } from './types';
 
 const useStyles = createUseStyles({
   sectionContainer: {
