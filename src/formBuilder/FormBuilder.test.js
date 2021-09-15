@@ -1,5 +1,5 @@
-import { mount } from 'enzyme';
 import React from 'react';
+import { mount } from 'enzyme';
 import FormBuilder from './FormBuilder';
 
 // mocks to record events
