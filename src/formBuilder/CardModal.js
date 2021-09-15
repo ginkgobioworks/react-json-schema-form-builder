@@ -1,19 +1,19 @@
 // @flow
 
-import type { Node } from 'react';
 import * as React from 'react';
-import { createUseStyles } from 'react-jss';
 import {
-  Button,
-  Input,
   Modal,
+  ModalHeader,
+  Button,
   ModalBody,
   ModalFooter,
-  ModalHeader,
+  Input,
 } from 'reactstrap';
+import { createUseStyles } from 'react-jss';
 import DependencyField from './dependencies/DependencyField';
-import Tooltip from './Tooltip';
+import type { Node } from 'react';
 import type { Parameters } from './types';
+import Tooltip from './Tooltip';
 
 const useStyles = createUseStyles({
   cardModal: {
