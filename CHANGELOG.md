@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.6.1] - 2021-09-14
+
+### Fixed
+
+- Allow a user to edit 'Section Display Name' and 'Section Description' of a pre-configured section component on the form builder. (See [pr #185](https://github.com/ginkgobioworks/react-json-schema-form-builder/issues/185).)
+
+### Changed
+
+- Updated dependencies in package.json and package-lock.json
+- Updated dependencies in example/package-lock.json
+
 ## [2.6.0] - 2021-07-29
 
 ### Fixed
