@@ -64,7 +64,6 @@ export default function CardModal({
   React.useEffect(() => {
     setComponentProps(componentProps);
   }, [componentProps]);
-
   return (
     <Modal isOpen={isOpen} data-test='card-modal' className={classes.cardModal}>
       <ModalHeader className='card-modal-header'>
@@ -99,15 +98,17 @@ export default function CardModal({
           </h4>
           <Input
             value={
-              componentProps['ui:column'] ? componentProps['ui:column'] : ''
+              componentPropsState['ui:column']
+                ? componentPropsState['ui:column']
+                : ''
             }
             placeholder='Column size'
             key='ui:column'
             type='number'
             min={0}
             onChange={(ev: SyntheticInputEvent<HTMLInputElement>) => {
-              onChange({
-                ...componentProps,
+              setComponentProps({
+                ...componentPropsState,
                 'ui:column': ev.target.value,
               });
             }}

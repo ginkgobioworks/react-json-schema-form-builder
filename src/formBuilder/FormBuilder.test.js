@@ -1,5 +1,5 @@
-import { mount } from 'enzyme';
 import React from 'react';
+import { mount } from 'enzyme';
 import FormBuilder from './FormBuilder';
 
 // mocks to record events
@@ -297,10 +297,109 @@ describe('FormBuilder', () => {
     expect(errors).toEqual([]);
   });
 
+  it('supports column size on sections', () => {
+    const jsonSchema = {
+      definitions: {
+        first_names: {
+          title: 'First Names',
+          type: 'string',
+        },
+        last_names: {
+          title: 'Last Names',
+          type: 'string',
+        },
+        residential_address: {
+          title: 'Residential Address',
+          type: 'object',
+          properties: {
+            country: {
+              title: 'Country',
+              type: 'string',
+            },
+            street_address_line: {
+              title: 'Street Address Line',
+              type: 'string',
+            },
+          },
+          dependencies: {},
+          required: [],
+        },
+      },
+      properties: {
+        user_first_names: {
+          $ref: '#/definitions/first_names',
+          title: 'User First Names',
+          description: '',
+        },
+        user_last_name: {
+          $ref: '#/definitions/last_names',
+          title: 'User Last Name',
+          description: '',
+        },
+        user_residential_address: {
+          $ref: '#/definitions/residential_address',
+          title: 'User Residential Address',
+          description: '',
+        },
+      },
+      dependencies: {},
+      required: [],
+      type: 'object',
+    };
+
+    const uischema = {
+      definitions: {
+        residential_address: {
+          'ui:order': ['country', 'street_address_line'],
+        },
+      },
+      'ui:order': [
+        'user_first_names',
+        'user_last_name',
+        'user_residential_address',
+      ],
+      user_first_names: {
+        'ui:column': '25',
+      },
+      user_last_name: {
+        'ui:column': '25',
+      },
+      user_residential_address: {
+        'ui:order': ['country', 'address_line'],
+        'ui:column': '50',
+        country: {
+          'ui:column': '30',
+        },
+        street_address_line: {
+          'ui:column': '70',
+        },
+      },
+    };
+
+    const props = {
+      schema: JSON.stringify(jsonSchema),
+      uiSchema: JSON.stringify(uischema),
+      onChange: jest.fn(() => {}),
+      mods: {},
+      className: 'my-form-builder',
+    };
+
+    const div = document.createElement('div');
+    document.body.appendChild(div);
+    const wrapper = mount(<FormBuilder {...props} />, { attachTo: div });
+    const errors = wrapper
+      .find('.alert-warning')
+      .first()
+      .find('li')
+      .map((error) => error.text());
+    expect(errors).toEqual([]);
+  });
+
   it('validates additionalProperties as a valid property', () => {
     const jsonSchema = {
       $schema: `http://json-schema.org/draft-07/schema#`,
       properties: {},
+      required: [],
       additionalProperties: false,
     };
 

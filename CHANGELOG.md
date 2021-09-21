@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.6.2] - 2021-09-16
+
+### Fixed
+
+- Unable to enter a Column Size for a section. (See [issue #191](https://github.com/ginkgobioworks/react-json-schema-form-builder/issues/191).)
+
 ## [2.6.1] - 2021-09-14
 
 ### Fixed

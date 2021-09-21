@@ -506,11 +506,17 @@ export default function Section({
             name: keyName,
             schema,
             type: 'object',
+            'ui:column': uischema['ui:column'] ?? '',
           }}
           isOpen={modalOpen}
           onClose={() => setModalOpen(false)}
           onChange={(newComponentProps: { [string]: any }) => {
             onDependentsChange(newComponentProps.dependents);
+
+            onChange(schema, {
+              ...uischema,
+              'ui:column': newComponentProps['ui:column'],
+            });
           }}
           TypeSpecificParameters={CardDefaultParameterInputs}
         />
