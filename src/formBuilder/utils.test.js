@@ -481,6 +481,7 @@ describe('generateSchemaFromElementProps', () => {
       $ref: '#/definitions/someDefinition',
       title: 'Input Field',
       description: 'This is an example description',
+      required: [],
     };
 
     const result = generateSchemaFromElementProps(
@@ -507,6 +508,7 @@ describe('generateSchemaFromElementProps', () => {
       $ref: '#/definitions/someDefinition',
       title: 'Input Field',
       description: 'This is an example description',
+      required: [],
     };
 
     const result = generateSchemaFromElementProps(
@@ -518,6 +520,36 @@ describe('generateSchemaFromElementProps', () => {
           dataOptions: {
             description: 'This is an example description',
             title: 'Input Field',
+          },
+          propType: 'card',
+        },
+      ],
+      DEFAULT_FORM_INPUTS,
+    );
+
+    expect(result.properties.exampleCard).toEqual(expectedSchemaElement);
+  });
+
+  it('generates schema from element with schema required prop', () => {
+    const expectedSchemaElement = {
+      $ref: '#/definitions/someDefinition',
+      title: 'Input Field',
+      description: 'This is an example description',
+      required: ['field_one'],
+    };
+
+    const result = generateSchemaFromElementProps(
+      [
+        {
+          name: 'exampleCard',
+          required: true,
+          $ref: '#/definitions/someDefinition',
+          dataOptions: {
+            description: 'This is an example description',
+            title: 'Input Field',
+          },
+          schema: {
+            required: ['field_one'],
           },
           propType: 'card',
         },
