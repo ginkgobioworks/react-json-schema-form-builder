@@ -1,15 +1,15 @@
 // @flow
-import type { Node } from 'react';
 import * as React from 'react';
+import type { Node } from 'react';
 import type {
   CardBody,
   CardProps,
-  DataOptions,
-  DataType,
   ElementProps,
   FormInput,
-  ModalBody,
   Mods,
+  ModalBody,
+  DataOptions,
+  DataType,
 } from './types';
 
 // parse in either YAML or JSON
@@ -874,7 +874,6 @@ export function updateSchemas(
     { ...uischema },
     generateUiSchemaFromElementProps(elementArr, definitionUi),
   );
-
   const newSchema = Object.assign(
     { ...schema },
     generateSchemaFromElementProps(elementArr),
@@ -1289,7 +1288,9 @@ export function generateElementComponentsFromSchemas(parameters: {
               uischema: newUiSchema,
               propType: 'section',
             };
+
             if (newRef) newElementObjArr[index].$ref = newRef;
+            
             updateSchemas(newElementObjArr, {
               schema,
               uischema,
