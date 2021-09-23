@@ -1,15 +1,15 @@
 // @flow
-import * as React from 'react';
 import type { Node } from 'react';
+import * as React from 'react';
 import type {
   CardBody,
   CardProps,
-  ElementProps,
-  FormInput,
-  Mods,
-  ModalBody,
   DataOptions,
   DataType,
+  ElementProps,
+  FormInput,
+  ModalBody,
+  Mods,
 } from './types';
 
 // parse in either YAML or JSON
@@ -691,10 +691,15 @@ function generateSchemaElementFromElement(element: ElementProps) {
       element.schema !== undefined && element.schema.description !== undefined
         ? element.schema.description
         : element.dataOptions.description;
+    const required =
+      element.schema !== undefined && element.schema.required !== undefined
+        ? element.schema.required
+        : [];
     return {
       $ref: element.$ref,
       title: title,
       description: description,
+      required: required,
     };
   } else if (element.propType === 'card') {
     if (element.dataOptions.category === 'section') {
@@ -869,6 +874,7 @@ export function updateSchemas(
     { ...uischema },
     generateUiSchemaFromElementProps(elementArr, definitionUi),
   );
+
   const newSchema = Object.assign(
     { ...schema },
     generateSchemaFromElementProps(elementArr),
@@ -1283,9 +1289,7 @@ export function generateElementComponentsFromSchemas(parameters: {
               uischema: newUiSchema,
               propType: 'section',
             };
-
             if (newRef) newElementObjArr[index].$ref = newRef;
-
             updateSchemas(newElementObjArr, {
               schema,
               uischema,
