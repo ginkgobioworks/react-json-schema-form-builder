@@ -1,5 +1,4 @@
 // @flow
-// @flow
 import * as React from 'react';
 import type { Node } from 'react';
 import type {
