@@ -481,7 +481,6 @@ describe('generateSchemaFromElementProps', () => {
       $ref: '#/definitions/someDefinition',
       title: 'Input Field',
       description: 'This is an example description',
-      required: [],
     };
 
     const result = generateSchemaFromElementProps(
@@ -508,7 +507,6 @@ describe('generateSchemaFromElementProps', () => {
       $ref: '#/definitions/someDefinition',
       title: 'Input Field',
       description: 'This is an example description',
-      required: [],
     };
 
     const result = generateSchemaFromElementProps(

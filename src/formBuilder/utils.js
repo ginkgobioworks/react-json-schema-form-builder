@@ -1,15 +1,15 @@
 // @flow
-import * as React from 'react';
 import type { Node } from 'react';
+import * as React from 'react';
 import type {
   CardBody,
   CardProps,
-  ElementProps,
-  FormInput,
-  Mods,
-  ModalBody,
   DataOptions,
   DataType,
+  ElementProps,
+  FormInput,
+  ModalBody,
+  Mods,
 } from './types';
 
 // parse in either YAML or JSON
@@ -691,16 +691,18 @@ function generateSchemaElementFromElement(element: ElementProps) {
       element.schema !== undefined && element.schema.description !== undefined
         ? element.schema.description
         : element.dataOptions.description;
-    const required =
-      element.schema !== undefined && element.schema.required !== undefined
-        ? element.schema.required
-        : [];
-    return {
+
+    const returnElement = {
       $ref: element.$ref,
       title: title,
       description: description,
-      required: required,
     };
+
+    return element.schema !== undefined &&
+      element.schema.required !== undefined &&
+      element.schema.required.length !== 0
+      ? { ...returnElement, required: element.schema.required }
+      : returnElement;
   } else if (element.propType === 'card') {
     if (element.dataOptions.category === 'section') {
       return {
@@ -1290,7 +1292,7 @@ export function generateElementComponentsFromSchemas(parameters: {
             };
 
             if (newRef) newElementObjArr[index].$ref = newRef;
-            
+
             updateSchemas(newElementObjArr, {
               schema,
               uischema,
