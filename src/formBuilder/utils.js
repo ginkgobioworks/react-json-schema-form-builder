@@ -1,15 +1,16 @@
 // @flow
-import type { Node } from 'react';
+// @flow
 import * as React from 'react';
+import type { Node } from 'react';
 import type {
   CardBody,
   CardProps,
-  DataOptions,
-  DataType,
   ElementProps,
   FormInput,
-  ModalBody,
   Mods,
+  ModalBody,
+  DataOptions,
+  DataType,
 } from './types';
 
 // parse in either YAML or JSON
