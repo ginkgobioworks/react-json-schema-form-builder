@@ -528,7 +528,7 @@ describe('generateSchemaFromElementProps', () => {
     expect(result.properties.exampleCard).toEqual(expectedSchemaElement);
   });
 
-  it('generates schema from element with schema required prop', () => {
+  it('generates the correct JSON Schema from a compound element with the required prop', () => {
     const expectedSchemaElement = {
       $ref: '#/definitions/someDefinition',
       title: 'Input Field',
