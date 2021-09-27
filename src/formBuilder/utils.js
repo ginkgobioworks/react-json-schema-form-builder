@@ -692,17 +692,17 @@ function generateSchemaElementFromElement(element: ElementProps) {
         ? element.schema.description
         : element.dataOptions.description;
 
-    const returnElement = {
+    let returnElement = {
       $ref: element.$ref,
       title: title,
       description: description,
     };
 
-    return element.schema !== undefined &&
-      element.schema.required !== undefined &&
-      element.schema.required.length !== 0
-      ? { ...returnElement, required: element.schema.required }
-      : returnElement;
+    const length = element?.schema?.required?.length;
+    if (length !== undefined && length > 0) {
+      returnElement = { ...returnElement, required: element.schema.required };
+    }
+    return returnElement;
   } else if (element.propType === 'card') {
     if (element.dataOptions.category === 'section') {
       return {
