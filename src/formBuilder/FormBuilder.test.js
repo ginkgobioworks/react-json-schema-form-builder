@@ -624,7 +624,7 @@ describe('FormBuilder', () => {
     mockEvent.mockClear();
   });
 
-  it("should allow changing of a Section's element 'required' property", () => {
+  it("should allow changing of a Section element's 'required' property", () => {
     const sectionUiSchema = {
       definitions: {
         full_names: {
