@@ -265,7 +265,16 @@ class JsonSchemaFormEditor extends React.Component<Props, State> {
                       <JSONInput
                         id='data_schema'
                         placeholder={
-                          this.props.schema ? JSON.parse(this.props.schema) : {}
+                          this.props.schema
+                            ? (() => {
+                                try {
+                                  return JSON.parse(this.props.schema);
+                                } catch (e) {
+                                  console.error(e);
+                                  return {};
+                                }
+                              })()
+                            : {}
                         }
                         locale={locale}
                         height='550px'
