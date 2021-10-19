@@ -161,6 +161,8 @@ describe('FormBuilder', () => {
     expect(mockEvent).toHaveBeenCalledTimes(0);
     createButton.simulate('click');
     expect(mockEvent).toHaveBeenCalledTimes(1);
+
+    const cardInputs = wrapper.first().find('input');
     mockEvent.mockClear();
   });
 
@@ -621,6 +623,53 @@ describe('FormBuilder', () => {
     expect(updatedSchema.properties.user_full_names.description).toEqual(
       'new description change',
     );
+    mockEvent.mockClear();
+  });
+
+  it('should edit card slug and override ui:schema with updated slug', () => {
+    let jsonSchema = {
+      properties: {
+        newInput1: {
+          title: 'New Input 1',
+          type: 'string',
+        },
+      },
+    };
+
+    let uiSchema = {
+      'ui:order': ['newInput1'],
+      newInput1: {
+        'ui:column': '3',
+      },
+    };
+
+    const innerProps = {
+      ...props,
+      schema: JSON.stringify(jsonSchema),
+      uischema: JSON.stringify(uiSchema),
+      onChange: (newSchema, newUiSchema) => {
+        jsonSchema = newSchema;
+        uiSchema = newUiSchema;
+      },
+    };
+
+    const div = document.createElement('div');
+    document.body.appendChild(div);
+    const wrapper = mount(<FormBuilder {...innerProps} />, { attachTo: div });
+    const cardInputs = wrapper.find('.card-container').first().find('input');
+
+    cardInputs.at(0).simulate('blur', {
+      target: { value: 'nameA' },
+    });
+
+    const expected = {
+      'ui:order': ['nameA'],
+      nameA: {
+        'ui:column': '3',
+      },
+    };
+
+    expect(JSON.parse(uiSchema)).toEqual(expected);
     mockEvent.mockClear();
   });
 });
