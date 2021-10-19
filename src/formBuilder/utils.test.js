@@ -527,6 +527,36 @@ describe('generateSchemaFromElementProps', () => {
 
     expect(result.properties.exampleCard).toEqual(expectedSchemaElement);
   });
+
+  it('generates the correct JSON Schema from a compound element with the required prop', () => {
+    const expectedSchemaElement = {
+      $ref: '#/definitions/someDefinition',
+      title: 'Input Field',
+      description: 'This is an example description',
+      required: ['field_one'],
+    };
+
+    const result = generateSchemaFromElementProps(
+      [
+        {
+          name: 'exampleCard',
+          required: true,
+          $ref: '#/definitions/someDefinition',
+          dataOptions: {
+            description: 'This is an example description',
+            title: 'Input Field',
+          },
+          schema: {
+            required: ['field_one'],
+          },
+          propType: 'card',
+        },
+      ],
+      DEFAULT_FORM_INPUTS,
+    );
+
+    expect(result.properties.exampleCard).toEqual(expectedSchemaElement);
+  });
 });
 
 describe('generateUiSchemaFromElementProps', () => {
