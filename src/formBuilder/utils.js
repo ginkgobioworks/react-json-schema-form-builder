@@ -832,7 +832,10 @@ export function generateUiSchemaFromElementProps(
           uiSchema[element.name][uiOption] = element.uiOptions[uiOption];
         }
       });
-    } else if (element.propType === 'section' && element.uischema) {
+    } else if (
+      element.propType === 'section' &&
+      Object.keys(element.uischema).length > 0
+    ) {
       uiSchema[element.name] = element.uischema;
     }
   });
@@ -1130,6 +1133,12 @@ export function generateElementComponentsFromSchemas(parameters: {
               }
             });
 
+            cleanUiSchema(
+              newCardObj.name,
+              newElementObjArr[index].name,
+              uischema,
+            );
+
             if (newElementObjArr[index].propType === 'card') {
               const oldElement = newElementObjArr[index];
               newElementObjArr[index] = {
@@ -1164,6 +1173,7 @@ export function generateElementComponentsFromSchemas(parameters: {
               definitionUi,
               categoryHash,
             });
+            cleanUiSchema('__delete', newElementObjArr[index].name, uischema);
             newElementObjArr.splice(index, 1);
             setCardOpenArray([
               ...cardOpenArray.slice(0, index),
@@ -1301,6 +1311,8 @@ export function generateElementComponentsFromSchemas(parameters: {
             if (elementPropArr.map((elem) => elem.name).includes(newName))
               return;
 
+            cleanUiSchema(newName, oldSection.name, uischema);
+
             const newElementObjArr = generateElementPropsFromSchemas({
               schema,
               uischema,
@@ -1378,6 +1390,7 @@ export function generateElementComponentsFromSchemas(parameters: {
               definitionUi,
               categoryHash,
             });
+            cleanUiSchema('__delete', newElementObjArr[index].name, uischema);
             newElementObjArr.splice(index, 1);
             setCardOpenArray([
               ...cardOpenArray.slice(0, index),
@@ -1493,6 +1506,15 @@ export function generateElementComponentsFromSchemas(parameters: {
   });
 
   return elementList;
+}
+
+export function cleanUiSchema(newName, oldName, uiSchema) {
+  if (
+    (newName !== oldName && !oldName.startsWith('ui:')) ||
+    newName == '__delete'
+  ) {
+    delete uiSchema[oldName];
+  }
 }
 
 // function called when drag and drop ends

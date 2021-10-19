@@ -512,7 +512,6 @@ export default function Section({
           onClose={() => setModalOpen(false)}
           onChange={(newComponentProps: { [string]: any }) => {
             onDependentsChange(newComponentProps.dependents);
-
             onChange(schema, {
               ...uischema,
               'ui:column': newComponentProps['ui:column'],
