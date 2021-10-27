@@ -645,6 +645,7 @@ describe('FormBuilder', () => {
 
     const innerProps = {
       ...props,
+
       schema: JSON.stringify(jsonSchema),
       uischema: JSON.stringify(uiSchema),
       onChange: (newSchema, newUiSchema) => {

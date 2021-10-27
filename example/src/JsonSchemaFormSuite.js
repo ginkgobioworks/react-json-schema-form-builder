@@ -14,6 +14,7 @@ import {
   FormBuilder,
   PredefinedGallery,
 } from '@ginkgo-bioworks/react-json-schema-form-builder';
+import withStyles from 'react-jss';
 import Tabs from './tabs/Tabs';
 import JSONInput from 'react-json-editor-ajrm';
 import locale from 'react-json-editor-ajrm/locale/en';
@@ -30,6 +31,7 @@ type Props = {
   uischemaTitle?: string,
   width?: string,
   height?: string,
+  classes: { [string]: any },
 };
 
 type State = {
@@ -54,6 +56,14 @@ function checkError(text: string, language: string) {
   }
   return '';
 }
+
+const styles = {
+  codeViewer: {
+    backgroundColor: 'lightgray',
+    maxHeight: '550px',
+    overflowY: 'auto',
+  },
+};
 
 class JsonSchemaFormEditor extends React.Component<Props, State> {
   constructor(props: Props) {
@@ -210,12 +220,9 @@ class JsonSchemaFormEditor extends React.Component<Props, State> {
                           errMessage={'Error parsing JSON Schema Form output'}
                         >
                           <h4>Output Data</h4>
-                          <JSONInput
-                            id='a_unique_id'
-                            placeholder={this.state.submissionData}
-                            locale={locale}
-                            height='550px'
-                          />
+                          <pre className={this.props.classes.codeViewer}>
+                            {JSON.stringify(this.state.submissionData, null, 2)}
+                          </pre>
                         </ErrorBoundary>
                         <br />
                       </div>
@@ -265,7 +272,16 @@ class JsonSchemaFormEditor extends React.Component<Props, State> {
                       <JSONInput
                         id='data_schema'
                         placeholder={
-                          this.props.schema ? JSON.parse(this.props.schema) : {}
+                          this.props.schema
+                            ? (() => {
+                                try {
+                                  return JSON.parse(this.props.schema);
+                                } catch (e) {
+                                  console.error(e);
+                                  return {};
+                                }
+                              })()
+                            : {}
                         }
                         locale={locale}
                         height='550px'
@@ -335,4 +351,4 @@ class JsonSchemaFormEditor extends React.Component<Props, State> {
   }
 }
 
-export default JsonSchemaFormEditor;
+export default withStyles(styles)(JsonSchemaFormEditor);

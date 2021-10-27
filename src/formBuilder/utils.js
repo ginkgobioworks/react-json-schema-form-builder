@@ -691,11 +691,18 @@ function generateSchemaElementFromElement(element: ElementProps) {
       element.schema !== undefined && element.schema.description !== undefined
         ? element.schema.description
         : element.dataOptions.description;
-    return {
+
+    let returnElement = {
       $ref: element.$ref,
       title: title,
       description: description,
     };
+
+    const length = element?.schema?.required?.length;
+    if (length !== undefined && length > 0) {
+      returnElement = { ...returnElement, required: element.schema.required };
+    }
+    return returnElement;
   } else if (element.propType === 'card') {
     if (element.dataOptions.category === 'section') {
       return {
@@ -872,10 +879,13 @@ export function updateSchemas(
     generateSchemaFromElementProps(elementArr),
   );
 
-  const schemaPropertyKeys = Object.keys(newSchema.properties || {});
-  const existingUiSchema = Object.entries(uischema)
+  const existingUiSchema: {
+    [string]: any,
+    definitions?: { [string]: any },
+    ...
+  } = Object.entries(uischema)
     .filter(([key, _value]) => {
-      return schemaPropertyKeys.includes(key) || key.startsWith('ui:');
+      return key in newSchema.properties || key.startsWith('ui:');
     })
     .reduce((accumulator, currentValue) => {
       const [key, value] = currentValue;

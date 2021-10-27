@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.6.3] - 2021-09-28
+
+### Fixed
+
+- Unable to mark inner fields of a referenced section as required. (See [issue #196](https://github.com/ginkgobioworks/react-json-schema-form-builder/issues/196).)
+
 ## [2.6.2] - 2021-09-16
 
 ### Fixed
