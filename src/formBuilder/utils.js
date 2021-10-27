@@ -839,7 +839,10 @@ export function generateUiSchemaFromElementProps(
           uiSchema[element.name][uiOption] = element.uiOptions[uiOption];
         }
       });
-    } else if (element.propType === 'section' && element.uischema) {
+    } else if (
+      element.propType === 'section' &&
+      Object.keys(element.uischema).length > 0
+    ) {
       uiSchema[element.name] = element.uischema;
     }
   });
@@ -871,14 +874,27 @@ export function updateSchemas(
   },
 ) {
   const { schema, uischema, onChange, definitionUi } = parameters;
-
-  const newUiSchema = Object.assign(
-    { ...uischema },
-    generateUiSchemaFromElementProps(elementArr, definitionUi),
-  );
   const newSchema = Object.assign(
     { ...schema },
     generateSchemaFromElementProps(elementArr),
+  );
+
+  const existingUiSchema: {
+    [string]: any,
+    definitions?: { [string]: any },
+    ...
+  } = Object.entries(uischema)
+    .filter(([key, _value]) => {
+      return key in newSchema.properties || key.startsWith('ui:');
+    })
+    .reduce((accumulator, currentValue) => {
+      const [key, value] = currentValue;
+      return { ...accumulator, [key]: value };
+    }, {});
+
+  const newUiSchema = Object.assign(
+    { ...existingUiSchema },
+    generateUiSchemaFromElementProps(elementArr, definitionUi),
   );
 
   // mandate that the type is an object if not already done

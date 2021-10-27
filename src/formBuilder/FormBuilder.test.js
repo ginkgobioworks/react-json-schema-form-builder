@@ -161,6 +161,8 @@ describe('FormBuilder', () => {
     expect(mockEvent).toHaveBeenCalledTimes(0);
     createButton.simulate('click');
     expect(mockEvent).toHaveBeenCalledTimes(1);
+
+    const cardInputs = wrapper.first().find('input');
     mockEvent.mockClear();
   });
 
@@ -624,73 +626,51 @@ describe('FormBuilder', () => {
     mockEvent.mockClear();
   });
 
-  it("should allow changing of a Section element's 'required' property", () => {
-    const sectionUiSchema = {
-      definitions: {
-        full_names: {
-          'ui:order': ['first_names', 'last_names'],
+  it('should edit card slug and override ui:schema with updated slug', () => {
+    let jsonSchema = {
+      properties: {
+        newInput1: {
+          title: 'New Input 1',
+          type: 'string',
         },
       },
-      user_full_names: {
-        'ui:order': ['first_names', 'last_names'],
-      },
-      'ui:order': ['user_full_names'],
     };
 
-    const sectionJsonSchema = {
-      definitions: {
-        full_names: {
-          title: 'Full Names',
-          type: 'object',
-          description: 'This is a composite field',
-          properties: {
-            first_names: {
-              title: 'First Names',
-              type: 'string',
-            },
-            last_names: {
-              title: 'Last Names',
-              type: 'string',
-            },
-          },
-          dependencies: {},
-          required: [],
-        },
+    let uiSchema = {
+      'ui:order': ['newInput1'],
+      newInput1: {
+        'ui:column': '3',
       },
-      properties: {
-        user_full_names: {
-          $ref: '#/definitions/full_names',
-          title: 'User Full Names',
-          description: 'Full names description',
-          required: [],
-        },
-      },
-      dependencies: {},
-      required: [],
-      type: 'object',
     };
 
     const innerProps = {
       ...props,
-      schema: JSON.stringify(sectionJsonSchema),
-      uiSchema: JSON.stringify(sectionUiSchema),
+
+      schema: JSON.stringify(jsonSchema),
+      uischema: JSON.stringify(uiSchema),
+      onChange: (newSchema, newUiSchema) => {
+        jsonSchema = newSchema;
+        uiSchema = newUiSchema;
+      },
     };
 
     const div = document.createElement('div');
     document.body.appendChild(div);
     const wrapper = mount(<FormBuilder {...innerProps} />, { attachTo: div });
+    const cardInputs = wrapper.find('.card-container').first().find('input');
 
-    const subFieldCheckbox = wrapper.find({ type: 'checkbox' });
+    cardInputs.at(0).simulate('blur', {
+      target: { value: 'nameA' },
+    });
 
-    const firstNamesCheckbox = subFieldCheckbox.at(0);
+    const expected = {
+      'ui:order': ['nameA'],
+      nameA: {
+        'ui:column': '3',
+      },
+    };
 
-    firstNamesCheckbox.simulate('change', { target: { checked: true } });
-
-    const updatedSchema = JSON.parse(mockEvent.mock.calls[0][0]);
-
-    expect(updatedSchema.properties.user_full_names.required).toEqual([
-      'first_names',
-    ]);
+    expect(JSON.parse(uiSchema)).toEqual(expected);
     mockEvent.mockClear();
   });
 });
