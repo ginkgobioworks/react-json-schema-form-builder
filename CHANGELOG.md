@@ -1,5 +1,19 @@
 # Changelog
 
+## [2.7.0] - 2021-10-28
+
+### Fixed
+
+- In example app, prevent invalid JSON in "Edit Schema" tag from crashing page. (See [issue #209](https://github.com/ginkgobioworks/react-json-schema-form-builder/issues/209).)
+- In example app, display actual JSON when submitting Preview Form. (See [issue #140](https://github.com/ginkgobioworks/react-json-schema-form-builder/issues/140).)
+- Fix: form builder is appending properties to ui schema with no uiSchema change. (See [pr #217](https://github.com/ginkgobioworks/react-json-schema-form-builder/issues/217).)
+
+### Changed
+
+- Show pre-configured component display name rather than $ref in ref choice dropdown. (See [issue #208](https://github.com/ginkgobioworks/react-json-schema-form-builder/issues/208).)
+- Updated dependencies in package.json and package-lock.json
+- Updated dependencies in example/package-lock.json
+
 ## [2.6.3] - 2021-09-28
 
 ### Fixed
