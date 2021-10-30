@@ -879,23 +879,14 @@ export function updateSchemas(
     generateSchemaFromElementProps(elementArr),
   );
 
-  const existingUiSchema: {
+  const newUiSchema: {
     [string]: any,
     definitions?: { [string]: any },
     ...
-  } = Object.entries(uischema)
-    .filter(([key, _value]) => {
-      return key in newSchema.properties || key.startsWith('ui:');
-    })
-    .reduce((accumulator, currentValue) => {
-      const [key, value] = currentValue;
-      return { ...accumulator, [key]: value };
-    }, {});
-
-  const newUiSchema = Object.assign(
-    { ...existingUiSchema },
-    generateUiSchemaFromElementProps(elementArr, definitionUi),
-  );
+  } = generateUiSchemaFromElementProps(elementArr, definitionUi);
+  if (uischema.definitions) {
+    newUiSchema.definitions = uischema.definitions;
+  }
 
   // mandate that the type is an object if not already done
   newSchema.type = 'object';
