@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.7.1] - 2021-10-30
+
+### Fixed
+
+- Ensure that uiSchema updates correctly when changing type. (See [issue #220](https://github.com/ginkgobioworks/react-json-schema-form-builder/issues/220).)
+
 ## [2.7.0] - 2021-10-28
 
 ### Fixed
