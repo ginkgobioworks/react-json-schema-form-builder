@@ -133,8 +133,14 @@ export default function PredefinedGallery({
   mods?: Mods,
 }): Node {
   const classes = useStyles();
-  const schemaData = (parse(schema): { [string]: any }) || {};
-  const uiSchemaData = (parse(uischema): { [string]: any }) || {};
+  const schemaData = React.useMemo(
+    () => (parse(schema): { [string]: any }) || {},
+    [schema],
+  );
+  const uiSchemaData = React.useMemo(
+    () => (parse(uischema): { [string]: any }) || {},
+    [uischema],
+  );
   const allFormInputs = excludeKeys(
     Object.assign(
       {},
@@ -180,23 +186,21 @@ export default function PredefinedGallery({
       }
       onChange(stringify(schemaData), stringify(uiSchemaData));
     }
-  }, [uischema, schema]);
+  }, [uiSchemaData, schemaData]);
   return (
     <div className={classes.preDefinedGallery}>
       <CardGallery
-        definitionSchema={schemaData.definitions}
-        definitionUiSchema={uiSchemaData.definitions}
+        definitionSchema={schemaData.definitions || {}}
+        definitionUiSchema={uiSchemaData.definitions || {}}
         onChange={(
           newDefinitions: { [string]: any },
           newDefinitionsUi: { [string]: any },
         ) => {
-          schemaData.definitions = newDefinitions;
-          uiSchemaData.definitions = newDefinitionsUi;
           // propagate changes in ui definitions to all relavant parties in main schema
 
           propagateDefinitionChanges(
-            schemaData,
-            uiSchemaData,
+            { ...schemaData, definitions: newDefinitions },
+            { ...uiSchemaData, definitions: newDefinitionsUi },
             (newSchema, newUiSchema) =>
               onChange(stringify(newSchema), stringify(newUiSchema)),
             categoryHash,
