@@ -76,7 +76,7 @@ const useStyles = createUseStyles({
       width: '90%',
       'min-width': '400px',
       margin: '2em auto',
-      border: '1px solid var(--gray)',
+      border: '1px solid gray',
       'border-radius': '4px',
       'background-color': 'white',
       '& h4': {
@@ -88,7 +88,7 @@ const useStyles = createUseStyles({
         'font-size': '18px',
       },
       '& .d-flex': {
-        'border-bottom': '1px solid var(--gray)',
+        'border-bottom': '1px solid gray',
       },
       '& .label': {
         float: 'left',
@@ -108,8 +108,8 @@ const useStyles = createUseStyles({
       maxHeight: '500px',
       overflowY: 'scroll',
     },
-    '& .card-container:hover': { border: '1px solid var(--green)' },
-    '& .card-dependent': { border: '1px dashed var(--gray)' },
+    '& .card-container:hover': { border: '1px solid green' },
+    '& .card-dependent': { border: '1px dashed gray' },
     '& .card-add': {
       cursor: 'pointer',
       display: 'block',
@@ -117,7 +117,7 @@ const useStyles = createUseStyles({
       fontSize: '1.5em',
     },
 
-    '& .section-container:hover': { border: '1px solid var(--green)' },
+    '& .section-container:hover': { border: '1px solid green' },
   },
 });
 

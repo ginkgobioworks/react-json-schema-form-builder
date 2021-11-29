@@ -49,7 +49,7 @@ const useStyles = createUseStyles({
       padding: '.5em',
     },
     '& .card-select': {
-      border: '1px solid var(--gray)',
+      border: '1px solid gray',
       'border-radius': '4px',
     },
     '& .card-array': {
@@ -60,7 +60,7 @@ const useStyles = createUseStyles({
       display: 'flex',
       flexDirection: 'column',
       width: '100%',
-      backgroundColor: 'var(--light-gray)',
+      backgroundColor: 'lightGray',
       textAlign: 'left',
       padding: '1em',
       '& h3': { fontSize: '16px', margin: '0 0 .5em 0' },
