@@ -17,12 +17,13 @@
   "dependencies": {
     "@ginkgo-bioworks/react-json-schema-form-builder": "file:..",
     "@rjsf/bootstrap-4": "^3.0.0",
-    "@rjsf/core": "^2.4.1",
-    "bootstrap": "^4.6.1",
+    "@rjsf/core": "^3.0.0",
+    "bootstrap": "file:../node_modules/bootstrap",
     "react": "file:../node_modules/react",
     "react-bootstrap": "^1.6.4",
     "react-dom": "file:../node_modules/react-dom",
-    "react-json-editor-ajrm": "^2.5.13"
+    "react-json-editor-ajrm": "^2.5.13",
+    "reactstrap": "file:../node_modules/reactstrap"
   },
   "devDependencies": {
     "@babel/plugin-syntax-object-rest-spread": "^7.8.3",

@@ -27,7 +27,7 @@ const useStyles = createUseStyles({
       marginBottom: '1em',
       height: '32px',
     },
-    '& .fa-question-circle': { color: 'var(--gray)' },
+    '& .fa-question-circle': { color: 'gray' },
     '& .card-modal-boolean': {
       '& *': { marginRight: '0.25em', height: 'auto', display: 'inline-block' },
     },

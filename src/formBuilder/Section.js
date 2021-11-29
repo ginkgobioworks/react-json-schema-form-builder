@@ -40,7 +40,7 @@ const useStyles = createUseStyles({
   sectionContainer: {
     '& .section-head': {
       display: 'flex',
-      borderBottom: '1px solid var(--gray)',
+      borderBottom: '1px solid gray',
       margin: '0.5em 1.5em 0 1.5em',
       '& h5': {
         color: 'black',
@@ -62,7 +62,7 @@ const useStyles = createUseStyles({
     '& .section-interactions': {
       margin: '0.5em 1.5em',
       textAlign: 'left',
-      borderTop: '1px solid var(--gray)',
+      borderTop: '1px solid gray',
       paddingTop: '1em',
       '& .fa': {
         marginRight: '1em',
