@@ -1,5 +1,21 @@
 # Changelog
 
+## [2.8.0] - 2021-12-03
+
+## Added
+
+- Added support for Bootstrap 5/reactstrap 9.x.x
+
+## Fixed
+
+- Exception in Pre-Configured Components when definitions is not defined. (See [pr #241](https://github.com/ginkgobioworks/react-json-schema-form-builder/pull/241).)
+
+## Changed
+
+- Updated dependencies in package.json and package-lock.json
+- Updated dependencies in example/package-lock.json
+- Replaced node v15 with node v16 as latest node version in CI
+
 ## [2.7.1] - 2021-10-30
 
 ### Fixed
