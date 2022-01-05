@@ -1,3 +1,4 @@
+jest.config.js
 dist/
 example/build/
 node_modules/
