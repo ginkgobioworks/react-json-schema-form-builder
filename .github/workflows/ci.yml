@@ -59,8 +59,6 @@ jobs:
       fail-fast: false
       matrix:
         node_version:
-          - 10
-          - 12
           - 14
           - 16
         os:
@@ -75,8 +73,20 @@ jobs:
           node-version: ${{ matrix.node_version }}
       - run: npm ci
       - run: npm run-s build
-      - run: npm install --prefix example
-      - run: npm run --prefix example build
+      - working-directory: ./example
+        run: npm install
+      - working-directory: ./example
+        run: npm run build
+      - if: matrix.os == 'ubuntu-latest' && matrix.node_version == 16 && ((github.event_name == 'push' && github.ref == 'refs/heads/main') || github.event.action == 'published')
+        uses: actions/upload-artifact@v2
+        with:
+          name: dist
+          path: dist
+      - if: matrix.os == 'ubuntu-latest' && matrix.node_version == 16 && github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: actions/upload-artifact@v2
+        with:
+          name: example-app
+          path: example/build
   deploy:
     needs:
       - lint
@@ -93,9 +103,15 @@ jobs:
         with:
           node-version: 16
       - run: npm ci
-      - run: npm run-s build
-      - run: npm install --prefix example
-      - run: npm run --prefix example build
+      - uses: actions/download-artifact@v2
+        with:
+          name: dist
+      - working-directory: ./example
+        run: npm install
+      - uses: actions/download-artifact@v2
+        with:
+          name: example-app
+          path: example
       - uses: peaceiris/actions-gh-pages@v3
         with:
           personal_token: ${{ secrets.GH_PAGES_DEPLOY_TOKEN }}
@@ -119,7 +135,9 @@ jobs:
           registry-url: https://registry.npmjs.org/
           node-version: 16
       - run: npm ci
-      - run: npm run-s build
+      - uses: actions/download-artifact@v2
+        with:
+          name: dist
       - run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

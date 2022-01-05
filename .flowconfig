@@ -1,5 +1,6 @@
 # Default flow options are good for most use cases, so this is left blank.
 [ignore]
+.*/node_modules/resolve/test/resolver/malformed_package_json/.*
 .*/example/.*
 .*/flow-libdef/.*
 
