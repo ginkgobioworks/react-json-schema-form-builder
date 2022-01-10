@@ -81,12 +81,12 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: dist
-          path: dist
+          path: dist/**
       - if: matrix.os == 'ubuntu-latest' && matrix.node_version == 16 && github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: actions/upload-artifact@v2
         with:
           name: example-app
-          path: example/build
+          path: example/build/**
   deploy:
     needs:
       - lint
@@ -106,12 +106,13 @@ jobs:
       - uses: actions/download-artifact@v2
         with:
           name: dist
+          path: dist
       - working-directory: ./example
         run: npm install
       - uses: actions/download-artifact@v2
         with:
           name: example-app
-          path: example
+          path: example/build
       - uses: peaceiris/actions-gh-pages@v3
         with:
           personal_token: ${{ secrets.GH_PAGES_DEPLOY_TOKEN }}
@@ -138,6 +139,7 @@ jobs:
       - uses: actions/download-artifact@v2
         with:
           name: dist
+          path: dist
       - run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
