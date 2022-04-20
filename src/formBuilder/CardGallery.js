@@ -124,6 +124,7 @@ export default function CardGallery({
           hidden={
             !!definitionSchema && Object.keys(definitionSchema).length !== 0
           }
+          mods={mods}
         />
       </div>
     </div>

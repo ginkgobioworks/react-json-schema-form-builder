@@ -44,6 +44,7 @@ export default function CardModal({
   isOpen,
   onClose,
   TypeSpecificParameters,
+  mods,
 }: {
   componentProps: {
     [string]: any,
@@ -55,11 +56,34 @@ export default function CardModal({
     parameters: Parameters,
     onChange: (newParams: Parameters) => void,
   }>,
+  mods?: Mods,
 }): Node {
   const classes = useStyles();
   // assign state values for parameters that should only change on hitting "Save"
   const [componentPropsState, setComponentProps] =
     React.useState(componentProps);
+
+  const fetchLabel = (labelName: string, defaultLabel: string): string => {
+    return mods && mods.labels && typeof mods.labels[labelName] === 'string'
+      ? mods.labels[labelName]
+      : defaultLabel;
+  };
+
+  const fetchTooltip = (
+    tooltipName: string,
+    defaultTooltip: string,
+  ): string => {
+    return mods &&
+      mods.tooltipDescriptions &&
+      typeof mods.tooltipDescriptions[tooltipName] === 'string'
+      ? mods.tooltipDescriptions[tooltipName]
+      : defaultTooltip;
+  };
+
+  const settingsModalHeaderLabel = fetchLabel(
+    'settingsModalHeaderLabel',
+    'Additional Settings1',
+  );
 
   React.useEffect(() => {
     setComponentProps(componentProps);
@@ -68,7 +92,7 @@ export default function CardModal({
     <Modal isOpen={isOpen} data-test='card-modal' className={classes.cardModal}>
       <ModalHeader className='card-modal-header'>
         <div style={{ display: componentProps.hideKey ? 'none' : 'initial' }}>
-          <h3>Additional Settings</h3>
+          <h3>{settingsModalHeaderLabel}</h3>
         </div>
       </ModalHeader>
       <ModalBody className='card-modal-entries'>

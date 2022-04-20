@@ -50,6 +50,9 @@ export default function CardGeneralParameterInputs({
   const displayNameLabel = fetchLabel('displayNameLabel', 'Display Name');
   const descriptionLabel = fetchLabel('descriptionLabel', 'Description');
   const inputTypeLabel = fetchLabel('inputTypeLabel', 'Input Type');
+  const cgpiKeyPlaceholder = fetchLabel('cgpiKeyPlaceholder', 'Key');
+  const cgpiTitlePlaceholder = fetchLabel('cgpiTitlePlaceholder', 'Title');
+  const cgpiDescPlaceholder = fetchLabel('cgpiDescPlaceholder', 'Description');
 
   const availableInputTypes = () => {
     const definitionsInSchema =
@@ -92,7 +95,7 @@ export default function CardGeneralParameterInputs({
               <Input
                 invalid={keyError !== null}
                 value={keyState || ''}
-                placeholder='Key'
+                placeholder={cgpiKeyPlaceholder}
                 type='text'
                 onChange={(ev: SyntheticInputEvent<HTMLInputElement>) =>
                   setKeyState(ev.target.value)
@@ -144,7 +147,7 @@ export default function CardGeneralParameterInputs({
           </h5>
           <Input
             value={titleState || ''}
-            placeholder='Title'
+            placeholder={cgpiTitlePlaceholder}
             type='text'
             onChange={(ev: SyntheticInputEvent<HTMLInputElement>) =>
               setTitleState(ev.target.value)
@@ -177,7 +180,7 @@ export default function CardGeneralParameterInputs({
           <FormGroup>
             <Input
               value={descriptionState || ''}
-              placeholder='Description'
+              placeholder={cgpiDescPlaceholder}
               type='text'
               onChange={(ev: SyntheticInputEvent<HTMLInputElement>) =>
                 setDescriptionState(ev.target.value)

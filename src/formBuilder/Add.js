@@ -14,6 +14,7 @@ import FontAwesomeIcon from './FontAwesomeIcon';
 import FBRadioGroup from './radio/FBRadioGroup';
 import { getRandomId } from './utils';
 import type { Node } from 'react';
+import type { Mods } from './types';
 
 const useStyles = createUseStyles({
   addDetails: {
@@ -37,14 +38,55 @@ const useStyles = createUseStyles({
 export default function Add({
   addElem,
   hidden,
+  mods,
 }: {
   addElem: (choice: string) => void,
   hidden?: boolean,
+  mods?: Mods,
 }): Node {
   const classes = useStyles();
   const [popoverOpen, setPopoverOpen] = useState(false);
   const [createChoice, setCreateChoice] = useState('card');
   const [elementId] = useState(getRandomId());
+
+  const fetchLabel = (labelName: string, defaultLabel: string): string => {
+    return mods && mods.labels && typeof mods.labels[labelName] === 'string'
+      ? mods.labels[labelName]
+      : defaultLabel;
+  };
+
+  const fetchTooltip = (
+    tooltipName: string,
+    defaultTooltip: string,
+  ): string => {
+    return mods &&
+      mods.tooltipDescriptions &&
+      typeof mods.tooltipDescriptions[tooltipName] === 'string'
+      ? mods.tooltipDescriptions[tooltipName]
+      : defaultTooltip;
+  };
+
+  const addTooltip = fetchTooltip('add', 'Create new form element');
+  const addPopoverHeaderLabel = fetchLabel(
+    'addPopoverHeaderLabel',
+    'Create New',
+  );
+  const addPopoverFormElementLabel = fetchLabel(
+    'addPopoverFormElementLabel',
+    'Form element',
+  );
+  const addPopoverFormSectionLabel = fetchLabel(
+    'addPopoverFormSectionLabel',
+    'Form section',
+  );
+  const addPopoverCancelButtonLabel = fetchLabel(
+    'addPopoverCancelButtonLabel',
+    'Cancel',
+  );
+  const addPopoverCreateButtonLabel = fetchLabel(
+    'addPopoverCreateButtonLabel',
+    'Create',
+  );
 
   return (
     <div style={{ display: hidden ? 'none' : 'initial' }}>
@@ -55,7 +97,7 @@ export default function Add({
         />
       </span>
       <UncontrolledTooltip placement='top' target={`${elementId}_add`}>
-        Create new form element
+        {addTooltip}
       </UncontrolledTooltip>
       <Popover
         placement='bottom'
@@ -65,7 +107,7 @@ export default function Add({
         className={`add-details ${classes.addDetails}`}
         id={`${elementId}_add_popover`}
       >
-        <PopoverHeader>Create New</PopoverHeader>
+        <PopoverHeader>{addPopoverHeaderLabel}</PopoverHeader>
         <PopoverBody>
           <FBRadioGroup
             className='choose-create'
@@ -74,11 +116,11 @@ export default function Add({
             options={[
               {
                 value: 'card',
-                label: 'Form element',
+                label: addPopoverFormElementLabel,
               },
               {
                 value: 'section',
-                label: 'Form section',
+                label: addPopoverFormSectionLabel,
               },
             ]}
             onChange={(selection) => {
@@ -87,7 +129,7 @@ export default function Add({
           />
           <div className='action-buttons'>
             <Button onClick={() => setPopoverOpen(false)} color='secondary'>
-              Cancel
+              {addPopoverCancelButtonLabel}
             </Button>
             <Button
               onClick={() => {
@@ -96,7 +138,7 @@ export default function Add({
               }}
               color='primary'
             >
-              Create
+              {addPopoverCreateButtonLabel}
             </Button>
           </div>
         </PopoverBody>

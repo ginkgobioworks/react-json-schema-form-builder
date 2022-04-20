@@ -247,7 +247,13 @@ export default function FormBuilder({
             </h5>
             <Input
               value={schemaData.title || ''}
-              placeholder='Title'
+              placeholder={
+                mods &&
+                mods.labels &&
+                typeof mods.labels.formNamePlaceholder === 'string'
+                  ? mods.labels.formNamePlaceholder
+                  : 'Title'
+              }
               type='text'
               onChange={(ev: SyntheticInputEvent<HTMLInputElement>) => {
                 onChange(
@@ -271,7 +277,13 @@ export default function FormBuilder({
             </h5>
             <Input
               value={schemaData.description || ''}
-              placeholder='Description'
+              placeholder={
+                mods &&
+                mods.labels &&
+                typeof mods.labels.formDescriptionPlaceholder === 'string'
+                  ? mods.labels.formDescriptionPlaceholder
+                  : 'Description'
+              }
               type='text'
               onChange={(ev: SyntheticInputEvent<HTMLInputElement>) =>
                 onChange(
@@ -376,6 +388,7 @@ export default function FormBuilder({
             schemaData.properties &&
             Object.keys(schemaData.properties).length !== 0
           }
+          mods={mods}
         />
       </div>
     </div>

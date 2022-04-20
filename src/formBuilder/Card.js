@@ -135,6 +135,41 @@ export default function Card({
   const [modalOpen, setModalOpen] = React.useState(false);
   const [elementId] = React.useState(getRandomId());
 
+  const fetchLabel = (labelName: string, defaultLabel: string): string => {
+    return mods && mods.labels && typeof mods.labels[labelName] === 'string'
+      ? mods.labels[labelName]
+      : defaultLabel;
+  };
+
+  const fetchTooltip = (
+    tooltipName: string,
+    defaultTooltip: string,
+  ): string => {
+    return mods &&
+      mods.tooltipDescriptions &&
+      typeof mods.tooltipDescriptions[tooltipName] === 'string'
+      ? mods.tooltipDescriptions[tooltipName]
+      : defaultTooltip;
+  };
+
+  const moveElementUpButtonTooltip = fetchTooltip(
+    'moveElementUpButtonTooltip',
+    'Move form element up',
+  );
+  const moveElementDownButtonTooltip = fetchTooltip(
+    'moveElementDownButtonTooltip',
+    'Move form element down',
+  );
+  const additionalConfTooltip = fetchTooltip(
+    'additionalConfTooltip',
+    'Additional configurations for this form element',
+  );
+  const deleteFormElTooltip = fetchTooltip(
+    'deleteFormElTooltip',
+    'Delete form element',
+  );
+  const requiredChkbxLabel = fetchLabel('requiredChkbxLabel', 'Required');
+
   return (
     <React.Fragment>
       <Collapse
@@ -174,7 +209,7 @@ export default function Card({
                 placement='top'
                 target={`${elementId}_moveupbiginfo`}
               >
-                Move form element up
+                {moveElementUpButtonTooltip}
               </UncontrolledTooltip>
               <span id={`${elementId}_movedownbiginfo`}>
                 <FontAwesomeIcon
@@ -186,7 +221,7 @@ export default function Card({
                 placement='top'
                 target={`${elementId}_movedownbiginfo`}
               >
-                Move form element down
+                {moveElementDownButtonTooltip}
               </UncontrolledTooltip>
             </span>
           </React.Fragment>
@@ -212,7 +247,7 @@ export default function Card({
             />
           </span>
           <UncontrolledTooltip placement='top' target={`${elementId}_editinfo`}>
-            Additional configurations for this form element
+            {additionalConfTooltip}
           </UncontrolledTooltip>
           <span id={`${elementId}_trashinfo`}>
             <FontAwesomeIcon icon={faTrash} onClick={onDelete || (() => {})} />
@@ -221,7 +256,7 @@ export default function Card({
             placement='top'
             target={`${elementId}_trashinfo`}
           >
-            Delete form element
+            {deleteFormElTooltip}
           </UncontrolledTooltip>
           <FBCheckbox
             onChangeValue={() =>
@@ -231,7 +266,7 @@ export default function Card({
               })
             }
             isChecked={!!componentProps.required}
-            label='Required'
+            label={requiredChkbxLabel}
             id={`${elementId}_required`}
           />
         </div>
@@ -245,9 +280,14 @@ export default function Card({
             onChange(newComponentProps);
           }}
           TypeSpecificParameters={TypeSpecificParameters}
+          mods={mods}
         />
       </Collapse>
-      {addElem ? <Add addElem={(choice: string) => addElem(choice)} /> : ''}
+      {addElem ? (
+        <Add addElem={(choice: string) => addElem(choice)} mods={mods} />
+      ) : (
+        ''
+      )}
     </React.Fragment>
   );
 }

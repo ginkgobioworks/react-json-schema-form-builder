@@ -178,6 +178,57 @@ export default function Section({
   const [modalOpen, setModalOpen] = React.useState(false);
   const [elementId] = React.useState(getRandomId());
 
+  const fetchLabel = (labelName: string, defaultLabel: string): string => {
+    return mods && mods.labels && typeof mods.labels[labelName] === 'string'
+      ? mods.labels[labelName]
+      : defaultLabel;
+  };
+
+  const fetchTooltip = (
+    tooltipName: string,
+    defaultTooltip: string,
+  ): string => {
+    return mods &&
+      mods.tooltipDescriptions &&
+      typeof mods.tooltipDescriptions[tooltipName] === 'string'
+      ? mods.tooltipDescriptions[tooltipName]
+      : defaultTooltip;
+  };
+
+  const moveElementUpButtonTooltip = fetchTooltip(
+    'moveElementUpButtonTooltip',
+    'Move form element up',
+  );
+  const moveElementDownButtonTooltip = fetchTooltip(
+    'moveElementDownButtonTooltip',
+    'Move form element down',
+  );
+
+  const additionalConfTooltip = fetchTooltip(
+    'additionalConfTooltip',
+    'Additional configurations for this form element',
+  );
+  const deleteFormElTooltip = fetchTooltip(
+    'deleteFormElTooltip',
+    'Delete form element',
+  );
+  const requiredChkbxLabel = fetchLabel('requiredChkbxLabel', 'Required');
+  const sectionObjectNameLabel = fetchLabel(
+    'sectionObjectNameLabel',
+    'Section Object Name',
+  );
+  const sectionDisplayNameLabel = fetchLabel(
+    'sectionDisplayNameLabel',
+    'Section Display Name',
+  );
+  const sectionDescriptionLabel = fetchLabel(
+    'sectionDescriptionLabel',
+    'Section Description',
+  );
+  const cgpiKeyPlaceholder = fetchLabel('cgpiKeyPlaceholder', 'Key');
+  const cgpiTitlePlaceholder = fetchLabel('cgpiTitlePlaceholder', 'Title');
+  const cgpiDescPlaceholder = fetchLabel('cgpiDescPlaceholder', 'Description');
+
   return (
     <React.Fragment>
       <Collapse
@@ -208,7 +259,7 @@ export default function Section({
                 placement='top'
                 target={`${elementId}_moveupbiginfo`}
               >
-                Move form element up
+                {moveElementUpButtonTooltip}
               </UncontrolledTooltip>
               <span id={`${elementId}_movedownbiginfo`}>
                 <FontAwesomeIcon
@@ -220,7 +271,7 @@ export default function Section({
                 placement='top'
                 target={`${elementId}_movedownbiginfo`}
               >
-                Move form element down
+                {moveElementDownButtonTooltip}
               </UncontrolledTooltip>
             </span>
           </React.Fragment>
@@ -257,7 +308,7 @@ export default function Section({
             )}
             <div className='section-entry' data-test='section-object-name'>
               <h5>
-                Section Object Name{' '}
+                {sectionObjectNameLabel}{' '}
                 <Tooltip
                   text={
                     mods &&
@@ -276,7 +327,7 @@ export default function Section({
                 <Input
                   invalid={keyError !== null}
                   value={keyName || ''}
-                  placeholder='Key'
+                  placeholder={cgpiKeyPlaceholder}
                   type='text'
                   onChange={(ev: SyntheticInputEvent<HTMLInputElement>) =>
                     setKeyName(ev.target.value)
@@ -303,7 +354,7 @@ export default function Section({
             </div>
             <div className='section-entry' data-test='section-display-name'>
               <h5>
-                Section Display Name{' '}
+                {sectionDisplayNameLabel}{' '}
                 <Tooltip
                   text={
                     mods &&
@@ -320,7 +371,7 @@ export default function Section({
               </h5>
               <Input
                 value={schemaData.title || ''}
-                placeholder='Title'
+                placeholder={cgpiTitlePlaceholder}
                 type='text'
                 onChange={(ev: SyntheticInputEvent<HTMLInputElement>) =>
                   onChange(
@@ -336,7 +387,7 @@ export default function Section({
             </div>
             <div className='section-entry' data-test='section-description'>
               <h5>
-                Section Description{' '}
+                {sectionDescriptionLabel}{' '}
                 <Tooltip
                   text={
                     mods &&
@@ -353,7 +404,7 @@ export default function Section({
               </h5>
               <Input
                 value={schemaData.description || ''}
-                placeholder='Description'
+                placeholder={cgpiDescPlaceholder}
                 type='text'
                 onChange={(ev: SyntheticInputEvent<HTMLInputElement>) =>
                   onChange(
@@ -464,6 +515,7 @@ export default function Section({
                 schemaData.properties &&
                 Object.keys(schemaData.properties).length !== 0
               }
+              mods={mods}
             />
           </div>
           <div className='section-interactions'>
@@ -477,7 +529,7 @@ export default function Section({
               placement='top'
               target={`${elementId}_editinfo`}
             >
-              Additional configurations for this form element
+              {additionalConfTooltip}
             </UncontrolledTooltip>
             <span id={`${elementId}_trashinfo`}>
               <FontAwesomeIcon
@@ -489,12 +541,12 @@ export default function Section({
               placement='top'
               target={`${elementId}_trashinfo`}
             >
-              Delete form element
+              {deleteFormElTooltip}
             </UncontrolledTooltip>
             <FBCheckbox
               onChangeValue={() => onRequireToggle()}
               isChecked={required}
-              label='Required'
+              label={requiredChkbxLabel}
               id={`${elementId}_required`}
             />
           </div>
@@ -520,7 +572,11 @@ export default function Section({
           TypeSpecificParameters={CardDefaultParameterInputs}
         />
       </Collapse>
-      {addElem ? <Add addElem={(choice: string) => addElem(choice)} /> : ''}
+      {addElem ? (
+        <Add addElem={(choice: string) => addElem(choice)} mods={mods} />
+      ) : (
+        ''
+      )}
     </React.Fragment>
   );
 }
