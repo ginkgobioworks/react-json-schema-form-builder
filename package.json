@@ -23,6 +23,7 @@
   },
   "scripts": {
     "clean": "rimraf node_modules coverage dist",
+    "prepare": "npm run build",
     "build": "microbundle --no-compress --format modern,cjs --jsx React.createElement",
     "start": "microbundle watch --no-compress --format modern,cjs --jsx React.createElement",
     "prettier": "prettier -w src && prettier -w example/src",
@@ -40,7 +41,7 @@
     "react": "^16.x || ^17.x"
   },
   "files": [
-    "/dist",
+    "/src",
     "README.md",
     "CHANGELOG.md",
     "LICENSE"
