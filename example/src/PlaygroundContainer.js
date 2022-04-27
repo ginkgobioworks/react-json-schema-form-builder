@@ -21,7 +21,58 @@ const useStyles = createUseStyles({
 // Can be used to set initial schemas and mods (useful for development)
 const initialJsonSchema = {};
 const initialUiSchema = {};
-const mods = {};
+const mods = {tooltipDescriptions: {
+  add: "test string",
+  moveElementUpButtonTooltip: "test string",
+  moveElementDownButtonTooltip: "test string",
+  additionalConfTooltip: "test string",
+  deleteFormElTooltip: "test string",
+  cardObjectName: "test string",
+  cardDisplayName: "test string",
+  cardDescription: "test string",
+  cardInputType: "test string",
+  cardSectionObjectName: "test string",
+  cardSectionDisplayName: "test string",
+  cardSectionDescription: "test string",
+},
+labels: {
+  formNameLabel: "test string",
+  formDescriptionLabel: "test string",
+  formNamePlaceholder: "test string",
+  formDescriptionPlaceholder: "test string",
+  addPopoverHeaderLabel: "test string",
+  addPopoverFormElementLabel: "test string",
+  addPopoverFormSectionLabel: "test string",
+  addPopoverCancelButtonLabel: "test string",
+  addPopoverCreateButtonLabel: "test string",
+  cgpiKeyPlaceholder: "test string",
+  cgpiTitlePlaceholder: "test string",
+  cgpiDescPlaceholder: "test string",
+  settingsModalHeaderLabel: "test string",
+  requiredChkbxLabel: "test string",
+  objectNameLabel: "test string",
+  displayNameLabel: "test string",
+  descriptionLabel: "test string",
+  inputTypeLabel: "test string",
+  sectionObjectNameLabel: "test string",
+  sectionDisplayNameLabel: "test string",
+  sectionDescriptionLabel: "test string",
+  inputDefaultValueLabel:"test string",
+  inputDefaultValuePlaceholder: "test string",
+  inputDefaultPasswordLabel: "test string",
+  inputDefaultPasswordPlaceholder: "test string",
+  inputDefaultNumberLabel:"test string",
+  inputDefaultNumberPlaceholder: "test string",
+  inputDefaultCheckboxLabel:"test string",
+  dropdownPossibleValuesLabel:"test string",
+  dropdownPossibleValuesDescriptionLabel:"test string",
+  dropdownForceNumberDescriptionLabel:"test string",
+  dropdownInputPlaceholder:"test string",
+  dropdownInputEnumPlaceholder:"test string",
+  newElementDefaultSectionLable:"test SECTION",
+  newElementDefaultInputLabel:"test INPUT"
+}
+};
 
 export default function PlaygroundContainer({ title }: { title: string }) {
   const [schema, setSchema] = React.useState(JSON.stringify(initialJsonSchema));

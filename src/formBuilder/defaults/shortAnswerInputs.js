@@ -6,7 +6,7 @@ import { Input } from 'reactstrap';
 import FBCheckbox from '../checkbox/FBCheckbox';
 import Tooltip from '../Tooltip';
 import { getRandomId } from '../utils';
-import type { Parameters, FormInput } from '../types';
+import type { Parameters, FormInput, Mods } from '../types';
 import { PlaceholderInput } from '../inputs/PlaceholderInput';
 
 const formatDictionary = {
@@ -230,16 +230,31 @@ function CardShortAnswerParameterInputs({
 function ShortAnswerField({
   parameters,
   onChange,
+  mods,
 }: {
   parameters: Parameters,
   onChange: (newParams: Parameters) => void,
+  mods: Mods,
 }) {
+  const fetchLabel = (labelName: string, defaultLabel: string): string => {
+    return mods && mods.labels && typeof mods.labels[labelName] === 'string'
+      ? mods.labels[labelName]
+      : defaultLabel;
+  };
+  const inputDefaultValueLabel = fetchLabel(
+    'inputDefaultValueLabel',
+    'Default value',
+  );
+  const inputDefaultValuePlaceholder = fetchLabel(
+    'inputDefaultValuePlaceholder',
+    'Default',
+  );
   return (
     <React.Fragment>
-      <h5>Default value</h5>
+      <h5>{inputDefaultValueLabel}</h5>
       <Input
         value={parameters.default}
-        placeholder='Default'
+        placeholder={inputDefaultValuePlaceholder}
         type={formatTypeDictionary[parameters.format] || 'text'}
         onChange={(ev: SyntheticInputEvent<HTMLInputElement>) =>
           onChange({ ...parameters, default: ev.target.value })
@@ -253,16 +268,32 @@ function ShortAnswerField({
 function Password({
   parameters,
   onChange,
+  mods,
 }: {
   parameters: Parameters,
   onChange: (newParams: Parameters) => void,
+  mods: Mods,
 }) {
+  const fetchLabel = (labelName: string, defaultLabel: string): string => {
+    return mods && mods.labels && typeof mods.labels[labelName] === 'string'
+      ? mods.labels[labelName]
+      : defaultLabel;
+  };
+  const inputDefaultPasswordLabel = fetchLabel(
+    'inputDefaultPasswordLabel',
+    'Default password',
+  );
+  const inputDefaultPasswordPlaceholder = fetchLabel(
+    'inputDefaultPasswordPlaceholder',
+    'Default',
+  );
+
   return (
     <React.Fragment>
-      <h5>Default password</h5>
+      <h5>{inputDefaultPasswordLabel}</h5>
       <Input
         value={parameters.default}
-        placeholder='Default'
+        placeholder={inputDefaultPasswordPlaceholder}
         type='password'
         onChange={(ev: SyntheticInputEvent<HTMLInputElement>) =>
           onChange({ ...parameters, default: ev.target.value })

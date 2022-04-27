@@ -5,7 +5,7 @@ import { Input } from 'reactstrap';
 import FBCheckbox from '../checkbox/FBCheckbox';
 import Tooltip from '../Tooltip';
 import { getRandomId } from '../utils';
-import type { Parameters, FormInput } from '../types';
+import type { Parameters, FormInput, Mods } from '../types';
 
 // specify the inputs required for a number type object
 function CardNumberParameterInputs({
@@ -148,16 +148,31 @@ function CardNumberParameterInputs({
 function NumberField({
   parameters,
   onChange,
+  mods,
 }: {
   parameters: Parameters,
   onChange: (newParams: Parameters) => void,
+  mods: Mods,
 }) {
+  const fetchLabel = (labelName: string, defaultLabel: string): string => {
+    return mods && mods.labels && typeof mods.labels[labelName] === 'string'
+      ? mods.labels[labelName]
+      : defaultLabel;
+  };
+  const inputDefaultNumberLabel = fetchLabel(
+    'inputDefaultNumberLabel',
+    'Default number',
+  );
+  const inputDefaultNumberPlaceholder = fetchLabel(
+    'inputDefaultNumberPlaceholder',
+    'Default',
+  );
   return (
     <React.Fragment>
-      <h5>Default number</h5>
+      <h5>{inputDefaultNumberLabel}</h5>
       <Input
         value={parameters.default}
-        placeholder='Default'
+        placeholder={inputDefaultNumberPlaceholder}
         type='number'
         onChange={(ev: SyntheticInputEvent<HTMLInputElement>) =>
           onChange({

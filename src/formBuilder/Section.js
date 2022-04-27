@@ -502,6 +502,7 @@ export default function Section({
                   });
                 } else if (choice === 'section') {
                   addSectionObj({
+                    mods,
                     schema,
                     uischema,
                     onChange,

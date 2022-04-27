@@ -5,7 +5,7 @@ import numberInputs from './numberInputs';
 import arrayInputs from './arrayInputs';
 import defaultInputs from './defaultInputs';
 import referenceInputs from './referenceInputs';
-import type { FormInput } from '../types';
+import type { FormInput, Mods } from '../types';
 
 const DEFAULT_FORM_INPUTS = ({
   ...defaultInputs,

@@ -374,6 +374,7 @@ export default function FormBuilder({
               });
             } else if (choice === 'section') {
               addSectionObj({
+                mods: mods,
                 schema: schemaData,
                 uischema: uiSchemaData,
                 onChange: (newSchema, newUiSchema) =>

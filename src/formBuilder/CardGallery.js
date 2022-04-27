@@ -101,6 +101,7 @@ export default function CardGallery({
               });
             } else if (choice === 'section') {
               addSectionObj({
+                mods: mods,
                 schema: { properties: definitionSchema },
                 uischema: definitionUiSchema,
                 onChange: (newDefinitions, newDefinitionUis) => {

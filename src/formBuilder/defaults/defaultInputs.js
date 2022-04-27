@@ -7,7 +7,7 @@ import FBCheckbox from '../checkbox/FBCheckbox';
 import CardEnumOptions from '../CardEnumOptions';
 import { getRandomId } from '../utils';
 import type { Node } from 'react';
-import type { Parameters, FormInput } from '../types';
+import type { Parameters, FormInput, Mods } from '../types';
 
 const useStyles = createUseStyles({
   hidden: {
@@ -30,16 +30,31 @@ const getInputCardBodyComponent = ({ type }: { type: string }) =>
   function InputCardBodyComponent({
     parameters,
     onChange,
+    mods,
   }: {
     parameters: Parameters,
     onChange: (newParams: Parameters) => void,
+    mods: Mods,
   }) {
+    const fetchLabel = (labelName: string, defaultLabel: string): string => {
+      return mods && mods.labels && typeof mods.labels[labelName] === 'string'
+        ? mods.labels[labelName]
+        : defaultLabel;
+    };
+    const inputDefaultValueLabel = fetchLabel(
+      'inputDefaultValueLabel',
+      'Default value',
+    );
+    const inputDefaultValuePlaceholder = fetchLabel(
+      'inputDefaultValuePlaceholder',
+      'Default ',
+    );
     return (
       <React.Fragment>
-        <h5>Default value</h5>
+        <h5>{inputDefaultValueLabel}</h5>
         <Input
           value={parameters.default || ''}
-          placeholder='Default'
+          placeholder={inputDefaultValuePlaceholder}
           type={type}
           onChange={(ev: SyntheticInputEvent<HTMLInputElement>) =>
             onChange({ ...parameters, default: ev.target.value })
@@ -51,12 +66,24 @@ const getInputCardBodyComponent = ({ type }: { type: string }) =>
   };
 
 function Checkbox({
+  mods,
   parameters,
   onChange,
 }: {
+  mods: Mods,
   parameters: Parameters,
   onChange: (newParams: Parameters) => void,
 }) {
+  const fetchLabel = (labelName: string, defaultLabel: string): string => {
+    return mods && mods.labels && typeof mods.labels[labelName] === 'string'
+      ? mods.labels[labelName]
+      : defaultLabel;
+  };
+  const inputDefaultCheckboxLabel = fetchLabel(
+    'inputDefaultCheckboxLabel',
+    'Default',
+  );
+
   return (
     <div className='card-boolean'>
       <FBCheckbox
@@ -67,7 +94,7 @@ function Checkbox({
           });
         }}
         isChecked={parameters.default ? parameters.default === true : false}
-        label='Default'
+        label={inputDefaultCheckboxLabel}
       />
     </div>
   );
@@ -76,9 +103,11 @@ function Checkbox({
 function MultipleChoice({
   parameters,
   onChange,
+  mods,
 }: {
   parameters: Parameters,
   onChange: (newParams: Parameters) => void,
+  mods: Mods,
 }) {
   const classes = useStyles();
   const enumArray = Array.isArray(parameters.enum) ? parameters.enum : [];
@@ -91,9 +120,26 @@ function MultipleChoice({
     !!enumArray.length && !containsString,
   );
   const [elementId] = React.useState(getRandomId());
+  const fetchLabel = (labelName: string, defaultLabel: string): string => {
+    return mods && mods.labels && typeof mods.labels[labelName] === 'string'
+      ? mods.labels[labelName]
+      : defaultLabel;
+  };
+  const dropdownPossibleValuesLabel = fetchLabel(
+    'dropdownPossibleValuesLabel',
+    'Possible Values',
+  );
+  const dropdownPossibleValuesDescriptionLabel = fetchLabel(
+    'dropdownPossibleValuesDescriptionLabel',
+    'Display label is different from value',
+  );
+  const dropdownForceNumberDescriptionLabel = fetchLabel(
+    'dropdownForceNumberDescriptionLabel',
+    'Force number',
+  );
   return (
     <div className='card-enum'>
-      <h3>Possible Values</h3>
+      <h3>{dropdownPossibleValuesLabel}</h3>
       <FBCheckbox
         onChangeValue={() => {
           if (Array.isArray(parameters.enumNames)) {
@@ -111,7 +157,7 @@ function MultipleChoice({
           }
         }}
         isChecked={Array.isArray(parameters.enumNames)}
-        label='Display label is different from value'
+        label={dropdownPossibleValuesDescriptionLabel}
         id={`${elementId}_different`}
       />
       <div
@@ -152,11 +198,12 @@ function MultipleChoice({
           }}
           isChecked={isNumber}
           disabled={containsUnparsableString}
-          label='Force number'
+          label={dropdownForceNumberDescriptionLabel}
           id={`${elementId}_forceNumber`}
         />
       </div>
       <CardEnumOptions
+        mods={mods}
         initialValues={enumArray}
         names={
           Array.isArray(parameters.enumNames)
