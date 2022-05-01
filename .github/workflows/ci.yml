@@ -78,12 +78,12 @@ jobs:
       - working-directory: ./example
         run: npm run build
       - if: matrix.os == 'ubuntu-latest' && matrix.node_version == 16 && ((github.event_name == 'push' && github.ref == 'refs/heads/main') || github.event.action == 'published')
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: dist
           path: dist/**
       - if: matrix.os == 'ubuntu-latest' && matrix.node_version == 16 && github.event_name == 'push' && github.ref == 'refs/heads/main'
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: example-app
           path: example/build/**
