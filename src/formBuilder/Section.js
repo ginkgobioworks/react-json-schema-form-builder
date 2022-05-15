@@ -71,7 +71,7 @@ const useStyles = createUseStyles({
         height: '25px',
         width: '25px',
       },
-      '& .fa-pencil-alt, & .fa-arrow-up, & .fa-arrow-down': {
+      '& .fa-pencil-alt, &.fa-pencil, & .fa-arrow-up, & .fa-arrow-down': {
         border: '1px solid #1d71ad',
         color: '#1d71ad',
       },

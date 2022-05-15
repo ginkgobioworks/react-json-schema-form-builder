@@ -48,7 +48,7 @@ describe('CardGallery', () => {
     document.body.appendChild(div);
     const wrapper = mount(<CardGallery {...props} />, { attachTo: div });
 
-    const plusButton = wrapper.find('.fa-plus-square').first();
+    const plusButton = wrapper.find('.fa-square-plus').first();
     plusButton.simulate('click');
     const createButton = wrapper.find('button').at(1);
     expect(mockEvent).toHaveBeenCalledTimes(0);
