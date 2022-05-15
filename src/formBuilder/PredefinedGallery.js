@@ -22,7 +22,7 @@ const useStyles = createUseStyles({
     '& .fa': {
       cursor: 'pointer',
     },
-    '& .fa-question-circle': {
+    '& .fa-question-circle, & .fa-circle-question': {
       color: 'gray',
     },
     '& .fa-asterisk': {
@@ -35,7 +35,7 @@ const useStyles = createUseStyles({
       textAlign: 'center',
       '& .fa': { cursor: 'pointer', color: '$green', fontSize: '1.5em' },
     },
-    '& .fa-plus-square': {
+    '& .fa-plus-square & .fa-square-plus': {
       color: 'green',
       'font-size': '1.5em',
       margin: '0 auto',
@@ -100,7 +100,7 @@ const useStyles = createUseStyles({
     '& .section-requirements': {
       border: '1px dashed black',
     },
-    '& .fa-pencil-alt': {
+    '& .fa-pencil-alt, & .fa-pencil': {
       border: '1px solid #1d71ad',
       color: '#1d71ad',
     },

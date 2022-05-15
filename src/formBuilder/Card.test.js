@@ -101,7 +101,7 @@ describe('Card', () => {
     const pencil = wrapper
       .find('.card-container')
       .first()
-      .find('.fa-pencil-alt')
+      .find('.fa-pencil')
       .first();
     pencil.simulate('click');
     expect(wrapper.exists('div[data-test="card-modal"]')).toBeTruthy();

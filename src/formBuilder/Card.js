@@ -53,8 +53,10 @@ const useStyles = createUseStyles({
       'border-radius': '4px',
     },
     '& .card-array': {
-      '& .fa-plus-square': { display: 'none' },
-      '& .section-entries': { '& .fa-plus-square': { display: 'initial' } },
+      '& .fa-plus-square, & .fa-square-plus': { display: 'none' },
+      '& .section-entries': {
+        '& .fa-plus-square, & .fa-square-plus': { display: 'initial' },
+      },
     },
     '& .card-enum': {
       display: 'flex',
