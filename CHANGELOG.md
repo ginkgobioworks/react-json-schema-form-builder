@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.9.0]
+
+## Added
+
+- Added support for `@fortawesome/free-solid-svg-icons` 6.1.1 in addition to 5.15.3
+
+## Changed
+
+- Updated dependencies in package.json and package-lock.json
+- Updated dependencies in example/package.json and example/package-lock.json
+
 ## [2.8.0] - 2021-12-03
 
 ## Added
