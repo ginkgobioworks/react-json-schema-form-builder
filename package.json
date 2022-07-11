@@ -84,6 +84,7 @@
     "@fortawesome/free-solid-svg-icons": "^5.15.3 || ^6.1.1",
     "@fortawesome/react-fontawesome": "^0.1.14",
     "classnames": "^2.2.6",
+    "jest-environment-jsdom": "^28.1.2",
     "react-beautiful-dnd": "^13.0.0",
     "react-jss": "^10.4.0",
     "react-select": "^5.0.0",
