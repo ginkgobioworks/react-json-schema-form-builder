@@ -77,6 +77,7 @@ export default function CardGallery({
       {componentArr.length === 0 && <h5>No components in "definitions"</h5>}
       <div className='form_footer'>
         <Add
+          tooltipDescription={((mods || {}).tooltipDescriptions || {}).add}
           addElem={(choice: string) => {
             if (choice === 'card') {
               addCardObj({

@@ -37,9 +37,11 @@ const useStyles = createUseStyles({
 export default function Add({
   addElem,
   hidden,
+  tooltipDescription,
 }: {
   addElem: (choice: string) => void,
   hidden?: boolean,
+  tooltipDescription?: string,
 }): Node {
   const classes = useStyles();
   const [popoverOpen, setPopoverOpen] = useState(false);
@@ -55,7 +57,7 @@ export default function Add({
         />
       </span>
       <UncontrolledTooltip placement='top' target={`${elementId}_add`}>
-        Create new form element
+        {tooltipDescription || 'Create new form element'}
       </UncontrolledTooltip>
       <Popover
         placement='bottom'
