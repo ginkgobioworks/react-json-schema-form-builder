@@ -438,6 +438,7 @@ export default function Section({
           </div>
           <div className='section-footer'>
             <Add
+              tooltipDescription={((mods || {}).tooltipDescriptions || {}).add}
               addElem={(choice: string) => {
                 if (choice === 'card') {
                   addCardObj({
@@ -520,7 +521,14 @@ export default function Section({
           TypeSpecificParameters={CardDefaultParameterInputs}
         />
       </Collapse>
-      {addElem ? <Add addElem={(choice: string) => addElem(choice)} /> : ''}
+      {addElem ? (
+        <Add
+          tooltipDescription={((mods || {}).tooltipDescriptions || {}).add}
+          addElem={(choice: string) => addElem(choice)}
+        />
+      ) : (
+        ''
+      )}
     </React.Fragment>
   );
 }

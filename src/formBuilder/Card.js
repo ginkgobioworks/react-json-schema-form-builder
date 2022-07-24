@@ -249,7 +249,14 @@ export default function Card({
           TypeSpecificParameters={TypeSpecificParameters}
         />
       </Collapse>
-      {addElem ? <Add addElem={(choice: string) => addElem(choice)} /> : ''}
+      {addElem ? (
+        <Add
+          tooltipDescription={((mods || {}).tooltipDescriptions || {}).add}
+          addElem={(choice: string) => addElem(choice)}
+        />
+      ) : (
+        ''
+      )}
     </React.Fragment>
   );
 }

@@ -348,6 +348,7 @@ export default function FormBuilder({
       </div>
       <div className={`form-footer ${classes.formFooter}`}>
         <Add
+          tooltipDescription={((mods || {}).tooltipDescriptions || {}).add}
           addElem={(choice: string) => {
             if (choice === 'card') {
               addCardObj({
