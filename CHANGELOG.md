@@ -1,27 +1,39 @@
 # Changelog
 
-## [2.9.0]
+## [2.9.1] - 2022-07-31
 
-## Added
+### Fixed
+
+- Ensure that Add component honors `mods.tooltipDescriptions.add`. (See [issue #344](https://github.com/ginkgobioworks/react-json-schema-form-builder/issues/344).)
+- Fix undefined property error when dependencies are out of order (See [issue #337](https://github.com/ginkgobioworks/react-json-schema-form-builder/issues/337).)
+
+### Changed
+
+- Updated dependencies in package.json and package-lock.json
+- Updated dependencies in example/package.json and example/package-lock.json
+
+## [2.9.0] - 2022-05-15
+
+### Added
 
 - Added support for `@fortawesome/free-solid-svg-icons` 6.1.1 in addition to 5.15.3
 
-## Changed
+### Changed
 
 - Updated dependencies in package.json and package-lock.json
 - Updated dependencies in example/package.json and example/package-lock.json
 
 ## [2.8.0] - 2021-12-03
 
-## Added
+### Added
 
 - Added support for Bootstrap 5/reactstrap 9.x.x
 
-## Fixed
+### Fixed
 
 - Exception in Pre-Configured Components when definitions is not defined. (See [pr #241](https://github.com/ginkgobioworks/react-json-schema-form-builder/pull/241).)
 
-## Changed
+### Changed
 
 - Updated dependencies in package.json and package-lock.json
 - Updated dependencies in example/package-lock.json
