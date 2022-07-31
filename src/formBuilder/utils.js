@@ -520,7 +520,8 @@ export function generateElementPropsFromSchemas(parameters: {
       if (group.oneOf) {
         let possibilityIndex = 0;
         group.oneOf.forEach((possibility) => {
-          if (!elementDict[parent].dependents) {
+          if (!(elementDict[parent] || {}).dependents) {
+            elementDict[parent] = elementDict[parent] || {};
             elementDict[parent].dependents = [];
           }
           elementDict[parent].dependents.push({
@@ -636,7 +637,8 @@ export function countElementsFromSchema(schemaData: any): number {
       if (group.oneOf) {
         let possibilityIndex = 0;
         group.oneOf.forEach((possibility) => {
-          if (!elementDict[parent].dependents) {
+          if (!(elementDict[parent] || {}).dependents) {
+            elementDict[parent] = elementDict[parent] || {};
             elementDict[parent].dependents = [];
           }
           elementDict[parent].dependents.push({
@@ -662,7 +664,7 @@ export function countElementsFromSchema(schemaData: any): number {
         });
       } else if (group.properties) {
         Object.entries(group.properties).forEach(([parameter]) => {
-          elementDict[parameter] = {};
+          elementDict[parameter] = elementDict[parameter] || {};
           elementCount += 1;
           if (elementDict[parent].dependents) {
             elementDict[parent].dependents[0].children.push(parameter);
