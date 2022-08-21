@@ -1,7 +1,6 @@
 // @flow
 import * as React from 'react';
 import { Input } from 'reactstrap';
-import Select from 'react-select';
 import { createUseStyles } from 'react-jss';
 import FBCheckbox from '../checkbox/FBCheckbox';
 import CardEnumOptions from '../CardEnumOptions';

@@ -162,7 +162,6 @@ describe('FormBuilder', () => {
     createButton.simulate('click');
     expect(mockEvent).toHaveBeenCalledTimes(1);
 
-    const cardInputs = wrapper.first().find('input');
     mockEvent.mockClear();
   });
 

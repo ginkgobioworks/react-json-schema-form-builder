@@ -1,10 +1,12 @@
 {
-  "parser": "babel-eslint",
+  "parser": "@babel/eslint-parser",
   "extends": [
-    "standard-react",
+    "react-app",
     "plugin:prettier/recommended",
     "prettier",
+    "plugin:flowtype/recommended"
   ],
+  "plugins": ["flowtype"],
   "env": {
     "node": true
   },
