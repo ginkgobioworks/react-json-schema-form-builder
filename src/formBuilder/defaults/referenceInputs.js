@@ -2,7 +2,7 @@
 
 import type { FormInput, Parameters } from '../types';
 import Select from 'react-select';
-import React, { useState } from 'react';
+import React from 'react';
 import type { Node } from 'react';
 import { PlaceholderInput } from '../inputs/PlaceholderInput';
 

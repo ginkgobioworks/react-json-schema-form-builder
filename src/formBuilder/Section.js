@@ -1,5 +1,5 @@
 // @flow
-import React, { useState } from 'react';
+import React from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import Select from 'react-select';
 import { createUseStyles } from 'react-jss';
