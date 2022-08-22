@@ -532,7 +532,12 @@ export function generateElementPropsFromSchemas(parameters: {
           Object.entries(possibility.properties).forEach(
             ([parameter, element]) => {
               // create a new element if not present in main properties
-              if (!Object.keys(elementDict).includes(parameter)) {
+              if (
+                !elementDict[parameter] ||
+                (parameter !== parent &&
+                  Object.keys(elementDict[parameter]).length === 1 &&
+                  elementDict[parameter].dependents)
+              ) {
                 const newElement = generateDependencyElement(
                   parameter,
                   element,
@@ -543,6 +548,12 @@ export function generateElementPropsFromSchemas(parameters: {
                   categoryHash,
                   useDefinitionDetails,
                 );
+                if (
+                  elementDict[parameter] &&
+                  elementDict[parameter].dependents
+                ) {
+                  newElement.dependents = elementDict[parameter].dependents;
+                }
                 newElement.required = requiredValues.includes(newElement.name);
                 elementDict[newElement.name] = newElement;
               }
@@ -575,9 +586,14 @@ export function generateElementPropsFromSchemas(parameters: {
           newElement.dependent = true;
           newElement.parent = parent;
           elementDict[newElement.name] = newElement;
-          if (elementDict[parent].dependents) {
-            elementDict[parent].dependents[0].children.push(parameter);
+          if (elementDict[parent]) {
+            if (elementDict[parent].dependents) {
+              elementDict[parent].dependents[0].children.push(parameter);
+            } else {
+              elementDict[parent].dependents = [{ children: [parameter] }];
+            }
           } else {
+            elementDict[parent] = {};
             elementDict[parent].dependents = [{ children: [parameter] }];
           }
         });
@@ -666,9 +682,14 @@ export function countElementsFromSchema(schemaData: any): number {
         Object.entries(group.properties).forEach(([parameter]) => {
           elementDict[parameter] = elementDict[parameter] || {};
           elementCount += 1;
-          if (elementDict[parent].dependents) {
-            elementDict[parent].dependents[0].children.push(parameter);
+          if (elementDict[parent]) {
+            if (elementDict[parent].dependents) {
+              elementDict[parent].dependents[0].children.push(parameter);
+            } else {
+              elementDict[parent].dependents = [{ children: [parameter] }];
+            }
           } else {
+            elementDict[parent] = {};
             elementDict[parent].dependents = [{ children: [parameter] }];
           }
         });
