@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.9.2] - 2022-08-22
+
+### Fixed
+
+- Fixed misconfigured eslint
+- Fix continued issues when dependencies are out of order (See [issue #337](https://github.com/ginkgobioworks/react-json-schema-form-builder/issues/337).)
+
+### Changed
+
+- Updated dependencies in package.json and package-lock.json
+- Updated dependencies in example/package-lock.json
+
 ## [2.9.1] - 2022-07-31
 
 ### Fixed
