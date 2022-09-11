@@ -1,5 +1,15 @@
 # Changelog
 
+## [2.10.0] - 2022-09-11
+
+### Added
+
+- Added support for React 18 (See [issue #346](https://github.com/ginkgobioworks/react-json-schema-form-builder/issues/346).)
+
+### Changed
+
+- Updated dependencies in package.json and package-lock.json
+
 ## [2.9.2] - 2022-08-22
 
 ### Fixed
