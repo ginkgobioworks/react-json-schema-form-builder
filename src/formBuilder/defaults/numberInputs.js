@@ -32,7 +32,7 @@ function CardNumberParameterInputs({
         key='multipleOf'
         type='number'
         onChange={(ev: SyntheticInputEvent<HTMLInputElement>) => {
-          let newVal = parseFloat(ev.target.value);
+          let newVal: null | number = parseFloat(ev.target.value);
           if (Number.isNaN(newVal)) newVal = null;
           onChange({
             ...parameters,
@@ -48,7 +48,7 @@ function CardNumberParameterInputs({
         key='minimum'
         type='number'
         onChange={(ev: SyntheticInputEvent<HTMLInputElement>) => {
-          let newVal = parseFloat(ev.target.value);
+          let newVal: null | number = parseFloat(ev.target.value);
           if (Number.isNaN(newVal)) newVal = null;
           // change either min or exclusiveMin depending on which one is active
           if (parameters.exclusiveMinimum) {
@@ -98,7 +98,7 @@ function CardNumberParameterInputs({
         key='maximum'
         type='number'
         onChange={(ev: SyntheticInputEvent<HTMLInputElement>) => {
-          let newVal = parseFloat(ev.target.value);
+          let newVal: null | number = parseFloat(ev.target.value);
           if (Number.isNaN(newVal)) newVal = null;
           // change either max or exclusiveMax depending on which one is active
           if (parameters.exclusiveMinimum) {
