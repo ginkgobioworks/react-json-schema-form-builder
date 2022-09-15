@@ -4,10 +4,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test",
     "prettier": "prettier -w src",
     "prettier:check": "prettier -c src",
     "flow": "flow",
@@ -27,6 +26,8 @@
   },
   "devDependencies": {
     "@babel/plugin-syntax-object-rest-spread": "^7.8.3",
+    "craco": "^0.0.3",
+    "react-app-alias": "^2.2.2",
     "react-scripts": "^5.0.1",
     "rimraf": "^3.0.2"
   },
