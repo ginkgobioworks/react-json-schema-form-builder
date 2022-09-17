@@ -4,9 +4,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "craco start",
-    "build": "craco build",
-    "test": "craco test",
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test",
     "prettier": "prettier -w src",
     "prettier:check": "prettier -c src",
     "flow": "flow",
@@ -26,8 +26,8 @@
   },
   "devDependencies": {
     "@babel/plugin-syntax-object-rest-spread": "^7.8.3",
-    "craco": "^0.0.3",
     "react-app-alias": "^2.2.2",
+    "react-app-rewired": "^2.2.1",
     "react-scripts": "^5.0.1",
     "rimraf": "^3.0.2"
   },
