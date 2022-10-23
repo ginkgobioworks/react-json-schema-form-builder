@@ -322,9 +322,9 @@ export function checkForUnsupportedFeatures(
   Object.keys(allFormInputs).forEach((inputType) => {
     allFormInputs[inputType].matchIf.forEach((match) => {
       if (match.widget && !widgets.includes(match.widget))
-        widgets.push(match.widget);
+        widgets.push(match.widget || ''); // || '' is redundant but here to appease flow
       if (match.field && !fields.includes(match.field))
-        fields.push(match.field);
+        fields.push(match.field || ''); // || '' is redundant but here to appease flow
     });
     if (
       allFormInputs[inputType].possibleOptions &&
