@@ -21,7 +21,7 @@ const useStyles = createUseStyles({
       width: '300px',
       'z-index': '1051 !important',
       '& .popover-inner': {
-        border: '1px solid #1d71ad',
+        border: '10px solid #000',
         borderRadius: '4px',
         '& .popover-header': { borderBottom: '1px solid #1d71ad' },
         '& .action-buttons': {

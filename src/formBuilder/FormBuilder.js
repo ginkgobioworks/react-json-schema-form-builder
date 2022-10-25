@@ -347,6 +347,7 @@ export default function FormBuilder({
         </DragDropContext>
       </div>
       <div className={`form-footer ${classes.formFooter}`}>
+        <h1>Hello</h1>
         <Add
           tooltipDescription={((mods || {}).tooltipDescriptions || {}).add}
           addElem={(choice: string) => {
