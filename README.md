@@ -1,3 +1,17 @@
+Installation:
+1. Install & run JSON Form builder
+1.1 Npm install root folder
+1.2 Npm run start
+
+2. Install & run react application
+2.1 Go to "example" folder
+2.2 Npm install (npm install --force)
+2.3 Npm run start
+2.4 Go to localhost:3000
+
+Note: Now you can make adjustments in the react-json-schema-form-builder/src/formBuilder. These adjustments are visible on your localhost:3000
+
+
 # React JSON Schema Form Editor
 
 [![npm](https://img.shields.io/npm/v/@ginkgo-bioworks/react-json-schema-form-builder)](https://www.npmjs.com/package/@ginkgo-bioworks/react-json-schema-form-builder)
@@ -30,9 +44,9 @@ Import the tool as a react component in your Node project:
 
 ```javascript
 import React, { Component } from 'react';
- 
+
 import {FormBuilder} from '@ginkgo-bioworks/react-json-schema-form-builder';
- 
+
 class Example extends Component {
   constructor(props) {
     super(props);
@@ -67,4 +81,3 @@ See the [Contributing page](https://github.com/ginkgobioworks/react-json-schema-
 ## License
 
 Copyright 2020 [Ginkgo Bioworks](https://www.ginkgobioworks.com/), Inc. Licensed Apache 2.0.
-
