@@ -1,4 +1,4 @@
-Installation:
+# Installation:
 1. Install & run JSON Form builder
 1.1 Npm install root folder
 1.2 Npm run start
