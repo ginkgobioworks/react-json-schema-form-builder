@@ -19,12 +19,11 @@ const useStyles = createUseStyles({
 });
 
 // Can be used to set initial schemas and mods (useful for development)
-const initialJsonSchema = {};
 const initialUiSchema = {};
 const mods = {};
 
-export default function PlaygroundContainer({ title }: { title: string }) {
-  const [schema, setSchema] = React.useState(JSON.stringify(initialJsonSchema));
+export default function PlaygroundContainer({ title, initalvalue, bloomreachcallback}) {
+  const [schema, setSchema] = React.useState(initalvalue);
   const [uischema, setUischema] = React.useState(
     JSON.stringify(initialUiSchema),
   );
@@ -61,6 +60,7 @@ export default function PlaygroundContainer({ title }: { title: string }) {
         onChange={(newSchema: string, newUiSchema: string) => {
           setSchema(newSchema);
           setUischema(newUiSchema);
+          bloomreachcallback(newSchema);
         }}
         width='95%'
         height='800px'

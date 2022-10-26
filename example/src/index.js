@@ -5,10 +5,24 @@ import * as serviceWorker from './serviceWorker';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+import UiExtension from '@bloomreach/ui-extension';
+
+
 const container = document.getElementById('root');
 const root = createRoot(container);
 
-root.render(<App />);
+const BloomreachUi = await UiExtension.register();
+const brDocument = await BloomreachUi.document.get();
+const value = await BloomreachUi.document.field.getValue();
+const callback = function(newvalue){
+    BloomreachUi.document.field.setValue(newvalue);
+};
+
+
+root.render(<App
+    initalvalue={value}
+    bloomreachcallback={callback}
+    />);
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
