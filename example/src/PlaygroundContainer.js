@@ -23,7 +23,7 @@ const initialUiSchema = {};
 const mods = {};
 
 export default function PlaygroundContainer({ title, initalvalue, bloomreachcallback}) {
-  const [schema, setSchema] = React.useState(initalvalue);
+  const [schema, setSchema] = React.useState(JSON.stringify(initalvalue));
   const [uischema, setUischema] = React.useState(
     JSON.stringify(initialUiSchema),
   );
