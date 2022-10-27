@@ -15,16 +15,17 @@ const registerBloomreach = async function () {
     const BloomreachUi = await UiExtension.register();
     const brDocument = await BloomreachUi.document.get();
     const value = await BloomreachUi.document.field.getValue();
-    const callback = function (newvalue) {
-        BloomreachUi.document.field.setValue(newvalue);
-    };
-    return [value?value:'{}', callback];
+    return [value?value:'{}', BloomreachUi];
 }
 const returnvalue = registerBloomreach();
 
+const callback = function (newvalue) {
+    returnvalue[1].document.field.setValue(newvalue);
+};
+
 root.render(<App
     initalvalue={returnvalue[0]}
-    bloomreachcallback={returnvalue[1]}
+    bloomreachcallback={callback}
 />);
 
 // If you want your app to work offline and load faster, you can change

@@ -22,8 +22,8 @@ const useStyles = createUseStyles({
 const initialUiSchema = {};
 const mods = {};
 
-export default function PlaygroundContainer({ title, initalvalue, bloomreachcallback}) {
-  const [schema, setSchema] = React.useState(JSON.stringify(initalvalue));
+export default function PlaygroundContainer(props) {
+  const [schema, setSchema] = React.useState(JSON.stringify(props.initalvalue));
   const [uischema, setUischema] = React.useState(
     JSON.stringify(initialUiSchema),
   );
@@ -31,24 +31,7 @@ export default function PlaygroundContainer({ title, initalvalue, bloomreachcall
   return (
     <div className='playground'>
       <div className={classes.header}>
-        <h1>{title}</h1>
-        <p>
-          Demo app for the{' '}
-          <a href='https://github.com/ginkgobioworks/react-json-schema-form-builder'>
-            React JSON Schema Form Builder
-          </a>
-          , which allows a user to visually build a form and obtain the JSON
-          Schema corresponding to it
-        </p>
-        <p>
-          The Visual Form Builder tab corresponds to the actual Form Builder
-          component. This reads in code from the JSON Schema, which is stored
-          and updated live in the "Edit Schema" tab, and renders the code as
-          manipulatable form elements. The result of the form is rendered with
-          the material design theme in the Preview Form tab. The Pre-Configured
-          Components tab also demonstrates how the form builder takes advantage
-          of the definitions property of JSON Schema to render definitions.
-        </p>
+        <h1>{props.title}</h1>
       </div>
       <JsonSchemaFormSuite
         lang={'json'}
@@ -60,7 +43,8 @@ export default function PlaygroundContainer({ title, initalvalue, bloomreachcall
         onChange={(newSchema: string, newUiSchema: string) => {
           setSchema(newSchema);
           setUischema(newUiSchema);
-          bloomreachcallback(newSchema);
+          console.log(JSON.stringify(props.bloomreachcallback));
+          props.bloomreachcallback(newSchema);
         }}
         width='95%'
         height='800px'

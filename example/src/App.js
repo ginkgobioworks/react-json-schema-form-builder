@@ -1,11 +1,11 @@
 import React from 'react';
 import PlaygroundContainer from './PlaygroundContainer';
 
-function App(initalvalue, bloomreachcallback) {
+function App(props) {
   return <PlaygroundContainer
     title='React JSON Schema Form Builder'
-    initalvalue={initalvalue}
-    bloomreachcallback={bloomreachcallback}
+    initalvalue={props.initalvalue}
+    bloomreachcallback={props.bloomreachcallback}
   />;
 }
 
