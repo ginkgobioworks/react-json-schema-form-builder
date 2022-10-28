@@ -41,24 +41,20 @@ const root = createRoot(container);
 // // Learn more about service workers: https://bit.ly/CRA-PWA
 // serviceWorker.unregister();
 
-const rootElement = document.getElementById("root");
 
 document.addEventListener('DOMContentLoaded', async () => {
     try {
         const ui = await UiExtension.register();
-        render(
-            <App mode={'openUi'} ui={ui}/>,
-            rootElement
+        root.render(
+            <App mode={'openUi'} ui={ui}/>
         );
 
     } catch (error) {
         console.log(error);
         console.error('Failed to register extension:', error.message);
         console.error('- error code:', error.code);
-        render(
-            <App mode={'openUi'}/>,
-            rootElement
+        root.render(
+            <App mode={'openUi'}/>
         );
-
     }
 });
