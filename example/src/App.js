@@ -29,6 +29,7 @@ class App extends Component {
     return this.state;
   }
   render() {
+    console.log('rendereed with: ' + this.state.value);
     return (<PlaygroundContainer
       title='React JSON Schema Form Builder'
       initalvalue={this.state.value}

@@ -23,6 +23,7 @@ const initialUiSchema = {};
 const mods = {};
 
 export default function PlaygroundContainer(props) {
+  console.log('In widget: ' + props.initalvalue);
   const [schema, setSchema] = React.useState(JSON.stringify(props.initalvalue));
   const [uischema, setUischema] = React.useState(
     JSON.stringify(initialUiSchema),
