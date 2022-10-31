@@ -5,20 +5,22 @@ class App extends Component {
 
   constructor(props) {
     super(props)
-    console.log('constructor', props)
 
     this.ui = props.ui;
-    this.state = { text: '', mode: 'edit', value: '{}'};
+    this.state = { text: '', mode: 'edit', value: {}};
   }
 
   componentDidMount() {
-    this.getInitialState(this.ui).then(state => this.setState(state));
+    if(this.ui){
+      this.getInitialState(this.ui).then(state => this.setState(state));
+    }
   }
 
   async getInitialState(ui) {
     try {
       const brDocument = await ui.document.get();
       const value = await ui.document.field.getValue();
+      console.info('Received value ' + value);
       return { mode: brDocument.mode, value: value };
     } catch (error) {
       console.error('Failed to register extension:', error.message);
