@@ -20,6 +20,9 @@ const useStyles = createUseStyles({
         marginRight: '9px',
       },
     },
+    '& .collapse-head': {
+      backgroundColor: '#8FCAE7',
+    },
   },
 });
 
@@ -47,7 +50,7 @@ export default function Collapse(props: Props): Node {
 
   return (
     <div className={classes}>
-      <div className='d-flex'>
+      <div className='d-flex collapse-head'>
         <span className='toggle-collapse'>
           <FontAwesomeIcon
             onClick={!props.disableToggle ? props.toggleCollapse : () => {}}

@@ -57,7 +57,7 @@ const useStyles = createUseStyles({
         width: '100%',
         'text-align': 'left',
         display: 'inline-block',
-        color: '#138AC2',
+        color: '#000',
         margin: '0.25em .5em 0 .5em',
         'font-size': '18px',
       },
@@ -135,7 +135,7 @@ const useStyles = createUseStyles({
   formHead: {
     display: 'block',
     margin: '0 auto',
-    'background-color': '#EBEBEB',
+    'background-color': '#01689b',
     border: '1px solid #858F96',
     'border-radius': '4px',
     width: '70%',
@@ -156,6 +156,7 @@ const useStyles = createUseStyles({
       'font-size': '14px',
       'line-height': '21px',
       'font-weight': 'bold',
+      color: '#FFFFFF',
     },
   },
   formBody: {

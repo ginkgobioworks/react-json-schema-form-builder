@@ -87,7 +87,7 @@ const useStyles = createUseStyles({
       height: '25px',
       width: '25px',
     },
-    '& .fa-arrow-up, .fa-arrow-down': { marginRight: '.5em' },
+    '& .fa-arrow-up, .fa-arrow-down': { marginRight: '.5em', color: 'red' },
     '& .fa-trash': { border: '1px solid #DE5354', color: '#DE5354' },
     '& .fb-checkbox': { display: 'inline-block' },
     '& .interactions-left, & .interactions-right': {
