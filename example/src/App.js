@@ -7,7 +7,7 @@ class App extends Component {
     super(props)
 
     this.ui = props.ui;
-    this.state = { text: '', show:false,  mode: 'edit', value: {}};
+    this.state = { text: '', show:!props.ui,  mode: 'edit', value: {}};
   }
 
   componentDidMount() {
