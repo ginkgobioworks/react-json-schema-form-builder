@@ -44,7 +44,7 @@ export default function PlaygroundContainer(props) {
         onChange={(newSchema: string, newUiSchema: string) => {
           setSchema(newSchema);
           setUischema(newUiSchema);
-          console.log(JSON.stringify(props.bloomreachcallback));
+          console.log('callback called with: ' + JSON.stringify(newSchema));
           props.onChange(newSchema);
         }}
         width='95%'
