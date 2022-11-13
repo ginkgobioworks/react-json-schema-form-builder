@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.10.1] - 2022-11-10
+
+### Fixed
+
+- Fixed incorrect module field in package.json. (See [issue #405](https://github.com/ginkgobioworks/react-json-schema-form-builder/issues/405).)
+- Fixed broken example app. (See [issue #388](https://github.com/ginkgobioworks/react-json-schema-form-builder/issues/388).)
+
+### Changed
+
+- Updated dependencies in package.json and package-lock.json
+- Updated dependencies in example/package.json and exmaple/package-lock.json
+
 ## [2.10.0] - 2022-09-11
 
 ### Added
