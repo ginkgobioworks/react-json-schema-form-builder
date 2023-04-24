@@ -1103,6 +1103,14 @@ export function generateElementComponentsFromSchemas(parameters: {
   });
 
   const elementList = elementPropArr.map((elementProp, index) => {
+    const MIN_CARD_OPEN_ARRAY_LENGTH = index + 1;
+    const currentLength = cardOpenArray.length;
+
+    if (currentLength < MIN_CARD_OPEN_ARRAY_LENGTH) {
+      cardOpenArray.push(
+        ...new Array(MIN_CARD_OPEN_ARRAY_LENGTH - currentLength).fill(false),
+      );
+    }
     const expanded =
       (cardOpenArray && index < cardOpenArray.length && cardOpenArray[index]) ||
       false;
