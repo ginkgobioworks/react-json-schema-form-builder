@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.10.2] - 2023-04-24
+
+### Fixed
+
+- Fixed inability to open certain elements without opening all of them one by one. (See [issue #285](https://github.com/ginkgobioworks/react-json-schema-form-builder/issues/285).)
+
+### Changed
+
+- Updated dependencies in package.json and package-lock.json
+- Updated dependencies in example/package.json and exmaple/package-lock.json
+
 ## [2.10.1] - 2022-11-10
 
 ### Fixed
