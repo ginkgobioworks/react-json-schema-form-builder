@@ -14,6 +14,7 @@ import FontAwesomeIcon from './FontAwesomeIcon';
 import FBRadioGroup from './radio/FBRadioGroup';
 import { getRandomId } from './utils';
 import type { Node } from 'react';
+import type { ModLabels } from './types.js';
 
 const useStyles = createUseStyles({
   addDetails: {
@@ -38,10 +39,12 @@ export default function Add({
   addElem,
   hidden,
   tooltipDescription,
+  labels,
 }: {
   addElem: (choice: string) => void,
   hidden?: boolean,
   tooltipDescription?: string,
+  labels?: ModLabels,
 }): Node {
   const classes = useStyles();
   const [popoverOpen, setPopoverOpen] = useState(false);
@@ -76,11 +79,11 @@ export default function Add({
             options={[
               {
                 value: 'card',
-                label: 'Form element',
+                label: labels?.addElementLabel ?? 'Form element',
               },
               {
                 value: 'section',
-                label: 'Form section',
+                label: labels?.addSectionLabel ?? 'Form section',
               },
             ]}
             onChange={(selection) => {

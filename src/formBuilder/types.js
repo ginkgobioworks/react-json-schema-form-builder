@@ -119,6 +119,17 @@ export type DataOptions = {|
   default?: string,
 |};
 
+export type ModLabels = {|
+  formNameLabel?: string,
+  formDescriptionLabel?: string,
+  objectNameLabel?: string,
+  displayNameLabel?: string,
+  descriptionLabel?: string,
+  inputTypeLabel?: string,
+  addFormElementLabel?: string,
+  addFormSectionLabel?: string,
+|};
+
 // optional properties that can add custom features to the form builder
 export type Mods = {|
   customFormInputs?: {
@@ -135,14 +146,7 @@ export type Mods = {|
     cardSectionDisplayName?: string,
     cardSectionDescription?: string,
   |},
-  labels?: {|
-    formNameLabel?: string,
-    formDescriptionLabel?: string,
-    objectNameLabel?: string,
-    displayNameLabel?: string,
-    descriptionLabel?: string,
-    inputTypeLabel?: string,
-  |},
+  labels?: ModLabels,
   showFormHead?: boolean,
   deactivatedFormInputs?: Array<string>,
   newElementDefaultDataOptions?: DataOptions,
