@@ -1,5 +1,5 @@
 // @flow
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { Alert, Input } from 'reactstrap';
 import { createUseStyles } from 'react-jss';
@@ -21,7 +21,7 @@ import {
 } from './utils';
 import DEFAULT_FORM_INPUTS from './defaults/defaultFormInputs';
 import type { Node } from 'react';
-import type { Mods } from './types';
+import type { Mods, InitParameters } from './types';
 
 const useStyles = createUseStyles({
   formBuilder: {
@@ -186,13 +186,15 @@ const useStyles = createUseStyles({
 export default function FormBuilder({
   schema,
   uischema,
+  onInit,
   onChange,
   mods,
   className,
 }: {
   schema: string,
   uischema: string,
-  onChange: (string, string, string) => any,
+  onInit?: (parameters: InitParameters) => any,
+  onChange: (string, string) => any,
   mods?: Mods,
   className?: string,
 }): Node {
@@ -222,9 +224,17 @@ export default function FormBuilder({
   );
   const categoryHash = generateCategoryHash(allFormInputs);
 
-  const handleOnChange = (schema, uischema) => {
-    onChange(schema, uischema, categoryHash);
-  };
+  const [isFirstRender, setIsFirstRender] = useState(true);
+
+  useEffect(() => {
+    if (isFirstRender) {
+      onInit &&
+        onInit({
+          categoryHash,
+        });
+      setIsFirstRender(false);
+    }
+  }, [isFirstRender, onInit, categoryHash]);
 
   return (
     <div className={`${classes.formBuilder} ${className || ''}`}>
@@ -254,7 +264,7 @@ export default function FormBuilder({
               placeholder='Title'
               type='text'
               onChange={(ev: SyntheticInputEvent<HTMLInputElement>) => {
-                handleOnChange(
+                onChange(
                   stringify({
                     ...schemaData,
                     title: ev.target.value,
@@ -278,7 +288,7 @@ export default function FormBuilder({
               placeholder='Description'
               type='text'
               onChange={(ev: SyntheticInputEvent<HTMLInputElement>) =>
-                handleOnChange(
+                onChange(
                   stringify({
                     ...schemaData,
                     description: ev.target.value,
@@ -298,7 +308,7 @@ export default function FormBuilder({
               schema: schemaData,
               uischema: uiSchemaData,
               onChange: (newSchema, newUiSchema) =>
-                handleOnChange(stringify(newSchema), stringify(newUiSchema)),
+                onChange(stringify(newSchema), stringify(newUiSchema)),
               definitionData: schemaData.definitions,
               definitionUi: uiSchemaData.definitions,
               categoryHash,
@@ -316,10 +326,7 @@ export default function FormBuilder({
                   schemaData,
                   uiSchemaData,
                   onChange: (newSchema, newUiSchema) =>
-                    handleOnChange(
-                      stringify(newSchema),
-                      stringify(newUiSchema),
-                    ),
+                    onChange(stringify(newSchema), stringify(newUiSchema)),
                   definitionData: schemaData.definitions,
                   definitionUi: uiSchemaData.definitions,
                   path: 'root',
@@ -364,7 +371,7 @@ export default function FormBuilder({
                 uischema: uiSchemaData,
                 mods: mods,
                 onChange: (newSchema, newUiSchema) =>
-                  handleOnChange(stringify(newSchema), stringify(newUiSchema)),
+                  onChange(stringify(newSchema), stringify(newUiSchema)),
                 definitionData: schemaData.definitions,
                 definitionUi: uiSchemaData.definitions,
                 categoryHash,
@@ -374,7 +381,7 @@ export default function FormBuilder({
                 schema: schemaData,
                 uischema: uiSchemaData,
                 onChange: (newSchema, newUiSchema) =>
-                  handleOnChange(stringify(newSchema), stringify(newUiSchema)),
+                  onChange(stringify(newSchema), stringify(newUiSchema)),
                 definitionData: schemaData.definitions,
                 definitionUi: uiSchemaData.definitions,
                 categoryHash,

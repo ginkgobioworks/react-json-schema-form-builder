@@ -156,3 +156,7 @@ export type Mods = {|
 export type CardBody = CardBodyType<Mods>;
 
 export type FormInput = FormInputType<Mods>;
+
+export type InitParameters = {|
+  categoryHash?: { [string]: string },
+|};
