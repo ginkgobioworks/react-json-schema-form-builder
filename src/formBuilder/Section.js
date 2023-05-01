@@ -112,8 +112,8 @@ export default function Section({
   dependents,
   dependent,
   parent,
+  parentProperties,
   neighborNames,
-  addElem,
   cardOpen,
   setCardOpen,
   allFormInputs,
@@ -151,8 +151,8 @@ export default function Section({
   }>,
   dependent?: boolean,
   parent?: string,
+  parentProperties: { [string]: any },
   neighborNames?: Array<string>,
-  addElem?: (choice: string) => void,
   cardOpen: boolean,
   setCardOpen: (newState: boolean) => void,
   allFormInputs: { [string]: FormInput },
@@ -177,6 +177,17 @@ export default function Section({
   // keep requirements in state to avoid rapid updates
   const [modalOpen, setModalOpen] = React.useState(false);
   const [elementId] = React.useState(getRandomId());
+  const addProperties = {
+    schema,
+    uischema,
+    mods,
+    onChange,
+    definitionData,
+    definitionUi,
+    categoryHash,
+  };
+  const hideAddButton =
+    schemaData.properties && Object.keys(schemaData.properties).length !== 0;
 
   return (
     <React.Fragment>
@@ -437,35 +448,24 @@ export default function Section({
             </DragDropContext>
           </div>
           <div className='section-footer'>
-            <Add
-              tooltipDescription={((mods || {}).tooltipDescriptions || {}).add}
-              addElem={(choice: string) => {
-                if (choice === 'card') {
-                  addCardObj({
-                    schema,
-                    uischema,
-                    mods,
-                    onChange,
-                    definitionData,
-                    definitionUi,
-                    categoryHash,
-                  });
-                } else if (choice === 'section') {
-                  addSectionObj({
-                    schema,
-                    uischema,
-                    onChange,
-                    definitionData,
-                    definitionUi,
-                    categoryHash,
-                  });
+            {!hideAddButton &&
+              mods?.components?.add &&
+              mods.components.add(addProperties)}
+            {!mods?.components?.add && (
+              <Add
+                tooltipDescription={
+                  ((mods || {}).tooltipDescriptions || {}).add
                 }
-              }}
-              hidden={
-                schemaData.properties &&
-                Object.keys(schemaData.properties).length !== 0
-              }
-            />
+                addElem={(choice: string) => {
+                  if (choice === 'card') {
+                    addCardObj(addProperties);
+                  } else if (choice === 'section') {
+                    addSectionObj(addProperties);
+                  }
+                }}
+                hidden={hideAddButton}
+              />
+            )}
           </div>
           <div className='section-interactions'>
             <span id={`${elementId}_editinfo`}>
@@ -521,13 +521,20 @@ export default function Section({
           TypeSpecificParameters={CardDefaultParameterInputs}
         />
       </Collapse>
-      {addElem ? (
+      {mods?.components?.add && mods.components.add(parentProperties)}
+      {!mods?.components?.add && (
         <Add
           tooltipDescription={((mods || {}).tooltipDescriptions || {}).add}
-          addElem={(choice: string) => addElem(choice)}
+          addElem={(choice: string) => {
+            if (choice === 'card') {
+              addCardObj(parentProperties);
+            } else if (choice === 'section') {
+              addSectionObj(parentProperties);
+            }
+            setCardOpen(false);
+          }}
+          componentOverride={mods?.components?.add}
         />
-      ) : (
-        ''
       )}
     </React.Fragment>
   );

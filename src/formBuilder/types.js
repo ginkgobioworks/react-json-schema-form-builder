@@ -126,8 +126,8 @@ export type ModLabels = {|
   displayNameLabel?: string,
   descriptionLabel?: string,
   inputTypeLabel?: string,
-  addFormElementLabel?: string,
-  addFormSectionLabel?: string,
+  addElementLabel?: string,
+  addSectionLabel?: string,
 |};
 
 // optional properties that can add custom features to the form builder
@@ -136,6 +136,9 @@ export type Mods = {|
     [string]: FormInputType<Mods>,
     ...
   },
+  components?: {|
+    add?: function,
+  |},
   tooltipDescriptions?: {|
     add?: string,
     cardObjectName?: string,

@@ -14,6 +14,9 @@ declare type Mods = {|
     [string]: FormInput,
     ...
   },
+  components?: {|
+    add?: callable,
+  },
   tooltipDescriptions?: {|
     add?: string,
     cardObjectName?: string,

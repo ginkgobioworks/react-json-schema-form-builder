@@ -14,7 +14,7 @@ import FontAwesomeIcon from './FontAwesomeIcon';
 import FBRadioGroup from './radio/FBRadioGroup';
 import { getRandomId } from './utils';
 import type { Node } from 'react';
-import type { ModLabels } from './types.js';
+import type { ModLabels } from './types';
 
 const useStyles = createUseStyles({
   addDetails: {
