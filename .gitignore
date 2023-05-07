@@ -13,5 +13,6 @@ example/build
 
 .DS_Store
 *.swp
+.vscode
 
 npm-debug.log*
