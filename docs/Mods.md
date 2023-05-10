@@ -15,7 +15,7 @@ declare type Mods = {|
     ...
   },
   components?: {|
-    add?: callable,
+    add?: (properties: { [string]: any }) => void,
   },
   tooltipDescriptions?: {|
     add?: string,
