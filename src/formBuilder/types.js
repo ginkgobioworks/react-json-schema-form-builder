@@ -137,7 +137,7 @@ export type Mods = {|
     ...
   },
   components?: {|
-    add?: (properties: { [string]: any }) => void,
+    add?: (properties?: { [string]: any }) => void,
   |},
   tooltipDescriptions?: {|
     add?: string,
