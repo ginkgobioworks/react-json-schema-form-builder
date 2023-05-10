@@ -1,5 +1,5 @@
 // @flow
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { Alert, Input } from 'reactstrap';
 import { createUseStyles } from 'react-jss';
@@ -21,7 +21,7 @@ import {
 } from './utils';
 import DEFAULT_FORM_INPUTS from './defaults/defaultFormInputs';
 import type { Node } from 'react';
-import type { Mods } from './types';
+import type { Mods, InitParameters } from './types';
 
 const useStyles = createUseStyles({
   formBuilder: {
@@ -186,12 +186,14 @@ const useStyles = createUseStyles({
 export default function FormBuilder({
   schema,
   uischema,
+  onMount,
   onChange,
   mods,
   className,
 }: {
   schema: string,
   uischema: string,
+  onMount?: (parameters: InitParameters) => any,
   onChange: (string, string) => any,
   mods?: Mods,
   className?: string,
@@ -221,6 +223,32 @@ export default function FormBuilder({
     defaultCollapseStates,
   );
   const categoryHash = generateCategoryHash(allFormInputs);
+
+  const [isFirstRender, setIsFirstRender] = useState(true);
+
+  const addProperties = {
+    schema: schemaData,
+    uischema: uiSchemaData,
+    mods: mods,
+    onChange: (newSchema, newUiSchema) =>
+      onChange(stringify(newSchema), stringify(newUiSchema)),
+    definitionData: schemaData.definitions,
+    definitionUi: uiSchemaData.definitions,
+    categoryHash,
+  };
+
+  const hideAddButton =
+    schemaData.properties && Object.keys(schemaData.properties).length !== 0;
+
+  useEffect(() => {
+    if (isFirstRender) {
+      onMount &&
+        onMount({
+          categoryHash,
+        });
+      setIsFirstRender(false);
+    }
+  }, [isFirstRender, onMount, categoryHash]);
 
   return (
     <div className={`${classes.formBuilder} ${className || ''}`}>
@@ -347,37 +375,23 @@ export default function FormBuilder({
         </DragDropContext>
       </div>
       <div className={`form-footer ${classes.formFooter}`}>
-        <Add
-          tooltipDescription={((mods || {}).tooltipDescriptions || {}).add}
-          addElem={(choice: string) => {
-            if (choice === 'card') {
-              addCardObj({
-                schema: schemaData,
-                uischema: uiSchemaData,
-                mods: mods,
-                onChange: (newSchema, newUiSchema) =>
-                  onChange(stringify(newSchema), stringify(newUiSchema)),
-                definitionData: schemaData.definitions,
-                definitionUi: uiSchemaData.definitions,
-                categoryHash,
-              });
-            } else if (choice === 'section') {
-              addSectionObj({
-                schema: schemaData,
-                uischema: uiSchemaData,
-                onChange: (newSchema, newUiSchema) =>
-                  onChange(stringify(newSchema), stringify(newUiSchema)),
-                definitionData: schemaData.definitions,
-                definitionUi: uiSchemaData.definitions,
-                categoryHash,
-              });
-            }
-          }}
-          hidden={
-            schemaData.properties &&
-            Object.keys(schemaData.properties).length !== 0
-          }
-        />
+        {!hideAddButton &&
+          mods?.components?.add &&
+          mods.components.add(addProperties)}
+        {!mods?.components?.add && (
+          <Add
+            tooltipDescription={((mods || {}).tooltipDescriptions || {}).add}
+            labels={mods?.labels ?? {}}
+            addElem={(choice: string) => {
+              if (choice === 'card') {
+                addCardObj(addProperties);
+              } else if (choice === 'section') {
+                addSectionObj(addProperties);
+              }
+            }}
+            hidden={hideAddButton}
+          />
+        )}
       </div>
     </div>
   );

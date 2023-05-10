@@ -1105,6 +1105,16 @@ export function generateElementComponentsFromSchemas(parameters: {
   const elementList = elementPropArr.map((elementProp, index) => {
     const MIN_CARD_OPEN_ARRAY_LENGTH = index + 1;
     const currentLength = cardOpenArray.length;
+    const addProperties = {
+      schema,
+      uischema,
+      mods,
+      onChange,
+      definitionData: definitionData || {},
+      definitionUi: definitionUi || {},
+      index,
+      categoryHash,
+    };
 
     if (currentLength < MIN_CARD_OPEN_ARRAY_LENGTH) {
       cardOpenArray.push(
@@ -1266,26 +1276,9 @@ export function generateElementComponentsFromSchemas(parameters: {
           }}
           addElem={(choice: string) => {
             if (choice === 'card') {
-              addCardObj({
-                schema,
-                uischema,
-                mods,
-                onChange,
-                definitionData: definitionData || {},
-                definitionUi: definitionUi || {},
-                index,
-                categoryHash,
-              });
+              addCardObj(addProperties);
             } else if (choice === 'section') {
-              addSectionObj({
-                schema,
-                uischema,
-                onChange,
-                definitionData: definitionData || {},
-                definitionUi: definitionUi || {},
-                index,
-                categoryHash,
-              });
+              addSectionObj(addProperties);
             }
             setCardOpenArray([...cardOpenArray, false]);
           }}
@@ -1299,10 +1292,21 @@ export function generateElementComponentsFromSchemas(parameters: {
           }
           allFormInputs={allFormInputs}
           mods={mods}
+          addProperties={addProperties}
         />
       );
     } else if (elementProp.propType === 'section') {
       // create a section with the appropriate schemas here
+      const addProperties = {
+        schema,
+        uischema,
+        mods,
+        onChange,
+        definitionData: definitionData || {},
+        definitionUi: definitionUi || {},
+        index,
+        categoryHash,
+      };
       return (
         <Section
           schema={elementProp.schema}
@@ -1490,31 +1494,7 @@ export function generateElementComponentsFromSchemas(parameters: {
           dependents={elementProp.dependents}
           dependent={elementProp.dependent}
           parent={elementProp.parent}
-          addElem={(choice: string) => {
-            if (choice === 'card') {
-              addCardObj({
-                schema,
-                uischema,
-                mods,
-                onChange,
-                definitionData: definitionData || {},
-                definitionUi: definitionUi || {},
-                index,
-                categoryHash,
-              });
-            } else if (choice === 'section') {
-              addSectionObj({
-                schema,
-                uischema,
-                onChange,
-                definitionData: definitionData || {},
-                definitionUi: definitionUi || {},
-                index,
-                categoryHash,
-              });
-            }
-            setCardOpenArray([...cardOpenArray, false]);
-          }}
+          parentProperties={addProperties}
           cardOpen={expanded}
           setCardOpen={(newState: boolean) =>
             setCardOpenArray([

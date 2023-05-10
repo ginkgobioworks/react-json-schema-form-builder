@@ -113,6 +113,7 @@ export default function Card({
   allFormInputs,
   mods,
   showObjectNameInput = true,
+  addProperties,
 }: {
   componentProps: {
     [string]: string | number | boolean | Array<string | number>,
@@ -132,6 +133,7 @@ export default function Card({
   mods?: Mods,
   allFormInputs: { [string]: FormInput },
   showObjectNameInput?: boolean,
+  addProperties?: { [string]: any },
 }): Node {
   const classes = useStyles();
   const [modalOpen, setModalOpen] = React.useState(false);
@@ -249,13 +251,12 @@ export default function Card({
           TypeSpecificParameters={TypeSpecificParameters}
         />
       </Collapse>
-      {addElem ? (
+      {mods?.components?.add && mods?.components?.add(addProperties)}
+      {!mods?.components?.add && addElem && (
         <Add
           tooltipDescription={((mods || {}).tooltipDescriptions || {}).add}
           addElem={(choice: string) => addElem(choice)}
         />
-      ) : (
-        ''
       )}
     </React.Fragment>
   );

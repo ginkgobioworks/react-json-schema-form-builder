@@ -119,12 +119,26 @@ export type DataOptions = {|
   default?: string,
 |};
 
+export type ModLabels = {|
+  formNameLabel?: string,
+  formDescriptionLabel?: string,
+  objectNameLabel?: string,
+  displayNameLabel?: string,
+  descriptionLabel?: string,
+  inputTypeLabel?: string,
+  addElementLabel?: string,
+  addSectionLabel?: string,
+|};
+
 // optional properties that can add custom features to the form builder
 export type Mods = {|
   customFormInputs?: {
     [string]: FormInputType<Mods>,
     ...
   },
+  components?: {|
+    add?: (properties?: { [string]: any }) => void,
+  |},
   tooltipDescriptions?: {|
     add?: string,
     cardObjectName?: string,
@@ -135,14 +149,7 @@ export type Mods = {|
     cardSectionDisplayName?: string,
     cardSectionDescription?: string,
   |},
-  labels?: {|
-    formNameLabel?: string,
-    formDescriptionLabel?: string,
-    objectNameLabel?: string,
-    displayNameLabel?: string,
-    descriptionLabel?: string,
-    inputTypeLabel?: string,
-  |},
+  labels?: ModLabels,
   showFormHead?: boolean,
   deactivatedFormInputs?: Array<string>,
   newElementDefaultDataOptions?: DataOptions,
@@ -152,3 +159,7 @@ export type Mods = {|
 export type CardBody = CardBodyType<Mods>;
 
 export type FormInput = FormInputType<Mods>;
+
+export type InitParameters = {|
+  categoryHash?: { [string]: string },
+|};

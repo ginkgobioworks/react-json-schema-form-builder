@@ -14,6 +14,9 @@ declare type Mods = {|
     [string]: FormInput,
     ...
   },
+  components?: {|
+    add?: (properties: { [string]: any }) => void,
+  },
   tooltipDescriptions?: {|
     add?: string,
     cardObjectName?: string,
@@ -31,6 +34,8 @@ declare type Mods = {|
     displayNameLabel?: string,
     descriptionLabel?: string,
     inputTypeLabel?: string,
+    addElementLabel?: string,
+    addSectionLabel?: string,
   |},
   showFormHead?: boolean,
   deactivatedFormInputs?: Array<string>,
@@ -185,3 +190,5 @@ The text for the labels of a few of the inputs in the Form Builder can similarly
 - `displayNameLabel` - The label for the "Display Name" field.
 - `descriptionLabel` - The label for the "Description" field.
 - `inputTypeLabel` - The label for the "Input Type" field.
+- `addElementLabel` - The label for the popover option when adding a new form element.
+- `addSectionLabel` - The label for the popover option when adding a new form section.
