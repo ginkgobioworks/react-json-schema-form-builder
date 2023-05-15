@@ -11,11 +11,11 @@ The type definition for Mods is as follows:
 ```react
 declare type Mods = {|
   customFormInputs?: {
-    [string]: FormInput,
+    [key: string]: FormInput,
     ...
   },
   components?: {|
-    add?: (properties: { [string]: any }) => void,
+    add?: (properties: { [key: string]: any }) => void,
   },
   tooltipDescriptions?: {|
     add?: string,
@@ -46,7 +46,7 @@ declare type Mods = {|
     $ref?: string,
     default?: string,
   },
-  newElementDefaultUiSchema?: { [string]: any },
+  newElementDefaultUiSchema?: { [key: string]: any },
 |};
 ```
 
@@ -62,11 +62,11 @@ declare type FormInput = {|
   // allowed keys for ui:options
   possibleOptions?: Array<string>,
   defaultDataSchema: {
-    [string]: any,
+    [key: string]: any,
     ...
   },
   defaultUiSchema: {
-    [string]: any,
+    [key: string]: any,
     ...
   },
   // the data schema type
@@ -157,13 +157,13 @@ declare export type CardBodyProps = {|
 
 ```react
 declare type Parameters = {|
-  [string]: any,
+  [key: string]: any,
   name: string,
   path: string,
-  definitionData: { [string]: any, ... },
-  definitionUi: { [string]: any, ... },
+  definitionData: { [key: string]: any, ... },
+  definitionUi: { [key: string]: any, ... },
   category: string,
-  'ui:option': { [string]: any, ... },
+  'ui:option': { [key: string]: any, ... },
 |};
 ```
 

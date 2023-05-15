@@ -205,7 +205,7 @@ const customFormInputs = {
         value={parameters.default}
         placeholder="Default"
         type="text"
-        onChange={(ev: SyntheticInputEvent<HTMLInputElement>) =>
+        onChange={(ev) =>
           onChange({ ...parameters, default: ev.target.value })
         }
       />
