@@ -33,12 +33,7 @@ export default function Example({
 
   return (
     <React.Fragment>
-      <span
-        style={{ textDecoration: 'underline', color: 'blue' }}
-        // TODO: Is this actually doing anything?
-        href='#'
-        id={id}
-      >
+      <span style={{ textDecoration: 'underline', color: 'blue' }} id={id}>
         <FontAwesomeIcon icon={typeMap[type]} />
       </span>
       <UncontrolledTooltip
