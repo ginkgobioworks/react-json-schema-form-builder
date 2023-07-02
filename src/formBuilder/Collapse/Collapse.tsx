@@ -1,10 +1,9 @@
-import React, { FC, ReactNode } from 'react';
+import React, { FC, ReactNode, MouseEvent } from 'react';
 import { createUseStyles } from 'react-jss';
 import { Collapse as RSCollapse } from 'reactstrap';
 import classnames from 'classnames';
 import { faCaretDown, faCaretRight } from '@fortawesome/free-solid-svg-icons';
 import FontAwesomeIcon from '../FontAwesomeIcon';
-import { MouseEvent } from 'react';
 
 const useStyles = createUseStyles({
   collapseElement: {

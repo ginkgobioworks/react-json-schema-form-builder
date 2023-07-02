@@ -22,8 +22,8 @@ const isLocalhost = Boolean(
 
 interface ConfigType {
   [key: string]: any;
-  onUpdate: ( arg0: any ) => void;
-  onSuccess: ( arg0: any ) => void;
+  onUpdate: (arg0: any) => void;
+  onSuccess: (arg0: any) => void;
 }
 
 export function register(config: ConfigType) {

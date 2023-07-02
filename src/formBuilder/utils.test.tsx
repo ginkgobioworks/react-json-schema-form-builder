@@ -22,6 +22,8 @@ import {
   subtractArray,
 } from './utils';
 
+import { CardProps, ElementProps, FormInput, Mods } from './types';
+
 const schema = {
   type: 'object',
   properties: {
@@ -102,92 +104,94 @@ describe('parse', () => {
         "num": 0
       }
     }`,
-        'json',
       ),
     ).toEqual({ key: { array: ['item1', 'item2'], name: 'obj1', num: 0 } });
   });
   it('parses empty JSON into an empty JS object', () => {
-    expect(parse('', 'json')).toEqual({});
+    expect(parse('')).toEqual({});
   });
 });
 
 describe('stringify', () => {
   it('turns an object into validly formatted JSON', () => {
     expect(
-      stringify(
-        { key: { array: ['item1', 'item2'], name: 'obj1', num: 0 } },
-        'json',
-      ),
+      stringify({ key: { array: ['item1', 'item2'], name: 'obj1', num: 0 } }),
     ).toEqual('{"key":{"array":["item1","item2"],"name":"obj1","num":0}}');
   });
 });
 
 describe('getCardCategory', () => {
   it('returns the correct category for cards without ui refinements', () => {
-    let card = {
+    let card: CardProps = {
       dataOptions: {
         type: 'string',
       },
       uiOptions: {},
       propType: 'card',
+      name: 'foo_bar',
+      required: false,
+      neighborNames: [],
     };
     const categoryHash = generateCategoryHash(DEFAULT_FORM_INPUTS);
-    expect(getCardCategory(card, categoryHash, DEFAULT_FORM_INPUTS)).toEqual(
-      'shortAnswer',
-    );
+    expect(getCardCategory(card, categoryHash)).toEqual('shortAnswer');
     card = {
       dataOptions: {
         type: 'integer',
       },
       uiOptions: {},
       propType: 'card',
+      name: 'foo_bar',
+      required: false,
+      neighborNames: [],
     };
-    expect(getCardCategory(card, categoryHash, DEFAULT_FORM_INPUTS)).toEqual(
-      'integer',
-    );
+    expect(getCardCategory(card, categoryHash)).toEqual('integer');
     card = {
       dataOptions: {
         type: 'number',
       },
       uiOptions: {},
       propType: 'card',
+      name: 'foo_bar',
+      required: false,
+      neighborNames: [],
     };
-    expect(getCardCategory(card, categoryHash, DEFAULT_FORM_INPUTS)).toEqual(
-      'number',
-    );
+    expect(getCardCategory(card, categoryHash)).toEqual('number');
     card = {
       dataOptions: {
         type: 'boolean',
       },
       uiOptions: {},
       propType: 'card',
+      name: 'foo_bar',
+      required: false,
+      neighborNames: [],
     };
-    expect(getCardCategory(card, categoryHash, DEFAULT_FORM_INPUTS)).toEqual(
-      'checkbox',
-    );
+    expect(getCardCategory(card, categoryHash)).toEqual('checkbox');
     card = {
       dataOptions: {
         type: 'array',
       },
       uiOptions: {},
       propType: 'card',
+      name: 'foo_bar',
+      required: false,
+      neighborNames: [],
     };
-    expect(getCardCategory(card, categoryHash, DEFAULT_FORM_INPUTS)).toEqual(
-      'array',
-    );
+    expect(getCardCategory(card, categoryHash)).toEqual('array');
     card = {
       dataOptions: {
         enum: [0, 1, 2, 3, 4, 5],
       },
       uiOptions: {},
       propType: 'card',
+      name: 'foo_bar',
+      required: false,
+      neighborNames: [],
     };
-    expect(getCardCategory(card, categoryHash, DEFAULT_FORM_INPUTS)).toEqual(
-      'dropdown',
-    );
+    expect(getCardCategory(card, categoryHash)).toEqual('dropdown');
   });
   it('returns the correct category for cards with ui refinements', () => {
-    let card = {
+    let card: CardProps = {
       dataOptions: {
         type: 'string',
       },
@@ -195,11 +199,12 @@ describe('getCardCategory', () => {
         'ui:widget': 'password',
       },
       propType: 'card',
+      name: 'foo_bar',
+      required: false,
+      neighborNames: [],
     };
     const categoryHash = generateCategoryHash(DEFAULT_FORM_INPUTS);
-    expect(getCardCategory(card, categoryHash, DEFAULT_FORM_INPUTS)).toEqual(
-      'password',
-    );
+    expect(getCardCategory(card, categoryHash)).toEqual('password');
     card = {
       dataOptions: {
         enum: [0, 1, 2, 3, 4, 5],
@@ -208,26 +213,28 @@ describe('getCardCategory', () => {
         'ui:widget': 'radio',
       },
       propType: 'card',
+      name: 'foo_bar',
+      required: false,
+      neighborNames: [],
     };
-    expect(getCardCategory(card, categoryHash, DEFAULT_FORM_INPUTS)).toEqual(
-      'radio',
-    );
+    expect(getCardCategory(card, categoryHash)).toEqual('radio');
     card = {
       dataOptions: {
         type: 'array',
       },
       uiOptions: {},
       propType: 'card',
+      name: 'foo_bar',
+      required: false,
+      neighborNames: [],
     };
-    expect(getCardCategory(card, categoryHash, DEFAULT_FORM_INPUTS)).toEqual(
-      'array',
-    );
+    expect(getCardCategory(card, categoryHash)).toEqual('array');
   });
 });
 
 describe('checkForUnsupportedFeatures', () => {
   it('gives no warnings for various valid combinations', () => {
-    let testSchema = {
+    let testSchema: { [key: string]: any } = {
       type: 'object',
     };
     let testUischema = {};
@@ -262,14 +269,14 @@ describe('checkForUnsupportedFeatures', () => {
   });
 
   it('gives no warnings for the inclusion of $schema and meta keywords', () => {
-    let testSchema = {
+    const testSchema: { [key: string]: any } = {
       type: 'object',
       $schema: 'http://json-schema.org/draft-07/schema#',
       meta: {
         some: 'meta information',
       },
     };
-    let testUischema = {};
+    const testUischema = {};
     expect(
       checkForUnsupportedFeatures(
         testSchema,
@@ -280,7 +287,7 @@ describe('checkForUnsupportedFeatures', () => {
   });
 
   it('gives warnings for unknown features in schema', () => {
-    let testSchema = {
+    let testSchema: { [key: string]: any } = {
       type: 'object',
     };
     let testUischema = {};
@@ -323,7 +330,7 @@ describe('checkForUnsupportedFeatures', () => {
     ).toEqual(['Unrecognized Object Property: erroneousKey']);
   });
   it('gives warnings for unknown features in ui schema', () => {
-    let testSchema = {
+    let testSchema: { [key: string]: any } = {
       type: 'object',
     };
     let testUischema = {};
@@ -374,7 +381,6 @@ describe('generateElementPropsFromSchemas', () => {
       schema,
       uischema,
       categoryHash: generateCategoryHash(DEFAULT_FORM_INPUTS),
-      allFormInputs: DEFAULT_FORM_INPUTS,
     });
     expect(cardObjArr).toHaveLength(3);
 
@@ -432,7 +438,6 @@ describe('generateElementPropsFromSchemas', () => {
       schema: dependencySchema,
       uischema: dependencyUiSchema,
       categoryHash: generateCategoryHash(DEFAULT_FORM_INPUTS),
-      allFormInputs: DEFAULT_FORM_INPUTS,
     });
     expect(cardObjArr).toHaveLength(2);
 
@@ -445,8 +450,7 @@ describe('generateElementPropsFromSchemas', () => {
 
 describe('generateSchemaFromElementProps', () => {
   const schemaProps = generateSchemaFromElementProps(
-    elementPropArr,
-    DEFAULT_FORM_INPUTS,
+    elementPropArr as unknown as ElementProps[],
   );
 
   it('generates a schema representation of properties from card object array', () => {
@@ -461,18 +465,15 @@ describe('generateSchemaFromElementProps', () => {
 
   it('throws an exception if propType is invalid', () => {
     expect(() =>
-      generateSchemaFromElementProps(
-        [
-          {
-            name: 'card3',
-            required: true,
-            dataOptions: { type: 'boolean' },
-            uiOptions: { 'ui:widget': 'boolean' },
-            propType: 'foobar',
-          },
-        ],
-        DEFAULT_FORM_INPUTS,
-      ),
+      generateSchemaFromElementProps([
+        {
+          name: 'card3',
+          required: true,
+          dataOptions: { type: 'boolean' },
+          uiOptions: { 'ui:widget': 'boolean' },
+          propType: 'foobar',
+        },
+      ] as unknown as ElementProps[]),
     ).toThrow(new Error('Element that is neither card, section, nor ref'));
   });
 
@@ -483,21 +484,18 @@ describe('generateSchemaFromElementProps', () => {
       description: 'This is an example description',
     };
 
-    const result = generateSchemaFromElementProps(
-      [
-        {
-          name: 'exampleCard',
-          required: true,
-          $ref: '#/definitions/someDefinition',
-          schema: {
-            description: 'This is an example description',
-            title: 'Input Field',
-          },
-          propType: 'card',
+    const result = generateSchemaFromElementProps([
+      {
+        name: 'exampleCard',
+        required: true,
+        $ref: '#/definitions/someDefinition',
+        schema: {
+          description: 'This is an example description',
+          title: 'Input Field',
         },
-      ],
-      DEFAULT_FORM_INPUTS,
-    );
+        propType: 'card',
+      },
+    ] as unknown as ElementProps[]);
 
     expect(result.properties.exampleCard).toEqual(expectedSchemaElement);
   });
@@ -509,21 +507,18 @@ describe('generateSchemaFromElementProps', () => {
       description: 'This is an example description',
     };
 
-    const result = generateSchemaFromElementProps(
-      [
-        {
-          name: 'exampleCard',
-          required: true,
-          $ref: '#/definitions/someDefinition',
-          dataOptions: {
-            description: 'This is an example description',
-            title: 'Input Field',
-          },
-          propType: 'card',
+    const result = generateSchemaFromElementProps([
+      {
+        name: 'exampleCard',
+        required: true,
+        $ref: '#/definitions/someDefinition',
+        dataOptions: {
+          description: 'This is an example description',
+          title: 'Input Field',
         },
-      ],
-      DEFAULT_FORM_INPUTS,
-    );
+        propType: 'card',
+      },
+    ] as unknown as ElementProps[]);
 
     expect(result.properties.exampleCard).toEqual(expectedSchemaElement);
   });
@@ -536,24 +531,21 @@ describe('generateSchemaFromElementProps', () => {
       required: ['field_one'],
     };
 
-    const result = generateSchemaFromElementProps(
-      [
-        {
-          name: 'exampleCard',
-          required: true,
-          $ref: '#/definitions/someDefinition',
-          dataOptions: {
-            description: 'This is an example description',
-            title: 'Input Field',
-          },
-          schema: {
-            required: ['field_one'],
-          },
-          propType: 'card',
+    const result = generateSchemaFromElementProps([
+      {
+        name: 'exampleCard',
+        required: true,
+        $ref: '#/definitions/someDefinition',
+        dataOptions: {
+          description: 'This is an example description',
+          title: 'Input Field',
         },
-      ],
-      DEFAULT_FORM_INPUTS,
-    );
+        schema: {
+          required: ['field_one'],
+        },
+        propType: 'card',
+      },
+    ] as unknown as ElementProps[]);
 
     expect(result.properties.exampleCard).toEqual(expectedSchemaElement);
   });
@@ -561,7 +553,7 @@ describe('generateSchemaFromElementProps', () => {
 
 describe('generateUiSchemaFromElementProps', () => {
   const uiSchema = generateUiSchemaFromElementProps(
-    elementPropArr,
+    elementPropArr as unknown as ElementProps[],
     DEFAULT_FORM_INPUTS,
   );
   it('generates a ui schema representation from card object array', () => {
@@ -592,11 +584,11 @@ describe('generateElementComponentsFromSchemas', () => {
           cardBody: MockComponent,
         },
       },
-    };
+    } as Mods;
     const allFormInputs = {
       ...DEFAULT_FORM_INPUTS,
       ...mods.customFormInputs,
-    };
+    } as { [key: string]: FormInput };
     const categoryHash = generateCategoryHash(allFormInputs);
 
     const TestComponent = () => (
@@ -650,7 +642,8 @@ describe('generateElementComponentsFromSchemas', () => {
     const div = document.createElement('div');
     document.body.appendChild(div);
     mount(<TestComponent />, { attachTo: div });
-    expect(MockComponent.mock.calls[0][0].mods).toEqual(mods);
+    const mockArgs = MockComponent.mock.calls[0] as any[];
+    expect(mockArgs[0].mods).toEqual(mods);
   });
 });
 
@@ -880,12 +873,17 @@ describe('getNewElementDefaultDataOptions', () => {
 
 describe('addCardObj', () => {
   it('should be able to add more than 10 unnamed CardObj', () => {
-    const mockEvent = jest.fn(() => {});
+    const mockEvent = jest.fn(
+      (schema: { [key: string]: any }, uischema: { [key: string]: any }) => {},
+    );
     const defaultUiSchema = {};
     const props = {
       schema: generateSchemaWithUnnamedProperties(10),
       uischema: defaultUiSchema,
-      onChange: (schema, uischema) => mockEvent(schema, uischema),
+      onChange: (
+        schema: { [key: string]: any },
+        uischema: { [key: string]: any },
+      ) => mockEvent(schema, uischema),
       definitionData: {},
       definitionUi: {},
       categoryHash: {},
@@ -902,12 +900,17 @@ describe('addCardObj', () => {
 
 describe('addSectionObj', () => {
   it('should be able to add more than 10 unnamed SectionObj', () => {
-    const mockEvent = jest.fn(() => {});
+    const mockEvent = jest.fn(
+      (schema: { [key: string]: any }, uischema: { [key: string]: any }) => {},
+    );
     const defaultUiSchema = {};
     const props = {
       schema: generateSchemaWithUnnamedProperties(10),
       uischema: defaultUiSchema,
-      onChange: (schema, uischema) => mockEvent(schema, uischema),
+      onChange: (
+        schema: { [key: string]: any },
+        uischema: { [key: string]: any },
+      ) => mockEvent(schema, uischema),
       definitionData: {},
       definitionUi: {},
       categoryHash: {},

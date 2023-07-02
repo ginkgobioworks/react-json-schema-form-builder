@@ -4,7 +4,7 @@ import { mount } from 'enzyme';
 import CardModal from './CardModal';
 
 // mocks to record events
-const mockEvent = jest.fn(() => {});
+const mockEvent = jest.fn((_arg0: any) => {});
 
 const params = {
   name: 'test',

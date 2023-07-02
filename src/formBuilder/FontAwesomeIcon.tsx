@@ -1,10 +1,9 @@
-import React from 'react';
+import React, { FC } from 'react';
 import classnames from 'classnames';
 import {
   FontAwesomeIcon as FortAwesomeFontAwesomeIcon,
   FontAwesomeIconProps,
 } from '@fortawesome/react-fontawesome';
-import type { FC } from 'react';
 
 const FontAwesomeIcon: FC<FontAwesomeIconProps> = ({
   className,

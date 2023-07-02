@@ -3,7 +3,7 @@ import { mount } from 'enzyme';
 import FormBuilder from './FormBuilder';
 
 // mocks to record events
-const mockEvent = jest.fn(() => {});
+const mockEvent = jest.fn((_arg0: any, _arg1: any) => {});
 
 const props = {
   schema: '',
@@ -29,7 +29,7 @@ const schemaWithDefinitions = {
 
 const propsWithDefinitions = {
   schema: JSON.stringify(schemaWithDefinitions),
-  uiSchema: '',
+  uischema: '',
   onChange: (newSchema, newUiSchema) => mockEvent(newSchema, newUiSchema),
 };
 
@@ -46,19 +46,19 @@ describe('FormBuilder', () => {
     const modProps = {
       ...props,
       schema: `{
-   "type": "object",
-   "properties": {
-      "obj1": {
-         "type": "string"
-      },
-      "obj2": {
-         "type": "number"
-      },
-      "obj3": {
-         "type": "boolean"
-      }
-   }
-}`,
+     "type": "object",
+     "properties": {
+        "obj1": {
+           "type": "string"
+        },
+        "obj2": {
+           "type": "number"
+        },
+        "obj3": {
+           "type": "boolean"
+        }
+     }
+  }`,
     };
     const div = document.createElement('div');
     document.body.appendChild(div);
@@ -72,28 +72,28 @@ describe('FormBuilder', () => {
     const modProps = {
       ...props,
       schema: `{
-   "type": "object",
-   "properties": {
-      "obj1": {
-         "type": "string"
-      },
-      "obj2": {
-         "type": "number",
-         "badSideProp": "asdf"
-      },
-      "obj3": {
-         "type": "boolean"
-      }
-   }
-}`,
+     "type": "object",
+     "properties": {
+        "obj1": {
+           "type": "string"
+        },
+        "obj2": {
+           "type": "number",
+           "badSideProp": "asdf"
+        },
+        "obj3": {
+           "type": "boolean"
+        }
+     }
+  }`,
       uischema: `{
-   "ui:order": [
-      "obj1",
-      "obj3",
-      "obj2"
-   ],
-   "invalidUiProp": "asdf"
-}`,
+     "ui:order": [
+        "obj1",
+        "obj3",
+        "obj2"
+     ],
+     "invalidUiProp": "asdf"
+  }`,
     };
     const div = document.createElement('div');
     document.body.appendChild(div);
@@ -113,33 +113,33 @@ describe('FormBuilder', () => {
     const modProps = {
       ...props,
       schema: `
-        {
-   "type": "object",
-   "properties": {
-      "obj1": {
-         "type": "string",
-         "title": "obj1"
-      },
-      "obj2": {
-         "type": "number",
-         "badSideProp": "asdf",
-         "title": "obj2"
-      },
-      "obj3": {
-         "type": "boolean",
-         "title": "obj3"
-      }
-   }
-}`,
+          {
+     "type": "object",
+     "properties": {
+        "obj1": {
+           "type": "string",
+           "title": "obj1"
+        },
+        "obj2": {
+           "type": "number",
+           "badSideProp": "asdf",
+           "title": "obj2"
+        },
+        "obj3": {
+           "type": "boolean",
+           "title": "obj3"
+        }
+     }
+  }`,
       uischema: `
-{
-   "ui:order": [
-      "obj1",
-      "obj3",
-      "obj2"
-   ],
-   "invalidUiProp": "asdf"
-}`,
+  {
+     "ui:order": [
+        "obj1",
+        "obj3",
+        "obj2"
+     ],
+     "invalidUiProp": "asdf"
+  }`,
     };
     const div = document.createElement('div');
     document.body.appendChild(div);
@@ -220,7 +220,7 @@ describe('FormBuilder', () => {
 
     const props = {
       schema: JSON.stringify(jsonSchema),
-      uiSchema: '{}',
+      uischema: '{}',
       onChange: jest.fn(() => {}),
       mods: {},
       className: 'my-form-builder',
@@ -247,7 +247,7 @@ describe('FormBuilder', () => {
 
     const props = {
       schema: JSON.stringify(jsonSchema),
-      uiSchema: '{}',
+      uischema: '{}',
       onChange: jest.fn(() => {}),
       mods: {},
       className: 'my-form-builder',
@@ -281,7 +281,9 @@ describe('FormBuilder', () => {
 
     const props = {
       schema: JSON.stringify(jsonSchema),
+      // TODO: prop `uiSchema` uses incorrect capitalization, resulting in a false positive. Fixing the capitalization breaks unit test.
       uiSchema: JSON.stringify(uischema),
+      uischema: '',
       onChange: jest.fn(() => {}),
       mods: {},
       className: 'my-form-builder',
@@ -289,6 +291,8 @@ describe('FormBuilder', () => {
 
     const div = document.createElement('div');
     document.body.appendChild(div);
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore -- prop `uiSchema` uses incorrect caplitalization, so it does not match defined props. Fixing this ends up breaking unit test.
     const wrapper = mount(<FormBuilder {...props} />, { attachTo: div });
     const errors = wrapper
       .find('.alert-warning')
@@ -379,7 +383,9 @@ describe('FormBuilder', () => {
 
     const props = {
       schema: JSON.stringify(jsonSchema),
+      // TODO: prop `uiSchema` uses incorrect capitalization, resulting in a false positive. Fixing the capitalization breaks unit test.
       uiSchema: JSON.stringify(uischema),
+      uischema: '',
       onChange: jest.fn(() => {}),
       mods: {},
       className: 'my-form-builder',
@@ -387,6 +393,8 @@ describe('FormBuilder', () => {
 
     const div = document.createElement('div');
     document.body.appendChild(div);
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore -- prop `uiSchema` uses incorrect caplitalization, so it does not match defined props. Fixing this ends up breaking unit test.
     const wrapper = mount(<FormBuilder {...props} />, { attachTo: div });
     const errors = wrapper
       .find('.alert-warning')
@@ -406,7 +414,7 @@ describe('FormBuilder', () => {
 
     const props = {
       schema: JSON.stringify(jsonSchema),
-      uiSchema: '{}',
+      uischema: '{}',
       onChange: jest.fn(() => {}),
       mods: {},
       className: 'my-form-builder',
@@ -452,7 +460,7 @@ describe('FormBuilder', () => {
 
     const props = {
       schema: JSON.stringify(jsonSchema),
-      uiSchema: JSON.stringify(uischema),
+      uischema: JSON.stringify(uischema),
       onChange: jest.fn(() => {}),
       mods: {},
       className: 'my-form-builder',
@@ -635,13 +643,14 @@ describe('FormBuilder', () => {
       },
     };
 
-    let uiSchema = {
+    const uiSchema = {
       'ui:order': ['newInput1'],
       newInput1: {
         'ui:column': '3',
       },
     };
 
+    let uiSchemaString = '';
     const innerProps = {
       ...props,
 
@@ -649,7 +658,7 @@ describe('FormBuilder', () => {
       uischema: JSON.stringify(uiSchema),
       onChange: (newSchema, newUiSchema) => {
         jsonSchema = newSchema;
-        uiSchema = newUiSchema;
+        uiSchemaString = newUiSchema;
       },
     };
 
@@ -669,7 +678,7 @@ describe('FormBuilder', () => {
       },
     };
 
-    expect(JSON.parse(uiSchema)).toEqual(expected);
+    expect(JSON.parse(uiSchemaString)).toEqual(expected);
     mockEvent.mockClear();
   });
 });

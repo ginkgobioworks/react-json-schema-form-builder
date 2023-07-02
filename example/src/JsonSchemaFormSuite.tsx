@@ -20,38 +20,40 @@ import locale from 'react-json-editor-ajrm/locale/en';
 import ErrorBoundary from './ErrorBoundary';
 
 type Props = {
-  lang: string,
-  schema: string,
-  uischema: string,
-  onChange?: (schema: string, uischema: string) => void,
-  schemaTitle?: string,
-  uischemaTitle?: string,
-  width?: string,
-  height?: string,
-  classes?: { [key: string]: any },
-  mods?: { [key: string]: any },
+  lang: string;
+  schema: string;
+  uischema: string;
+  onChange?: (schema: string, uischema: string) => void;
+  schemaTitle?: string;
+  uischemaTitle?: string;
+  width?: string;
+  height?: string;
+  classes?: { [key: string]: any };
+  mods?: { [key: string]: any };
 };
 
 type State = {
-  formData: any,
-  formToggle: boolean,
-  outputToggle: boolean,
-  schemaFormErrorFlag: string,
-  validFormInput: boolean,
-  editorWidth: number,
-  submissionData: any,
+  formData: any;
+  formToggle: boolean;
+  outputToggle: boolean;
+  schemaFormErrorFlag: string;
+  validFormInput: boolean;
+  editorWidth: number;
+  submissionData: any;
 };
 
 interface FormProps {
   schema: { [key: string]: any };
   uiSchema: { [key: string]: any };
-  onChange: ( _arg0: {[key: string]: any} ) => void;
-  formData : { [key: string]: any };
+  onChange: (_arg0: { [key: string]: any }) => void;
+  formData: { [key: string]: any };
   submitButtonMessage: string;
-  onSubmit: ( _arg0: {[key: string]: any} ) => void;
+  onSubmit: (_arg0: { [key: string]: any }) => void;
 }
 
-const Form = withTheme(Bootstrap4Theme) as unknown as FunctionComponent<FormProps>;
+const Form = withTheme(
+  Bootstrap4Theme,
+) as unknown as FunctionComponent<FormProps>;
 
 // return error message for parsing or blank if no error
 function checkError(text: string, language: string) {
@@ -230,7 +232,9 @@ class JsonSchemaFormEditor extends React.Component<Props, State> {
                           errMessage={'Error parsing JSON Schema Form output'}
                         >
                           <h4>Output Data</h4>
-                          <pre className={ this.props?.classes?.codeViewer ?? '' }>
+                          <pre
+                            className={this.props?.classes?.codeViewer ?? ''}
+                          >
                             {JSON.stringify(this.state.submissionData, null, 2)}
                           </pre>
                         </ErrorBoundary>
@@ -361,4 +365,6 @@ class JsonSchemaFormEditor extends React.Component<Props, State> {
   }
 }
 
-export default withStyles(styles)(JsonSchemaFormEditor) as unknown as FunctionComponent<Props>;
+export default withStyles(styles)(
+  JsonSchemaFormEditor,
+) as unknown as FunctionComponent<Props>;

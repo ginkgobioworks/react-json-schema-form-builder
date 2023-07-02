@@ -76,9 +76,9 @@ function MultipleChoice({
   const classes = useStyles();
   const enumArray = Array.isArray(parameters.enum) ? parameters.enum : [];
   // eslint-disable-next-line no-restricted-globals
-  const containsUnparsableString = enumArray.some((val) =>
-    isNaN(val as number),
-  );
+  const containsUnparsableString = enumArray.some((val) => {
+    return isNaN(val as number);
+  });
   const containsString =
     containsUnparsableString ||
     enumArray.some((val) => typeof val === 'string');

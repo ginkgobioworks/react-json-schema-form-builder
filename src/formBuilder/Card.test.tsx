@@ -5,7 +5,7 @@ import DEFAULT_FORM_INPUTS from './defaults/defaultFormInputs';
 import Card from './Card';
 
 // mocks to record events
-const mockEvent = jest.fn(() => {});
+const mockEvent = jest.fn((_arg0: any) => {});
 
 const params = {
   name: 'test',
@@ -19,6 +19,8 @@ const props = {
   onDelete: () => mockEvent('delete'),
   onMoveUp: () => mockEvent('moveUp'),
   onMoveDown: () => mockEvent('moveDown'),
+  setCardOpen: () => mockEvent,
+  cardOpen: false,
   TypeSpecificParameters: ({ parameters, onChange }) => (
     <input
       className='inputVal'

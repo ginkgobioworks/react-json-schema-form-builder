@@ -19,7 +19,7 @@ type FormatDictionaryKey = '' | 'email' | 'hostname' | 'uri' | 'regex';
 
 const formatTypeDictionary = {
   email: 'email',
-  url: 'url',
+  url: 'uri',
 };
 
 type FormatTypeDictionaryKey = 'email' | 'url';

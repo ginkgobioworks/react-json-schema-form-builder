@@ -5,9 +5,9 @@ import { TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap';
 import { createUseStyles } from 'react-jss';
 
 type TabSpec = {
-  name: string,
-  content: ReactElement<any>,
-  id?: string,
+  name: string;
+  content: ReactElement<any>;
+  id?: string;
 };
 
 const useStyles = createUseStyles({
@@ -47,10 +47,10 @@ const useStyles = createUseStyles({
 });
 
 type Props = {
-  defaultActiveTab?: number,
-  tabs: TabSpec[],
-  withSeparator?: boolean,
-  preventRerender?: boolean,
+  defaultActiveTab?: number;
+  tabs: TabSpec[];
+  withSeparator?: boolean;
+  preventRerender?: boolean;
 };
 
 export default function Tabs({
@@ -87,7 +87,7 @@ export default function Tabs({
         <>
           {tabs.map(({ content }, i) => (
             <TabPane key={i} tabId={i}>
-              { preventRerender || activeTab === i ? content : <></> }
+              {preventRerender || activeTab === i ? content : <></>}
             </TabPane>
           ))}
         </>

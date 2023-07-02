@@ -4,7 +4,7 @@ import DEFAULT_FORM_INPUTS from './defaults/defaultFormInputs';
 import Section from './Section';
 
 // mocks to record events
-const mockEvent = jest.fn(() => {});
+const mockEvent = jest.fn((_arg0?: any, _arg1?: any) => {});
 
 const defaultSchema = {};
 
@@ -19,10 +19,24 @@ const props = {
   onNameChange: (newName) => mockEvent(newName),
   onRequireToggle: () => mockEvent('toggledRequire'),
   onDelete: () => mockEvent('delete'),
+  onDependentsChange: () => mockEvent(),
+  onMoveUp: () => mockEvent(),
+  onMoveDown: () => mockEvent(),
   path: 'section',
   definitionData: {},
   definitionUi: {},
   allFormInputs: DEFAULT_FORM_INPUTS,
+  parentProperties: {
+    schema: {},
+    uischema: {},
+    onChange: mockEvent,
+    definitionData: {},
+    definitionUi: {},
+    categoryHash: {},
+  },
+  cardOpen: false,
+  setCardOpen: mockEvent,
+  categoryHash: {},
 };
 
 describe('Section', () => {

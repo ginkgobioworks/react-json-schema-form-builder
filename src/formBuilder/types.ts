@@ -59,7 +59,6 @@ export interface CardComponentPropsType {
   enumNames?: string[] | null;
   description?: string;
 }
-//neighborNames, dependents, 'ui:options'
 
 export interface CardModalProps {
   componentProps: CardComponentPropsType;
@@ -98,12 +97,12 @@ export interface SectionPropsType {
   path: string;
   definitionData: { [key: string]: any };
   definitionUi: { [key: string]: any };
-  dependents: Array<{
+  dependents?: Array<{
     children: Array<string>;
     value?: any;
   }>;
   parentProperties: AddFormObjectParametersType;
-  neighborNames: Array<string>;
+  neighborNames?: Array<string>;
   cardOpen: boolean;
   setCardOpen: (newState: boolean) => void;
   allFormInputs: { [key: string]: FormInput };
@@ -159,12 +158,6 @@ export type CardProps = {
   neighborNames: Array<string>;
 };
 
-export type CardBodyType = FunctionComponent<{
-  parameters: Parameters;
-  onChange: (newParams: Parameters) => void;
-  mods?: Mods | object;
-}>;
-
 // object type elements are sections
 export type SectionProps = {
   name: string;
@@ -187,24 +180,6 @@ export type SectionProps = {
 
 // the most generic form element
 export type ElementProps = CardProps & SectionProps;
-
-// parameters passed between card instances
-export interface Parameters {
-  [key: string]: any;
-  name: string;
-  category: string;
-  'ui:options': { [key: string]: any };
-  definitionUi?: { [key: string]: any };
-  definitionData?: { [key: string]: any };
-  path?: string;
-  format?:
-    | ''
-    | 'email'
-    | 'username'
-    | 'password'
-    | 'street-address'
-    | 'country';
-}
 
 export type DataType =
   | 'string'
@@ -256,7 +231,7 @@ export interface DataOptions {
   type?: string;
   description?: string;
   $ref?: string;
-  default?: string;
+  default?: string | number;
 }
 
 export interface ModLabels {

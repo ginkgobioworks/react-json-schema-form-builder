@@ -1,13 +1,13 @@
 module.exports = {
   testPathIgnorePatterns: ["/node_modules/", "/example/"],
-  setupFiles: ["./src/jestShim.js"],
-  setupFilesAfterEnv: ["./src/setupTests.js"], 
+  setupFiles: ["./src/jestShim.ts"],
+  setupFilesAfterEnv: ["./src/setupTests.ts"], 
   transform: {
       "\\.[jt]sx?$": "babel-jest"
   },
   collectCoverageFrom: [
-    "src/**/*.js",
-    "!src/index.js"
+    "src/**/*.ts",
+    "!src/index.ts"
   ],
   coverageReporters: [
     "text",

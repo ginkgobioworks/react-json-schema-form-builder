@@ -1,14 +1,14 @@
 import React from 'react';
 
 type Props = {
-  children: any,
-  onErr?: (arg0: string) => any,
-  errMessage?: string,
+  children: any;
+  onErr?: (arg0: string) => any;
+  errMessage?: string;
 };
 
 type State = {
-  hasError: boolean,
-  error: string,
+  hasError: boolean;
+  error: string;
 };
 
 /* 

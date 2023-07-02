@@ -1,5 +1,5 @@
 // config-overrides.js
-import { aliasWebpack, aliasJest } from 'react-app-alias'
+const {aliasWebpack, aliasJest} = require('react-app-alias')
 
 const options = {} // default is empty for most cases
 

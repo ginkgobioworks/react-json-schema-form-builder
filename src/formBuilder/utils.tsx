@@ -58,6 +58,8 @@ export function getCardBody(
     (() => null)
   );
 }
+
+// BUG: Removed unused param here
 export function categoryToNameMap(allFormInputs: {
   [key: string]: FormInput;
 }): { [key: string]: string } {
@@ -179,24 +181,27 @@ function checkObjectForUnsupportedFeatures(
   const unsupportedFeatures: Array<string> = [];
 
   // check for unsupported whole object features
-  if (schema && typeof schema === 'object')
+  if (schema && typeof schema === 'object') {
     Object.keys(schema).forEach((property) => {
       if (
         !supportedPropertyParameters.has(property) &&
         property !== 'properties'
-      )
+      ) {
         unsupportedFeatures.push(`Unrecognized Object Property: ${property}`);
+      }
     });
+  }
 
-  if (uischema && typeof uischema === 'object')
+  if (uischema && typeof uischema === 'object') {
     Object.keys(uischema).forEach((uiProperty) => {
       let propDefined = false;
       // search for the property in the schema properties and dependencies
       if (
         schema.properties &&
         Object.keys(schema.properties).includes(uiProperty)
-      )
+      ) {
         propDefined = true;
+      }
       if (schema.dependencies) {
         Object.keys(schema.dependencies).forEach((dependencyKey) => {
           Object.keys(schema.dependencies[dependencyKey]).forEach(
@@ -204,9 +209,13 @@ function checkObjectForUnsupportedFeatures(
               if (parameter === 'oneOf') {
                 schema.dependencies[dependencyKey].oneOf.forEach(
                   (grouping: { [key: string]: any }) => {
-                    if (grouping.properties)
-                      if (Object.keys(grouping.properties).includes(uiProperty))
+                    if (grouping.properties) {
+                      if (
+                        Object.keys(grouping.properties).includes(uiProperty)
+                      ) {
                         propDefined = true;
+                      }
+                    }
                   },
                 );
               } else if (parameter === 'properties') {
@@ -214,22 +223,25 @@ function checkObjectForUnsupportedFeatures(
                   Object.keys(
                     schema.dependencies[dependencyKey].properties,
                   ).includes(uiProperty)
-                )
+                ) {
                   propDefined = true;
+                }
               }
             },
           );
         });
       }
 
-      if (!propDefined && !supportedUiParameters.has(uiProperty))
+      if (!propDefined && !supportedUiParameters.has(uiProperty)) {
         unsupportedFeatures.push(
           `Unrecognized UI schema property: ${uiProperty}`,
         );
+      }
     });
+  }
 
   // check for unsupported property parameters
-  if (schema.properties)
+  if (schema.properties) {
     Object.entries(schema.properties).forEach(
       ([parameter, element]: [string, any]) => {
         if (
@@ -243,24 +255,27 @@ function checkObjectForUnsupportedFeatures(
             !['array', 'string', 'integer', 'number', 'boolean'].includes(
               element.type,
             )
-          )
+          ) {
             unsupportedFeatures.push(
               `Unrecognized type: ${element.type} in ${parameter}`,
             );
+          }
           // check the properties of each property if it is a basic object
           Object.keys(element).forEach((key) => {
-            if (!supportedPropertyParameters.has(key))
+            if (!supportedPropertyParameters.has(key)) {
               unsupportedFeatures.push(
                 `Property Parameter: ${key} in ${parameter}`,
               );
+            }
           });
         } else {
           // check the properties of each property if it is a basic object
           Object.keys(element).forEach((key) => {
-            if (!supportedPropertyParameters.has(key))
+            if (!supportedPropertyParameters.has(key)) {
               unsupportedFeatures.push(
                 `Property Parameter: ${key} in ${parameter}`,
               );
+            }
           });
         }
 
@@ -273,10 +288,11 @@ function checkObjectForUnsupportedFeatures(
         ) {
           // check for unsupported ui properties
           Object.keys(uischema[parameter]).forEach((uiProp) => {
-            if (!supportedUiParameters.has(uiProp))
+            if (!supportedUiParameters.has(uiProp)) {
               unsupportedFeatures.push(
                 `UI Property: ${uiProp} for ${parameter}`,
               );
+            }
 
             // check for unsupported ui widgets
             if (
@@ -292,25 +308,30 @@ function checkObjectForUnsupportedFeatures(
             if (
               uiProp === 'ui:field' &&
               !supportedFields.has(uischema[parameter][uiProp])
-            )
+            ) {
               unsupportedFeatures.push(
                 `UI Field: ${uischema[parameter][uiProp]} for ${parameter}`,
               );
+            }
 
             // check unsupported ui option
-            if (uiProp === 'ui:options')
+            if (uiProp === 'ui:options') {
               Object.keys(uischema[parameter]['ui:options']).forEach(
                 (uiOption) => {
-                  if (!supportedOptions.has(uiOption))
+                  if (!supportedOptions.has(uiOption)) {
                     unsupportedFeatures.push(
                       `UI Property: ui:options.${uiOption} for ${parameter}`,
                     );
+                  }
                 },
               );
+            }
           });
         }
       },
     );
+  }
+
   return unsupportedFeatures;
 }
 
@@ -328,10 +349,12 @@ export function checkForUnsupportedFeatures(
   const options: string[] = [];
   Object.keys(allFormInputs).forEach((inputType) => {
     allFormInputs[inputType].matchIf.forEach((match) => {
-      if (match.widget && !widgets.includes(match.widget))
-        widgets.push(match.widget || ''); // || '' is redundant but here to appease flow
-      if (match.field && !fields.includes(match.field))
-        fields.push(match.field || ''); // || '' is redundant but here to appease flow
+      if (match.widget && !widgets.includes(match.widget)) {
+        widgets.push(match.widget);
+      }
+      if (match.field && !fields.includes(match.field)) {
+        fields.push(match.field);
+      }
     });
     if (
       allFormInputs[inputType].possibleOptions &&
@@ -464,10 +487,11 @@ export function generateElementPropsFromSchemas(parameters: {
       if (
         elementDetails.$ref &&
         !elementDetails.$ref.startsWith('#/definitions')
-      )
+      ) {
         throw new Error(
           `Invalid definition, not at '#/definitions': ${elementDetails.$ref}`,
         );
+      }
       const pathArr =
         elementDetails.$ref !== undefined ? elementDetails.$ref.split('/') : [];
       if (
@@ -827,8 +851,9 @@ export function generateSchemaFromElementProps(elementArr: ElementProps[]): {
         };
       }
     }
-    if (!dependentElements.has(elementName))
+    if (!dependentElements.has(elementName)) {
       props[element.name] = generateSchemaElementFromElement(element);
+    }
   });
 
   newSchema.properties = props;
@@ -856,8 +881,9 @@ export function generateUiSchemaFromElementProps(
       // look for the reference
       const pathArr =
         typeof element.$ref === 'string' ? element.$ref.split('/') : [];
-      if (definitions && definitions[pathArr[2]])
+      if (definitions && definitions[pathArr[2]]) {
         uiSchema[element.name] = definitions[pathArr[2]];
+      }
     }
     if (element.propType === 'card' && element.uiOptions) {
       Object.keys(element.uiOptions).forEach((uiOption) => {
@@ -1142,8 +1168,6 @@ export function generateElementComponentsFromSchemas(parameters: {
                 dependents: elementPropArr[index].dependents,
                 dependent: elementPropArr[index].dependent,
                 parent: elementPropArr[index].parent,
-                'ui:options': elementPropArr[index].uiOptions,
-                category: '',
               },
               elementPropArr[index].uiOptions,
               elementPropArr[index].dataOptions,
@@ -1649,6 +1673,7 @@ export function propagateDefinitionChanges(
 export function subtractArray(array1: string[], array2?: string[]): string[] {
   if (array2 === undefined || array2 === null) return array1;
 
+  // BUG: This could be something that changed behavior?
   // Create a map for performant array filtering on large arrays
   const keys: { [key: string]: any } = array2.reduce(
     (acc, curr) => ({
@@ -1661,9 +1686,13 @@ export function subtractArray(array1: string[], array2?: string[]): string[] {
   return array1.filter((v: string) => !keys[v]);
 }
 
-export function excludeKeys(obj: { [key: string]: any }, keys?: string[]) {
+export function excludeKeys(
+  obj: { [key: string]: any },
+  keys?: string[] | null,
+) {
   if (!keys) return { ...obj };
 
+  // BUG: This could be something that changed behavior?
   // Create a map for performant object filtering
   const keysHash: { [key: string]: any } = keys.reduce(
     (acc, curr) => ({

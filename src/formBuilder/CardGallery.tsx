@@ -1,4 +1,4 @@
-import React, { ReactElement, FC } from 'react';
+import React, { ReactElement } from 'react';
 import {
   generateElementComponentsFromSchemas,
   countElementsFromSchema,

@@ -1,12 +1,6 @@
-import * as React from 'react';
+import React, { FC } from 'react';
 import { getCardBody } from './utils';
-import type { FC } from 'react';
-import type {
-  Parameters,
-  Mods,
-  FormInput,
-  CardComponentPropsType,
-} from './types';
+import type { Mods, FormInput, CardComponentPropsType } from './types';
 
 interface GeneralParameterInputsProps {
   category: string;
