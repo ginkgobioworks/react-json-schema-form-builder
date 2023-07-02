@@ -93,6 +93,126 @@ export default function ValueSelector({
         [key: string]: combinationValue;
       }> = possibility.value.enum;
 
+      const getInput = (
+        val: string | number | any[] | { [key: string]: any },
+        index: number,
+        key: string,
+      ) => {
+        switch (typeof val) {
+          case 'string':
+            return (
+              <Input
+                value={val || ''}
+                placeholder='String value'
+                type='text'
+                onChange={(ev: any) => {
+                  const newVal = ev.target.value;
+                  const oldCombo = possibility.value.enum[index];
+                  onChange({
+                    ...possibility,
+                    value: {
+                      enum: [
+                        ...enumArr.slice(0, index),
+                        { ...oldCombo, [key]: newVal },
+                        ...enumArr.slice(index + 1),
+                      ],
+                    },
+                  });
+                }}
+                className='card-modal-text'
+              />
+            );
+            break;
+          case 'number':
+            return (
+              <Input
+                value={val || ''}
+                placeholder='Number value'
+                type='number'
+                onChange={(ev: any) => {
+                  const newVal = Number.parseFloat(ev.target.value);
+                  const oldCombo = possibility.value.enum[index];
+                  onChange({
+                    ...possibility,
+                    value: {
+                      enum: [
+                        ...enumArr.slice(0, index),
+                        { ...oldCombo, [key]: newVal },
+                        ...enumArr.slice(index + 1),
+                      ],
+                    },
+                  });
+                }}
+                className='card-modal-number'
+              />
+            );
+            break;
+          // TODO: arrays are classified as objects - this may be unreachable code.
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          case 'array':
+            return (
+              <Input
+                value={JSON.stringify(val) || ''}
+                placeholder='Array in JSON'
+                type='textarea'
+                onChange={(ev: any) => {
+                  let newVal = val;
+                  try {
+                    newVal = JSON.parse(ev.target.value);
+                  } catch (error) {
+                    // eslint-disable-next-line no-console
+                    console.error('invalid JSON array input');
+                  }
+                  const oldCombo = possibility.value.enum[index];
+                  onChange({
+                    ...possibility,
+                    value: {
+                      enum: [
+                        ...enumArr.slice(0, index),
+                        { ...oldCombo, [key]: newVal },
+                        ...enumArr.slice(index + 1),
+                      ],
+                    },
+                  });
+                }}
+                className='card-modal-text'
+              />
+            );
+            break;
+          case 'object':
+            return (
+              <Input
+                value={JSON.stringify(val) || ''}
+                placeholder='Object in JSON'
+                type='textarea'
+                onChange={(ev: any) => {
+                  let newVal = val;
+                  try {
+                    newVal = JSON.parse(ev.target.value);
+                  } catch (error) {
+                    // eslint-disable-next-line no-console
+                    console.error('invalid JSON object input');
+                  }
+                  const oldCombo = possibility.value.enum[index];
+                  onChange({
+                    ...possibility,
+                    value: {
+                      enum: [
+                        ...enumArr.slice(0, index),
+                        { ...oldCombo, [key]: newVal },
+                        ...enumArr.slice(index + 1),
+                      ],
+                    },
+                  });
+                }}
+                className='card-modal-text'
+              />
+            );
+            break;
+        }
+      };
+
       return (
         <div>
           {enumArr.map((combination, index) => (
@@ -102,123 +222,7 @@ export default function ValueSelector({
                 return (
                   <div key={key}>
                     <h5>{key}:</h5>
-                    {() => {
-                      switch (typeof val) {
-                        case 'string':
-                          return (
-                            <Input
-                              value={val || ''}
-                              placeholder='String value'
-                              type='text'
-                              onChange={(ev: any) => {
-                                const newVal = ev.target.value;
-                                const oldCombo = possibility.value.enum[index];
-                                onChange({
-                                  ...possibility,
-                                  value: {
-                                    enum: [
-                                      ...enumArr.slice(0, index),
-                                      { ...oldCombo, [key]: newVal },
-                                      ...enumArr.slice(index + 1),
-                                    ],
-                                  },
-                                });
-                              }}
-                              className='card-modal-text'
-                            />
-                          );
-                          break;
-                        case 'number':
-                          return (
-                            <Input
-                              value={val || ''}
-                              placeholder='Number value'
-                              type='number'
-                              onChange={(ev: any) => {
-                                const newVal = Number.parseFloat(
-                                  ev.target.value,
-                                );
-                                const oldCombo = possibility.value.enum[index];
-                                onChange({
-                                  ...possibility,
-                                  value: {
-                                    enum: [
-                                      ...enumArr.slice(0, index),
-                                      { ...oldCombo, [key]: newVal },
-                                      ...enumArr.slice(index + 1),
-                                    ],
-                                  },
-                                });
-                              }}
-                              className='card-modal-number'
-                            />
-                          );
-                          break;
-                        // TODO: arrays are classified as objects - this may be unreachable code.
-                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                        // @ts-ignore
-                        case 'array':
-                          return (
-                            <Input
-                              value={JSON.stringify(val) || ''}
-                              placeholder='Array in JSON'
-                              type='textarea'
-                              onChange={(ev: any) => {
-                                let newVal = val;
-                                try {
-                                  newVal = JSON.parse(ev.target.value);
-                                } catch (error) {
-                                  // eslint-disable-next-line no-console
-                                  console.error('invalid JSON array input');
-                                }
-                                const oldCombo = possibility.value.enum[index];
-                                onChange({
-                                  ...possibility,
-                                  value: {
-                                    enum: [
-                                      ...enumArr.slice(0, index),
-                                      { ...oldCombo, [key]: newVal },
-                                      ...enumArr.slice(index + 1),
-                                    ],
-                                  },
-                                });
-                              }}
-                              className='card-modal-text'
-                            />
-                          );
-                          break;
-                        case 'object':
-                          return (
-                            <Input
-                              value={JSON.stringify(val) || ''}
-                              placeholder='Object in JSON'
-                              type='textarea'
-                              onChange={(ev: any) => {
-                                let newVal = val;
-                                try {
-                                  newVal = JSON.parse(ev.target.value);
-                                } catch (error) {
-                                  // eslint-disable-next-line no-console
-                                  console.error('invalid JSON object input');
-                                }
-                                const oldCombo = possibility.value.enum[index];
-                                onChange({
-                                  ...possibility,
-                                  value: {
-                                    enum: [
-                                      ...enumArr.slice(0, index),
-                                      { ...oldCombo, [key]: newVal },
-                                      ...enumArr.slice(index + 1),
-                                    ],
-                                  },
-                                });
-                              }}
-                              className='card-modal-text'
-                            />
-                          );
-                          break;
-                      }
-                    }}
+                    {getInput(val, index, key)}
                   </div>
                 );
               })}
