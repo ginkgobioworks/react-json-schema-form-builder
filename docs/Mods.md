@@ -4,78 +4,77 @@ Mods provide for the customization of the Form Builder component, such as the de
 
 ## Type Definition
 
-Flow type definitions are available via [flow-typed](https://github.com/flow-typed/flow-typed).
+Type definitions are available via [TypeScript](https://github.com/microsoft/TypeScript).
 
 The type definition for Mods is as follows:
 
-```react
-declare type Mods = {|
+```typescript
+interface Mods {
   customFormInputs?: {
-    [key: string]: FormInput,
-    ...
-  },
-  components?: {|
-    add?: (properties: { [key: string]: any }) => void,
-  },
-  tooltipDescriptions?: {|
-    add?: string,
-    cardObjectName?: string,
-    cardDisplayName?: string,
-    cardDescription?: string,
-    cardInputType?: string,
-    cardSectionObjectName?: string,
-    cardSectionDisplayName?: string,
-    cardSectionDescription?: string,
-  |},
-  labels?: {|
-    formNameLabel?: string,
-    formDescriptionLabel?: string,
-    objectNameLabel?: string,
-    displayNameLabel?: string,
-    descriptionLabel?: string,
-    inputTypeLabel?: string,
-    addElementLabel?: string,
-    addSectionLabel?: string,
-  |},
-  showFormHead?: boolean,
-  deactivatedFormInputs?: Array<string>,
+    [key: string]: FormInputType;
+  };
+  components?: {
+    add?: (properties?: {
+      [key: string]: any;
+    }) => ReactElement | ReactElement[] | [];
+  };
+  tooltipDescriptions?: {
+    add?: string;
+    cardObjectName?: string;
+    cardDisplayName?: string;
+    cardDescription?: string;
+    cardInputType?: string;
+    cardSectionObjectName?: string;
+    cardSectionDisplayName?: string;
+    cardSectionDescription?: string;
+  };
+  labels?: {
+    formNameLabel?: string;
+    formDescriptionLabel?: string;
+    objectNameLabel?: string;
+    displayNameLabel?: string;
+    descriptionLabel?: string;
+    inputTypeLabel?: string;
+    addElementLabel?: string;
+    addSectionLabel?: string;
+  };
+  showFormHead?: boolean;
+  deactivatedFormInputs?: Array<string>;
   newElementDefaultDataOptions?: {
-    title: string,
-    type?: string,
-    description?: string,
-    $ref?: string,
-    default?: string,
-  },
-  newElementDefaultUiSchema?: { [key: string]: any },
-|};
+    title: string;
+    type?: string;
+    description?: string;
+    $ref?: string;
+    default?: string | number;
+  };
+  newElementDefaultUiSchema?: { [key: string]: any };
+}
 ```
 
 `tooltipDescriptions` and `labels` describe how some of the labels and tooltips in the Form Builder are to be customized. `showFormHead` is a boolean which controls whether the top section of the Form Builder, which contains inputs for the Form Name and Form Description, are show. It is set to `true` by default.
 
-A single `FormInput` has a type definition as follows:
+A single `FormInput` has a type definition `FormInputType` as follows:
 
-```react
-declare type FormInput = {|
-  displayName: string,
+```typescript
+interface FormInputType {
+  displayName: string;
   // given a data and ui schema, determine if the object is of this input type
-  matchIf: Array<MatchType>,
+  matchIf: Array<MatchType>;
   // allowed keys for ui:options
-  possibleOptions?: Array<string>,
+  possibleOptions?: Array<string>;
   defaultDataSchema: {
-    [key: string]: any,
-    ...
-  },
+    [key: string]: any;
+  };
   defaultUiSchema: {
-    [key: string]: any,
-    ...
-  },
+    [key: string]: any;
+  };
   // the data schema type
-  type: DataType,
+  type: DataType;
   // inputs on the preview card
-  cardBody: React$ComponentType<CardBodyProps>,
+  cardBody: CardComponentType;
   // inputs for the modal
-  modalBody?: React$ComponentType<CardBodyProps>,
-  |};
+  modalBody?: CardComponentType;
+}
 ```
 
 The `displayName` is the full name of the desired form input. For example, **Short Answer** is the `displayName` for the `shortAnswer` form input.
@@ -90,8 +89,8 @@ The `displayName` is the full name of the desired form input. For example, **Sho
 
 `type` is the Data Schema type that this input type defaults to. While a custom form input can have multiple types (would need to be defined in the `matchIf` array), this refers to the type that gets assigned immediately after a user selects this input type in the dropdown. The possible `DataType` options supported by `react-jsonschema-form` are as follows:
 
-```react
-declare type DataType =
+```typescript
+type DataType =
   | 'string'
   | 'number'
   | 'boolean'
@@ -119,15 +118,15 @@ Custom input types are encoded in exactly the same way the Default input types a
 
 The `matchIf` array in a `FormInput` contains a series of `MatchType` objects, which represent different possible 'scenarios' that the `FormBuilder` may encounter when parsing a set of Data and UI Schema. The `MatchType` is defined as follows:
 
-```react
-declare type MatchType = {|
-  types: Array<DataType>,
-  widget?: string,
-  field?: string,
-  format?: string,
-  $ref?: boolean,
-  enum?: boolean,
-|};
+```typescript
+interface MatchType {
+  types: Array<DataType>;
+  widget?: string;
+  field?: string;
+  format?: string;
+  $ref?: boolean;
+  enum?: boolean;
+}
 ```
 
 `types` refers to the set of possible input types that can register in a particular scenario.
@@ -144,30 +143,60 @@ declare type MatchType = {|
 
 ### Component Types
 
-`cardBody` and `modalBody` are components whose props have a type of `CardBodyProps`:
+`cardBody` and `modalBody` are components whose props have a type of `CardComponentType`:
 
-```react
-declare export type CardBodyProps = {|
-  parameters: Parameters,
-  onChange: (newParams: Parameters) => void,
-|};
+```typescript
+type CardComponentType = FunctionComponent<{
+  parameters: CardComponentPropsType;
+  onChange: (newParams: CardComponentPropsType) => void;
+  mods?: Mods;
+}>;
 ```
 
-`Parameters` is defined as:
+`CardComponentPropsType` is a type that describes most params passed between cards and modals.
 
-```react
-declare type Parameters = {|
-  [key: string]: any,
-  name: string,
-  path: string,
-  definitionData: { [key: string]: any, ... },
-  definitionUi: { [key: string]: any, ... },
-  category: string,
-  'ui:option': { [key: string]: any, ... },
-|};
+```typescript
+interface CardComponentPropsType {
+  name: string;
+  required?: boolean;
+  hideKey?: boolean;
+  definitionData?: { [key: string]: any };
+  definitionUi?: { [key: string]: any };
+  neighborNames?: string[];
+  dependents?: { children: string[]; value?: any }[];
+  dependent?: boolean;
+  parent?: string;
+  'ui:options'?: { [key: string]: any };
+  category?: string;
+  schema?: { [key: string]: any };
+  type?: string;
+  'ui:column'?: string;
+  minLength?: number;
+  maxLength?: number;
+  pattern?: string;
+  'ui:autofocus'?: boolean;
+  'ui:placeholder'?: string;
+  minItems?: number;
+  maxItems?: number;
+  title?: string;
+  $ref?: string;
+  format?: string;
+  'ui:autocomplete'?: string;
+  default?: string | number | boolean;
+  items?: { [key: string]: any };
+  'ui:*items'?: { [key: string]: any };
+  multipleOf?: number | null;
+  minimum?: number | null;
+  exclusiveMinimum?: number | null;
+  maximum?: number | null;
+  exclusiveMaximum?: number | null;
+  enum?: (number | string)[];
+  enumNames?: string[] | null;
+  description?: string;
+}
 ```
 
-It can hold any number of keys pointing to specific values. One common example is `parameters.default`, which stores the default value specified by the builder for this `FormInput`.
+It can hold any number of keys pointing to specific values. One common example is `default`, which stores the default value specified by the builder for this `FormInput`.
 
 ## Tooltips and Labels
 

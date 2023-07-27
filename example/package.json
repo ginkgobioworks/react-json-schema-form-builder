@@ -9,7 +9,6 @@
     "test": "react-app-rewired test",
     "prettier": "prettier -w src",
     "prettier:check": "prettier -c src",
-    "flow": "flow",
     "lint": "eslint .",
     "clean": "rimraf node_modules build"
   },

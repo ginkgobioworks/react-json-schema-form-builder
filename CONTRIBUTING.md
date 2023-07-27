@@ -10,17 +10,17 @@ For pull requests, go the the *Pull Request* tab on the same repo. Select the br
 
 ## Repository Structure
 
-In this repository, the source code for the component library is in the `src` directory. Building the repository creates a new folder `dist`, hidden through `.gitignore`, that compiles out the [Flow type annotations](https://flow.org/en/docs/types/) and [JSX](https://reactjs.org/docs/introducing-jsx.html). This is necessary to publish the code onto NPM so that other developers can use the code in their own apps, agnostic to their developer environments.
+In this repository, the source code for the component library is in the `src` directory. Building the repository creates a new folder `dist`, hidden through `.gitignore`, that compiles out the [Typescript type annotations](https://www.typescriptlang.org/) and [JSX](https://reactjs.org/docs/introducing-jsx.html). This is necessary to publish the code onto NPM so that other developers can use the code in their own apps, agnostic to their developer environments.
 
 The example app being run on the [GitHub Pages site](https://ginkgobioworks.github.io/react-json-schema-form-builder/), meanwhile, has its code stored in the `example` directory. It relies on an additional set of dependencies, which are stored in the `devDependencies` within the `package.json` file.
 
-Library definitions for [Flow type annotations](https://flow.org/en/docs/types/) are stored in `flow-libdef`, where the file structure under the `flow-typed` [best practices](https://github.com/flow-typed/flow-typed/blob/master/CONTRIBUTING.md) are followed. If any of the types in `src/formBuilder/types.js` are changed, or if the properties of the `FormBuilder` or `PredefinedGallery` are altered, then these `flow-typed` library definitions as well as the definitions in the actual `flow-typed` [repository](https://github.com/flow-typed/flow-typed) should also be changed. These library definitions are updated manually, and are currently set for major version 1 of the Form Builder. To update to library definition in the `flow-typed` repository a PR must be made on the [flow-typed repository](https://github.com/flow-typed/flow-typed).
+[Type declarations](https://www.typescriptlang.org/docs/handbook/declaration-files/introduction.html) are also output to the `dist` folder for both the component library and the example site. If any of the types in `src/formBuilder/types.js` are changed, or if the properties of the `FormBuilder` or `PredefinedGallery` are altered, then these declaration files will be changed on the next build.
 
 ## Testing
 
 The `src` directory also contains testing files written for the [jest](https://jestjs.io/en/) test harness. The tests use [Enzyme](https://github.com/enzymejs/enzyme) for component and DOM manipulation and traversal. These tests are run in the CI/CD pipeline, and must pass before a branch can be merged into the 'main' branch. Changes may be needed to the test harness to accommodate new features or fixes.
 
-The CI/CD pipeline also runs `prettier`, `eslint`, and `flow` checks which must pass before a branch can be merged into 'main'. You can run `npm run prettier` to auto-format code to pass `prettier` standards, and `npm test` to run all of these tests to ensure that they will pass in the CI/CD pipeline.
+The CI/CD pipeline also runs `prettier` and `eslint` checks which must pass before a branch can be merged into 'main'. You can run `npm run prettier` to auto-format code to pass `prettier` standards, and `npm test` to run all of these tests to ensure that they will pass in the CI/CD pipeline.
 
 Test coverage is [tracked in coveralls.io](https://coveralls.io/github/ginkgobioworks/react-json-schema-form-builder) to make sure that test coverage is maintained or increased as time goes on.
 
