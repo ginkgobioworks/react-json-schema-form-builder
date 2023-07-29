@@ -59,7 +59,6 @@ export function getCardBody(
   );
 }
 
-// BUG: Removed unused param here
 export function categoryToNameMap(allFormInputs: {
   [key: string]: FormInput;
 }): { [key: string]: string } {
@@ -1673,7 +1672,6 @@ export function propagateDefinitionChanges(
 export function subtractArray(array1: string[], array2?: string[]): string[] {
   if (array2 === undefined || array2 === null) return array1;
 
-  // BUG: This could be something that changed behavior?
   // Create a map for performant array filtering on large arrays
   const keys: { [key: string]: any } = array2.reduce(
     (acc, curr) => ({
@@ -1692,7 +1690,6 @@ export function excludeKeys(
 ) {
   if (!keys) return { ...obj };
 
-  // BUG: This could be something that changed behavior?
   // Create a map for performant object filtering
   const keysHash: { [key: string]: any } = keys.reduce(
     (acc, curr) => ({
