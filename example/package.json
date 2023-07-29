@@ -10,6 +10,7 @@
     "prettier": "prettier -w src",
     "prettier:check": "prettier -c src",
     "lint": "eslint .",
+    "typescript": "tsc",
     "clean": "rimraf node_modules build"
   },
   "dependencies": {

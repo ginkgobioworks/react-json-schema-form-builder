@@ -30,6 +30,16 @@ jobs:
           node-version: 16
       - run: npm ci
       - run: npm run-s test:prettier
+  typescript:
+    name: Typescript
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - run: npm ci
+      - run: npm run-s test:ts
   test:
     name: Test
     runs-on: ubuntu-latest

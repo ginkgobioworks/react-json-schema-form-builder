@@ -18,6 +18,7 @@
   "main": "dist/index.js",
   "module": "dist/index.modern.mjs",
   "source": "src/index.ts",
+  "types": "dist/index.d.ts",
   "engines": {
     "node": ">=14"
   },
@@ -26,8 +27,9 @@
     "build": "microbundle --no-compress --format modern,cjs --jsx React.createElement",
     "start": "microbundle watch --no-compress --format modern,cjs --jsx React.createElement",
     "prettier": "prettier -w src && prettier -w example/src",
-    "test": "run-s test:unit test:prettier test:lint",
+    "test": "run-s test:unit test:prettier test:lint test:ts",
     "test:lint": "eslint .",
+    "test:ts": "tsc",
     "test:prettier": "prettier -c src && prettier -c example/src",
     "test:unit": "jest --env=jsdom --coverage --coverageDirectory=coverage/",
     "test:watch": "jest --watch --env=jsdom"
