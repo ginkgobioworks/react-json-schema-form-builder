@@ -30,7 +30,7 @@ class Example extends Component {
       <FormBuilder
         schema={this.state.schema}
         uischema={this.state.uischema}
-        onChange={(newSchema: string, newUiSchema: string) => {
+        onChange={(newSchema, newUiSchema) => {
           this.setState({
             schema: newSchema,
             uischema: newUiSchema
@@ -75,7 +75,7 @@ class Example extends Component {
         <FormBuilder
           schema={this.state.schema}
           uischema={this.state.uischema}
-          onChange={(newSchema: string, newUiSchema: string) => {
+          onChange={(newSchema, newUiSchema) => {
             this.setState({
               schema: newSchema,
               uischema: newUiSchema
@@ -118,7 +118,7 @@ class Example extends Component {
         <FormBuilder
           schema={this.state.schema}
           uischema={this.state.uischema}
-          onChange={(newSchema: string, newUiSchema: string) => {
+          onChange={(newSchema, newUiSchema) => {
             this.setState({
               schema: newSchema,
               uischema: newUiSchema
@@ -128,7 +128,7 @@ class Example extends Component {
       	<PredefinedGallery
           schema={this.state.schema}
           uischema={this.state.uischema}
-          onChange={(newSchema: string, newUiSchema: string) => {
+          onChange={(newSchema, newUiSchema) => {
             this.setState({
               schema: newSchema,
               uischema: newUiSchema
@@ -146,19 +146,19 @@ class Example extends Component {
 The following is an example that implements the `FormBuilder` in a React function hook:
 
 ``` react
-import * as React from 'react';
+import React, { useState } from 'react';
 
 import {FormBuilder, PredefinedGallery} from "@ginkgo-bioworks/react-json-schema-form-builder";
 
 export default function Example() {
-  const [schema, setSchema] = React.useState('{}');
-  const [uischema, setUiSchema] = React.useState('{}');
+  const [schema, setSchema] = useState('{}');
+  const [uischema, setUiSchema] = useState('{}');
   return (
       <div>
         <FormBuilder
           schema={schema}
           uischema={uischema}
-          onChange={(newSchema: string, newUiSchema: string) => {
+          onChange={(newSchema, newUiSchema) => {
             setSchema(newSchema);
             setUiSchema(newUiSchema)
           }}
@@ -166,7 +166,7 @@ export default function Example() {
       	<PredefinedGallery
           schema={schema}
           uischema={uischema}
-          onChange={(newSchema: string, newUiSchema: string) => {
+          onChange={(newSchema, newUiSchema) => {
             setSchema(newSchema);
             setUiSchema(newUiSchema)
           }}
@@ -205,7 +205,7 @@ const customFormInputs = {
         value={parameters.default}
         placeholder="Default"
         type="text"
-        onChange={(ev: SyntheticInputEvent<HTMLInputElement>) =>
+        onChange={(ev) =>
           onChange({ ...parameters, default: ev.target.value })
         }
       />
@@ -238,7 +238,7 @@ class Example extends Component {
       <FormBuilder
         schema={this.state.schema}
         uischema={this.state.uischema}
-        onChange={(newSchema: string, newUiSchema: string) => {
+        onChange={(newSchema, newUiSchema) => {
           this.setState({
             schema: newSchema,
             uischema: newUiSchema

@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "ES6",
+    "jsx": "react",
+    "module": "CommonJS",
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "reactstrap": ["node_modules/reactstrap/dist/reactstrap.modern.js"]
+    },
+    "noEmit": true
+  },
+  "include": ["./src/**.ts"]
+}

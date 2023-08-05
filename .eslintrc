@@ -1,12 +1,12 @@
 {
-  "parser": "@babel/eslint-parser",
+  "parser": "@typescript-eslint/parser",
   "extends": [
     "react-app",
     "plugin:prettier/recommended",
-    "prettier",
-    "plugin:flowtype/recommended"
+    "plugin:@typescript-eslint/recommended",
+    "prettier"
   ],
-  "plugins": ["flowtype"],
+  "plugins": ["@typescript-eslint"],
   "env": {
     "node": true
   },
@@ -28,6 +28,10 @@
     "react/jsx-handler-names": 0,
     "react/jsx-fragments": 0,
     "react/no-unused-prop-types": 0,
-    "import/export": 0
-  }
+    "import/export": 0,
+    "@typescript-eslint/no-empty-function": 0,
+    "@typescript-eslint/no-explicit-any": 0,
+    "@typescript-eslint/no-non-null-assertion": 0
+  },
+  "root": true
 }
