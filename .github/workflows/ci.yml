@@ -17,7 +17,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 20
       - run: npm ci
       - run: npm run-s test:lint
   prettier:
@@ -27,7 +27,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 20
       - run: npm ci
       - run: npm run-s test:prettier
   typescript:
@@ -37,7 +37,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 20
       - run: npm ci
       - run: npm run-s test:ts
   test:
@@ -47,7 +47,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 20
       - run: npm ci
       - run: npm run-s test:unit
       - uses: coverallsapp/github-action@v2.2.1
@@ -59,8 +59,9 @@ jobs:
       fail-fast: false
       matrix:
         node_version:
-          - 14
           - 16
+          - 18
+          - 20
         os:
           - macos-latest
           - ubuntu-latest
@@ -100,7 +101,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 20
       - run: npm ci
       - uses: actions/download-artifact@v3
         with:
@@ -132,7 +133,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           registry-url: https://registry.npmjs.org/
-          node-version: 16
+          node-version: 20
       - run: npm ci
       - uses: actions/download-artifact@v3
         with:
