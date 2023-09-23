@@ -2,7 +2,9 @@
   "compilerOptions": {
     "target": "ES6",
     "jsx": "react",
+    "declaration": true,
     "module": "CommonJS",
+    "moduleResolution":"node",
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
