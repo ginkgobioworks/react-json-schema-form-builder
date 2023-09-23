@@ -6,8 +6,7 @@ module.exports = {
       "\\.[jt]sx?$": "babel-jest"
   },
   collectCoverageFrom: [
-    "src/**/*.ts",
-    "!src/index.ts"
+    "src/**/*.ts*",
   ],
   coverageReporters: [
     "text",
