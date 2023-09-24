@@ -9,7 +9,9 @@ coverage
 
 # builds
 dist
-example/build
+example/out
+.next
+tsconfig.tsbuildinfo
 
 .DS_Store
 *.swp
