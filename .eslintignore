@@ -1,6 +1,6 @@
 jest.config.js
 dist/
-example/build/
+example/
 node_modules/
 .snapshots/
 *.min.js

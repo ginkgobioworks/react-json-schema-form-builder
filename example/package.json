@@ -4,12 +4,13 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "react-app-rewired start",
-    "build": "react-app-rewired build",
-    "test": "react-app-rewired test",
-    "prettier": "prettier -w src",
-    "prettier:check": "prettier -c src",
-    "lint": "eslint .",
+    "start": "next start",
+    "build": "next build",
+    "export": "next export",
+    "dev": "next dev",
+    "prettier": "prettier -w pages components",
+    "prettier:check": "prettier -c pages components",
+    "lint": "next lint",
     "typescript": "tsc",
     "clean": "rimraf node_modules build"
   },
@@ -17,23 +18,14 @@
     "@ginkgo-bioworks/react-json-schema-form-builder": "file:..",
     "@rjsf/bootstrap-4": "^3.2.1",
     "@rjsf/core": "^3.0.0",
-    "bootstrap": "file:../node_modules/bootstrap",
-    "react": "file:../node_modules/react",
     "react-bootstrap": "^1.6.4",
-    "react-dom": "file:../node_modules/react-dom",
-    "react-json-editor-ajrm": "^2.5.14",
-    "reactstrap": "file:../node_modules/reactstrap"
+    "react-json-editor-ajrm": "^2.5.14"
   },
   "devDependencies": {
     "@babel/plugin-syntax-object-rest-spread": "^7.8.3",
-    "react-app-alias": "^2.2.2",
-    "react-app-rewired": "^2.2.1",
-    "react-scripts": "^5.0.1",
-    "rimraf": "^5.0.1",
-    "typescript": "^4.9.5"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
+    "@next/eslint-plugin-next": "^13.5.2",
+    "next": "^13.5.2",
+    "rimraf": "^5.0.1"
   },
   "browserslist": [
     ">0.2%",

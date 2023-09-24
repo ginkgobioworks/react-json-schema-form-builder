@@ -158,30 +158,6 @@ class JsonSchemaFormEditor extends React.Component<Props, State> {
         <Tabs
           tabs={[
             {
-              name: 'Visual Form Builder',
-              id: 'form-builder',
-              content: (
-                <div
-                  className='tab-pane'
-                  style={{
-                    height: this.props.height ? this.props.height : '500px',
-                  }}
-                >
-                  <ErrorBoundary onErr={() => {}}>
-                    <FormBuilder
-                      schema={this.props.schema}
-                      uischema={this.props.uischema}
-                      mods={this.props.mods}
-                      onChange={(newSchema, newUiSchema) => {
-                        if (this.props.onChange)
-                          this.props.onChange(newSchema, newUiSchema);
-                      }}
-                    />
-                  </ErrorBoundary>
-                </div>
-              ),
-            },
-            {
               name: 'Preview Form',
               id: 'preview-form',
               content: (
@@ -254,6 +230,54 @@ class JsonSchemaFormEditor extends React.Component<Props, State> {
                       </Button>
                     </ModalFooter>
                   </Modal>
+                </div>
+              ),
+            },
+            {
+              name: 'Visual Form Builder',
+              id: 'form-builder',
+              content: (
+                <div
+                  className='tab-pane'
+                  style={{
+                    height: this.props.height ? this.props.height : '500px',
+                  }}
+                >
+                  <ErrorBoundary onErr={() => {}}>
+                    <FormBuilder
+                      schema={this.props.schema}
+                      uischema={this.props.uischema}
+                      mods={this.props.mods}
+                      onChange={(newSchema, newUiSchema) => {
+                        if (this.props.onChange)
+                          this.props.onChange(newSchema, newUiSchema);
+                      }}
+                    />
+                  </ErrorBoundary>
+                </div>
+              ),
+            },
+            {
+              name: 'Pre-Configured Components',
+              id: 'pre-configured',
+              content: (
+                <div
+                  className='tab-pane'
+                  style={{
+                    height: this.props.height ? this.props.height : '500px',
+                  }}
+                >
+                  <ErrorBoundary onErr={() => {}}>
+                    <PredefinedGallery
+                      schema={this.props.schema}
+                      uischema={this.props.uischema}
+                      mods={this.props.mods}
+                      onChange={(newSchema, newUiSchema) => {
+                        if (this.props.onChange)
+                          this.props.onChange(newSchema, newUiSchema);
+                      }}
+                    />
+                  </ErrorBoundary>
                 </div>
               ),
             },
@@ -331,30 +355,6 @@ class JsonSchemaFormEditor extends React.Component<Props, State> {
                       />
                     </ErrorBoundary>
                   </div>
-                </div>
-              ),
-            },
-            {
-              name: 'Pre-Configured Components',
-              id: 'pre-configured',
-              content: (
-                <div
-                  className='tab-pane'
-                  style={{
-                    height: this.props.height ? this.props.height : '500px',
-                  }}
-                >
-                  <ErrorBoundary onErr={() => {}}>
-                    <PredefinedGallery
-                      schema={this.props.schema}
-                      uischema={this.props.uischema}
-                      mods={this.props.mods}
-                      onChange={(newSchema, newUiSchema) => {
-                        if (this.props.onChange)
-                          this.props.onChange(newSchema, newUiSchema);
-                      }}
-                    />
-                  </ErrorBoundary>
                 </div>
               ),
             },

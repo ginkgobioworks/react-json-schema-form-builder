@@ -20,6 +20,19 @@ jobs:
           node-version: 20
       - run: npm ci
       - run: npm run-s test:lint
+  lint-example:
+    name: Lint Example App
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+      - run: npm ci
+      - working-directory: ./example
+        run: npm ci 
+      - working-directory: ./example
+        run: npm run lint
   prettier:
     name: Prettier
     runs-on: ubuntu-latest
@@ -30,6 +43,19 @@ jobs:
           node-version: 20
       - run: npm ci
       - run: npm run-s test:prettier
+  prettier-example:
+    name: Prettier Example App
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+      - run: npm ci
+      - working-directory: ./example
+        run: npm ci 
+      - working-directory: ./example
+        run: npm run prettier:check
   typescript:
     name: Typescript
     runs-on: ubuntu-latest
@@ -78,20 +104,26 @@ jobs:
         run: npm install
       - working-directory: ./example
         run: npm run build
-      - if: matrix.os == 'ubuntu-latest' && matrix.node_version == 16 && ((github.event_name == 'push' && github.ref == 'refs/heads/main') || github.event.action == 'published')
+      - if: matrix.os == 'ubuntu-latest' && matrix.node_version == 20 && ((github.event_name == 'push' && github.ref == 'refs/heads/main') || github.event.action == 'published')
+        working-directory: ./example
+        run: npm run export
+      - if: matrix.os == 'ubuntu-latest' && matrix.node_version == 20 && ((github.event_name == 'push' && github.ref == 'refs/heads/main') || github.event.action == 'published')
         uses: actions/upload-artifact@v3
         with:
           name: dist
           path: dist/**
-      - if: matrix.os == 'ubuntu-latest' && matrix.node_version == 16 && github.event_name == 'push' && github.ref == 'refs/heads/main'
+      - if: matrix.os == 'ubuntu-latest' && matrix.node_version == 20 && github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: actions/upload-artifact@v3
         with:
           name: example-app
-          path: example/build/**
+          path: example/out/**
   deploy:
     needs:
       - lint
+      - lint-example
       - prettier
+      - prettier-example
+      - typescript
       - test
       - build
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
@@ -112,17 +144,20 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: example-app
-          path: example/build
+          path: example/out
       - uses: peaceiris/actions-gh-pages@v3
         with:
           personal_token: ${{ secrets.GH_PAGES_DEPLOY_TOKEN }}
-          publish_dir: ./example/build
+          publish_dir: ./example/out
           user_name: 'github-actions[bot]'
           user_email: 'github-actions[bot]@users.noreply.github.com'
   publish:
     needs:
       - lint
+      - lint-example
       - prettier
+      - prettier-example
+      - typescript
       - test
       - build
     if: github.event.action == 'published'
