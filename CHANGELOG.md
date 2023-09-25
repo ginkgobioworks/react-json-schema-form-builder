@@ -1,5 +1,23 @@
 # Changelog
 
+## [3.0.0] - 2023-09-25
+
+### Added
+
+- Added support for customizing Add popover radio options. (See [issue #274](https://github.com/ginkgobioworks/react-json-schema-form-builder/issues/274).)
+
+### Changed
+
+- Ported all to TypeScript. (See [issue #456](https://github.com/ginkgobioworks/react-json-schema-form-builder/issues/456).)
+- Updated dependencies in package.json and package-lock.json
+- Updated dependencies in example/package.json and exmaple/package-lock.json
+- Use Rollup.js as bundler rather than Microbundle.
+- Port Example App to Next.js.
+
+### Fixed
+
+- Fixed failing readthedocs documentation generation.
+
 ## [2.10.2] - 2023-04-24
 
 ### Fixed
