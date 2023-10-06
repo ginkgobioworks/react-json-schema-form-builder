@@ -66,5 +66,5 @@ See the [Contributing page](https://github.com/ginkgobioworks/react-json-schema-
 
 ## License
 
-Copyright 2020 [Ginkgo Bioworks](https://www.ginkgobioworks.com/), Inc. Licensed Apache 2.0.
+Copyright 2020-2023 [Ginkgo Bioworks](https://www.ginkgobioworks.com/), Inc. Licensed Apache 2.0.
 
