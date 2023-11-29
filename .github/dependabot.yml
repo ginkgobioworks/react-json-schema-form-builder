@@ -4,10 +4,20 @@ updates:
     directory: "/"
     schedule:
       interval: "monthly"
+    groups:
+      production-dependencies:
+        dependency-type: production
+      development-dependencies:
+        dependency-type: development
   - package-ecosystem: "npm"
     directory: "/example/"
     schedule:
       interval: "monthly"
+    groups:
+      example-dependencies:
+        update-types:
+          - minor
+          - patch
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
