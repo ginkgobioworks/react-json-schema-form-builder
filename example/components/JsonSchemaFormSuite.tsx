@@ -56,7 +56,7 @@ const Form = withTheme(
 ) as unknown as FunctionComponent<FormProps>;
 
 // return error message for parsing or blank if no error
-function checkError(text: string, language: string) {
+function checkError(text: string) {
   let data;
   try {
     data = JSON.parse(text);
@@ -121,8 +121,8 @@ class JsonSchemaFormEditor extends React.Component<Props, State> {
   }
 
   render() {
-    const schemaError = checkError(this.props.schema, this.props.lang);
-    const schemaUiError = checkError(this.props.uischema, this.props.lang);
+    const schemaError = checkError(this.props.schema);
+    const schemaUiError = checkError(this.props.uischema);
     return (
       <div
         style={{

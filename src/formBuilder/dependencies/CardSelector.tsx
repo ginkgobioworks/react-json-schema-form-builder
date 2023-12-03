@@ -10,13 +10,11 @@ export default function CardSelector({
   chosenChoices,
   onChange,
   placeholder,
-  path,
 }: {
   possibleChoices: Array<string>;
   chosenChoices: Array<string>;
   onChange: (chosenChoices: Array<string>) => void;
   placeholder: string;
-  path: string;
 }): ReactElement {
   const [elementId] = useState(getRandomId());
   return (

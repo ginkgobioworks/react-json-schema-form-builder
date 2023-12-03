@@ -1,6 +1,5 @@
 import ts from 'rollup-plugin-ts';
 
-// eslint-disable-next-line import/no-anonymous-default-export
 export default {
   input: './src/index.ts',
   output: [

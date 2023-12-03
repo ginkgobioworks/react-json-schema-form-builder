@@ -5,7 +5,7 @@ import DEFAULT_FORM_INPUTS from './defaults/defaultFormInputs';
 import Card from './Card';
 
 // mocks to record events
-const mockEvent = jest.fn((_arg0: any) => {});
+const mockEvent = jest.fn();
 
 const params = {
   name: 'test',

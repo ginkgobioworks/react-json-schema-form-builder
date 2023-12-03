@@ -4,7 +4,7 @@ import DEFAULT_FORM_INPUTS from './defaults/defaultFormInputs';
 import Section from './Section';
 
 // mocks to record events
-const mockEvent = jest.fn((_arg0?: any, _arg1?: any) => {});
+const mockEvent = jest.fn();
 
 const defaultSchema = {};
 

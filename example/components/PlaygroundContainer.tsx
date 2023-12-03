@@ -42,11 +42,12 @@ export default function PlaygroundContainer({ title }: { title: string }) {
         <p>
           The Visual Form Builder tab corresponds to the actual Form Builder
           component. This reads in code from the JSON Schema, which is stored
-          and updated live in the "Edit Schema" tab, and renders the code as
-          manipulatable form elements. The result of the form is rendered with
-          the material design theme in the Preview Form tab. The Pre-Configured
-          Components tab also demonstrates how the form builder takes advantage
-          of the definitions property of JSON Schema to render definitions.
+          and updated live in the &quot;Edit Schema&quot; tab, and renders the
+          code as manipulatable form elements. The result of the form is
+          rendered with the material design theme in the Preview Form tab. The
+          Pre-Configured Components tab also demonstrates how the form builder
+          takes advantage of the definitions property of JSON Schema to render
+          definitions.
         </p>
       </div>
       <JsonSchemaFormSuite
