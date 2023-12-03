@@ -12,7 +12,7 @@
     "prettier:check": "prettier -c pages components",
     "lint": "next lint",
     "typescript": "tsc",
-    "clean": "rimraf node_modules build"
+    "clean": "rimraf node_modules build out"
   },
   "dependencies": {
     "@ginkgo-bioworks/react-json-schema-form-builder": "file:..",

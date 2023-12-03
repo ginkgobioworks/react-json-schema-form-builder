@@ -123,9 +123,6 @@ jobs:
       - working-directory: ./example
         run: npm run build
       - if: matrix.os == 'ubuntu-latest' && matrix.node_version == 20 && ((github.event_name == 'push' && github.ref == 'refs/heads/main') || github.event.action == 'published')
-        working-directory: ./example
-        run: npm run export
-      - if: matrix.os == 'ubuntu-latest' && matrix.node_version == 20 && ((github.event_name == 'push' && github.ref == 'refs/heads/main') || github.event.action == 'published')
         uses: actions/upload-artifact@v3
         with:
           name: dist
