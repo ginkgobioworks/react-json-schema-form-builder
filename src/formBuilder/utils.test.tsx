@@ -78,7 +78,7 @@ const elementPropArr = [
   },
 ];
 
-function generateSchemaWithUnnamedProperties(amount) {
+function generateSchemaWithUnnamedProperties() {
   const properties = [...Array(10).keys()].reduce((acc, id) => {
     return { ...acc, [`${DEFAULT_INPUT_NAME}${id + 1}`]: { type: 'string' } };
   }, {});
@@ -873,9 +873,7 @@ describe('getNewElementDefaultDataOptions', () => {
 
 describe('addCardObj', () => {
   it('should be able to add more than 10 unnamed CardObj', () => {
-    const mockEvent = jest.fn(
-      (schema: { [key: string]: any }, uischema: { [key: string]: any }) => {},
-    );
+    const mockEvent = jest.fn();
     const defaultUiSchema = {};
     const props = {
       schema: generateSchemaWithUnnamedProperties(10),
@@ -900,9 +898,7 @@ describe('addCardObj', () => {
 
 describe('addSectionObj', () => {
   it('should be able to add more than 10 unnamed SectionObj', () => {
-    const mockEvent = jest.fn(
-      (schema: { [key: string]: any }, uischema: { [key: string]: any }) => {},
-    );
+    const mockEvent = jest.fn();
     const defaultUiSchema = {};
     const props = {
       schema: generateSchemaWithUnnamedProperties(10),

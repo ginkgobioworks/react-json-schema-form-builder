@@ -1532,7 +1532,7 @@ export function generateElementComponentsFromSchemas(parameters: {
       );
     } else {
       return (
-        <div>
+        <div key={`${path}_${elementPropArr[index].name}`}>
           <h2> Error parsing element </h2>
         </div>
       );

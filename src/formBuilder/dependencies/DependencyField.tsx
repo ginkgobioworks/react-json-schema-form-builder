@@ -149,7 +149,6 @@ export default function DependencyField({
                 parentType={parameters.type}
                 parentName={parameters.name}
                 parentSchema={parameters.schema}
-                path={parameters.path}
                 key={`${elementId}_possibility${index}`}
                 onChange={(newPossibility: {
                   children: Array<string>;

@@ -141,11 +141,7 @@ const InnerCard: CardComponentType = ({ parameters, onChange, mods }) => {
   );
 };
 
-function getInnerCardComponent({
-  defaultFormInputs,
-}: {
-  defaultFormInputs: { [key: string]: FormInput };
-}): CardComponentType {
+function getInnerCardComponent(): CardComponentType {
   return InnerCard;
 }
 
@@ -167,7 +163,7 @@ defaultFormInputs.array = {
   },
   defaultUiSchema: {},
   type: 'array',
-  cardBody: getInnerCardComponent({ defaultFormInputs }),
+  cardBody: getInnerCardComponent(),
   modalBody: CardArrayParameterInputs,
 };
 
@@ -184,7 +180,7 @@ const ArrayInputs: { [key: string]: FormInput } = {
     },
     defaultUiSchema: {},
     type: 'array',
-    cardBody: getInnerCardComponent({ defaultFormInputs }),
+    cardBody: getInnerCardComponent(),
     modalBody: CardArrayParameterInputs,
   },
 };

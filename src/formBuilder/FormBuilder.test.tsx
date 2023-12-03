@@ -3,7 +3,7 @@ import { mount } from 'enzyme';
 import FormBuilder from './FormBuilder';
 
 // mocks to record events
-const mockEvent = jest.fn((_arg0: any, _arg1: any) => {});
+const mockEvent = jest.fn();
 
 const props = {
   schema: '',

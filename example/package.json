@@ -24,6 +24,7 @@
   "devDependencies": {
     "@babel/plugin-syntax-object-rest-spread": "^7.8.3",
     "@next/eslint-plugin-next": "^14.0.3",
+    "@types/react": "^18.2.41",
     "next": "^14.0.3",
     "rimraf": "^5.0.5"
   },

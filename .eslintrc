@@ -1,10 +1,9 @@
 {
   "parser": "@typescript-eslint/parser",
   "extends": [
-    "react-app",
     "plugin:prettier/recommended",
     "plugin:@typescript-eslint/recommended",
-    "prettier"
+    "plugin:react/recommended"
   ],
   "plugins": ["@typescript-eslint"],
   "env": {
@@ -19,7 +18,7 @@
   },
   "settings": {
     "react": {
-      "version": "16"
+      "version": "18"
     }
   },
   "rules": {

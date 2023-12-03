@@ -5,7 +5,7 @@ import DEFAULT_FORM_INPUTS from './defaults/defaultFormInputs';
 import CardGallery from './CardGallery';
 
 // mocks to record events
-const mockEvent = jest.fn((_arg0: any, _arg1: any) => {});
+const mockEvent = jest.fn();
 
 const props = {
   definitionSchema: {},

@@ -17,7 +17,6 @@ export default function ValueSelector({
   parentType,
   parentName,
   parentSchema,
-  path,
 }: {
   possibility: {
     children: Array<string>;
@@ -28,7 +27,6 @@ export default function ValueSelector({
   parentType?: string;
   parentName?: string;
   parentSchema?: any;
-  path: string;
 }): ReactElement {
   const [elementId] = useState(getRandomId());
   if (possibility.value) {
@@ -44,7 +42,6 @@ export default function ValueSelector({
               onChange({ ...possibility, value: { enum: chosenChoices } })
             }
             placeholder='Allowed value'
-            path={path}
           />
         );
       if (enumType === 'number')
@@ -61,7 +58,6 @@ export default function ValueSelector({
               })
             }
             placeholder='Allowed value'
-            path={path}
           />
         );
     }
