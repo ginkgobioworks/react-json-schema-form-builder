@@ -1758,3 +1758,5 @@ export function getRandomId(): string {
     .map(() => chars[Math.floor(Math.random() * numberOfChars)])
     .join('');
 }
+
+export const DROPPABLE_TYPE = 'rjsfb';

@@ -1,5 +1,5 @@
 import React, { ReactElement, useEffect, useState } from 'react';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 import { Alert, Input } from 'reactstrap';
 import { createUseStyles } from 'react-jss';
 import Card from './Card';
@@ -17,6 +17,7 @@ import {
   countElementsFromSchema,
   generateCategoryHash,
   excludeKeys,
+  DROPPABLE_TYPE,
 } from './utils';
 import DEFAULT_FORM_INPUTS from './defaults/defaultFormInputs';
 import type {
@@ -333,7 +334,7 @@ export default function FormBuilder({
             })
           }
         >
-          <Droppable droppableId='droppable'>
+          <Droppable droppableId='droppable' type={DROPPABLE_TYPE}>
             {(providedDroppable) => (
               <div
                 ref={providedDroppable.innerRef}
