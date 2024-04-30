@@ -15,10 +15,10 @@ export default {
   external: [
     'classnames',
     'react',
-    'react-beautiful-dnd',
     'reactstrap',
     'react-jss',
     'react-select',
+    '@hello-pangea/dnd',
     '@fortawesome/free-solid-svg-icons',
     '@fortawesome/react-fontawesome',
   ],
