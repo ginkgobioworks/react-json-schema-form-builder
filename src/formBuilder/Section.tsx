@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 import Select from 'react-select';
 import { createUseStyles } from 'react-jss';
 import {
@@ -29,6 +29,7 @@ import {
   addCardObj,
   addSectionObj,
   onDragEnd,
+  DROPPABLE_TYPE,
 } from './utils';
 import FontAwesomeIcon from './FontAwesomeIcon';
 import { getRandomId } from './utils';
@@ -360,7 +361,7 @@ export default function Section({
                 })
               }
             >
-              <Droppable droppableId='droppable'>
+              <Droppable droppableId='droppable' type={DROPPABLE_TYPE}>
                 {(providedDroppable) => (
                   <div
                     ref={providedDroppable.innerRef}
