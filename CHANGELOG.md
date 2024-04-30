@@ -1,5 +1,16 @@
 # Changelog
 
+## [3.0.1] - 2024-04-29
+
+### Fixed
+
+- Fixed drag-and-drop in strict mode. (See [issue #542](https://github.com/ginkgobioworks/react-json-schema-form-builder/issues/542).)
+
+### Changed
+
+- Updated dependencies in package.json and package-lock.json
+- Updated dependencies in example/package.json and examaple/package-lock.json
+
 ## [3.0.0] - 2023-09-25
 
 ### Added
