@@ -156,8 +156,7 @@ export default function ValueSelector({
                   let newVal = val;
                   try {
                     newVal = JSON.parse(ev.target.value);
-                  } catch (error) {
-                    // eslint-disable-next-line no-console
+                  } catch {
                     console.error('invalid JSON array input');
                   }
                   const oldCombo = possibility.value.enum[index];
@@ -186,8 +185,7 @@ export default function ValueSelector({
                   let newVal = val;
                   try {
                     newVal = JSON.parse(ev.target.value);
-                  } catch (error) {
-                    // eslint-disable-next-line no-console
+                  } catch {
                     console.error('invalid JSON object input');
                   }
                   const oldCombo = possibility.value.enum[index];

@@ -1,6 +1,0 @@
-jest.config.js
-dist/
-example/
-node_modules/
-.snapshots/
-*.min.js

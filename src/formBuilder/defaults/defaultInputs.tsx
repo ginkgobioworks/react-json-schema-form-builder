@@ -70,7 +70,7 @@ function MultipleChoice({
 }) {
   const classes = useStyles();
   const enumArray = Array.isArray(parameters.enum) ? parameters.enum : [];
-  // eslint-disable-next-line no-restricted-globals
+
   const containsUnparsableString = enumArray.some((val) => {
     return isNaN(val as number);
   });
@@ -127,7 +127,6 @@ function MultipleChoice({
                   enum: newEnum,
                 });
               } catch (error) {
-                // eslint-disable-next-line no-console
                 console.error(error);
               }
             } else {

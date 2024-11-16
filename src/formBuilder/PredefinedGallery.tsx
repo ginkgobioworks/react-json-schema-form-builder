@@ -145,7 +145,6 @@ export default function PredefinedGallery({
 
   React.useEffect(() => {
     if (!uiSchemaData.definitions) {
-      // eslint-disable-next-line no-console
       console.log('Parsing UI schema to assign UI for definitions');
       // need to create definitions from scratch
       const references: string[] = [];
