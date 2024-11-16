@@ -117,7 +117,7 @@ export function getCardCategory(
   const category = categoryHash[currentHash];
   if (!category) {
     if (cardProps.$ref) return 'ref';
-    // eslint-disable-next-line no-console
+
     console.error(`No match for card': ${currentHash} among set`);
     return 'shortAnswer';
   }
@@ -626,7 +626,6 @@ export function generateElementPropsFromSchemas(parameters: {
           }
         });
       } else {
-        // eslint-disable-next-line no-console
         console.error('unsupported dependency type encountered');
       }
     });
@@ -723,7 +722,6 @@ export function countElementsFromSchema(schemaData: any): number {
           }
         });
       } else {
-        // eslint-disable-next-line no-console
         console.error('unsupported dependency type encountered');
       }
     });

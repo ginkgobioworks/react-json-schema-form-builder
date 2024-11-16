@@ -247,7 +247,7 @@ export default function FormBuilder({
 
   useEffect(() => {
     if (isFirstRender) {
-      onMount &&
+      if (onMount)
         onMount({
           categoryHash,
         });
