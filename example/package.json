@@ -17,7 +17,7 @@
   "dependencies": {
     "@ginkgo-bioworks/react-json-schema-form-builder": "file:..",
     "@rjsf/bootstrap-4": "^3.2.1",
-    "@rjsf/core": "^3.0.0",
+    "@rjsf/core": "^5.24.3",
     "react-bootstrap": "^1.6.4",
     "react-json-editor-ajrm": "^2.5.14"
   },
