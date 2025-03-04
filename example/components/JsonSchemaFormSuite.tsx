@@ -9,6 +9,7 @@ import {
 } from 'reactstrap';
 import { withTheme } from '@rjsf/core';
 import { Theme as Bootstrap4Theme } from '@rjsf/bootstrap-4';
+import validator from '@rjsf/validator-ajv8';
 import {
   FormBuilder,
   PredefinedGallery,
@@ -42,18 +43,7 @@ type State = {
   submissionData: any;
 };
 
-interface FormProps {
-  schema: { [key: string]: any };
-  uiSchema: { [key: string]: any };
-  onChange: (_arg0: { [key: string]: any }) => void;
-  formData: { [key: string]: any };
-  submitButtonMessage: string;
-  onSubmit: (_arg0: { [key: string]: any }) => void;
-}
-
-const Form = withTheme(
-  Bootstrap4Theme,
-) as unknown as FunctionComponent<FormProps>;
+const Form = withTheme(Bootstrap4Theme);
 
 // return error message for parsing or blank if no error
 function checkError(text: string) {
@@ -188,7 +178,8 @@ class JsonSchemaFormEditor extends React.Component<Props, State> {
                         this.updateFormData(JSON.stringify(formData.formData))
                       }
                       formData={this.state.formData}
-                      submitButtonMessage={'Submit'}
+                      validator={validator}
+                      liveValidate
                       onSubmit={(submissionData) => {
                         // below only runs if validation succeeded
                         this.setState({
@@ -211,7 +202,11 @@ class JsonSchemaFormEditor extends React.Component<Props, State> {
                           <pre
                             className={this.props?.classes?.codeViewer ?? ''}
                           >
-                            {JSON.stringify(this.state.submissionData, null, 2)}
+                            {JSON.stringify(
+                              this.state.submissionData.formData,
+                              null,
+                              2,
+                            )}
                           </pre>
                         </ErrorBoundary>
                         <br />
