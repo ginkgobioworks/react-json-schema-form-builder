@@ -1,14 +1,14 @@
 {
-  "name": "@ginkgo-bioworks/react-json-schema-form-builder",
-  "version": "3.0.1",
+  "name": "@iesoftek/rjsf-form-builder",
+  "version": "1.0.0",
   "description": "React Component for visually configuring a JSON Schema-based form",
   "author": {
-    "name": "Nathan Alam",
-    "email": "nathanalam99@gmail.com",
-    "url": "https://github.com/nathanalam"
+    "name": "Jatin Watts",
+    "email": "jatin.watts@iesoftek.com",
+    "url": "https://github.com/jatinwatts-iesoftek"
   },
   "license": "Apache-2.0",
-  "repository": "ginkgobioworks/react-json-schema-form-builder",
+  "repository": "hydreight/react-json-schema-form-builder",
   "keywords": [
     "react",
     "form",
@@ -85,10 +85,13 @@
     "typescript": "^5.0.4"
   },
   "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
     "@fortawesome/fontawesome-svg-core": "^6.1.1",
     "@fortawesome/free-solid-svg-icons": "^5.15.3 || ^6.1.1",
     "@fortawesome/react-fontawesome": "^0.1.14 || ^0.2.0",
     "@hello-pangea/dnd": "^16.0.0 || ^17.0.0 || ^18.0.1",
+    "@mui/material": "^7.0.1",
     "classnames": "^2.2.6",
     "react-jss": "^10.4.0",
     "react-select": "^5.0.0",

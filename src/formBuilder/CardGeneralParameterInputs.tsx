@@ -18,8 +18,96 @@ import type {
   CardComponentPropsType,
 } from './types';
 import Tooltip from './Tooltip';
+import { createUseStyles } from 'react-jss';
 
-// specify the inputs required for any type of object
+// Define the styles using JSS
+const useStyles = createUseStyles({
+  inputContainer: {
+    display: 'flex',
+    gap: '8px',
+  },
+  inputField: {
+    padding: '7px 8px',
+    borderRadius: '4px',
+    border: '1px solid #E4E4E7 !important',
+    outline: 'none',
+    fontSize: '14px',
+    '&:focus': {
+      borderColor: '#E4E4E7',
+      outline: 'none',
+    },
+  },
+  invalidInput: {
+    borderColor: 'red',
+    '&:focus': {
+      borderColor: 'darkred', 
+    },
+  },
+  formGroup: {
+    marginBottom: '16px',
+  },
+  cardEntry: {
+    marginBottom: '16px',
+    width: '100%',
+  },
+  cardEntryRow: {
+    display: 'flex',
+    flexDirection: 'row',
+    gap: '20px',
+    width: '100%',
+    alignItems: 'center',
+    marginTop: '16px',
+  },
+  wideCardEntry: {
+    width: '100%',
+  },
+  label: {
+    fontSize: '14px',
+    fontWeight: 'bold',
+    color: '#333',
+    textAlign: 'left'
+  },
+  tooltip: {
+    marginLeft: '5px',
+    cursor: 'pointer',
+  },
+});
+
+const customSelectStyles = {
+  container: (provided: any) => ({
+    ...provided,
+    width: '100%', 
+  }),
+  control: (provided: any) => ({
+    ...provided,
+    borderRadius: '4px', 
+    border: '1px solid #E4E4E7', 
+    padding: '4px 7px', 
+  }),
+  input: (provided: any) => ({
+    ...provided,
+    fontSize: '14px', 
+    color: '#333', 
+  }),
+  menu: (provided: any) => ({
+    ...provided,
+    borderRadius: '4px', 
+    boxShadow: '0 4px 6px rgba(0,0,0,0.1)', 
+  }),
+  option: (provided: any, state: any) => ({
+    ...provided,
+    backgroundColor: state.isSelected ? '#000000' : 'transparent', 
+    color: state.isSelected ? '#fff' : '#333', 
+    '&:hover': {
+      backgroundColor: '#f1f1f1', 
+    },
+  }),
+  placeholder: (provided: any) => ({
+    ...provided,
+    color: '#9aa4ab', 
+  }),
+};
+
 export default function CardGeneralParameterInputs({
   parameters,
   onChange,
@@ -33,6 +121,7 @@ export default function CardGeneralParameterInputs({
   allFormInputs: { [key: string]: FormInput };
   showObjectNameInput?: boolean;
 }): ReactElement {
+  const classes = useStyles(); // Initialize the styles
   const [keyState, setKeyState] = React.useState(parameters.name);
   const [keyError, setKeyError] = React.useState<null | string>(null);
   const [titleState, setTitleState] = React.useState(parameters.title);
@@ -63,11 +152,10 @@ export default function CardGeneralParameterInputs({
       parameters.definitionData &&
       Object.keys(parameters.definitionData).length !== 0;
 
-    // Hide the "Reference" option if there are no definitions in the schema
     let inputKeys = Object.keys(categoryMap).filter(
       (key) => key !== 'ref' || definitionsInSchema,
     );
-    // Exclude hidden inputs based on mods
+
     if (mods) inputKeys = subtractArray(inputKeys, mods.deactivatedFormInputs);
 
     return inputKeys
@@ -77,10 +165,10 @@ export default function CardGeneralParameterInputs({
 
   return (
     <React.Fragment>
-      <div className='card-entry-row'>
-        {showObjectNameInput && (
-          <div className='card-entry'>
-            <h5>
+      <div className={classes.cardEntryRow}>
+        {/* {showObjectNameInput && ( */}
+        {/* <div className={classes.cardEntry}> */}
+        {/* <h5 className={classes.label}>
               {`${objectNameLabel} `}
               <Tooltip
                 text={
@@ -91,16 +179,16 @@ export default function CardGeneralParameterInputs({
                     : 'The back-end name of the object'
                 }
                 id={`${elementId}_nameinfo`}
-                type='help'
+                type="help"
               />
-            </h5>
+            </h5> */}
 
-            <FormGroup>
+        {/* <FormGroup className={classes.formGroup}>
               <Input
                 invalid={keyError !== null}
                 value={keyState || ''}
-                placeholder='Key'
-                type='text'
+                placeholder="Key"
+                type="text"
                 onChange={(ev) => setKeyState(ev.target.value)}
                 onBlur={(ev) => {
                   const { value } = ev.target;
@@ -122,92 +210,41 @@ export default function CardGeneralParameterInputs({
                     onChange({ ...parameters });
                   }
                 }}
-                className='card-text'
+                className={classnames(classes.inputField, {
+                  [classes.invalidInput]: keyError,
+                })}
               />
               <FormFeedback>{keyError}</FormFeedback>
             </FormGroup>
           </div>
-        )}
+        )} */}
+
         <div
-          className={`card-entry ${
-            parameters.$ref === undefined ? '' : 'disabled-input'
-          }`}
+          className={classnames(classes.cardEntry, {
+            [classes.wideCardEntry]: !showObjectNameInput,
+          })}
         >
-          <h5>
+          <h5 className={classes.label}>
             {`${displayNameLabel} `}
-            <Tooltip
-              text={
-                mods &&
-                mods.tooltipDescriptions &&
-                typeof mods.tooltipDescriptions.cardDisplayName === 'string'
-                  ? mods.tooltipDescriptions.cardDisplayName
-                  : 'The user-facing name of this object'
-              }
-              id={`${elementId}-titleinfo`}
-              type='help'
-            />
           </h5>
           <Input
             value={titleState || ''}
-            placeholder='Title'
+            placeholder='Display name'
             type='text'
             onChange={(ev) => setTitleState(ev.target.value)}
             onBlur={(ev) => {
               onChange({ ...parameters, title: ev.target.value });
             }}
-            className='card-text'
+            className={classes.inputField}
           />
         </div>
-      </div>
-      <div className='card-entry-row'>
         <div
-          className={`card-entry ${parameters.$ref ? 'disabled-input' : ''}`}
-        >
-          <h5>
-            {`${descriptionLabel} `}
-            <Tooltip
-              text={
-                mods &&
-                mods.tooltipDescriptions &&
-                typeof mods.tooltipDescriptions.cardDescription === 'string'
-                  ? mods.tooltipDescriptions.cardDescription
-                  : 'This will appear as help text on the form'
-              }
-              id={`${elementId}-descriptioninfo`}
-              type='help'
-            />
-          </h5>
-          <FormGroup>
-            <Input
-              value={descriptionState || ''}
-              placeholder='Description'
-              type='text'
-              onChange={(ev) => setDescriptionState(ev.target.value)}
-              onBlur={(ev) => {
-                onChange({ ...parameters, description: ev.target.value });
-              }}
-              className='card-text'
-            />
-          </FormGroup>
-        </div>
-        <div
-          className={classnames('card-entry', {
-            'wide-card-entry': !showObjectNameInput,
+          className={classnames(classes.cardEntry, {
+            [classes.wideCardEntry]: !showObjectNameInput,
           })}
         >
-          <h5>
+          <h5 className={classes.label}>
             {`${inputTypeLabel} `}
-            <Tooltip
-              text={
-                mods &&
-                mods.tooltipDescriptions &&
-                typeof mods.tooltipDescriptions.cardInputType === 'string'
-                  ? mods.tooltipDescriptions.cardInputType
-                  : 'The type of form input displayed on the form'
-              }
-              id={`${elementId}-inputinfo`}
-              type='help'
-            />
           </h5>
           <Select
             value={{
@@ -217,7 +254,6 @@ export default function CardGeneralParameterInputs({
             placeholder={inputTypeLabel}
             options={availableInputTypes()}
             onChange={(val: any) => {
-              // figure out the new 'type'
               const newCategory = val.value;
 
               const newProps = {
@@ -227,7 +263,6 @@ export default function CardGeneralParameterInputs({
                 required: parameters.required,
               };
               if (newProps.$ref !== undefined && !newProps.$ref) {
-                // assign an initial reference
                 const firstDefinition = Object.keys(
                   parameters.definitionData!,
                 )[0];
@@ -241,9 +276,40 @@ export default function CardGeneralParameterInputs({
                 category: newProps.category || newCategory,
               });
             }}
-            className='card-select'
+            styles={customSelectStyles}
           />
         </div>
+      </div>
+
+      <div className={classes.cardEntryRow}>
+        {/* <div className={classnames(classes.cardEntry, { [classes.wideCardEntry]: !showObjectNameInput })}>
+          <h5 className={classes.label}>
+            {`${descriptionLabel} `}
+            <Tooltip
+              text={
+                mods &&
+                mods.tooltipDescriptions &&
+                typeof mods.tooltipDescriptions.cardDescription === 'string'
+                  ? mods.tooltipDescriptions.cardDescription
+                  : 'This will appear as help text on the form'
+              }
+              id={`${elementId}-descriptioninfo`}
+              type="help"
+            />
+          </h5>
+          <FormGroup className={classes.formGroup}>
+            <Input
+              value={descriptionState || ''}
+              placeholder="Description"
+              type="text"
+              onChange={(ev) => setDescriptionState(ev.target.value)}
+              onBlur={(ev) => {
+                onChange({ ...parameters, description: ev.target.value });
+              }}
+              className={classes.inputField}
+            />
+          </FormGroup>
+        </div> */}
       </div>
 
       <div className='card-category-options'>

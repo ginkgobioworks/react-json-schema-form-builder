@@ -10,10 +10,9 @@ import {
   FormFeedback,
 } from 'reactstrap';
 import {
-  faArrowUp,
-  faArrowDown,
   faPencilAlt,
   faTrash,
+  faChevronDown,
 } from '@fortawesome/free-solid-svg-icons';
 import FBCheckbox from './checkbox/FBCheckbox';
 import Collapse from './Collapse/Collapse';
@@ -21,7 +20,7 @@ import CardModal from './CardModal';
 import { CardDefaultParameterInputs } from './defaults/defaultInputs';
 import Tooltip from './Tooltip';
 import Add from './Add';
-import Card from './Card';
+import Card, { DeleteIcon, EditIcon } from './Card';
 import {
   checkForUnsupportedFeatures,
   generateElementComponentsFromSchemas,
@@ -34,12 +33,20 @@ import {
 import FontAwesomeIcon from './FontAwesomeIcon';
 import { getRandomId } from './utils';
 import type { SectionPropsType } from './types';
+import { FormControlLabel, Switch } from '@mui/material';
 
 const useStyles = createUseStyles({
+  inputContainer: {
+    display: 'flex',
+    justifyContent: 'stretch',
+    gap: '20px',
+    alignItems: 'center',
+    width: '100%',
+  },
   sectionContainer: {
     '& .section-head': {
       display: 'flex',
-      borderBottom: '1px solid gray',
+      borderBottom: '1px solid #E4E4E7',
       margin: '0.5em 1.5em 0 1.5em',
       '& h5': {
         color: 'black',
@@ -47,7 +54,7 @@ const useStyles = createUseStyles({
         fontWeight: 'bold',
       },
       '& .section-entry': {
-        width: '33%',
+        width: '100%',
         textAlign: 'left',
         padding: '0.5em',
       },
@@ -59,10 +66,15 @@ const useStyles = createUseStyles({
       '& .fa': { cursor: 'pointer' },
     },
     '& .section-interactions': {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'flex-end',
+      gap: '15px',
       margin: '0.5em 1.5em',
-      textAlign: 'left',
-      borderTop: '1px solid gray',
+      textAlign: 'right',
+      borderTop: '1px solid #e4e4e7',
       paddingTop: '1em',
+      paddingBottom: '0.5em',
       '& .fa': {
         marginRight: '1em',
         borderRadius: '4px',
@@ -74,7 +86,6 @@ const useStyles = createUseStyles({
         border: '1px solid #1d71ad',
         color: '#1d71ad',
       },
-      '& .fa-trash': { border: '1px solid #de5354', color: '#de5354' },
       '& .fa-arrow-up, & .fa-arrow-down': { marginRight: '0.5em' },
       '& .fb-checkbox': {
         display: 'inline-block',
@@ -169,7 +180,7 @@ export default function Section({
               )}
             </span>
             <span className='arrows'>
-              <span id={`${elementId}_moveupbiginfo`}>
+              {/* <span id={`${elementId}_moveupbiginfo`}>
                 <FontAwesomeIcon
                   icon={faArrowUp}
                   onClick={() => (onMoveUp ? onMoveUp() : {})}
@@ -180,10 +191,10 @@ export default function Section({
                 target={`${elementId}_moveupbiginfo`}
               >
                 Move form element up
-              </UncontrolledTooltip>
+              </UncontrolledTooltip> */}
               <span id={`${elementId}_movedownbiginfo`}>
                 <FontAwesomeIcon
-                  icon={faArrowDown}
+                  icon={faChevronDown}
                   onClick={() => (onMoveDown ? onMoveDown() : {})}
                 />
               </span>
@@ -226,8 +237,8 @@ export default function Section({
             ) : (
               ''
             )}
-            <div className='section-entry' data-test='section-object-name'>
-              <h5>
+            {/* <div className='section-entry' data-test='section-object-name'> */}
+            {/* <h5>
                 Section Object Name{' '}
                 <Tooltip
                   text={
@@ -242,8 +253,8 @@ export default function Section({
                   id={`${elementId}_nameinfo`}
                   type='help'
                 />
-              </h5>
-              <FormGroup>
+              </h5> */}
+            {/* <FormGroup>
                 <Input
                   invalid={keyError !== null}
                   value={keyName || ''}
@@ -268,73 +279,45 @@ export default function Section({
                   readOnly={hideKey}
                 />
                 <FormFeedback>{keyError}</FormFeedback>
-              </FormGroup>
-            </div>
-            <div className='section-entry' data-test='section-display-name'>
-              <h5>
-                Section Display Name{' '}
-                <Tooltip
-                  text={
-                    mods &&
-                    mods.tooltipDescriptions &&
-                    mods.tooltipDescriptions &&
-                    typeof mods.tooltipDescriptions.cardSectionDisplayName ===
-                      'string'
-                      ? mods.tooltipDescriptions.cardSectionDisplayName
-                      : 'The name of the form section that will be shown to users of the form.'
+              </FormGroup> */}
+            {/* </div> */}
+            <div className={classes.inputContainer}>
+              <div className='section-entry' data-test='section-display-name'>
+                <h5>Section Display Name </h5>
+                <Input
+                  value={schemaData.title || ''}
+                  placeholder='Title'
+                  type='text'
+                  onChange={(ev) =>
+                    onChange(
+                      {
+                        ...schema,
+                        title: ev.target.value,
+                      },
+                      uischema,
+                    )
                   }
-                  id={`${elementId}_titleinfo`}
-                  type='help'
+                  className='card-text'
                 />
-              </h5>
-              <Input
-                value={schemaData.title || ''}
-                placeholder='Title'
-                type='text'
-                onChange={(ev) =>
-                  onChange(
-                    {
-                      ...schema,
-                      title: ev.target.value,
-                    },
-                    uischema,
-                  )
-                }
-                className='card-text'
-              />
-            </div>
-            <div className='section-entry' data-test='section-description'>
-              <h5>
-                Section Description{' '}
-                <Tooltip
-                  text={
-                    mods &&
-                    mods.tooltipDescriptions &&
-                    mods.tooltipDescriptions &&
-                    typeof mods.tooltipDescriptions.cardSectionDescription ===
-                      'string'
-                      ? mods.tooltipDescriptions.cardSectionDescription
-                      : 'A description of the section which will be visible on the form.'
+              </div>
+              <div className='section-entry' data-test='section-description'>
+                <h5>Section Description </h5>
+                <Input
+                  value={schemaData.description || ''}
+                  placeholder='Description'
+                  type='text'
+                  onChange={(ev) =>
+                    onChange(
+                      {
+                        ...schema,
+                        description: ev.target.value,
+                      },
+                      uischema,
+                    )
                   }
-                  id={`${elementId}_descriptioninfo`}
-                  type='help'
+                  className='card-text'
                 />
-              </h5>
-              <Input
-                value={schemaData.description || ''}
-                placeholder='Description'
-                type='text'
-                onChange={(ev) =>
-                  onChange(
-                    {
-                      ...schema,
-                      description: ev.target.value,
-                    },
-                    uischema,
-                  )
-                }
-                className='card-text'
-              />
+              </div>
             </div>
             <Alert
               style={{
@@ -425,35 +408,75 @@ export default function Section({
             )}
           </div>
           <div className='section-interactions'>
-            <span id={`${elementId}_editinfo`}>
-              <FontAwesomeIcon
-                icon={faPencilAlt}
-                onClick={() => setModalOpen(true)}
-              />
-            </span>
+            <div
+              id={`${elementId}_editinfo`}
+              onClick={() => setModalOpen(true)}
+            >
+              <EditIcon />
+            </div>
             <UncontrolledTooltip
               placement='top'
               target={`${elementId}_editinfo`}
             >
               Additional configurations for this form element
             </UncontrolledTooltip>
-            <span id={`${elementId}_trashinfo`}>
-              <FontAwesomeIcon
-                icon={faTrash}
-                onClick={() => (onDelete ? onDelete() : {})}
-              />
-            </span>
+            <div
+              id={`${elementId}_trashinfo`}
+              onClick={() => (onDelete ? onDelete() : {})}
+            >
+              <DeleteIcon />
+            </div>
             <UncontrolledTooltip
               placement='top'
               target={`${elementId}_trashinfo`}
             >
               Delete form element
             </UncontrolledTooltip>
-            <FBCheckbox
-              onChangeValue={() => onRequireToggle()}
-              isChecked={required}
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={required}
+                  onChange={() => onRequireToggle()}
+                  color='primary'
+                  sx={{
+                    width: '40px',
+                    height: '24px',
+                    borderRadius: '100px',
+                    backgroundColor: (theme) =>
+                      required ? '#000000' : theme.palette.grey[300],
+                    '& .MuiSwitch-switchBase': {
+                      width: '20.5px',
+                      height: '20.5px',
+                      padding: '0px',
+                      top: '1.75px',
+                      left: '1.75px',
+                      color: '#FFFFFF',
+                    },
+                    '& .MuiSwitch-switchBase.Mui-checked': {
+                      color: '#FFFFFF',
+                      backgroundColor: '#000000 !important',
+                    },
+                    '& .MuiSwitch-thumb': {
+                      boxShadow: 'none',
+                    },
+                    '& .MuiSwitch-switchBase:hover': {
+                      backgroundColor: 'transparent',
+                    },
+                    '& .Mui-checked': {
+                      transform: 'translateX(16px) !important',
+                    },
+                  }}
+                />
+              }
               label='Required'
-              id={`${elementId}_required`}
+              labelPlacement='end'
+              sx={{
+                marginLeft: 0,
+                '& .MuiFormControlLabel-label': {
+                  marginLeft: '8px',
+                  fontSize: '17px',
+                },
+              }}
             />
           </div>
         </div>

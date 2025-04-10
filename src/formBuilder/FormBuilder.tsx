@@ -46,32 +46,27 @@ const useStyles = createUseStyles({
     },
     ...arrowsStyle,
     '& .card-container': {
-      '&:hover': {
-        border: '1px solid green',
-      },
       display: 'block',
-      width: '70%',
+      width: '99%',
       'min-width': '400px',
       margin: '2em auto',
-      border: '1px solid gray',
+      border: '1px solid #E4E4E7',
       'border-radius': '4px',
       'background-color': 'white',
       '& h4': {
         width: '100%',
         'text-align': 'left',
         display: 'inline-block',
-        color: '#138AC2',
         margin: '0.25em .5em 0 .5em',
         'font-size': '18px',
       },
       '& .d-flex': {
-        'border-bottom': '1px solid gray',
+        'border-bottom': '1px solid #E4E4E7',
       },
       '& .label': {
         float: 'left',
       },
     },
-    '& .card-container:hover': { border: '1px solid green' },
     '& .card-dependent': {
       border: '1px dashed gray',
     },
@@ -79,32 +74,27 @@ const useStyles = createUseStyles({
       border: '1px dashed black',
     },
     '& .section-container': {
-      '&:hover': {
-        border: '1px solid green',
-      },
       display: 'block',
-      width: '90%',
+      width: '100%',
       'min-width': '400px',
       margin: '2em auto',
-      border: '1px solid gray',
+      border: '1px solid #E4E4E7',
       'border-radius': '4px',
       'background-color': 'white',
       '& h4': {
         width: '100%',
         'text-align': 'left',
         display: 'inline-block',
-        color: '#138AC2',
         margin: '0.25em .5em 0 .5em',
         'font-size': '18px',
       },
       '& .d-flex': {
-        'border-bottom': '1px solid gray',
+        'border-bottom': '1px solid #E4E4E7',
       },
       '& .label': {
         float: 'left',
       },
     },
-    '& .section-container:hover': { border: '1px solid green' },
     '& .section-dependent': {
       border: '1px dashed gray',
     },
@@ -136,15 +126,21 @@ const useStyles = createUseStyles({
     },
   },
   formHead: {
-    display: 'block',
+    // '& .form-title textarea, & .form-description textarea': {
+    //   minHeight: '400px', // Adjust this value to your preferred height
+    //   resize: 'vertical', // Allows vertical resizing
+    // },
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
     margin: '0 auto',
-    'background-color': '#EBEBEB',
-    border: '1px solid #858F96',
+    'background-color': '#FAFAFA',
+    border: '1px solid #E4E4E7',
     'border-radius': '4px',
-    width: '70%',
+    width: '100%',
     padding: '10px',
     '& div': {
-      width: '30%',
+      width: '50%',
       display: 'inline-block',
       'text-align': 'left',
       padding: '10px',
@@ -165,8 +161,7 @@ const useStyles = createUseStyles({
     display: 'flex',
     flexDirection: 'column',
     '& .fa-pencil-alt, & .fa-pencil': {
-      border: '1px solid #1d71ad',
-      color: '#1d71ad',
+      color: '#000000',
     },
     '& .modal-body': {
       maxHeight: '500px',
@@ -271,17 +266,10 @@ export default function FormBuilder({
       {(!mods || mods.showFormHead !== false) && (
         <div className={classes.formHead} data-test='form-head'>
           <div>
-            <h5 data-test='form-name-label'>
-              {mods &&
-              mods.labels &&
-              typeof mods.labels.formNameLabel === 'string'
-                ? mods.labels.formNameLabel
-                : 'Form Name'}
-            </h5>
             <Input
               value={schemaData.title || ''}
-              placeholder='Title'
-              type='text'
+              placeholder='Form name'
+              type='textarea'
               onChange={(ev) => {
                 onChange(
                   stringify({
@@ -292,20 +280,14 @@ export default function FormBuilder({
                 );
               }}
               className='form-title'
+              style={{paddingBottom: '30px', paddingTop: '5px'}}
             />
           </div>
           <div>
-            <h5 data-test='form-description-label'>
-              {mods &&
-              mods.labels &&
-              typeof mods.labels.formDescriptionLabel === 'string'
-                ? mods.labels.formDescriptionLabel
-                : 'Form Description'}
-            </h5>
             <Input
               value={schemaData.description || ''}
-              placeholder='Description'
-              type='text'
+              placeholder='Form description'
+              type='textarea'
               onChange={(ev) =>
                 onChange(
                   stringify({
@@ -316,6 +298,7 @@ export default function FormBuilder({
                 )
               }
               className='form-description'
+              style={{paddingBottom: '30px', paddingTop: '5px'}}
             />
           </div>
         </div>

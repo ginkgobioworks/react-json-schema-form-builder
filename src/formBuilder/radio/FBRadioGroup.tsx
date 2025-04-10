@@ -5,6 +5,10 @@ import FBRadioButton from './FBRadioButton';
 
 const useStyles = createUseStyles({
   radio: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '10px',
+    marginTop: '10px',
     '& .fb-radio-button': {
       display: 'block',
       '& input[type="radio"]': {
@@ -62,6 +66,7 @@ export default function FBRadioGroup(
     <div {...elementId} className={`${classes} ${classjss.radio}`}>
       {options.map((option, index) => (
         <FBRadioButton
+
           value={option.value}
           label={option.label}
           {...elementId}
