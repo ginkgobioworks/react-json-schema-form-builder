@@ -1,5 +1,5 @@
 {
-  "name": "@iesoftek/rjsf-form-builder",
+  "name": "rjsf-form-builder",
   "version": "1.0.0",
   "description": "React Component for visually configuring a JSON Schema-based form",
   "author": {
