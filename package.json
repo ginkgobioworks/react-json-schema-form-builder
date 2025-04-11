@@ -1,6 +1,9 @@
 {
-  "name": "rjsf-form-builder",
-  "version": "1.0.0",
+  "name": "@hydreight/react-json-schema-form-builder",
+  "version": "2.0.2",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"  
+  },
   "description": "React Component for visually configuring a JSON Schema-based form",
   "author": {
     "name": "Jatin Watts",
@@ -8,7 +11,10 @@
     "url": "https://github.com/hydreight"
   },
   "license": "Apache-2.0",
-  "repository": "hydreight/react-json-schema-form-builder",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hydreight/react-json-schema-form-builder.git"
+  },
   "keywords": [
     "react",
     "form",
@@ -96,9 +102,6 @@
     "react-jss": "^10.4.0",
     "react-select": "^5.0.0",
     "reactstrap": "^8.10.0 || ^9.0.0"
-  },
-  "publishConfig": {
-    "access": "public"
   },
   "bugs": {
     "url": "https://github.com/ginkgobioworks/react-json-schema-form-builder/issues",

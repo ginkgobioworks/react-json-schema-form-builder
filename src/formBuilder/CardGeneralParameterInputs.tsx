@@ -225,7 +225,7 @@ export default function CardGeneralParameterInputs({
           })}
         >
           <h5 className={classes.label}>
-            {`${displayNameLabel} `}
+            Question
           </h5>
           <Input
             value={titleState || ''}
@@ -244,7 +244,7 @@ export default function CardGeneralParameterInputs({
           })}
         >
           <h5 className={classes.label}>
-            {`${inputTypeLabel} `}
+            Answer type
           </h5>
           <Select
             value={{

@@ -54,7 +54,7 @@ const CardModal: CardModalType = ({
     <Modal isOpen={isOpen} data-test='card-modal' className={classes.cardModal}>
       <ModalHeader className='card-modal-header'>
         <div style={{ display: componentProps.hideKey ? 'none' : 'initial' }}>
-          <h3>Additional Settings</h3>
+          <h3>Add a form</h3>
         </div>
       </ModalHeader>
       <ModalBody className='card-modal-entries'>
