@@ -117,7 +117,7 @@ const CardModal: CardModalType = ({
             onClose();
             onChange(componentPropsState);
           }}
-          color='primary'
+          style={{backgroundColor: 'black'}}
         >
           Save
         </Button>
