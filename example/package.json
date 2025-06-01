@@ -16,17 +16,17 @@
   },
   "dependencies": {
     "@ginkgo-bioworks/react-json-schema-form-builder": "file:..",
-    "@rjsf/bootstrap-4": "^5.24.9",
-    "@rjsf/core": "^5.24.9",
-    "@rjsf/validator-ajv8": "^5.24.9",
+    "@rjsf/bootstrap-4": "^5.24.10",
+    "@rjsf/core": "^5.24.10",
+    "@rjsf/validator-ajv8": "^5.24.10",
     "react-bootstrap": "^1.6.4",
     "react-json-editor-ajrm": "^2.5.14"
   },
   "devDependencies": {
     "@babel/plugin-syntax-object-rest-spread": "^7.8.3",
-    "@next/eslint-plugin-next": "^15.3.1",
+    "@next/eslint-plugin-next": "^15.3.3",
     "@types/react": "^18.2.41",
-    "next": "^15.3.1",
+    "next": "^15.3.3",
     "rimraf": "^5.0.5"
   },
   "browserslist": [
