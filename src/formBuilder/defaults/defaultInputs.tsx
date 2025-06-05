@@ -16,10 +16,33 @@ const useStyles = createUseStyles({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    backgroundColor: '#FFFFFF !important'
+    backgroundColor: '#FFFFFF !important',
   },
   hidden: {
     display: 'none',
+  },
+  inputField: {
+    border: '1px solid #d1d5db',
+    padding: '0.5rem',
+    borderRadius: '0.375rem',
+    width: '100%',
+    boxShadow: '0 1px 2px 0 rgb(0 0 0 / 0.05)',
+    '&:focus': {
+      outline: 'none',
+      borderColor: '#3b82f6',
+      boxShadow: '0 0 0 2px rgba(59, 130, 246, 0.5)',
+    },
+    transition: 'all 0.2s ease',
+  },
+  inputContainer: {
+    justifyContent: 'center',
+    alignContent: 'center',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '8px',
+    marginBottom: '32px',
+    width: '103%',
+    marginTop: '-32px',
   },
 });
 
@@ -88,7 +111,17 @@ function MultipleChoice({
   );
   const [elementId] = React.useState(getRandomId());
   return (
-    <div className={`card-enum ${classes.container}`} >
+    <div className={`card-enum ${classes.container}`}>
+       <div className={classes.inputContainer}>
+        <div>Expected Answer</div>
+        <input
+          className={classes.inputField}
+          type='text'
+          onChange={(ev) =>
+            onChange({ ...parameters, expectedAnswer: ev.target.value })
+          }
+        />
+      </div>
       <h3>Possible Values</h3>
       <CardEnumOptions
         initialValues={enumArray}

@@ -48,6 +48,7 @@ export interface CardComponentPropsType {
   format?: string;
   'ui:autocomplete'?: string;
   default?: string | number | boolean;
+  expectedAnswer?: string | number | boolean; 
   items?: { [key: string]: any };
   'ui:*items'?: { [key: string]: any };
   multipleOf?: number | null;

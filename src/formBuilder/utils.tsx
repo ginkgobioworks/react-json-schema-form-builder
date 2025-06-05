@@ -153,6 +153,7 @@ const supportedPropertyParameters = new Set([
   '$schema',
   'meta',
   'additionalProperties',
+  'expectedAnswer'
 ]);
 
 const supportedUiParameters = new Set([
