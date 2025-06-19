@@ -126,35 +126,53 @@ const useStyles = createUseStyles({
     },
   },
   formHead: {
-    // '& .form-title textarea, & .form-description textarea': {
-    //   minHeight: '400px', // Adjust this value to your preferred height
-    //   resize: 'vertical', // Allows vertical resizing
-    // },
     display: 'flex',
+    flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
     margin: '0 auto',
-    'background-color': '#FAFAFA',
+    backgroundColor: '#FAFAFA',
     border: '1px solid #E4E4E7',
-    'border-radius': '4px',
+    borderRadius: '4px',
     width: '100%',
-    padding: '10px',
-    '& div': {
-      width: '50%',
-      display: 'inline-block',
-      'text-align': 'left',
-      padding: '10px',
+    padding: '15px',
+    gap: '15px', // Add gap between flex items
+    '& .label': {
+      fontWeight: 'bold',
+      fontSize: '14px',
     },
-    '& .form-title': {
-      'text-align': 'left',
+    '& .dropdown': {
+      width: '100%',
+      marginBottom: '10px', // Add some space below the dropdown
+      textAlign: 'left',
     },
-    '& .form-description': {
-      'text-align': 'left',
+
+    '& .input-row': {
+      display: 'flex',
+      width: '100%',
+      gap: '15px', // Space between the two inputs
     },
+
+    '& .text-input': {
+      flex: 1, // Make inputs take equal space
+      minWidth: 0, // Prevent flex items from overflowing
+    },
+
+    '& .form-title, & .form-description': {
+      textAlign: 'left',
+      width: '100%',
+    },
+
     '& h5': {
-      'font-size': '14px',
-      'line-height': '21px',
-      'font-weight': 'bold',
+      fontSize: '14px',
+      lineHeight: '21px',
+      fontWeight: 'bold',
+      marginBottom: '5px', // Space below the label
+    },
+
+    '& input, & select': {
+      width: '100%',
+      boxSizing: 'border-box', // Include padding in width calculation
     },
   },
   formBody: {
@@ -179,6 +197,9 @@ const useStyles = createUseStyles({
     textAlign: 'center',
     '& .fa': { cursor: 'pointer', color: '$green', fontSize: '1.5em' },
   },
+  formType: {
+    '& .fa': { cursor: 'pointer', color: '$green', fontSize: '1.5em' },
+  },
 });
 
 export default function FormBuilder({
@@ -188,6 +209,9 @@ export default function FormBuilder({
   onChange,
   mods,
   className,
+  formTypes,
+  setSelectedFormType,
+  selectedFormType,
 }: {
   schema: string;
   uischema: string;
@@ -195,6 +219,9 @@ export default function FormBuilder({
   onChange: (schema: string, uischema: string) => any;
   mods?: Mods;
   className?: string;
+  formTypes: { label: string; value: string }[];
+  setSelectedFormType: (arg0: string) => void;
+  selectedFormType: string;
 }): ReactElement {
   const classes = useStyles();
   const schemaData = parse(schema);
@@ -235,6 +262,8 @@ export default function FormBuilder({
     definitionData: schemaData.definitions,
     definitionUi: uiSchemaData.definitions,
     categoryHash,
+    formTypes,
+    setSelectedFormType,
   };
 
   const hideAddButton =
@@ -249,6 +278,10 @@ export default function FormBuilder({
       setIsFirstRender(false);
     }
   }, [isFirstRender, onMount, categoryHash]);
+
+  const handleFormTypeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectedFormType(event.target.value);
+  };
 
   return (
     <div className={`${classes.formBuilder} ${className || ''}`}>
@@ -265,41 +298,64 @@ export default function FormBuilder({
       </Alert>
       {(!mods || mods.showFormHead !== false) && (
         <div className={classes.formHead} data-test='form-head'>
-          <div>
+          <div className='dropdown'>
+            <label className='label' htmlFor='formType'>Select form type</label>
             <Input
-              value={schemaData.title || ''}
-              placeholder='Form name'
-              type='textarea'
-              onChange={(ev) => {
-                onChange(
-                  stringify({
-                    ...schemaData,
-                    title: ev.target.value,
-                  }),
-                  uischema,
-                );
-              }}
-              className='form-title'
-              style={{paddingBottom: '30px', paddingTop: '5px'}}
-            />
+              type='select'
+              value={selectedFormType}
+              onChange={handleFormTypeChange}
+            >
+              {formTypes.map((formType) => (
+                <option
+                  className={classes.formType}
+                  key={formType.value}
+                  value={formType.value}
+                >
+                  {formType.label}
+                </option>
+              ))}
+            </Input>
           </div>
-          <div>
-            <Input
-              value={schemaData.description || ''}
-              placeholder='Form description'
-              type='textarea'
-              onChange={(ev) =>
-                onChange(
-                  stringify({
-                    ...schemaData,
-                    description: ev.target.value,
-                  }),
-                  uischema,
-                )
-              }
-              className='form-description'
-              style={{paddingBottom: '30px', paddingTop: '5px'}}
-            />
+
+          <div className='input-row'>
+            <div className='text-input'>
+              <Input
+                id='formTitle'
+                value={schemaData.title || ''}
+                placeholder='Enter form name'
+                type='textarea'
+                onChange={(ev) => {
+                  onChange(
+                    stringify({
+                      ...schemaData,
+                      title: ev.target.value,
+                    }),
+                    uischema,
+                  );
+                }}
+                className='form-title'
+                style={{ paddingBottom: '30px', paddingTop: '5px' }}
+              />
+            </div>
+            <div className='text-input'>
+              <Input
+                id='formDescription'
+                value={schemaData.description || ''}
+                placeholder='Enter form description'
+                type='textarea'
+                onChange={(ev) =>
+                  onChange(
+                    stringify({
+                      ...schemaData,
+                      description: ev.target.value,
+                    }),
+                    uischema,
+                  )
+                }
+                className='form-description'
+                style={{ paddingBottom: '30px', paddingTop: '5px' }}
+              />
+            </div>
           </div>
         </div>
       )}

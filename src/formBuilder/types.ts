@@ -48,7 +48,7 @@ export interface CardComponentPropsType {
   format?: string;
   'ui:autocomplete'?: string;
   default?: string | number | boolean;
-  expectedAnswer?: string | number | boolean; 
+  expectedAnswer?: string | number | boolean;
   items?: { [key: string]: any };
   'ui:*items'?: { [key: string]: any };
   multipleOf?: number | null;
@@ -311,6 +311,9 @@ export interface AddFormObjectParametersType {
   definitionUi: { [key: string]: any };
   index?: number;
   categoryHash: { [key: string]: string };
+  formTypes?: { label: string; value: string }[];
+  setSelectedFormType?: (arg0: string) => void;
+  selectedFormType?: string;
 }
 
 export interface DefinitionData {
