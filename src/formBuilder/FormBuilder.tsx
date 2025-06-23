@@ -136,43 +136,34 @@ const useStyles = createUseStyles({
     borderRadius: '4px',
     width: '100%',
     padding: '15px',
-    gap: '15px', // Add gap between flex items
+    gap: '15px',
     '& .label': {
       fontWeight: 'bold',
       fontSize: '14px',
     },
-    '& .dropdown': {
-      width: '100%',
-      marginBottom: '10px', // Add some space below the dropdown
-      textAlign: 'left',
-    },
-
-    '& .input-row': {
+    '& .top-container': {
       display: 'flex',
       width: '100%',
-      gap: '15px', // Space between the two inputs
+      gap: '15px',
+      '& .form-type-container, & .form-name-container': {
+        flex: 1,
+        minWidth: 0,
+        textAlign: 'left',
+      },
     },
-
-    '& .text-input': {
-      flex: 1, // Make inputs take equal space
-      minWidth: 0, // Prevent flex items from overflowing
-    },
-
-    '& .form-title, & .form-description': {
-      textAlign: 'left',
+    '& .description-container': {
       width: '100%',
+      textAlign: 'left',
     },
-
     '& h5': {
       fontSize: '14px',
       lineHeight: '21px',
       fontWeight: 'bold',
-      marginBottom: '5px', // Space below the label
+      marginBottom: '5px',
     },
-
-    '& input, & select': {
+    '& input, & select, & textarea': {
       width: '100%',
-      boxSizing: 'border-box', // Include padding in width calculation
+      boxSizing: 'border-box',
     },
   },
   formBody: {
@@ -298,32 +289,37 @@ export default function FormBuilder({
       </Alert>
       {(!mods || mods.showFormHead !== false) && (
         <div className={classes.formHead} data-test='form-head'>
-          <div className='dropdown'>
-            <label className='label' htmlFor='formType'>Select form type</label>
-            <Input
-              type='select'
-              value={selectedFormType}
-              onChange={handleFormTypeChange}
-            >
-              {formTypes.map((formType) => (
-                <option
-                  className={classes.formType}
-                  key={formType.value}
-                  value={formType.value}
-                >
-                  {formType.label}
-                </option>
-              ))}
-            </Input>
-          </div>
+          <div className='top-container'>
+            <div className='form-type-container'>
+              <label className='label' htmlFor='formType'>
+                Select form type
+              </label>
+              <Input
+                type='select'
+                value={selectedFormType}
+                onChange={handleFormTypeChange}
+              >
+                {formTypes.map((formType) => (
+                  <option
+                    className={classes.formType}
+                    key={formType.value}
+                    value={formType.value}
+                  >
+                    {formType.label}
+                  </option>
+                ))}
+              </Input>
+            </div>
 
-          <div className='input-row'>
-            <div className='text-input'>
+            <div className='form-name-container'>
+              <label className='label' htmlFor='formTitle'>
+                Form Name
+              </label>
               <Input
                 id='formTitle'
                 value={schemaData.title || ''}
                 placeholder='Enter form name'
-                type='textarea'
+                type='text'
                 onChange={(ev) => {
                   onChange(
                     stringify({
@@ -333,32 +329,33 @@ export default function FormBuilder({
                     uischema,
                   );
                 }}
-                className='form-title'
-                style={{ paddingBottom: '30px', paddingTop: '5px' }}
-              />
-            </div>
-            <div className='text-input'>
-              <Input
-                id='formDescription'
-                value={schemaData.description || ''}
-                placeholder='Enter form description'
-                type='textarea'
-                onChange={(ev) =>
-                  onChange(
-                    stringify({
-                      ...schemaData,
-                      description: ev.target.value,
-                    }),
-                    uischema,
-                  )
-                }
-                className='form-description'
-                style={{ paddingBottom: '30px', paddingTop: '5px' }}
               />
             </div>
           </div>
+
+          <div className='description-container'>
+            <label className='label' htmlFor='formDescription'>
+              Form Description
+            </label>
+            <Input
+              id='formDescription'
+              value={schemaData.description || ''}
+              placeholder='Enter form description'
+              type='textarea'
+              onChange={(ev) =>
+                onChange(
+                  stringify({
+                    ...schemaData,
+                    description: ev.target.value,
+                  }),
+                  uischema,
+                )
+              }
+            />
+          </div>
         </div>
       )}
+
       <div className={`form-body ${classes.formBody}`}>
         <DragDropContext
           onDragEnd={(result) =>
