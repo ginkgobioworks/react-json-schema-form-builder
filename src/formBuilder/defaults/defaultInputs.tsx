@@ -112,7 +112,7 @@ function MultipleChoice({
   const [elementId] = React.useState(getRandomId());
   return (
     <div className={`card-enum ${classes.container}`}>
-       <div className={classes.inputContainer}>
+      <div className={classes.inputContainer}>
         <div>Expected Answer</div>
         <input
           className={classes.inputField}
@@ -223,16 +223,34 @@ const defaultInputs: { [key: string]: FormInput } = {
     cardBody: MultipleChoice,
     modalBody: CardDefaultParameterInputs,
   },
+  multiSelectCheckbox: {
+    displayName: 'Multiple select checkbox',
+    matchIf: [
+      {
+        types: ['string', 'number', 'integer', 'array', 'boolean', 'null'],
+        widget: 'multiSelectCheckbox',
+        enum: true,
+      },
+    ],
+    defaultDataSchema: { type: 'array', enum: [] },
+    defaultUiSchema: {
+      'ui:widget': 'multiSelectCheckbox',
+    },
+    type: 'string',
+    cardBody: MultipleChoice,
+    modalBody: CardDefaultParameterInputs,
+  },
   dropdown: {
     displayName: 'Dropdown',
     matchIf: [
       {
         types: ['string', 'number', 'integer', 'array', 'boolean', 'null'],
         enum: true,
+        widget: 'dropdown',
       },
     ],
     defaultDataSchema: { enum: [] },
-    defaultUiSchema: {},
+    defaultUiSchema: { 'ui:widget': 'dropdown' },
     type: 'string',
     cardBody: MultipleChoice,
     modalBody: CardDefaultParameterInputs,
