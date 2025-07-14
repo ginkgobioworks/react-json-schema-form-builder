@@ -32,6 +32,10 @@ const useStyles = createUseStyles({
       borderColor: '#3b82f6',
       boxShadow: '0 0 0 2px rgba(59, 130, 246, 0.5)',
     },
+    '&.error-border': {
+      borderColor: 'red',
+      borderWidth: '2px',
+    },
     transition: 'all 0.2s ease',
   },
   inputContainer: {
@@ -99,6 +103,9 @@ function MultipleChoice({
 }) {
   const classes = useStyles();
   const enumArray = Array.isArray(parameters.enum) ? parameters.enum : [];
+  const [error, setError] = React.useState<string>('');
+
+  const isMultiSelectCheckbox = parameters.type === 'array' && parameters.category === "multiSelectCheckbox";
 
   const containsUnparsableString = enumArray.some((val) => {
     return isNaN(val as number);
@@ -110,17 +117,59 @@ function MultipleChoice({
     !!enumArray.length && !containsString,
   );
   const [elementId] = React.useState(getRandomId());
+
+  const handleExpectedAnswerChange = (value: string) => {
+    if (isMultiSelectCheckbox && value.trim()) {
+      // Only validate if there's input (not required)
+      const trimmedValue = value.trim();
+
+      if(enumArray.length === 0) {
+        setError('Please enter options for multi select checkbox first');
+        return;
+      }
+      
+      // Split by comma and trim each value
+      const selectedValues = trimmedValue.split(',').map(item => item.trim());
+      
+      // Check if all values are in the enum array
+      const invalidValues = selectedValues.filter(
+        item => item && !enumArray.includes(item)
+      );
+
+      if (invalidValues.length > 0) {
+        setError(`Invalid values: ${invalidValues.join(', ')}. Allowed values: ${enumArray.join(', ')}`);
+      } else {
+        setError('');
+      }
+    } else {
+      setError('');
+    }
+
+    onChange({ ...parameters, expectedAnswer: value || undefined });
+  };
+
   return (
     <div className={`card-enum ${classes.container}`}>
       <div className={classes.inputContainer}>
-        <div>Expected Answer</div>
+        <div>
+          Expected Answer {isMultiSelectCheckbox ? '(Add comma separated for multiple values)' : ''}
+        </div>
         <input
-          className={classes.inputField}
+          className={`${classes.inputField} ${error ? 'error-border' : ''}`}
           type='text'
-          onChange={(ev) =>
-            onChange({ ...parameters, expectedAnswer: ev.target.value })
+          value={parameters.expectedAnswer?.toString() || ''}
+          onChange={(ev) => handleExpectedAnswerChange(ev.target.value)}
+          placeholder={
+            isMultiSelectCheckbox 
+              ? 'e.g., option1, option2, option3' 
+              : 'Enter expected answer'
           }
         />
+        {error && (
+          <div className="error-message" style={{ color: 'red', fontSize: '12px', marginTop: '4px' }}>
+            {error}
+          </div>
+        )}
       </div>
       <h3>Possible Values</h3>
       <CardEnumOptions
