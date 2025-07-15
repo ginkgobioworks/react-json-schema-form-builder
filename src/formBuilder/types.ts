@@ -198,6 +198,12 @@ interface MatchType {
   format?: string;
   $ref?: boolean;
   enum?: boolean;
+  items?: {
+    type: DataType;
+    enum?: boolean;
+    widget?: string;
+    format?: string;
+  };
 }
 
 export type CardComponentType = FunctionComponent<{

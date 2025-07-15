@@ -193,6 +193,79 @@ function MultipleChoice({
   );
 }
 
+function MultipleChoiceCheckbox({
+  parameters,
+  onChange,
+}: {
+  parameters: CardComponentPropsType;
+  onChange: (newParams: CardComponentPropsType) => void;
+}) {
+  const classes = useStyles();
+  const enumArray = Array.isArray(parameters.items?.enum) ? parameters.items.enum : [];
+  const [error, setError] = React.useState<string>('');
+
+  const handleExpectedAnswerChange = (value: string) => {
+    if (value.trim()) {
+      if (enumArray.length === 0) {
+        setError('Please enter options first');
+        return;
+      }
+      
+      const selectedValues = value.split(',').map(item => item.trim());
+      const invalidValues = selectedValues.filter(
+        item => item && !enumArray.includes(item)
+      );
+
+      if (invalidValues.length > 0) {
+        setError(`Invalid values: ${invalidValues.join(', ')}. Allowed values: ${enumArray.join(', ')}`);
+      } else {
+        setError('');
+      }
+    } else {
+      setError('');
+    }
+
+    onChange({ ...parameters, expectedAnswer: value || undefined });
+  };
+
+  return (
+    <div className={`card-enum ${classes.container}`}>
+      <div className={classes.inputContainer}>
+        <div>Expected Answer (comma separated for multiple values)</div>
+        <input
+          className={`${classes.inputField} ${error ? 'error-border' : ''}`}
+          type='text'
+          value={parameters.expectedAnswer?.toString() || ''}
+          onChange={(ev) => handleExpectedAnswerChange(ev.target.value)}
+          placeholder='e.g., option1, option2, option3'
+        />
+        {error && (
+          <div style={{ color: 'red', fontSize: '12px', marginTop: '4px' }}>
+            {error}
+          </div>
+        )}
+      </div>
+      <h3>Possible Values</h3>
+      <CardEnumOptions
+        initialValues={enumArray}
+        names={parameters.items?.enumNames}
+        showNames={Array.isArray(parameters.items?.enumNames)}
+        onChange={(newEnum, newEnumNames) => {
+          onChange({
+            ...parameters,
+            items: {
+              ...parameters.items,
+              enum: newEnum,
+              enumNames: newEnumNames,
+            },
+          });
+        }}
+        type='string'
+      />
+    </div>
+  );
+}
+
 const defaultInputs: { [key: string]: FormInput } = {
   dateTime: {
     displayName: 'Date-Time',
@@ -276,17 +349,20 @@ const defaultInputs: { [key: string]: FormInput } = {
     displayName: 'Multiple select checkbox',
     matchIf: [
       {
-        types: ['string', 'number', 'integer', 'array', 'boolean', 'null'],
+        types: ['array'],
         widget: 'multiSelectCheckbox',
-        enum: true,
+        items: {
+          type: 'string',
+          enum: true,
+        },
       },
     ],
-    defaultDataSchema: { type: 'array', enum: [] },
+    defaultDataSchema: {type: 'array', items: {type: 'string', enum: []} },
     defaultUiSchema: {
       'ui:widget': 'multiSelectCheckbox',
     },
     type: 'string',
-    cardBody: MultipleChoice,
+    cardBody: MultipleChoiceCheckbox,
     modalBody: CardDefaultParameterInputs,
   },
   dropdown: {
