@@ -107,18 +107,16 @@ const Collapse: FC<CollapseProps> = (props) => {
 
   return (
     <div className={classes}>
-      <div className='d-flex'>
+      <div
+        className='d-flex'
+        onClick={(event) => {
+          if (!props.disableToggle) {
+            props.toggleCollapse(event as unknown as MouseEvent<SVGSVGElement>);
+          }
+        }}
+      >
         <span className='toggle-collapse'>
-          <div
-            className='icon-container'
-            onClick={(event) => {
-              if (!props.disableToggle) {
-                props.toggleCollapse(
-                  event as unknown as MouseEvent<SVGSVGElement>,
-                );
-              }
-            }}
-          >
+          <div className='icon-container'>
             <VerticalDotsIcon />
           </div>
         </span>

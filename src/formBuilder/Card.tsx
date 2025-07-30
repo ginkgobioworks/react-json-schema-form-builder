@@ -52,7 +52,7 @@ const useStyles = createUseStyles({
       'border-radius': '4px',
     },
     '& .card-category-options': {
-      padding: '.5em',
+      padding: '.25em',
     },
     '& .card-select': {
       // border: '1px solid gray',
@@ -217,6 +217,7 @@ export default function Card({
                 {/* </UncontrolledTooltip> */}
                 <span id={`${elementId}_movedownbiginfo`}>
                   <FontAwesomeIcon
+                    style={{ marginRight: '15px' }}
                     icon={faChevronDown}
                     onClick={() => (onMoveDown ? onMoveDown() : {})}
                   />

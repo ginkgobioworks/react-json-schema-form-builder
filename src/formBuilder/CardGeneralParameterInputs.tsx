@@ -40,7 +40,7 @@ const useStyles = createUseStyles({
   invalidInput: {
     borderColor: 'red',
     '&:focus': {
-      borderColor: 'darkred', 
+      borderColor: 'darkred',
     },
   },
   formGroup: {
@@ -65,7 +65,7 @@ const useStyles = createUseStyles({
     fontSize: '14px',
     fontWeight: 'bold',
     color: '#333',
-    textAlign: 'left'
+    textAlign: 'left',
   },
   tooltip: {
     marginLeft: '5px',
@@ -76,37 +76,51 @@ const useStyles = createUseStyles({
 const customSelectStyles = {
   container: (provided: any) => ({
     ...provided,
-    width: '100%', 
+    width: '100%',
   }),
-  control: (provided: any) => ({
+  control: (provided: any, state: any) => ({
     ...provided,
-    borderRadius: '4px', 
-    border: '1px solid #E4E4E7', 
-    padding: '4px 7px', 
+    borderRadius: '4px',
+    border: '1px solid #E4E4E7',
+    boxShadow: 'none',
+    minHeight: '38px',
+    cursor: 'pointer',
+    zIndex: '9999',
   }),
   input: (provided: any) => ({
     ...provided,
-    fontSize: '14px', 
-    color: '#333', 
+    fontSize: '14px',
+    color: '#333',
   }),
   menu: (provided: any) => ({
     ...provided,
-    borderRadius: '4px', 
-    boxShadow: '0 4px 6px rgba(0,0,0,0.1)', 
+    borderRadius: '4px',
+    boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
   }),
   option: (provided: any, state: any) => ({
     ...provided,
-    backgroundColor: state.isSelected ? '#000000' : 'transparent', 
-    color: state.isSelected ? '#fff' : '#333', 
+    backgroundColor: state.isSelected ? '#000000' : 'transparent',
+    color: state.isSelected ? '#fff' : '#333',
     '&:hover': {
-      backgroundColor: '#f1f1f1', 
+      backgroundColor: '#f1f1f1',
     },
   }),
   placeholder: (provided: any) => ({
     ...provided,
-    color: '#9aa4ab', 
+    color: '#9aa4ab',
+  }),
+  // Add this to ensure the value container is clickable
+  valueContainer: (provided: any) => ({
+    ...provided,
+    cursor: 'pointer',
+  }),
+  // Add this to ensure indicators container is clickable
+  indicatorsContainer: (provided: any) => ({
+    ...provided,
+    cursor: 'pointer',
   }),
 };
+
 
 export default function CardGeneralParameterInputs({
   parameters,
@@ -130,6 +144,13 @@ export default function CardGeneralParameterInputs({
   );
   const [elementId] = React.useState(getRandomId());
   const categoryMap = categoryToNameMap(allFormInputs);
+
+  const [menuIsOpen, setMenuIsOpen] = React.useState(false);
+
+  const handleSelectContainerClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setMenuIsOpen(!menuIsOpen);
+  };
 
   const fetchLabel = (
     labelName: string,
@@ -219,14 +240,8 @@ export default function CardGeneralParameterInputs({
           </div>
         )} */}
 
-        <div
-          className={classnames(classes.cardEntry, {
-            [classes.wideCardEntry]: !showObjectNameInput,
-          })}
-        >
-          <h5 className={classes.label}>
-            Question
-          </h5>
+        <div className={classnames(classes.cardEntry, { [classes.wideCardEntry]: !showObjectNameInput })}>
+          <h5 className={classes.label}>Question</h5>
           <Input
             value={titleState || ''}
             placeholder='Display name'
@@ -238,46 +253,51 @@ export default function CardGeneralParameterInputs({
             className={classes.inputField}
           />
         </div>
-        <div
-          className={classnames(classes.cardEntry, {
-            [classes.wideCardEntry]: !showObjectNameInput,
-          })}
-        >
-          <h5 className={classes.label}>
-            Answer type
-          </h5>
-          <Select
-            value={{
-              value: parameters.category,
-              label: categoryMap[parameters.category!],
-            }}
-            placeholder={inputTypeLabel}
-            options={availableInputTypes()}
-            onChange={(val: any) => {
-              const newCategory = val.value;
-
-              const newProps = {
-                ...defaultUiProps(newCategory, allFormInputs),
-                ...defaultDataProps(newCategory, allFormInputs),
-                name: parameters.name,
-                required: parameters.required,
-              };
-              if (newProps.$ref !== undefined && !newProps.$ref) {
-                const firstDefinition = Object.keys(
-                  parameters.definitionData!,
-                )[0];
-                newProps.$ref = `#/definitions/${firstDefinition || 'empty'}`;
-              }
-              onChange({
-                ...newProps,
-                title: newProps.title || parameters.title,
-                default: newProps.default || '',
-                type: newProps.type || categoryType(newCategory, allFormInputs),
-                category: newProps.category || newCategory,
-              });
-            }}
-            styles={customSelectStyles}
-          />
+        
+         <div className={classnames(classes.cardEntry, { [classes.wideCardEntry]: !showObjectNameInput })}>
+          <h5 className={classes.label}>Answer type</h5>
+          
+          <div onClick={handleSelectContainerClick} style={{ position: 'relative', zIndex: 10 }}>
+            <Select
+              value={{
+                value: parameters.category,
+                label: categoryMap[parameters.category!],
+              }}
+              placeholder={inputTypeLabel}
+              options={availableInputTypes()}
+              onChange={(val: any) => {
+                setMenuIsOpen(false);
+                
+                const newCategory = val.value;
+                const newProps = {
+                  ...defaultUiProps(newCategory, allFormInputs),
+                  ...defaultDataProps(newCategory, allFormInputs),
+                  name: parameters.name,
+                  required: parameters.required,
+                };
+                if (newProps.$ref !== undefined && !newProps.$ref) {
+                  const firstDefinition = Object.keys(parameters.definitionData!)[0];
+                  newProps.$ref = `#/definitions/${firstDefinition || 'empty'}`;
+                }
+                onChange({
+                  ...newProps,
+                  title: newProps.title || parameters.title,
+                  default: newProps.default || '',
+                  type: newProps.type || categoryType(newCategory, allFormInputs),
+                  category: newProps.category || newCategory,
+                });
+              }}
+              
+              menuIsOpen={menuIsOpen}
+              onMenuOpen={() => setMenuIsOpen(true)}
+              onMenuClose={() => setMenuIsOpen(false)}
+              
+              styles={customSelectStyles}
+              isSearchable={false}
+              closeMenuOnSelect={true}
+              blurInputOnSelect={true}
+            />
+          </div>
         </div>
       </div>
 
