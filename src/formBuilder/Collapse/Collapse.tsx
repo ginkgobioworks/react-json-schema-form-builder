@@ -6,6 +6,7 @@ import classnames from 'classnames';
 const useStyles = createUseStyles({
   collapseElement: {
     '& .disabled': { '.toggle-collapse': { cursor: 'default' } },
+      backgroundColor: 'gray',
     '& h4': {
       display: 'flex',
       alignItems: 'center',
@@ -42,6 +43,7 @@ interface CollapseProps {
   // If true will gray out and disable */
   disableToggle?: boolean;
   className?: string;
+  backgroundColor?: string;
 }
 
 const VerticalDotsIcon = () => (
@@ -106,7 +108,7 @@ const Collapse: FC<CollapseProps> = (props) => {
   );
 
   return (
-    <div className={classes}>
+    <div className={classes} style={{backgroundColor: props.backgroundColor ? props.backgroundColor : ''}}>
       <div
         className='d-flex'
         onClick={(event) => {

@@ -177,6 +177,7 @@ export default function Card({
     <React.Fragment>
       <div className={classes.container}>
         <Collapse
+          backgroundColor='#FAFAFA'
           isOpen={cardOpen}
           toggleCollapse={() => setCardOpen(!cardOpen)}
           title={
@@ -202,7 +203,7 @@ export default function Card({
                   ''
                 )}
               </span>
-              <span className='arrows'>
+              <span className='arrows' style={{display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '10px'}}>
                 {/* <span id={`${elementId}_moveupbiginfo`}>
                 <FontAwesomeIcon
                   icon={faChevronUp}
@@ -215,6 +216,21 @@ export default function Card({
               >
                 Move form element up */}
                 {/* </UncontrolledTooltip> */}
+                <span
+                  id={`${elementId}_trashinfo`}
+                  onClick={() => onDelete && onDelete()}
+                  className={classes.iconContainer}
+                >
+                  <DeleteIcon />
+                </span>
+                <span>
+                  <UncontrolledTooltip
+                    placement='top'
+                    target={`${elementId}_trashinfo`}
+                  >
+                    Delete form element
+                  </UncontrolledTooltip>
+                </span>
                 <span id={`${elementId}_movedownbiginfo`}>
                   <FontAwesomeIcon
                     style={{ marginRight: '15px' }}
@@ -257,19 +273,6 @@ export default function Card({
               target={`${elementId}_editinfo`}
             >
               Additional configurations for this form element
-            </UncontrolledTooltip>
-            <div
-              id={`${elementId}_trashinfo`}
-              onClick={() => onDelete && onDelete()}
-              className={classes.iconContainer}
-            >
-              <DeleteIcon />
-            </div>
-            <UncontrolledTooltip
-              placement='top'
-              target={`${elementId}_trashinfo`}
-            >
-              Delete form element
             </UncontrolledTooltip>
             <FormControlLabel
               control={
