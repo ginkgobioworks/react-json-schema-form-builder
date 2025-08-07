@@ -153,7 +153,8 @@ const supportedPropertyParameters = new Set([
   '$schema',
   'meta',
   'additionalProperties',
-  'expectedAnswer'
+  'expectedAnswer',
+  'passingPercentage'
 ]);
 
 const supportedUiParameters = new Set([

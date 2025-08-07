@@ -331,6 +331,30 @@ export default function FormBuilder({
                 }}
               />
             </div>
+            <div className='form-name-container'>
+              <label className='label' htmlFor='formPassingPercentage'>
+                Passing percentage{`${' (%)'}`}
+              </label>
+              <Input
+                id='passingPercentage'
+                value={schemaData.passingPercentage || ''}
+                placeholder='Enter passing percentage'
+                type='number'
+                min='0'
+                max='100'
+                onChange={(ev) => {
+                  const value = parseInt(ev.target.value, 10);
+                  const clampedValue = Math.min(Math.max(value, 0), 100);
+                  onChange(
+                    stringify({
+                      ...schemaData,
+                      passingPercentage: clampedValue,
+                    }),
+                    uischema,
+                  );
+                }}
+              />
+            </div>
           </div>
 
           <div className='description-container'>
