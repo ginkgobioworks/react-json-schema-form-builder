@@ -85,7 +85,7 @@
     "typescript": "^5.0.4"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^6.1.1",
+    "@fortawesome/fontawesome-svg-core": "^7.0.0",
     "@fortawesome/free-solid-svg-icons": "^5.15.3 || ^6.1.1",
     "@fortawesome/react-fontawesome": "^0.1.14 || ^0.2.0",
     "@hello-pangea/dnd": "^16.0.0 || ^17.0.0 || ^18.0.1",
