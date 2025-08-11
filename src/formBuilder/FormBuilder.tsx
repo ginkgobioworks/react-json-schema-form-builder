@@ -276,6 +276,17 @@ export default function FormBuilder({
 
   const dropdownOptions = [{ name: 'Select form type' }, ...(formTypes || [])];
 
+  const formTypeMap = {
+    PRE_ASSESSMENT: 'Pre-Assessment',
+    RE_ASSESSMENT: 'Re-Assessment',
+    SERVICE_PACK: 'Service Pack',
+    MEDICAL_CONSENT: 'Medical Consent',
+    INCIDENT_REPORT: 'Incident Report',
+    MEDICAL_SCREENING: 'Medical Screening',
+    PRE_ASSESSMENT_TEMPLATE: 'Pre-Assessment Template',
+    SERVICE_PACK_TEMPLATE: 'Service Pack Template',
+  }
+
   return (
     <div className={`${classes.formBuilder} ${className || ''}`}>
       <Alert
@@ -307,7 +318,7 @@ export default function FormBuilder({
                     key={formType.name}
                     value={formType.name}
                   >
-                    {formType.name}
+                    {formType.name === 'Select form type' ? 'Select form type' : formTypeMap?.[formType.name as keyof typeof formTypeMap]}
                   </option>
                 ))}
               </Input>
