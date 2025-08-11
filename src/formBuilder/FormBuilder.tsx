@@ -210,7 +210,7 @@ export default function FormBuilder({
   onChange: (schema: string, uischema: string) => any;
   mods?: Mods;
   className?: string;
-  formTypes: { label: string; value: string }[];
+  formTypes: { name: string }[];
   setSelectedFormType: (arg0: string) => void;
   selectedFormType: string;
 }): ReactElement {
@@ -274,6 +274,8 @@ export default function FormBuilder({
     setSelectedFormType(event.target.value);
   };
 
+  const dropdownOptions = [{ name: 'Select form type' }, ...(formTypes || [])];
+
   return (
     <div className={`${classes.formBuilder} ${className || ''}`}>
       <Alert
@@ -299,13 +301,13 @@ export default function FormBuilder({
                 value={selectedFormType}
                 onChange={handleFormTypeChange}
               >
-                {formTypes.map((formType) => (
+                {dropdownOptions?.map((formType) => (
                   <option
                     className={classes.formType}
-                    key={formType.value}
-                    value={formType.value}
+                    key={formType.name}
+                    value={formType.name}
                   >
-                    {formType.label}
+                    {formType.name}
                   </option>
                 ))}
               </Input>

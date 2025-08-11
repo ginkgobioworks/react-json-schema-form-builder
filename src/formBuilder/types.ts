@@ -317,7 +317,7 @@ export interface AddFormObjectParametersType {
   definitionUi: { [key: string]: any };
   index?: number;
   categoryHash: { [key: string]: string };
-  formTypes?: { label: string; value: string }[];
+  formTypes?: { name: string }[];
   setSelectedFormType?: (arg0: string) => void;
   selectedFormType?: string;
 }
