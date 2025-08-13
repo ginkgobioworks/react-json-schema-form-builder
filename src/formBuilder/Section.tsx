@@ -148,6 +148,7 @@ export default function Section({
   // keep requirements in state to avoid rapid updates
   const [modalOpen, setModalOpen] = React.useState(false);
   const [elementId] = React.useState(getRandomId());
+  const [titleState, setTitleState] = React.useState('');
   const addProperties = {
     schema,
     uischema,
@@ -285,18 +286,19 @@ export default function Section({
               <div className='section-entry' data-test='section-display-name'>
                 <h5>Section Display Name </h5>
                 <Input
-                  value={schemaData.title || ''}
+                  value={titleState || ''}
                   placeholder='Title'
                   type='text'
-                  onChange={(ev) =>
+                  onChange={(ev) => {
                     onChange(
                       {
                         ...schema,
                         title: ev.target.value,
                       },
                       uischema,
-                    )
-                  }
+                    );
+                    setTitleState(ev.target.value)
+                  }}
                   className='card-text'
                 />
               </div>
