@@ -112,7 +112,7 @@ export default function Add({
 }): ReactElement {
   const classes = useStyles();
   const [popoverOpen, setPopoverOpen] = useState(false);
-  const [createChoice, setCreateChoice] = useState('card');
+  const [createChoice, setCreateChoice] = useState('section');
   const [elementId] = useState(getRandomId());
 
   return (
