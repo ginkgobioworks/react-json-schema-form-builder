@@ -149,12 +149,12 @@ export default function Add({
             horizontal={false}
             options={[
               {
-                value: 'card',
-                label: labels?.addElementLabel ?? 'Form element',
-              },
-              {
                 value: 'section',
                 label: labels?.addSectionLabel ?? 'Form section',
+              },
+              {
+                value: 'card',
+                label: labels?.addElementLabel ?? 'Form element',
               },
             ]}
             onChange={(selection) => {
