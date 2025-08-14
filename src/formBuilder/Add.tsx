@@ -128,7 +128,7 @@ export default function Add({
       </button>
 
       <UncontrolledTooltip placement="top" target={`${elementId}_add`}>
-        {tooltipDescription || 'Create new form element'}
+        {tooltipDescription || 'Create new form section'}
       </UncontrolledTooltip>
 
       {/* Popover */}
