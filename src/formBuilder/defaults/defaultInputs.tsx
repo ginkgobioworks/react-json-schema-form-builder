@@ -105,7 +105,9 @@ function MultipleChoice({
   const enumArray = Array.isArray(parameters.enum) ? parameters.enum : [];
   const [error, setError] = React.useState<string>('');
 
-  const isMultiSelectCheckbox = parameters.type === 'array' && parameters.category === "multiSelectCheckbox";
+  const isMultiSelectCheckbox =
+    parameters.type === 'array' &&
+    parameters.category === 'multiSelectCheckbox';
 
   const containsUnparsableString = enumArray.some((val) => {
     return isNaN(val as number);
@@ -123,21 +125,23 @@ function MultipleChoice({
       // Only validate if there's input (not required)
       const trimmedValue = value.trim();
 
-      if(enumArray.length === 0) {
+      if (enumArray.length === 0) {
         setError('Please enter options for multi select checkbox first');
         return;
       }
-      
+
       // Split by comma and trim each value
-      const selectedValues = trimmedValue.split(',').map(item => item.trim());
-      
+      const selectedValues = trimmedValue.split(',').map((item) => item.trim());
+
       // Check if all values are in the enum array
       const invalidValues = selectedValues.filter(
-        item => item && !enumArray.includes(item)
+        (item) => item && !enumArray.includes(item),
       );
 
       if (invalidValues.length > 0) {
-        setError(`Invalid values: ${invalidValues.join(', ')}. Allowed values: ${enumArray.join(', ')}`);
+        setError(
+          `Invalid values: ${invalidValues.join(', ')}. Allowed values: ${enumArray.join(', ')}`,
+        );
       } else {
         setError('');
       }
@@ -152,7 +156,10 @@ function MultipleChoice({
     <div className={`card-enum ${classes.container}`}>
       <div className={classes.inputContainer}>
         <div>
-          Expected Answer {isMultiSelectCheckbox ? '(Add comma separated for multiple values)' : ''}
+          Expected Answer{' '}
+          {isMultiSelectCheckbox
+            ? '(Add comma separated for multiple values)'
+            : ''}
         </div>
         <input
           className={`${classes.inputField} ${error ? 'error-border' : ''}`}
@@ -160,13 +167,16 @@ function MultipleChoice({
           value={parameters.expectedAnswer?.toString() || ''}
           onChange={(ev) => handleExpectedAnswerChange(ev.target.value)}
           placeholder={
-            isMultiSelectCheckbox 
-              ? 'e.g., option1, option2, option3' 
+            isMultiSelectCheckbox
+              ? 'e.g., option1, option2, option3'
               : 'Enter expected answer'
           }
         />
         {error && (
-          <div className="error-message" style={{ color: 'red', fontSize: '12px', marginTop: '4px' }}>
+          <div
+            className='error-message'
+            style={{ color: 'red', fontSize: '12px', marginTop: '4px' }}
+          >
             {error}
           </div>
         )}
@@ -201,7 +211,9 @@ function MultipleChoiceCheckbox({
   onChange: (newParams: CardComponentPropsType) => void;
 }) {
   const classes = useStyles();
-  const enumArray = Array.isArray(parameters.items?.enum) ? parameters.items.enum : [];
+  const enumArray = Array.isArray(parameters.items?.enum)
+    ? parameters.items.enum
+    : [];
   const [error, setError] = React.useState<string>('');
 
   const handleExpectedAnswerChange = (value: string) => {
@@ -210,14 +222,16 @@ function MultipleChoiceCheckbox({
         setError('Please enter options first');
         return;
       }
-      
-      const selectedValues = value.split(',').map(item => item.trim());
+
+      const selectedValues = value.split(',').map((item) => item.trim());
       const invalidValues = selectedValues.filter(
-        item => item && !enumArray.includes(item)
+        (item) => item && !enumArray.includes(item),
       );
 
       if (invalidValues.length > 0) {
-        setError(`Invalid values: ${invalidValues.join(', ')}. Allowed values: ${enumArray.join(', ')}`);
+        setError(
+          `Invalid values: ${invalidValues.join(', ')}. Allowed values: ${enumArray.join(', ')}`,
+        );
       } else {
         setError('');
       }
@@ -267,22 +281,23 @@ function MultipleChoiceCheckbox({
 }
 
 const defaultInputs: { [key: string]: FormInput } = {
-  dateTime: {
-    displayName: 'Date-Time',
-    matchIf: [
-      {
-        types: ['string'],
-        format: 'date-time',
-      },
-    ],
-    defaultDataSchema: {
-      format: 'date-time',
-    },
-    defaultUiSchema: {},
-    type: 'string',
-    cardBody: getInputCardBodyComponent({ type: 'datetime-local' }),
-    modalBody: CardDefaultParameterInputs,
-  },
+  //do not required as of now but can be used for date and time in future
+  // dateTime: {
+  //   displayName: 'Date-Time',
+  //   matchIf: [
+  //     {
+  //       types: ['string'],
+  //       format: 'date-time',
+  //     },
+  //   ],
+  //   defaultDataSchema: {
+  //     format: 'date-time',
+  //   },
+  //   defaultUiSchema: {},
+  //   type: 'string',
+  //   cardBody: getInputCardBodyComponent({ type: 'datetime-local' }),
+  //   modalBody: CardDefaultParameterInputs,
+  // },
   date: {
     displayName: 'Date',
     matchIf: [
@@ -357,7 +372,7 @@ const defaultInputs: { [key: string]: FormInput } = {
         },
       },
     ],
-    defaultDataSchema: {type: 'array', items: {type: 'string', enum: []} },
+    defaultDataSchema: { type: 'array', items: { type: 'string', enum: [] } },
     defaultUiSchema: {
       'ui:widget': 'multiSelectCheckbox',
     },
