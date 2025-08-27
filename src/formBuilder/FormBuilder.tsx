@@ -276,6 +276,9 @@ export default function FormBuilder({
 
   const dropdownOptions = [{ name: 'Select form type' }, ...(formTypes || [])];
 
+  const [formNameError, setFormNameError] = useState('');
+  const [formDescriptionError, setFormDescriptionError] = useState('');
+
   const formTypeMap = {
     PRE_ASSESSMENT: 'Pre-Assessment',
     RE_ASSESSMENT: 'Re-Assessment',
@@ -285,7 +288,7 @@ export default function FormBuilder({
     MEDICAL_SCREENING: 'Medical Screening',
     PRE_ASSESSMENT_TEMPLATE: 'Pre-Assessment Template',
     SERVICE_PACK_TEMPLATE: 'Service Pack Template',
-  }
+  };
 
   return (
     <div className={`${classes.formBuilder} ${className || ''}`}>
@@ -318,7 +321,11 @@ export default function FormBuilder({
                     key={formType.name}
                     value={formType.name}
                   >
-                    {formType.name === 'Select form type' ? 'Select form type' : formTypeMap?.[formType.name as keyof typeof formTypeMap]}
+                    {formType.name === 'Select form type'
+                      ? 'Select form type'
+                      : formTypeMap?.[
+                          formType.name as keyof typeof formTypeMap
+                        ]}
                   </option>
                 ))}
               </Input>
@@ -333,16 +340,36 @@ export default function FormBuilder({
                 value={schemaData.title || ''}
                 placeholder='Enter form name'
                 type='text'
+                invalid={!!formNameError}
                 onChange={(ev) => {
+                  const value = ev.target.value;
+
+                  // Always update schemaData
                   onChange(
                     stringify({
                       ...schemaData,
-                      title: ev.target.value,
+                      title: value,
                     }),
                     uischema,
                   );
+
+                  // Live validation
+                  if (value.trim().length < 3) {
+                    setFormNameError(
+                      'Form name must be at least 3 characters long',
+                    );
+                  } else {
+                    setFormNameError('');
+                  }
                 }}
               />
+              {formNameError && (
+                <div
+                  style={{ color: 'red', fontSize: '12px', marginTop: '4px' }}
+                >
+                  {formNameError}
+                </div>
+              )}
             </div>
             <div className='form-name-container'>
               <label className='label' htmlFor='formPassingPercentage'>
@@ -379,16 +406,38 @@ export default function FormBuilder({
               value={schemaData.description || ''}
               placeholder='Enter form description'
               type='textarea'
-              onChange={(ev) =>
+              invalid={!!formDescriptionError}
+              onChange={(ev) => {
+                const value = ev.target.value;
+
+                // Always update schemaData
                 onChange(
                   stringify({
                     ...schemaData,
-                    description: ev.target.value,
+                    description: value,
                   }),
                   uischema,
-                )
-              }
+                );
+
+                // Validation: must contain at least 2 words
+                const wordCount = value
+                  .trim()
+                  .split(/\s+/)
+                  .filter(Boolean).length;
+                if (wordCount < 2) {
+                  setFormDescriptionError(
+                    'Description must contain at least 2 words',
+                  );
+                } else {
+                  setFormDescriptionError('');
+                }
+              }}
             />
+            {formDescriptionError && (
+              <div style={{ color: 'red', fontSize: '12px', marginTop: '4px' }}>
+                {formDescriptionError}
+              </div>
+            )}
           </div>
         </div>
       )}

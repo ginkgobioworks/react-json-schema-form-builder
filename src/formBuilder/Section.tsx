@@ -161,6 +161,23 @@ export default function Section({
   const hideAddButton =
     schemaData.properties && Object.keys(schemaData.properties).length !== 0;
 
+  const [titleError, setTitleError] = React.useState<string | null>(null);
+  const [descError, setDescError] = React.useState<string | null>(null);
+
+  const validateSectionTitle = (value: string): string | null => {
+    if (!value || value.trim().length < 3) {
+      return 'Section name must be at least 3 characters long.';
+    }
+    return null;
+  };
+
+  const validateSectionDescription = (value: string): string | null => {
+    if (!value || value.trim().split(/\s+/).length < 2) {
+      return 'Section description must contain at least 2 words.';
+    }
+    return null;
+  };
+
   return (
     <React.Fragment>
       <Collapse
@@ -290,35 +307,38 @@ export default function Section({
                   placeholder='Title'
                   type='text'
                   onChange={(ev) => {
-                    onChange(
-                      {
-                        ...schema,
-                        title: ev.target.value,
-                      },
-                      uischema,
-                    );
-                    setTitleState(ev.target.value)
+                    const value = ev.target.value;
+                    setTitleState(value);
+                    setTitleError(validateSectionTitle(value));
+                    onChange({ ...schema, title: value }, uischema);
                   }}
+                  onBlur={(ev) => {
+                    setTitleError(validateSectionTitle(ev.target.value));
+                  }}
+                  invalid={!!titleError}
                   className='card-text'
                 />
+                {titleError && <FormFeedback>{titleError}</FormFeedback>}
               </div>
+
               <div className='section-entry' data-test='section-description'>
                 <h5>Section Description </h5>
                 <Input
                   value={schemaData.description || ''}
                   placeholder='Description'
                   type='text'
-                  onChange={(ev) =>
-                    onChange(
-                      {
-                        ...schema,
-                        description: ev.target.value,
-                      },
-                      uischema,
-                    )
-                  }
+                  onChange={(ev) => {
+                    const value = ev.target.value;
+                    setDescError(validateSectionDescription(value));
+                    onChange({ ...schema, description: value }, uischema);
+                  }}
+                  onBlur={(ev) => {
+                    setDescError(validateSectionDescription(ev.target.value));
+                  }}
+                  invalid={!!descError}
                   className='card-text'
                 />
+                {descError && <FormFeedback>{descError}</FormFeedback>}
               </div>
             </div>
             <Alert

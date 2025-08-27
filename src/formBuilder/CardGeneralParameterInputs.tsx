@@ -121,7 +121,6 @@ const customSelectStyles = {
   }),
 };
 
-
 export default function CardGeneralParameterInputs({
   parameters,
   onChange,
@@ -184,6 +183,52 @@ export default function CardGeneralParameterInputs({
       .sort((a, b) => a.label.localeCompare(b.label));
   };
 
+  const [titleError, setTitleError] = React.useState<string | null>(null);
+
+  const validateQuestion = (value: string): string | null => {
+    const trimmed = value.trim();
+
+    if (!trimmed) {
+      return 'Question is required';
+    }
+
+    if (trimmed.length < 3) {
+      return 'Question must be at least 3 characters long';
+    }
+
+    // Must contain at least one letter
+    if (!/[a-zA-Z]/.test(trimmed)) {
+      return 'Question must contain at least one letter';
+    }
+
+    // Prevent only numbers, symbols, or junk like "11111", "!!!"
+    if (/^[^a-zA-Z]+$/.test(trimmed)) {
+      return 'Question must contain meaningful words';
+    }
+
+    // Prevent excessive spaces
+    if (/\s{2,}/.test(trimmed)) {
+      return 'Question cannot contain multiple consecutive spaces';
+    }
+
+    // Must start with a letter
+    if (!/^[a-zA-Z]/.test(trimmed)) {
+      return 'Question must start with a letter';
+    }
+
+    // Prevent consecutive special characters
+    if (/[?!.,'-]{2,}/.test(trimmed)) {
+      return 'Question cannot contain consecutive special characters';
+    }
+
+    // Allowed characters only
+    if (!/^[a-zA-Z0-9\s.,?'-]+$/.test(trimmed)) {
+      return 'Question contains invalid characters';
+    }
+
+    return null;
+  };
+
   return (
     <React.Fragment>
       <div className={classes.cardEntryRow}>
@@ -240,24 +285,59 @@ export default function CardGeneralParameterInputs({
           </div>
         )} */}
 
-        <div className={classnames(classes.cardEntry, { [classes.wideCardEntry]: !showObjectNameInput })}>
+        <div
+          className={classnames(classes.cardEntry, {
+            [classes.wideCardEntry]: !showObjectNameInput,
+          })}
+        >
           <h5 className={classes.label}>Question</h5>
           <Input
             value={titleState || ''}
-            placeholder='Display name'
+            placeholder='Enter your question'
             type='text'
-            onChange={(ev) => setTitleState(ev.target.value)}
-            onBlur={(ev) => {
-              onChange({ ...parameters, title: ev.target.value });
+            onChange={(ev) => {
+              const value = ev.target.value;
+              setTitleState(value);
+              setTitleError(validateQuestion(value));
             }}
-            className={classes.inputField}
+            invalid={!!titleError}
+            onBlur={(ev) => {
+              const error = validateQuestion(ev.target.value);
+              setTitleError(error);
+              if (!error) {
+                onChange({ ...parameters, title: ev.target.value });
+              }
+            }}
+            className={classnames(classes.inputField, {
+              [classes.invalidInput]: !!titleError, // use your red border styling
+            })}
           />
+
+          {/* Custom error message instead of FormFeedback */}
+          {titleError && (
+            <div
+              style={{
+                color: 'red',
+                fontSize: '12px',
+                marginTop: '8px', // keeps spacing consistent
+              }}
+            >
+              {titleError}
+            </div>
+          )}
         </div>
-        
-         <div className={classnames(classes.cardEntry, { [classes.wideCardEntry]: !showObjectNameInput })}>
+
+        <div
+          className={classnames(classes.cardEntry, {
+            [classes.wideCardEntry]: !showObjectNameInput,
+          })}
+        >
           <h5 className={classes.label}>Answer type</h5>
-          
-          <div onClick={handleSelectContainerClick} style={{ position: 'relative', zIndex: 10 }}>
+
+          <div
+            onClick={handleSelectContainerClick}
+            style={{ position: 'relative', zIndex: 10 }}
+          >
             <Select
               value={{
                 value: parameters.category,
@@ -267,7 +347,7 @@ export default function CardGeneralParameterInputs({
               options={availableInputTypes()}
               onChange={(val: any) => {
                 setMenuIsOpen(false);
-                
+
                 const newCategory = val.value;
                 const newProps = {
                   ...defaultUiProps(newCategory, allFormInputs),
@@ -276,22 +356,23 @@ export default function CardGeneralParameterInputs({
                   required: parameters.required,
                 };
                 if (newProps.$ref !== undefined && !newProps.$ref) {
-                  const firstDefinition = Object.keys(parameters.definitionData!)[0];
+                  const firstDefinition = Object.keys(
+                    parameters.definitionData!,
+                  )[0];
                   newProps.$ref = `#/definitions/${firstDefinition || 'empty'}`;
                 }
                 onChange({
                   ...newProps,
                   title: newProps.title || parameters.title,
                   default: newProps.default || '',
-                  type: newProps.type || categoryType(newCategory, allFormInputs),
+                  type:
+                    newProps.type || categoryType(newCategory, allFormInputs),
                   category: newProps.category || newCategory,
                 });
               }}
-              
               menuIsOpen={menuIsOpen}
               onMenuOpen={() => setMenuIsOpen(true)}
               onMenuClose={() => setMenuIsOpen(false)}
-              
               styles={customSelectStyles}
               isSearchable={false}
               closeMenuOnSelect={true}
