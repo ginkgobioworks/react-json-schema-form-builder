@@ -137,7 +137,7 @@ export default function CardGeneralParameterInputs({
   const classes = useStyles(); // Initialize the styles
   const [keyState, setKeyState] = React.useState(parameters.name);
   const [keyError, setKeyError] = React.useState<null | string>(null);
-  const [titleState, setTitleState] = React.useState('');
+  const [titleState, setTitleState] = React.useState(parameters?.title || '');
   const [descriptionState, setDescriptionState] = React.useState(
     parameters.description,
   );
@@ -292,13 +292,14 @@ export default function CardGeneralParameterInputs({
         >
           <h5 className={classes.label}>Question</h5>
           <Input
-            value={parameters.title || titleState}
+            value={titleState}
             placeholder='Enter your question'
             type='text'
             onChange={(ev) => {
               const value = ev.target.value;
               setTitleState(value);
               setTitleError(validateQuestion(value));
+              onChange({ ...parameters, title: ev.target.value });
             }}
             invalid={!!titleError}
             onBlur={(ev) => {

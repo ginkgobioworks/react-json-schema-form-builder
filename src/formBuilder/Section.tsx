@@ -341,7 +341,7 @@ export default function Section({
                 {descError && <FormFeedback>{descError}</FormFeedback>}
               </div>
             </div>
-            <Alert
+            {/* <Alert
               style={{
                 display: unsupportedFeatures.length === 0 ? 'none' : 'block',
               }}
@@ -351,7 +351,7 @@ export default function Section({
               {unsupportedFeatures.map((message) => (
                 <li key={`${elementId}_${message}`}>{message}</li>
               ))}
-            </Alert>
+            </Alert> */}
           </div>
           <div className='section-body'>
             <DragDropContext
