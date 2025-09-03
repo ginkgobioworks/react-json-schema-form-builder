@@ -1048,13 +1048,13 @@ export function addSectionObj(parameters: AddFormObjectParametersType) {
     name: `${DEFAULT_INPUT_NAME}${i}`,
     required: false,
     dataOptions: {
-      title: `New Input ${i}`,
+      title: ``,
       type: 'object',
       default: '',
     },
     uiOptions: {},
     propType: 'section',
-    schema: { title: `New Input ${i}`, type: 'object' },
+    schema: { title: ``, type: 'object' },
     uischema: {},
     neighborNames: [],
   };
@@ -1715,7 +1715,7 @@ export function getNewElementDefaultDataOptions(
     return { ...mods.newElementDefaultDataOptions, ...{ title: title } };
   } else {
     return {
-      title: `New Input ${i}`,
+      title: ``,
       type: 'string',
       default: '',
     };

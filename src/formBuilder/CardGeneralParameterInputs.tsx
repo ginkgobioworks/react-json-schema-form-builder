@@ -292,7 +292,7 @@ export default function CardGeneralParameterInputs({
         >
           <h5 className={classes.label}>Question</h5>
           <Input
-            value={titleState || ''}
+            value={parameters.title || titleState}
             placeholder='Enter your question'
             type='text'
             onChange={(ev) => {

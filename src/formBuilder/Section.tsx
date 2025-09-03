@@ -303,7 +303,7 @@ export default function Section({
               <div className='section-entry' data-test='section-display-name'>
                 <h5>Section Display Name </h5>
                 <Input
-                  value={titleState || ''}
+                  value={schemaData.title || titleState}
                   placeholder='Title'
                   type='text'
                   onChange={(ev) => {
