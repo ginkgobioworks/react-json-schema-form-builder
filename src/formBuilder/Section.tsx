@@ -171,13 +171,6 @@ export default function Section({
     return null;
   };
 
-  const validateSectionDescription = (value: string): string | null => {
-    if (!value || value.trim().split(/\s+/).length < 2) {
-      return 'Section description must contain at least 2 words.';
-    }
-    return null;
-  };
-
   return (
     <React.Fragment>
       <Collapse
@@ -329,16 +322,13 @@ export default function Section({
                   type='text'
                   onChange={(ev) => {
                     const value = ev.target.value;
-                    setDescError(validateSectionDescription(value));
                     onChange({ ...schema, description: value }, uischema);
                   }}
                   onBlur={(ev) => {
-                    setDescError(validateSectionDescription(ev.target.value));
                   }}
                   invalid={!!descError}
                   className='card-text'
                 />
-                {descError && <FormFeedback>{descError}</FormFeedback>}
               </div>
             </div>
             {/* <Alert

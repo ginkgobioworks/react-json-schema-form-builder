@@ -186,48 +186,50 @@ export default function CardGeneralParameterInputs({
   const [titleError, setTitleError] = React.useState<string | null>(null);
 
   const validateQuestion = (value: string): string | null => {
-    const trimmed = value.trim();
+  const trimmed = value.trim();
 
-    if (!trimmed) {
-      return 'Question is required';
-    }
+  if (!trimmed) {
+    return 'Question is required';
+  }
 
-    if (trimmed.length < 3) {
-      return 'Question must be at least 3 characters long';
-    }
+  if (trimmed.length < 3) {
+    return 'Question must be at least 3 characters long';
+  }
 
-    // Must contain at least one letter
-    if (!/[a-zA-Z]/.test(trimmed)) {
-      return 'Question must contain at least one letter';
-    }
+  // Must contain at least one letter
+  if (!/[a-zA-Z]/.test(trimmed)) {
+    return 'Question must contain at least one letter';
+  }
 
-    // Prevent only numbers, symbols, or junk like "11111", "!!!"
-    if (/^[^a-zA-Z]+$/.test(trimmed)) {
-      return 'Question must contain meaningful words';
-    }
+  // Prevent only numbers, symbols, or junk like "11111", "!!!"
+  if (/^[^a-zA-Z]+$/.test(trimmed)) {
+    return 'Question must contain meaningful words';
+  }
 
-    // Prevent excessive spaces
-    if (/\s{2,}/.test(trimmed)) {
-      return 'Question cannot contain multiple consecutive spaces';
-    }
+  // Prevent multiple consecutive spaces
+  if (/\s{2,}/.test(trimmed)) {
+    return 'Question cannot contain multiple consecutive spaces';
+  }
 
-    // Must start with a letter
-    if (!/^[a-zA-Z]/.test(trimmed)) {
-      return 'Question must start with a letter';
-    }
+  // Must start with a letter
+  if (!/^[a-zA-Z]/.test(trimmed)) {
+    return 'Question must start with a letter';
+  }
 
-    // Prevent consecutive special characters
-    if (/[?!.,'-]{2,}/.test(trimmed)) {
-      return 'Question cannot contain consecutive special characters';
-    }
+  // Disallow consecutive repeated special characters (like !!, ??, %%)
+  if (/([?!@#$%^&*.,'"\-])\1+/.test(trimmed)) {
+    return 'Question cannot contain consecutive repeated special characters';
+  }
 
-    // Allowed characters only
-    if (!/^[a-zA-Z0-9\s.,?'-]+$/.test(trimmed)) {
-      return 'Question contains invalid characters';
-    }
+  // Optional: Check for invalid characters (if you want to restrict very strange characters like emojis, etc.)
+  // Allow letters, numbers, spaces, and common punctuation
+  if (!/^[a-zA-Z0-9\s?!@#$%^&*.,'"()\-\[\]{}]+$/.test(trimmed)) {
+    return 'Question contains invalid characters';
+  }
 
-    return null;
-  };
+  return null;
+};
+
 
   return (
     <React.Fragment>
