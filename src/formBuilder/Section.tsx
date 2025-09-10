@@ -13,6 +13,7 @@ import {
   faPencilAlt,
   faTrash,
   faChevronDown,
+  faChevronUp,
 } from '@fortawesome/free-solid-svg-icons';
 import FBCheckbox from './checkbox/FBCheckbox';
 import Collapse from './Collapse/Collapse';
@@ -205,7 +206,7 @@ export default function Section({
               </UncontrolledTooltip> */}
               <span id={`${elementId}_movedownbiginfo`}>
                 <FontAwesomeIcon
-                  icon={faChevronDown}
+                  icon={cardOpen ? faChevronUp : faChevronDown }
                   onClick={() => (onMoveDown ? onMoveDown() : {})}
                 />
               </span>

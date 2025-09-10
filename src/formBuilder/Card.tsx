@@ -234,7 +234,7 @@ export default function Card({
                 <span id={`${elementId}_movedownbiginfo`}>
                   <FontAwesomeIcon
                     style={{ marginRight: '15px' }}
-                    icon={faChevronDown}
+                    icon={ cardOpen ? faChevronUp : faChevronDown}
                     onClick={() => (onMoveDown ? onMoveDown() : {})}
                   />
                 </span>
