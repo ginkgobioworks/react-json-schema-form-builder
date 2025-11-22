@@ -26,7 +26,7 @@
     "@babel/plugin-syntax-object-rest-spread": "^7.8.3",
     "@next/eslint-plugin-next": "^15.3.4",
     "@types/react": "^18.2.41",
-    "next": "^15.4.7",
+    "next": "^16.0.1",
     "rimraf": "^5.0.5"
   },
   "browserslist": [
