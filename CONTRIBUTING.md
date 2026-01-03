@@ -14,11 +14,11 @@ In this repository, the source code for the component library is in the `src` di
 
 The example app being run on the [GitHub Pages site](https://ginkgobioworks.github.io/react-json-schema-form-builder/), meanwhile, has its code stored in the `example` directory. It relies on an additional set of dependencies, which are stored in the `devDependencies` within the `package.json` file.
 
-[Type declarations](https://www.typescriptlang.org/docs/handbook/declaration-files/introduction.html) are also output to the `dist` folder for both the component library and the example site. If any of the types in `src/formBuilder/types.js` are changed, or if the properties of the `FormBuilder` or `PredefinedGallery` are altered, then these declaration files will be changed on the next build.
+[Type declarations](https://www.typescriptlang.org/docs/handbook/declaration-files/introduction.html) are also output to the `dist` folder for both the component library and the example site. If any of the types in `src/formBuilder/types.ts` are changed, or if the properties of the `FormBuilder` or `PredefinedGallery` are altered, then these declaration files will be changed on the next build.
 
 ## Testing
 
-The `src` directory also contains testing files written for the [jest](https://jestjs.io/en/) test harness. The tests use [Enzyme](https://github.com/enzymejs/enzyme) for component and DOM manipulation and traversal. These tests are run in the CI/CD pipeline, and must pass before a branch can be merged into the 'main' branch. Changes may be needed to the test harness to accommodate new features or fixes.
+The `src` directory also contains testing files written for the [jest](https://jestjs.io/en/) test harness. The tests use [React Testing Library](https://testing-library.com/react) for component and DOM manipulation and traversal. These tests are run in the CI/CD pipeline, and must pass before a branch can be merged into the 'main' branch. Changes may be needed to the test harness to accommodate new features or fixes.
 
 The CI/CD pipeline also runs `prettier`, `eslint` and `tsc` checks which must pass before a branch can be merged into 'main'. You can run `npm run prettier` to auto-format code to pass `prettier` standards, and `npm test` to run all of these tests to ensure that they will pass in the CI/CD pipeline.
 
@@ -30,8 +30,8 @@ Documentation is stored in the `docs` directory, and it is used to generate docu
 
 ## Demo
 
-GitHub Pages runs off the `gh-pages` branch, which can only be pushed to by the Travis CI bot. After passing all of the tests on `main`, the CI pipeline will automatically push the files in `example/build` onto  the `gh-pages` branch, which will update the demo available on the static GitHub Pages site https://ginkgobioworks.github.io/react-json-schema-form-builder/
+The example app is available on the [GitHub Pages site](https://ginkgobioworks.github.io/react-json-schema-form-builder/). The demo is automatically updated when changes are merged to the `main` branch.
 
 ## Release
 
-The maintainers will release new versions to NPM as appropriate. The procedure that the maintainers will use to release is to update the changelog with the newest version, update the package.json version, and tag the main branch with the version number, upon which the travis-CI will run tests again before deploying to NPM automatically.
+The maintainers will release new versions to NPM as appropriate. The procedure that the maintainers will use to release is to update the changelog with the newest version, update the package.json version, and tag the main branch with the version number, upon which the CI pipeline will run tests again before deploying to NPM automatically.

@@ -1,4 +1,6 @@
 import React, { ReactElement } from 'react';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 import {
   generateElementComponentsFromSchemas,
   countElementsFromSchema,
@@ -65,12 +67,12 @@ export default function CardGallery({
     Card,
     Section,
   }).map((element: any) => (
-    <div
+    <Box
       key={typeof element.key === 'string' ? element.key : ''}
-      className='form_gallery_container'
+      data-testid='form-gallery-container'
     >
       {element}
-    </div>
+    </Box>
   ));
 
   const hideAddButton =
@@ -99,12 +101,14 @@ export default function CardGallery({
   };
 
   return (
-    <div className='form_gallery'>
+    <div data-testid='form-gallery'>
       {componentArr}
       {componentArr.length === 0 && (
-        <h5>No components in &quot;definitions&quot;</h5>
+        <Typography variant='body2' color='text.secondary'>
+          No components in &quot;definitions&quot;
+        </Typography>
       )}
-      <div className='form_footer'>
+      <div>
         {!hideAddButton &&
           mods?.components?.add &&
           mods.components.add(addProperties)}

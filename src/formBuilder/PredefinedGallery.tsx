@@ -1,5 +1,11 @@
-import React, { ReactElement } from 'react';
-import { createUseStyles } from 'react-jss';
+import React, {
+  ReactElement,
+  memo,
+  useMemo,
+  useEffect,
+  useCallback,
+} from 'react';
+import Stack from '@mui/material/Stack';
 import CardGallery from './CardGallery';
 import {
   parse,
@@ -8,118 +14,10 @@ import {
   generateCategoryHash,
   excludeKeys,
 } from './utils';
-import { arrows as arrowsStyle } from './styles';
 import DEFAULT_FORM_INPUTS from './defaults/defaultFormInputs';
 import type { Mods } from './types';
 
-const useStyles = createUseStyles({
-  preDefinedGallery: {
-    display: 'flex',
-    flexDirection: 'column',
-    'text-align': 'center',
-    '& .fa': {
-      cursor: 'pointer',
-    },
-    '& .fa-question-circle, & .fa-circle-question': {
-      color: 'gray',
-    },
-    '& .fa-asterisk': {
-      'font-size': '.9em',
-      color: 'green',
-    },
-    ...arrowsStyle,
-    '& .form_footer': {
-      marginTop: '1em',
-      textAlign: 'center',
-      '& .fa': { cursor: 'pointer', color: '$green', fontSize: '1.5em' },
-    },
-    '& .fa-plus-square & .fa-square-plus': {
-      color: 'green',
-      'font-size': '1.5em',
-      margin: '0 auto',
-    },
-    '& .card-container': {
-      '&:hover': {
-        border: '1px solid green',
-      },
-      width: '70%',
-      'min-width': '400px',
-      margin: '2em auto',
-      border: '1px solid gray',
-      'border-radius': '4px',
-      'background-color': 'white',
-      '& h4': {
-        width: '100%',
-        'text-align': 'left',
-        display: 'inline-block',
-        color: '#138AC2',
-        margin: '0.25em .5em 0 .5em',
-        'font-size': '18px',
-      },
-      '& .d-flex': {
-        'border-bottom': '1px solid gray',
-      },
-      '& .label': {
-        float: 'left',
-      },
-    },
-    '& .card-requirements': {
-      border: '1px dashed black',
-    },
-    '& .section-container': {
-      '&:hover': {
-        border: '1px solid green',
-      },
-      display: 'block',
-      width: '90%',
-      'min-width': '400px',
-      margin: '2em auto',
-      border: '1px solid gray',
-      'border-radius': '4px',
-      'background-color': 'white',
-      '& h4': {
-        width: '100%',
-        'text-align': 'left',
-        display: 'inline-block',
-        color: '#138AC2',
-        margin: '0.25em .5em 0 .5em',
-        'font-size': '18px',
-      },
-      '& .d-flex': {
-        'border-bottom': '1px solid gray',
-      },
-      '& .label': {
-        float: 'left',
-      },
-    },
-    '& .section-dependent': {
-      border: '1px dashed gray',
-    },
-    '& .section-requirements': {
-      border: '1px dashed black',
-    },
-    '& .fa-pencil-alt, & .fa-pencil': {
-      border: '1px solid #1d71ad',
-      color: '#1d71ad',
-    },
-    '& .modal-body': {
-      maxHeight: '500px',
-      overflowY: 'scroll',
-    },
-    '& .card-container:hover': { border: '1px solid green' },
-    '& .card-dependent': { border: '1px dashed gray' },
-    '& .card-add': {
-      cursor: 'pointer',
-      display: 'block',
-      color: '$green',
-      fontSize: '1.5em',
-    },
-
-    '& .section-container:hover': { border: '1px solid green' },
-  },
-});
-
-export default function PredefinedGallery({
+function PredefinedGallery({
   schema,
   uischema,
   onChange,
@@ -130,20 +28,28 @@ export default function PredefinedGallery({
   onChange: (schema: string, uischema: string) => any;
   mods?: Mods;
 }): ReactElement {
-  const classes = useStyles();
-  const schemaData = React.useMemo(() => parse(schema) || {}, [schema]);
-  const uiSchemaData = React.useMemo(() => parse(uischema) || {}, [uischema]);
-  const allFormInputs = excludeKeys(
-    Object.assign(
-      {},
-      DEFAULT_FORM_INPUTS,
-      (mods && mods.customFormInputs) || {},
-    ),
-    mods && mods.deactivatedFormInputs,
-  );
-  const categoryHash = generateCategoryHash(allFormInputs);
+  const schemaData = useMemo(() => parse(schema) || {}, [schema]);
+  const uiSchemaData = useMemo(() => parse(uischema) || {}, [uischema]);
 
-  React.useEffect(() => {
+  const allFormInputs = useMemo(
+    () =>
+      excludeKeys(
+        Object.assign(
+          {},
+          DEFAULT_FORM_INPUTS,
+          (mods && mods.customFormInputs) || {},
+        ),
+        mods && mods.deactivatedFormInputs,
+      ),
+    [mods],
+  );
+
+  const categoryHash = useMemo(
+    () => generateCategoryHash(allFormInputs),
+    [allFormInputs],
+  );
+
+  useEffect(() => {
     if (!uiSchemaData.definitions) {
       console.log('Parsing UI schema to assign UI for definitions');
       // need to create definitions from scratch
@@ -166,40 +72,53 @@ export default function PredefinedGallery({
 
       findRefs('root', schemaData);
 
-      uiSchemaData.definitions = {};
+      // Build definitions immutably
       const referenceSet = new Set(references);
+      const newDefinitions: { [key: string]: any } = {};
       Object.keys(uiSchemaData).forEach((uiProp) => {
-        if (referenceSet.has(uiProp))
-          uiSchemaData.definitions[uiProp] = uiSchemaData[uiProp];
+        if (referenceSet.has(uiProp)) {
+          newDefinitions[uiProp] = uiSchemaData[uiProp];
+        }
       });
-      if (!Object.keys(uiSchemaData.definitions).length) {
-        uiSchemaData.definitions = undefined;
-      }
-      onChange(stringify(schemaData), stringify(uiSchemaData));
+
+      const updatedUiSchemaData = {
+        ...uiSchemaData,
+        definitions: Object.keys(newDefinitions).length
+          ? newDefinitions
+          : undefined,
+      };
+      onChange(stringify(schemaData), stringify(updatedUiSchemaData));
     }
   }, [uiSchemaData, schemaData, onChange]);
+
+  const handleGalleryChange = useCallback(
+    (
+      newDefinitions: { [key: string]: any },
+      newDefinitionsUi: { [key: string]: any },
+    ) => {
+      // propagate changes in ui definitions to all relavant parties in main schema
+      propagateDefinitionChanges(
+        { ...schemaData, definitions: newDefinitions },
+        { ...uiSchemaData, definitions: newDefinitionsUi },
+        (newSchema, newUiSchema) =>
+          onChange(stringify(newSchema), stringify(newUiSchema)),
+        categoryHash,
+      );
+    },
+    [schemaData, uiSchemaData, onChange, categoryHash],
+  );
+
   return (
-    <div className={classes.preDefinedGallery}>
+    <Stack spacing={2} sx={{ maxWidth: 800, mx: 'auto' }}>
       <CardGallery
         definitionSchema={schemaData.definitions || {}}
         definitionUiSchema={uiSchemaData.definitions || {}}
-        onChange={(
-          newDefinitions: { [key: string]: any },
-          newDefinitionsUi: { [key: string]: any },
-        ) => {
-          // propagate changes in ui definitions to all relavant parties in main schema
-
-          propagateDefinitionChanges(
-            { ...schemaData, definitions: newDefinitions },
-            { ...uiSchemaData, definitions: newDefinitionsUi },
-            (newSchema, newUiSchema) =>
-              onChange(stringify(newSchema), stringify(newUiSchema)),
-            categoryHash,
-          );
-        }}
+        onChange={handleGalleryChange}
         mods={mods}
         categoryHash={categoryHash}
       />
-    </div>
+    </Stack>
   );
 }
+
+export default memo(PredefinedGallery);

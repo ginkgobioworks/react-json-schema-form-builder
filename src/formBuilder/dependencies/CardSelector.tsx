@@ -1,7 +1,7 @@
 import React, { useState, ReactElement } from 'react';
-import Select from 'react-select';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
-import FontAwesomeIcon from '../FontAwesomeIcon';
+import Autocomplete from '@mui/material/Autocomplete';
+import TextField from '@mui/material/TextField';
+import CloseIcon from '@mui/icons-material/Close';
 import { getRandomId } from '../utils';
 
 // a field that lets you choose adjacent blocks
@@ -18,13 +18,14 @@ export default function CardSelector({
 }): ReactElement {
   const [elementId] = useState(getRandomId());
   return (
-    <React.Fragment>
+    <>
       <ul>
         {chosenChoices.map((chosenChoice, index) => (
           <li key={`${elementId}_neighbor_${index}`}>
             {chosenChoice}{' '}
-            <FontAwesomeIcon
-              icon={faTimes}
+            <CloseIcon
+              fontSize='small'
+              sx={{ cursor: 'pointer', verticalAlign: 'middle' }}
               onClick={() =>
                 onChange([
                   ...chosenChoices.slice(0, index),
@@ -35,23 +36,23 @@ export default function CardSelector({
           </li>
         ))}
       </ul>
-      <Select
-        value={{
-          value: '',
-          label: '',
-        }}
-        placeholder={placeholder}
+      <Autocomplete
+        value={null}
         options={possibleChoices
           .filter((choice) => !chosenChoices.includes(choice))
           .map((choice) => ({
             value: choice,
             label: choice,
           }))}
-        onChange={(val: any) => {
-          onChange([...chosenChoices, val.value]);
+        getOptionLabel={(option) => option.label}
+        onChange={(_, val) => {
+          if (val) onChange([...chosenChoices, val.value]);
         }}
-        className='card-modal-select'
+        size='small'
+        renderInput={(params) => (
+          <TextField {...params} placeholder={placeholder} />
+        )}
       />
-    </React.Fragment>
+    </>
   );
 }

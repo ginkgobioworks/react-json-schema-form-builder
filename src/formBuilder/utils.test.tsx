@@ -1,4 +1,4 @@
-import { mount } from 'enzyme';
+import { render } from '@testing-library/react';
 import React from 'react';
 import Card from './Card';
 import DEFAULT_FORM_INPUTS from './defaults/defaultFormInputs';
@@ -78,8 +78,8 @@ const elementPropArr = [
   },
 ];
 
-function generateSchemaWithUnnamedProperties() {
-  const properties = [...Array(10).keys()].reduce((acc, id) => {
+function generateSchemaWithUnnamedProperties(count = 10) {
+  const properties = [...Array(count).keys()].reduce((acc, id) => {
     return { ...acc, [`${DEFAULT_INPUT_NAME}${id + 1}`]: { type: 'string' } };
   }, {});
 
@@ -234,7 +234,7 @@ describe('getCardCategory', () => {
 
 describe('checkForUnsupportedFeatures', () => {
   it('gives no warnings for various valid combinations', () => {
-    let testSchema: { [key: string]: any } = {
+    let testSchema: { [key: string]: unknown } = {
       type: 'object',
     };
     let testUischema = {};
@@ -269,7 +269,7 @@ describe('checkForUnsupportedFeatures', () => {
   });
 
   it('gives no warnings for the inclusion of $schema and meta keywords', () => {
-    const testSchema: { [key: string]: any } = {
+    const testSchema: { [key: string]: unknown } = {
       type: 'object',
       $schema: 'http://json-schema.org/draft-07/schema#',
       meta: {
@@ -287,7 +287,7 @@ describe('checkForUnsupportedFeatures', () => {
   });
 
   it('gives warnings for unknown features in schema', () => {
-    let testSchema: { [key: string]: any } = {
+    let testSchema: { [key: string]: unknown } = {
       type: 'object',
     };
     let testUischema = {};
@@ -330,7 +330,7 @@ describe('checkForUnsupportedFeatures', () => {
     ).toEqual(['Unrecognized Object Property: erroneousKey']);
   });
   it('gives warnings for unknown features in ui schema', () => {
-    let testSchema: { [key: string]: any } = {
+    let testSchema: { [key: string]: unknown } = {
       type: 'object',
     };
     let testUischema = {};
@@ -497,7 +497,7 @@ describe('generateSchemaFromElementProps', () => {
       },
     ] as unknown as ElementProps[]);
 
-    expect(result.properties.exampleCard).toEqual(expectedSchemaElement);
+    expect(result.properties?.exampleCard).toEqual(expectedSchemaElement);
   });
 
   it('generates schema from element with dataOptions prop', () => {
@@ -520,7 +520,7 @@ describe('generateSchemaFromElementProps', () => {
       },
     ] as unknown as ElementProps[]);
 
-    expect(result.properties.exampleCard).toEqual(expectedSchemaElement);
+    expect(result.properties?.exampleCard).toEqual(expectedSchemaElement);
   });
 
   it('generates the correct JSON Schema from a compound element with the required prop', () => {
@@ -547,17 +547,18 @@ describe('generateSchemaFromElementProps', () => {
       },
     ] as unknown as ElementProps[]);
 
-    expect(result.properties.exampleCard).toEqual(expectedSchemaElement);
+    expect(result.properties?.exampleCard).toEqual(expectedSchemaElement);
   });
 });
 
 describe('generateUiSchemaFromElementProps', () => {
   const uiSchema = generateUiSchemaFromElementProps(
     elementPropArr as unknown as ElementProps[],
-    DEFAULT_FORM_INPUTS,
+    undefined,
   );
   it('generates a ui schema representation from card object array', () => {
     expect(uiSchema).toEqual({
+      card1: {},
       card2: { 'ui:widget': 'number' },
       card3: { 'ui:widget': 'boolean' },
       'ui:order': ['card1', 'card2', 'card3'],
@@ -592,7 +593,7 @@ describe('generateElementComponentsFromSchemas', () => {
     const categoryHash = generateCategoryHash(allFormInputs);
 
     const TestComponent = () => (
-      <React.Fragment>
+      <>
         {generateElementComponentsFromSchemas({
           schemaData: {
             type: 'object',
@@ -637,13 +638,11 @@ describe('generateElementComponentsFromSchemas', () => {
           Card,
           Section,
         })}
-      </React.Fragment>
+      </>
     );
-    const div = document.createElement('div');
-    document.body.appendChild(div);
-    mount(<TestComponent />, { attachTo: div });
-    const mockArgs = MockComponent.mock.calls[0] as any[];
-    expect(mockArgs[0].mods).toEqual(mods);
+    render(<TestComponent />);
+    const mockArgs = MockComponent.mock.calls[0] as unknown[];
+    expect((mockArgs[0] as { mods: Mods }).mods).toEqual(mods);
   });
 });
 
@@ -659,10 +658,10 @@ describe('subtractArray', () => {
   });
 
   it('returns an empty array if both arrays are empty', () => {
-    const array1 = [];
-    const array2 = [];
+    const array1: string[] = [];
+    const array2: string[] = [];
 
-    const expectedResult = [];
+    const expectedResult: string[] = [];
     const actualResult = subtractArray(array1, array2);
 
     expect(actualResult).toEqual(expectedResult);
@@ -672,7 +671,7 @@ describe('subtractArray', () => {
     const array1 = ['a', 'b', 'c'];
     const array2 = ['a', 'b', 'c'];
 
-    const expectedResult = [];
+    const expectedResult: string[] = [];
     const actualResult = subtractArray(array1, array2);
 
     expect(actualResult).toEqual(expectedResult);
@@ -682,7 +681,7 @@ describe('subtractArray', () => {
     const array1 = ['c', 'a', 'b', 'd'];
     const array2 = ['a', 'b', 'c', 'd'];
 
-    const expectedResult = [];
+    const expectedResult: string[] = [];
     const actualResult = subtractArray(array1, array2);
 
     expect(actualResult).toEqual(expectedResult);
@@ -690,7 +689,7 @@ describe('subtractArray', () => {
 
   it('returns an array equal to array1 if array2 is empty', () => {
     const array1 = ['c', 'a', 'b', 'd'];
-    const array2 = [];
+    const array2: string[] = [];
 
     const expectedResult = ['c', 'a', 'b', 'd'];
     const actualResult = subtractArray(array1, array2);
@@ -699,10 +698,10 @@ describe('subtractArray', () => {
   });
 
   it('returns an empty array if array1 is empty', () => {
-    const array1 = [];
+    const array1: string[] = [];
     const array2 = ['a', 'b', 'c'];
 
-    const expectedResult = [];
+    const expectedResult: string[] = [];
     const actualResult = subtractArray(array1, array2);
 
     expect(actualResult).toEqual(expectedResult);
@@ -742,7 +741,7 @@ describe('excludeKeys', () => {
 
   it('returns the given object if keys is empty', () => {
     const obj = { foo: 'bar', biz: 'baz', boo: 'baa', bla: 'bee' };
-    const keys = [];
+    const keys: string[] = [];
 
     const expectedResult = { foo: 'bar', biz: 'baz', boo: 'baa', bla: 'bee' };
     const actualResult = excludeKeys(obj, keys);
@@ -772,7 +771,7 @@ describe('excludeKeys', () => {
 
   it('returns an empty object if both obj and keys are empty', () => {
     const obj = {};
-    const keys = [];
+    const keys: string[] = [];
 
     const expectedResult = {};
     const actualResult = excludeKeys(obj, keys);
@@ -875,19 +874,19 @@ describe('addCardObj', () => {
   it('should be able to add more than 10 unnamed CardObj', () => {
     const mockEvent = jest.fn();
     const defaultUiSchema = {};
-    const props = {
+    const addProps = {
       schema: generateSchemaWithUnnamedProperties(10),
       uischema: defaultUiSchema,
       onChange: (
-        schema: { [key: string]: any },
-        uischema: { [key: string]: any },
+        schema: { [key: string]: unknown },
+        uischema: { [key: string]: unknown },
       ) => mockEvent(schema, uischema),
       definitionData: {},
       definitionUi: {},
       categoryHash: {},
     };
 
-    addCardObj(props);
+    addCardObj(addProps);
 
     const currentSchema = mockEvent.mock.calls[0][0];
     const inputElementsCount = Object.keys(currentSchema.properties).length;
@@ -900,19 +899,19 @@ describe('addSectionObj', () => {
   it('should be able to add more than 10 unnamed SectionObj', () => {
     const mockEvent = jest.fn();
     const defaultUiSchema = {};
-    const props = {
+    const addProps = {
       schema: generateSchemaWithUnnamedProperties(10),
       uischema: defaultUiSchema,
       onChange: (
-        schema: { [key: string]: any },
-        uischema: { [key: string]: any },
+        schema: { [key: string]: unknown },
+        uischema: { [key: string]: unknown },
       ) => mockEvent(schema, uischema),
       definitionData: {},
       definitionUi: {},
       categoryHash: {},
     };
 
-    addSectionObj(props);
+    addSectionObj(addProps);
 
     const currentSchema = mockEvent.mock.calls[0][0];
     const inputElementsCount = Object.keys(currentSchema.properties).length;

@@ -1,10 +1,12 @@
 import React, { useState, ReactElement } from 'react';
-import { Input } from 'reactstrap';
-import { faTimes, faPlus } from '@fortawesome/free-solid-svg-icons';
+import TextField from '@mui/material/TextField';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import CloseIcon from '@mui/icons-material/Close';
+import AddIcon from '@mui/icons-material/Add';
 import CardEnumOptions from '../CardEnumOptions';
 import CardSelector from './CardSelector';
-import FBCheckbox from '../checkbox/FBCheckbox';
-import FontAwesomeIcon from '../FontAwesomeIcon';
+import FBCheckbox from '../FBCheckbox';
 import { getRandomId } from '../utils';
 
 type combinationValue = string | number | any[] | { [key: string]: any };
@@ -97,7 +99,7 @@ export default function ValueSelector({
         switch (typeof val) {
           case 'string':
             return (
-              <Input
+              <TextField
                 value={val || ''}
                 placeholder='String value'
                 type='text'
@@ -115,13 +117,13 @@ export default function ValueSelector({
                     },
                   });
                 }}
-                className='card-modal-text'
+                size='small'
+                fullWidth
               />
             );
-            break;
           case 'number':
             return (
-              <Input
+              <TextField
                 value={val || ''}
                 placeholder='Number value'
                 type='number'
@@ -139,48 +141,16 @@ export default function ValueSelector({
                     },
                   });
                 }}
-                className='card-modal-number'
+                size='small'
+                fullWidth
               />
             );
-            break;
-          // TODO: arrays are classified as objects - this may be unreachable code.
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          case 'array':
-            return (
-              <Input
-                value={JSON.stringify(val) || ''}
-                placeholder='Array in JSON'
-                type='textarea'
-                onChange={(ev: any) => {
-                  let newVal = val;
-                  try {
-                    newVal = JSON.parse(ev.target.value);
-                  } catch {
-                    console.error('invalid JSON array input');
-                  }
-                  const oldCombo = possibility.value.enum[index];
-                  onChange({
-                    ...possibility,
-                    value: {
-                      enum: [
-                        ...enumArr.slice(0, index),
-                        { ...oldCombo, [key]: newVal },
-                        ...enumArr.slice(index + 1),
-                      ],
-                    },
-                  });
-                }}
-                className='card-modal-text'
-              />
-            );
-            break;
           case 'object':
             return (
-              <Input
+              <TextField
                 value={JSON.stringify(val) || ''}
                 placeholder='Object in JSON'
-                type='textarea'
+                multiline
                 onChange={(ev: any) => {
                   let newVal = val;
                   try {
@@ -200,28 +170,30 @@ export default function ValueSelector({
                     },
                   });
                 }}
-                className='card-modal-text'
+                size='small'
+                fullWidth
               />
             );
-            break;
         }
       };
 
       return (
-        <div>
+        <Box>
           {enumArr.map((combination, index) => (
-            <li key={`${elementId}_possibleValue${index}`}>
+            <Box component='li' key={`${elementId}_possibleValue${index}`}>
               {Object.keys(combination).map((key) => {
                 const val: combinationValue = combination[key];
                 return (
-                  <div key={key}>
-                    <h5>{key}:</h5>
+                  <Box key={key}>
+                    <Typography variant='subtitle2' fontWeight='bold'>
+                      {key}:
+                    </Typography>
                     {getInput(val, index, key)}
-                  </div>
+                  </Box>
                 );
               })}
-              <FontAwesomeIcon
-                icon={faTimes}
+              <CloseIcon
+                sx={{ cursor: 'pointer' }}
                 onClick={() =>
                   onChange({
                     ...possibility,
@@ -234,10 +206,10 @@ export default function ValueSelector({
                   })
                 }
               />
-            </li>
+            </Box>
           ))}
-          <FontAwesomeIcon
-            icon={faPlus}
+          <AddIcon
+            sx={{ cursor: 'pointer' }}
             onClick={() => {
               const newCase: { [key: string]: any } = {};
               const propArr: { [key: string]: any } = parentSchema
@@ -266,7 +238,7 @@ export default function ValueSelector({
               });
             }}
           />
-        </div>
+        </Box>
       );
     }
     return (
@@ -280,6 +252,10 @@ export default function ValueSelector({
       />
     );
   } else {
-    return <h5> Appear if defined </h5>;
+    return (
+      <Typography variant='subtitle2' color='text.secondary'>
+        Appear if defined
+      </Typography>
+    );
   }
 }

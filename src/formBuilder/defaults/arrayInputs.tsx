@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { Input } from 'reactstrap';
+import TextField from '@mui/material/TextField';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 import {
   excludeKeys,
   generateElementComponentsFromSchemas,
@@ -7,7 +9,7 @@ import {
 } from '../utils';
 import Card from '../Card';
 import Section from '../Section';
-import FBCheckbox from '../checkbox/FBCheckbox';
+import FBCheckbox from '../FBCheckbox';
 import shortAnswerInputs from './shortAnswerInputs';
 import longAnswerInputs from './longAnswerInputs';
 import numberInputs from './numberInputs';
@@ -25,12 +27,13 @@ const CardArrayParameterInputs: CardComponentType = ({
   onChange,
 }) => {
   return (
-    <div>
-      <h4>Minimum Items</h4>
-      <Input
+    <Box>
+      <Typography variant='subtitle2' fontWeight='bold'>
+        Minimum Items
+      </Typography>
+      <TextField
         value={parameters.minItems || ''}
         placeholder='ex: 2'
-        key='minimum'
         type='number'
         onChange={(ev) => {
           onChange({
@@ -38,13 +41,16 @@ const CardArrayParameterInputs: CardComponentType = ({
             minItems: parseInt(ev.target.value, 10),
           });
         }}
-        className='card-modal-number'
+        size='small'
+        fullWidth
+        sx={{ mb: 2 }}
       />
-      <h4>Maximum Items</h4>
-      <Input
+      <Typography variant='subtitle2' fontWeight='bold'>
+        Maximum Items
+      </Typography>
+      <TextField
         value={parameters.maxItems || ''}
         placeholder='ex: 2'
-        key='maximum'
         type='number'
         onChange={(ev) => {
           onChange({
@@ -52,9 +58,11 @@ const CardArrayParameterInputs: CardComponentType = ({
             maxItems: parseInt(ev.target.value, 10),
           });
         }}
-        className='card-modal-number'
+        size='small'
+        fullWidth
+        sx={{ mb: 2 }}
       />
-    </div>
+    </Box>
   );
 };
 
@@ -87,10 +95,14 @@ const InnerCard: CardComponentType = ({ parameters, onChange, mods }) => {
   const definitionUi = parameters.definitionUi ? parameters.definitionUi : {};
   const [cardOpen, setCardOpen] = React.useState(false);
   if (parameters.type !== 'array') {
-    return <h4>Not an array </h4>;
+    return (
+      <Typography variant='body2' color='error'>
+        Not an array
+      </Typography>
+    );
   }
   return (
-    <div className='card-array'>
+    <>
       <FBCheckbox
         onChangeValue={() => {
           if (newDataProps.items.type === 'object') {
@@ -113,7 +125,6 @@ const InnerCard: CardComponentType = ({ parameters, onChange, mods }) => {
         }}
         isChecked={newDataProps.items.type === 'object'}
         label='Section'
-        id={`${elementId}_issection`}
       />
       {generateElementComponentsFromSchemas({
         schemaData: { properties: { item: newDataProps.items } },
@@ -130,14 +141,18 @@ const InnerCard: CardComponentType = ({ parameters, onChange, mods }) => {
         definitionUi,
         hideKey: true,
         cardOpenArray: [cardOpen],
-        setCardOpenArray: (newArr) => setCardOpen(newArr[0]),
+        setCardOpenArray: (updater) => {
+          const newArr =
+            typeof updater === 'function' ? updater([cardOpen]) : updater;
+          setCardOpen(newArr[0]);
+        },
         allFormInputs,
         mods,
         categoryHash: generateCategoryHash(allFormInputs),
         Card: (props) => <Card {...props} showObjectNameInput={false} />,
         Section,
       })}
-    </div>
+    </>
   );
 };
 

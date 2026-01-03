@@ -1,5 +1,5 @@
 import React from 'react';
-import { mount } from 'enzyme';
+import { render, fireEvent, screen, within } from '@testing-library/react';
 import { generateCategoryHash } from './utils';
 import DEFAULT_FORM_INPUTS from './defaults/defaultFormInputs';
 import CardGallery from './CardGallery';
@@ -10,16 +10,17 @@ const mockEvent = jest.fn();
 const props = {
   definitionSchema: {},
   definitionUiSchema: {},
-  onChange: (newDef, newUiDef) => mockEvent(newDef, newUiDef),
+  onChange: (
+    newDef: { [key: string]: unknown },
+    newUiDef: { [key: string]: unknown },
+  ) => mockEvent(newDef, newUiDef),
   categoryHash: generateCategoryHash(DEFAULT_FORM_INPUTS),
 };
 
 describe('CardGallery', () => {
   it('renders without error', () => {
-    const div = document.createElement('div');
-    document.body.appendChild(div);
-    const wrapper = mount(<CardGallery {...props} />, { attachTo: div });
-    expect(wrapper.exists('.form_gallery')).toBeTruthy();
+    render(<CardGallery {...props} />);
+    expect(screen.getByTestId('form-gallery')).toBeInTheDocument();
   });
 
   it('renders appropriate number of cards with a give definition', () => {
@@ -37,22 +38,19 @@ describe('CardGallery', () => {
         },
       },
     };
-    const div = document.createElement('div');
-    document.body.appendChild(div);
-    const wrapper = mount(<CardGallery {...modProps} />, { attachTo: div });
-    expect(wrapper.find('.form_gallery_container').length).toEqual(3);
+    render(<CardGallery {...modProps} />);
+    expect(screen.getAllByTestId('form-gallery-container').length).toEqual(3);
   });
 
   it('adds a new object to the schema when clicking the plus button', () => {
-    const div = document.createElement('div');
-    document.body.appendChild(div);
-    const wrapper = mount(<CardGallery {...props} />, { attachTo: div });
+    render(<CardGallery {...props} />);
 
-    const plusButton = wrapper.find('.fa-square-plus').first();
-    plusButton.simulate('click');
-    const createButton = wrapper.find('button').at(1);
+    const plusButton = screen.getByLabelText('Create new form element');
+    expect(plusButton).toBeInTheDocument();
+    fireEvent.click(plusButton);
+    const createButton = screen.getByRole('button', { name: 'Create' });
     expect(mockEvent).toHaveBeenCalledTimes(0);
-    createButton.simulate('click');
+    fireEvent.click(createButton);
     expect(mockEvent).toHaveBeenCalledTimes(1);
     mockEvent.mockClear();
   });
@@ -72,17 +70,15 @@ describe('CardGallery', () => {
         },
       },
     };
-    const div = document.createElement('div');
-    document.body.appendChild(div);
-    const wrapper = mount(<CardGallery {...modProps} />, { attachTo: div });
-    const titleField1 = wrapper
-      .find('.form_gallery_container')
-      .first()
-      .find('.card-text')
-      .at(2);
-    titleField1.simulate('change', { target: { value: 'wow many change' } });
-    titleField1.simulate('blur');
-    expect(mockEvent.mock.calls[0][0].obj1.title).toEqual('wow many change');
+    render(<CardGallery {...modProps} />);
+    // Get the first card container and find the title input within it
+    const containers = screen.getAllByTestId('form-gallery-container');
+    const titleInput = within(containers[0]).getByPlaceholderText('Title');
+    fireEvent.change(titleInput, { target: { value: 'wow many change' } });
+    fireEvent.blur(titleInput);
+    expect(
+      (mockEvent.mock.calls[0][0] as { obj1: { title: string } }).obj1.title,
+    ).toEqual('wow many change');
     mockEvent.mockClear();
   });
 });

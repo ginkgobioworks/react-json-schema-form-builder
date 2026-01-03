@@ -1,5 +1,4 @@
-import React, { useState, ReactElement } from 'react';
-import { getRandomId } from '../utils';
+import React, { ReactElement } from 'react';
 import Tooltip from '../Tooltip';
 
 interface DependencyWarningProps {
@@ -21,7 +20,6 @@ interface DependencyWarningProps {
 export default function DependencyWarning({
   parameters,
 }: DependencyWarningProps): ReactElement | null {
-  const [elementId] = useState(getRandomId());
   if (
     parameters.enum &&
     parameters.dependents &&
@@ -41,12 +39,11 @@ export default function DependencyWarning({
       });
     if (undefinedVals.length === 0) return null;
     return (
-      <React.Fragment>
+      <>
         <p>
           Warning! The following values do not have associated dependency
           values:{' '}
           <Tooltip
-            id={`${elementId}_valuewarning`}
             type='help'
             text='Each possible value for a value-based dependency must be defined to work properly'
           />
@@ -57,7 +54,7 @@ export default function DependencyWarning({
             <li key={index}>{val}</li>
           ))}
         </ul>
-      </React.Fragment>
+      </>
     );
   }
 

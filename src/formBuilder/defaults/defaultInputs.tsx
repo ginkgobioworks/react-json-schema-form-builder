@@ -1,26 +1,19 @@
 import React from 'react';
-import { Input } from 'reactstrap';
-import { createUseStyles } from 'react-jss';
-import FBCheckbox from '../checkbox/FBCheckbox';
+import TextField from '@mui/material/TextField';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import FBCheckbox from '../FBCheckbox';
 import CardEnumOptions from '../CardEnumOptions';
-import { getRandomId } from '../utils';
 import type {
   FormInput,
   CardComponentType,
   CardComponentPropsType,
 } from '../types';
-import { InputType } from 'reactstrap/types/lib/Input';
-
-const useStyles = createUseStyles({
-  hidden: {
-    display: 'none',
-  },
-});
 
 // specify the inputs required for a string type object
 export const CardDefaultParameterInputs: CardComponentType = () => <div />;
 
-const getInputCardBodyComponent = ({ type }: { type: InputType }) =>
+const getInputCardBodyComponent = ({ type }: { type: string }) =>
   function InputCardBodyComponent({
     parameters,
     onChange,
@@ -29,35 +22,36 @@ const getInputCardBodyComponent = ({ type }: { type: InputType }) =>
     onChange: (newParams: CardComponentPropsType) => void;
   }) {
     return (
-      <React.Fragment>
-        <h5>Default value</h5>
-        <Input
+      <>
+        <Typography variant='subtitle2' fontWeight='bold'>
+          Default Value
+        </Typography>
+        <TextField
           value={(parameters.default || '') as string | number}
           placeholder='Default'
           type={type}
           onChange={(ev) =>
             onChange({ ...parameters, default: ev.target.value })
           }
-          className='card-text'
+          size='small'
+          fullWidth
         />
-      </React.Fragment>
+      </>
     );
   };
 
 const Checkbox: CardComponentType = ({ parameters, onChange }) => {
   return (
-    <div className='card-boolean'>
-      <FBCheckbox
-        onChangeValue={() => {
-          onChange({
-            ...parameters,
-            default: parameters.default ? parameters.default !== true : true,
-          });
-        }}
-        isChecked={parameters.default ? parameters.default === true : false}
-        label='Default'
-      />
-    </div>
+    <FBCheckbox
+      onChangeValue={() => {
+        onChange({
+          ...parameters,
+          default: parameters.default ? parameters.default !== true : true,
+        });
+      }}
+      isChecked={parameters.default ? parameters.default === true : false}
+      label='Default'
+    />
   );
 };
 
@@ -68,7 +62,6 @@ function MultipleChoice({
   parameters: CardComponentPropsType;
   onChange: (newParams: CardComponentPropsType) => void;
 }) {
-  const classes = useStyles();
   const enumArray = Array.isArray(parameters.enum) ? parameters.enum : [];
 
   const containsUnparsableString = enumArray.some((val) => {
@@ -80,10 +73,11 @@ function MultipleChoice({
   const [isNumber, setIsNumber] = React.useState(
     !!enumArray.length && !containsString,
   );
-  const [elementId] = React.useState(getRandomId());
   return (
-    <div className='card-enum'>
-      <h3>Possible Values</h3>
+    <>
+      <Typography variant='subtitle2' fontWeight='bold'>
+        Possible Values
+      </Typography>
       <FBCheckbox
         onChangeValue={() => {
           if (Array.isArray(parameters.enumNames)) {
@@ -102,12 +96,12 @@ function MultipleChoice({
         }}
         isChecked={Array.isArray(parameters.enumNames)}
         label='Display label is different from value'
-        id={`${elementId}_different`}
       />
-      <div
-        className={
-          containsUnparsableString || !enumArray.length ? classes.hidden : ''
-        }
+      <Box
+        sx={{
+          display:
+            containsUnparsableString || !enumArray.length ? 'none' : 'block',
+        }}
       >
         <FBCheckbox
           onChangeValue={() => {
@@ -142,9 +136,8 @@ function MultipleChoice({
           isChecked={isNumber}
           disabled={containsUnparsableString}
           label='Force number'
-          id={`${elementId}_forceNumber`}
         />
-      </div>
+      </Box>
       <CardEnumOptions
         initialValues={enumArray}
         names={
@@ -162,7 +155,7 @@ function MultipleChoice({
         }
         type={isNumber ? 'number' : 'string'}
       />
-    </div>
+    </>
   );
 }
 

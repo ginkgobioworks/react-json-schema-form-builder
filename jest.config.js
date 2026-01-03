@@ -8,6 +8,10 @@ module.exports = {
   collectCoverageFrom: [
     "src/**/*.ts*",
   ],
+  coveragePathIgnorePatterns: [
+    "/node_modules/",
+    "/example/",
+  ],
   coverageReporters: [
     "text",
     "lcov"

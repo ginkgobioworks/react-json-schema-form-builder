@@ -1,5 +1,5 @@
 import React from 'react';
-import { mount } from 'enzyme';
+import { render, screen, fireEvent } from '@testing-library/react';
 
 import CardModal from './CardModal';
 
@@ -12,13 +12,19 @@ const params = {
 
 const props = {
   componentProps: params,
-  onChange: (newParams) => mockEvent(JSON.stringify(newParams)),
+  onChange: (newParams: unknown) => mockEvent(JSON.stringify(newParams)),
   isOpen: true,
   onClose: () => mockEvent('close'),
-  TypeSpecificParameters: ({ parameters, onChange }) => (
+  TypeSpecificParameters: ({
+    parameters,
+    onChange,
+  }: {
+    parameters: { name: string; inputVal?: string };
+    onChange: (params: { name: string; inputVal?: string }) => void;
+  }) => (
     <input
-      className='inputVal'
-      value={parameters.inputVal || ''}
+      data-testid='inputVal'
+      value={(parameters as any).inputVal || ''}
       onChange={(val) => {
         onChange({
           ...parameters,
@@ -31,52 +37,39 @@ const props = {
 
 describe('CardModal', () => {
   it('renders without error', () => {
-    const wrapper = mount(<CardModal {...props} />);
-    expect(wrapper.exists('div[data-test="card-modal"]')).toBeTruthy();
+    render(<CardModal {...props} />);
+    expect(screen.getByTestId('card-modal')).toBeInTheDocument();
   });
 
   it('calls the close function on cancel', () => {
-    const wrapper = mount(<CardModal {...props} />);
-    expect(wrapper.exists('div[data-test="card-modal"]')).toBeTruthy();
-    const cancelButton = wrapper
-      .find('div[data-test="card-modal"]')
-      .find('.btn-secondary')
-      .first();
-    cancelButton.simulate('click');
+    render(<CardModal {...props} />);
+    expect(screen.getByTestId('card-modal')).toBeInTheDocument();
+    const cancelButton = screen.getByText('Cancel');
+    fireEvent.click(cancelButton);
     expect(mockEvent).toHaveBeenCalledTimes(1);
     expect(mockEvent).toHaveBeenCalledWith('close');
     mockEvent.mockClear();
   });
 
   it('calls the change and close functions on save', () => {
-    const wrapper = mount(<CardModal {...props} />);
-    expect(wrapper.exists('div[data-test="card-modal"]')).toBeTruthy();
-    const saveButton = wrapper
-      .find('div[data-test="card-modal"]')
-      .find('.btn-primary')
-      .first();
-    saveButton.simulate('click');
+    render(<CardModal {...props} />);
+    expect(screen.getByTestId('card-modal')).toBeInTheDocument();
+    const saveButton = screen.getByText('Save');
+    fireEvent.click(saveButton);
     expect(mockEvent).toHaveBeenCalledTimes(2);
     expect(mockEvent.mock.calls).toEqual([['close'], ['{"name":"test"}']]);
     mockEvent.mockClear();
   });
 
   it('calls the onChange with a new minimum length when minimum length is altered', () => {
-    const wrapper = mount(<CardModal {...props} />);
-    expect(wrapper.exists('div[data-test="card-modal"]')).toBeTruthy();
+    render(<CardModal {...props} />);
+    expect(screen.getByTestId('card-modal')).toBeInTheDocument();
 
-    const specificField = wrapper
-      .find('div[data-test="card-modal"]')
-      .first()
-      .find('.inputVal')
-      .first();
-    specificField.simulate('change', { target: { value: 'wow many change' } });
+    const specificField = screen.getByTestId('inputVal');
+    fireEvent.change(specificField, { target: { value: 'wow many change' } });
 
-    const saveButton = wrapper
-      .find('div[data-test="card-modal"]')
-      .find('.btn-primary')
-      .first();
-    saveButton.simulate('click');
+    const saveButton = screen.getByText('Save');
+    fireEvent.click(saveButton);
     expect(mockEvent).toHaveBeenCalledTimes(2);
     expect(mockEvent.mock.calls).toEqual([
       ['close'],

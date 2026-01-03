@@ -1,11 +1,35 @@
-import React, { ReactElement, useEffect, useState } from 'react';
-import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
-import { Alert, Input } from 'reactstrap';
-import { createUseStyles } from 'react-jss';
+import React, {
+  ReactElement,
+  useEffect,
+  useState,
+  useMemo,
+  useCallback,
+  memo,
+} from 'react';
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragEndEvent,
+} from '@dnd-kit/core';
+import {
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
+import TextField from '@mui/material/TextField';
+import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
 import Card from './Card';
 import Section from './Section';
 import Add from './Add';
-import { arrows as arrowsStyle } from './styles';
 import {
   parse,
   stringify,
@@ -13,180 +37,24 @@ import {
   generateElementComponentsFromSchemas,
   addCardObj,
   addSectionObj,
-  onDragEnd,
+  handleDndDragEnd,
   countElementsFromSchema,
   generateCategoryHash,
   excludeKeys,
-  DROPPABLE_TYPE,
 } from './utils';
+import SortableItem from './SortableItem';
 import DEFAULT_FORM_INPUTS from './defaults/defaultFormInputs';
 import type {
   Mods,
   InitParameters,
   AddFormObjectParametersType,
+  JsonSchema,
+  UiSchema,
+  DefinitionData,
+  UiSchemaProperty,
 } from './types';
 
-const useStyles = createUseStyles({
-  formBuilder: {
-    'text-align': 'center',
-    '& .fa': {
-      cursor: 'pointer',
-    },
-    '& .fa-question-circle, & .fa-circle-question': {
-      color: 'gray',
-    },
-    '& .fa-asterisk': {
-      'font-size': '.9em',
-      color: 'green',
-    },
-    '& .fa-plus-square, & .fa-square-plus': {
-      color: 'green',
-      'font-size': '1.5em',
-      margin: '0 auto',
-    },
-    ...arrowsStyle,
-    '& .card-container': {
-      '&:hover': {
-        border: '1px solid green',
-      },
-      display: 'block',
-      width: '70%',
-      'min-width': '400px',
-      margin: '2em auto',
-      border: '1px solid gray',
-      'border-radius': '4px',
-      'background-color': 'white',
-      '& h4': {
-        width: '100%',
-        'text-align': 'left',
-        display: 'inline-block',
-        color: '#138AC2',
-        margin: '0.25em .5em 0 .5em',
-        'font-size': '18px',
-      },
-      '& .d-flex': {
-        'border-bottom': '1px solid gray',
-      },
-      '& .label': {
-        float: 'left',
-      },
-    },
-    '& .card-container:hover': { border: '1px solid green' },
-    '& .card-dependent': {
-      border: '1px dashed gray',
-    },
-    '& .card-requirements': {
-      border: '1px dashed black',
-    },
-    '& .section-container': {
-      '&:hover': {
-        border: '1px solid green',
-      },
-      display: 'block',
-      width: '90%',
-      'min-width': '400px',
-      margin: '2em auto',
-      border: '1px solid gray',
-      'border-radius': '4px',
-      'background-color': 'white',
-      '& h4': {
-        width: '100%',
-        'text-align': 'left',
-        display: 'inline-block',
-        color: '#138AC2',
-        margin: '0.25em .5em 0 .5em',
-        'font-size': '18px',
-      },
-      '& .d-flex': {
-        'border-bottom': '1px solid gray',
-      },
-      '& .label': {
-        float: 'left',
-      },
-    },
-    '& .section-container:hover': { border: '1px solid green' },
-    '& .section-dependent': {
-      border: '1px dashed gray',
-    },
-    '& .section-requirements': {
-      border: '1px dashed black',
-    },
-    '& .alert': {
-      textAlign: 'left',
-      width: '70%',
-      margin: '1em auto',
-      '& h5': {
-        color: 'black',
-        fontSize: '16px',
-        fontWeight: 'bold',
-        margin: '0',
-      },
-      '& .fa': { fontSize: '14px' },
-    },
-    '& .disabled-unchecked-checkbox': {
-      color: 'gray',
-      '& div::before': { backgroundColor: 'lightGray' },
-    },
-    '& .disabled-input': {
-      '& input': { backgroundColor: 'lightGray' },
-      '& input:focus': {
-        backgroundColor: 'lightGray',
-        border: '1px solid gray',
-      },
-    },
-  },
-  formHead: {
-    display: 'block',
-    margin: '0 auto',
-    'background-color': '#EBEBEB',
-    border: '1px solid #858F96',
-    'border-radius': '4px',
-    width: '70%',
-    padding: '10px',
-    '& div': {
-      width: '30%',
-      display: 'inline-block',
-      'text-align': 'left',
-      padding: '10px',
-    },
-    '& .form-title': {
-      'text-align': 'left',
-    },
-    '& .form-description': {
-      'text-align': 'left',
-    },
-    '& h5': {
-      'font-size': '14px',
-      'line-height': '21px',
-      'font-weight': 'bold',
-    },
-  },
-  formBody: {
-    display: 'flex',
-    flexDirection: 'column',
-    '& .fa-pencil-alt, & .fa-pencil': {
-      border: '1px solid #1d71ad',
-      color: '#1d71ad',
-    },
-    '& .modal-body': {
-      maxHeight: '500px',
-      overflowY: 'scroll',
-    },
-    '& .card-add': {
-      cursor: 'pointer',
-      display: 'block',
-      color: '$green',
-      fontSize: '1.5em',
-    },
-  },
-  formFooter: {
-    marginTop: '1em',
-    textAlign: 'center',
-    '& .fa': { cursor: 'pointer', color: '$green', fontSize: '1.5em' },
-  },
-});
-
-export default function FormBuilder({
+function FormBuilder({
   schema,
   uischema,
   onMount,
@@ -201,49 +69,116 @@ export default function FormBuilder({
   mods?: Mods;
   className?: string;
 }): ReactElement {
-  const classes = useStyles();
-  const schemaData = parse(schema);
-  schemaData.type = 'object';
-  const uiSchemaData = parse(uischema);
-  const allFormInputs = excludeKeys(
-    Object.assign(
-      {},
-      DEFAULT_FORM_INPUTS,
-      (mods && mods.customFormInputs) || {},
-    ),
-    mods && mods.deactivatedFormInputs,
+  // Parse schema and ensure it has type: 'object' (immutably)
+  const schemaData = useMemo(() => {
+    const parsed = parse(schema) as JsonSchema;
+    return { ...parsed, type: 'object' as const };
+  }, [schema]);
+
+  const uiSchemaData = useMemo(() => parse(uischema) as UiSchema, [uischema]);
+
+  const allFormInputs = useMemo(
+    () =>
+      excludeKeys(
+        Object.assign(
+          {},
+          DEFAULT_FORM_INPUTS,
+          (mods && mods.customFormInputs) || {},
+        ),
+        mods && mods.deactivatedFormInputs,
+      ),
+    [mods],
   );
 
-  const unsupportedFeatures = checkForUnsupportedFeatures(
-    schemaData,
-    uiSchemaData,
-    allFormInputs,
+  const unsupportedFeatures = useMemo(
+    () => checkForUnsupportedFeatures(schemaData, uiSchemaData, allFormInputs),
+    [schemaData, uiSchemaData, allFormInputs],
   );
 
   const elementNum = countElementsFromSchema(schemaData);
-  const defaultCollapseStates = [...Array(elementNum)].map(() => false);
-  const [cardOpenArray, setCardOpenArray] = React.useState(
-    defaultCollapseStates,
+  const defaultCollapseStates = useMemo(
+    () => [...Array(elementNum)].map(() => false),
+    [elementNum],
   );
-  const categoryHash = generateCategoryHash(allFormInputs);
+  const [cardOpenArray, setCardOpenArray] = useState(defaultCollapseStates);
+
+  // useState setter is already stable and functional updates automatically use latest state
+
+  const categoryHash = useMemo(
+    () => generateCategoryHash(allFormInputs),
+    [allFormInputs],
+  );
 
   const [isFirstRender, setIsFirstRender] = useState(true);
 
-  const addProperties: AddFormObjectParametersType = {
-    schema: schemaData,
-    uischema: uiSchemaData,
-    mods: mods,
-    onChange: (
+  // Memoized onChange handler for schema changes
+  const handleSchemaChange = useCallback(
+    (
       newSchema: { [key: string]: any },
       newUiSchema: { [key: string]: any },
-    ) => onChange(stringify(newSchema), stringify(newUiSchema)),
-    definitionData: schemaData.definitions,
-    definitionUi: uiSchemaData.definitions,
-    categoryHash,
-  };
+    ) => {
+      onChange(stringify(newSchema), stringify(newUiSchema));
+    },
+    [onChange],
+  );
 
-  const hideAddButton =
-    schemaData.properties && Object.keys(schemaData.properties).length !== 0;
+  // Memoized onChange handler for element components to avoid recreating on every render
+  const handleElementChange = useCallback(
+    (
+      newSchema: { [key: string]: any },
+      newUiSchema: { [key: string]: any },
+    ) => {
+      onChange(stringify(newSchema), stringify(newUiSchema));
+    },
+    [onChange],
+  );
+
+  const addProperties = useMemo<AddFormObjectParametersType>(
+    () => ({
+      schema: schemaData as JsonSchema,
+      uischema: uiSchemaData as UiSchema,
+      mods,
+      onChange: handleSchemaChange,
+      definitionData: (schemaData.definitions || {}) as DefinitionData,
+      definitionUi: (uiSchemaData.definitions || {}) as Record<
+        string,
+        UiSchemaProperty
+      >,
+      categoryHash,
+    }),
+    [schemaData, uiSchemaData, mods, handleSchemaChange, categoryHash],
+  );
+
+  const hideAddButton = useMemo(
+    () =>
+      schemaData.properties && Object.keys(schemaData.properties).length !== 0,
+    [schemaData],
+  );
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8, // Require 8px movement before drag starts (allows clicks)
+      },
+    }),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    }),
+  );
+
+  const handleDragEnd = useCallback(
+    (event: DragEndEvent) => {
+      handleDndDragEnd(event, {
+        schema: schemaData,
+        uischema: uiSchemaData,
+        onChange: handleSchemaChange,
+        definitionData: schemaData.definitions,
+        definitionUi: uiSchemaData.definitions,
+        categoryHash,
+      });
+    },
+    [schemaData, uiSchemaData, handleSchemaChange, categoryHash],
+  );
 
   useEffect(() => {
     if (isFirstRender) {
@@ -255,130 +190,144 @@ export default function FormBuilder({
     }
   }, [isFirstRender, onMount, categoryHash]);
 
+  const formElements = useMemo(() => {
+    const elements = generateElementComponentsFromSchemas({
+      schemaData,
+      uiSchemaData,
+      onChange: handleElementChange,
+      definitionData: schemaData.definitions,
+      definitionUi: uiSchemaData.definitions,
+      path: 'root',
+      cardOpenArray,
+      setCardOpenArray,
+      allFormInputs,
+      mods,
+      categoryHash,
+      Card,
+      Section,
+    });
+    const itemIds = elements.map((element: any) => element.key);
+    return { elements, itemIds };
+  }, [
+    schemaData,
+    uiSchemaData,
+    handleElementChange,
+    cardOpenArray,
+    allFormInputs,
+    mods,
+    categoryHash,
+  ]);
+
   return (
-    <div className={`${classes.formBuilder} ${className || ''}`}>
-      <Alert
-        style={{
-          display: unsupportedFeatures.length === 0 ? 'none' : 'block',
-        }}
-        color='warning'
-      >
-        <h5>Unsupported Features:</h5>
-        {unsupportedFeatures.map((message, index) => (
-          <li key={index}>{message}</li>
-        ))}
-      </Alert>
-      {(!mods || mods.showFormHead !== false) && (
-        <div className={classes.formHead} data-test='form-head'>
-          <div>
-            <h5 data-test='form-name-label'>
-              {mods &&
-              mods.labels &&
-              typeof mods.labels.formNameLabel === 'string'
-                ? mods.labels.formNameLabel
-                : 'Form Name'}
-            </h5>
-            <Input
-              value={schemaData.title || ''}
-              placeholder='Title'
-              type='text'
-              onChange={(ev) => {
-                onChange(
-                  stringify({
-                    ...schemaData,
-                    title: ev.target.value,
-                  }),
-                  uischema,
-                );
-              }}
-              className='form-title'
-            />
-          </div>
-          <div>
-            <h5 data-test='form-description-label'>
-              {mods &&
-              mods.labels &&
-              typeof mods.labels.formDescriptionLabel === 'string'
-                ? mods.labels.formDescriptionLabel
-                : 'Form Description'}
-            </h5>
-            <Input
-              value={schemaData.description || ''}
-              placeholder='Description'
-              type='text'
-              onChange={(ev) =>
-                onChange(
-                  stringify({
-                    ...schemaData,
-                    description: ev.target.value,
-                  }),
-                  uischema,
-                )
-              }
-              className='form-description'
-            />
-          </div>
-        </div>
-      )}
-      <div className={`form-body ${classes.formBody}`}>
-        <DragDropContext
-          onDragEnd={(result) =>
-            onDragEnd(result, {
-              schema: schemaData,
-              uischema: uiSchemaData,
-              onChange: (newSchema, newUiSchema) =>
-                onChange(stringify(newSchema), stringify(newUiSchema)),
-              definitionData: schemaData.definitions,
-              definitionUi: uiSchemaData.definitions,
-              categoryHash,
-            })
-          }
+    <Box className={className || ''}>
+      {unsupportedFeatures.length > 0 && (
+        <Alert
+          severity='warning'
+          className='alert-warning'
+          sx={{ mb: 2, mx: 'auto', maxWidth: 800 }}
         >
-          <Droppable droppableId='droppable' type={DROPPABLE_TYPE}>
-            {(providedDroppable) => (
-              <div
-                ref={providedDroppable.innerRef}
-                {...providedDroppable.droppableProps}
+          <AlertTitle>Unsupported Features</AlertTitle>
+          <Box component='ul' sx={{ margin: 0, pl: 2.5 }}>
+            {unsupportedFeatures.map((message, index) => (
+              <Box component='li' key={index}>
+                {message}
+              </Box>
+            ))}
+          </Box>
+        </Alert>
+      )}
+      {(!mods || mods.showFormHead !== false) && (
+        <Paper
+          variant='outlined'
+          data-testid='form-head'
+          sx={{
+            p: 2,
+            mb: 3,
+            mx: 'auto',
+            maxWidth: 800,
+          }}
+        >
+          <Stack direction={{ xs: 'column', sm: 'row' }} spacing={3}>
+            <Box sx={{ flex: 1 }}>
+              <Typography
+                variant='subtitle2'
+                component='label'
+                fontWeight='bold'
+                data-testid='form-name-label'
               >
-                {generateElementComponentsFromSchemas({
-                  schemaData,
-                  uiSchemaData,
-                  onChange: (newSchema, newUiSchema) =>
-                    onChange(stringify(newSchema), stringify(newUiSchema)),
-                  definitionData: schemaData.definitions,
-                  definitionUi: uiSchemaData.definitions,
-                  path: 'root',
-                  cardOpenArray,
-                  setCardOpenArray,
-                  allFormInputs,
-                  mods,
-                  categoryHash,
-                  Card,
-                  Section,
-                }).map((element: any, index) => (
-                  <Draggable
-                    key={element.key}
-                    draggableId={element.key}
-                    index={index}
-                  >
-                    {(providedDraggable) => (
-                      <div
-                        ref={providedDraggable.innerRef}
-                        {...providedDraggable.draggableProps}
-                        {...providedDraggable.dragHandleProps}
-                      >
-                        {element}
-                      </div>
-                    )}
-                  </Draggable>
-                ))}
-                {providedDroppable.placeholder}
-              </div>
-            )}
-          </Droppable>
-        </DragDropContext>
-      </div>
-      <div className={`form-footer ${classes.formFooter}`}>
+                {mods?.labels?.formNameLabel ?? 'Form Name'}
+              </Typography>
+              <TextField
+                value={(schemaData as JsonSchema).title || ''}
+                placeholder='Title'
+                type='text'
+                onChange={(ev) => {
+                  onChange(
+                    stringify({
+                      ...schemaData,
+                      title: ev.target.value,
+                    }),
+                    uischema,
+                  );
+                }}
+                size='small'
+                fullWidth
+                sx={{ mt: 0.5 }}
+              />
+            </Box>
+            <Box sx={{ flex: 1 }}>
+              <Typography
+                variant='subtitle2'
+                component='label'
+                fontWeight='bold'
+                data-testid='form-description-label'
+              >
+                {mods?.labels?.formDescriptionLabel ?? 'Form Description'}
+              </Typography>
+              <TextField
+                value={(schemaData as JsonSchema).description || ''}
+                placeholder='Description'
+                type='text'
+                onChange={(ev) =>
+                  onChange(
+                    stringify({
+                      ...schemaData,
+                      description: ev.target.value,
+                    }),
+                    uischema,
+                  )
+                }
+                size='small'
+                fullWidth
+                sx={{ mt: 0.5 }}
+              />
+            </Box>
+          </Stack>
+        </Paper>
+      )}
+      <Stack
+        spacing={2}
+        data-testid='form-body'
+        sx={{ mx: 'auto', maxWidth: 800 }}
+      >
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragEnd={handleDragEnd}
+        >
+          <SortableContext
+            items={formElements.itemIds}
+            strategy={verticalListSortingStrategy}
+          >
+            {formElements.elements.map((element: any) => (
+              <SortableItem key={element.key} id={element.key}>
+                {element}
+              </SortableItem>
+            ))}
+          </SortableContext>
+        </DndContext>
+      </Stack>
+      <Box className='form-footer' sx={{ mt: 2, textAlign: 'center' }}>
         {!hideAddButton &&
           mods?.components?.add &&
           mods.components.add(addProperties)}
@@ -396,7 +345,9 @@ export default function FormBuilder({
             hidden={hideAddButton}
           />
         )}
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 }
+
+export default memo(FormBuilder);

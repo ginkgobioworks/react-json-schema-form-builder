@@ -1,39 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import {
-  Modal,
-  ModalHeader,
-  Button,
-  ModalBody,
-  ModalFooter,
-  Input,
-} from 'reactstrap';
-import { createUseStyles } from 'react-jss';
+import React, { useState, useEffect, useCallback, memo } from 'react';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
+import Link from '@mui/material/Link';
 import DependencyField from './dependencies/DependencyField';
 import type { CardModalType, CardComponentPropsType } from './types';
 import Tooltip from './Tooltip';
-
-const useStyles = createUseStyles({
-  cardModal: {
-    '& .card-modal-header': { paddingTop: '.5em', paddingBottom: '.5em' },
-    '& .card-modal-entries': { padding: '1em' },
-    '& h4, h5, p, label, li': { marginTop: '.5em', marginBottom: '.5em' },
-    '& h5, p, label, li': { fontSize: '14px' },
-    '& h4': { fontSize: '16px' },
-    '& h3': { fontSize: '18px', marginBottom: 0 },
-    '& .card-modal-entries > div > input': {
-      marginBottom: '1em',
-      height: '32px',
-    },
-    '& .fa-question-circle, & .fa-circle-question': { color: 'gray' },
-    '& .card-modal-boolean': {
-      '& *': { marginRight: '0.25em', height: 'auto', display: 'inline-block' },
-    },
-    '& .card-modal-select': {
-      '& input': { margin: '0', height: '20px' },
-      marginBottom: '1em',
-    },
-  },
-});
 
 const CardModal: CardModalType = ({
   componentProps,
@@ -42,97 +19,105 @@ const CardModal: CardModalType = ({
   onClose,
   TypeSpecificParameters,
 }) => {
-  const classes = useStyles();
   // assign state values for parameters that should only change on hitting "Save"
   const [componentPropsState, setComponentProps] = useState(componentProps);
 
   useEffect(() => {
+    if (isOpen) {
+      setComponentProps(componentProps);
+    }
+  }, [isOpen, componentProps]);
+
+  const handleTypeSpecificChange = useCallback(
+    (newState: CardComponentPropsType) => {
+      setComponentProps((prev) => ({
+        ...prev,
+        ...newState,
+      }));
+    },
+    [],
+  );
+
+  const handleColumnSizeChange = useCallback(
+    (ev: React.ChangeEvent<HTMLInputElement>) => {
+      setComponentProps((prev) => ({
+        ...prev,
+        'ui:column': ev.target.value,
+      }));
+    },
+    [],
+  );
+
+  const handleDependencyChange = useCallback(
+    (newState: Partial<CardComponentPropsType>) => {
+      setComponentProps((prev) => ({
+        ...prev,
+        ...newState,
+      }));
+    },
+    [],
+  );
+
+  const handleCancel = useCallback(() => {
+    onClose();
     setComponentProps(componentProps);
-  }, [componentProps]);
+  }, [onClose, componentProps]);
+
+  const handleSave = useCallback(() => {
+    onClose();
+    onChange(componentPropsState);
+  }, [onClose, onChange, componentPropsState]);
 
   return (
-    <Modal isOpen={isOpen} data-test='card-modal' className={classes.cardModal}>
-      <ModalHeader className='card-modal-header'>
-        <div style={{ display: componentProps.hideKey ? 'none' : 'initial' }}>
-          <h3>Additional Settings</h3>
-        </div>
-      </ModalHeader>
-      <ModalBody className='card-modal-entries'>
-        <TypeSpecificParameters
-          parameters={componentPropsState}
-          onChange={(newState: CardComponentPropsType) => {
-            setComponentProps({
-              ...componentPropsState,
-              ...newState,
-            });
-          }}
-        />
-        <div>
-          <h4>
+    <Dialog open={isOpen} data-testid='card-modal' maxWidth='sm' fullWidth>
+      {!componentProps.hideKey && (
+        <DialogTitle>Additional Settings</DialogTitle>
+      )}
+      <DialogContent dividers>
+        <Stack spacing={3}>
+          <TypeSpecificParameters
+            parameters={componentPropsState}
+            onChange={handleTypeSpecificChange}
+          />
+          <Typography
+            variant='subtitle2'
+            fontWeight='bold'
+            sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mb: 0.5 }}
+          >
             Column Size{' '}
-            <a
+            <Link
               href='https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Grid_Layout/Basic_Concepts_of_Grid_Layout'
               target='_blank'
               rel='noopener noreferrer'
             >
-              <Tooltip
-                id='column_size_tooltip'
-                type='help'
-                text='Set the column size of the input'
-              />
-            </a>
-          </h4>
-          <Input
-            value={
-              componentPropsState['ui:column']
-                ? componentPropsState['ui:column']
-                : ''
-            }
+              <Tooltip type='help' text='Set the column size of the input' />
+            </Link>
+          </Typography>
+          <TextField
+            value={componentPropsState['ui:column'] || ''}
             placeholder='Column size'
-            key='ui:column'
             type='number'
-            min={0}
-            onChange={(ev) => {
-              setComponentProps({
-                ...componentPropsState,
-                'ui:column': ev.target.value,
-              });
-            }}
-            className='card-modal-text'
+            inputProps={{ min: 0 }}
+            onChange={handleColumnSizeChange}
+            size='small'
+            fullWidth
           />
-        </div>
-        <DependencyField
-          parameters={componentPropsState}
-          onChange={(newState) => {
-            setComponentProps({
-              ...componentPropsState,
-              ...newState,
-            });
-          }}
-        />
-      </ModalBody>
-      <ModalFooter>
-        <Button
-          onClick={() => {
-            onClose();
-            onChange(componentPropsState);
-          }}
-          color='primary'
-        >
-          Save
-        </Button>
-        <Button
-          onClick={() => {
-            onClose();
-            setComponentProps(componentProps);
-          }}
-          color='secondary'
-        >
+          <DependencyField
+            parameters={componentPropsState}
+            onChange={handleDependencyChange}
+          />
+        </Stack>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleCancel} color='inherit'>
           Cancel
         </Button>
-      </ModalFooter>
-    </Modal>
+        <Button onClick={handleSave} variant='contained' color='primary'>
+          Save
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
 };
 
-export default CardModal;
+export default memo(CardModal);

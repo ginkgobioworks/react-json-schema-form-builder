@@ -1,5 +1,5 @@
 import React from 'react';
-import { mount } from 'enzyme';
+import { render, screen, fireEvent, within } from '@testing-library/react';
 import FormBuilder from './FormBuilder';
 
 // mocks to record events
@@ -8,7 +8,8 @@ const mockEvent = jest.fn();
 const props = {
   schema: '',
   uischema: '',
-  onChange: (newSchema, newUiSchema) => mockEvent(newSchema, newUiSchema),
+  onChange: (newSchema: string, newUiSchema: string) =>
+    mockEvent(newSchema, newUiSchema),
 };
 
 const schemaWithDefinitions = {
@@ -30,16 +31,15 @@ const schemaWithDefinitions = {
 const propsWithDefinitions = {
   schema: JSON.stringify(schemaWithDefinitions),
   uischema: '',
-  onChange: (newSchema, newUiSchema) => mockEvent(newSchema, newUiSchema),
+  onChange: (newSchema: string, newUiSchema: string) =>
+    mockEvent(newSchema, newUiSchema),
 };
 
 describe('FormBuilder', () => {
   it('renders without error', () => {
-    const div = document.createElement('div');
-    document.body.appendChild(div);
-    const wrapper = mount(<FormBuilder {...props} />, { attachTo: div });
-    expect(wrapper.exists('.form-body')).toBeTruthy();
-    expect(wrapper.exists('[data-test="form-head"]')).toBeTruthy();
+    render(<FormBuilder {...props} />);
+    expect(screen.getByTestId('form-body')).toBeInTheDocument();
+    expect(screen.getByTestId('form-head')).toBeInTheDocument();
   });
 
   it('renders the appropriate number of cards', () => {
@@ -60,12 +60,9 @@ describe('FormBuilder', () => {
      }
   }`,
     };
-    const div = document.createElement('div');
-    document.body.appendChild(div);
-    const wrapper = mount(<FormBuilder {...modProps} />, { attachTo: div });
-    expect(wrapper.find('.form-body').first().find('.collapse').length).toEqual(
-      3,
-    );
+    render(<FormBuilder {...modProps} />);
+    // Each card should be rendered
+    expect(screen.getAllByTestId('card-container').length).toEqual(3);
   });
 
   it('generates warning messages', () => {
@@ -95,14 +92,13 @@ describe('FormBuilder', () => {
      "invalidUiProp": "asdf"
   }`,
     };
-    const div = document.createElement('div');
-    document.body.appendChild(div);
-    const wrapper = mount(<FormBuilder {...modProps} />, { attachTo: div });
-    const errors = wrapper
-      .find('.alert-warning')
-      .first()
-      .find('li')
-      .map((error) => error.text());
+    render(<FormBuilder {...modProps} />);
+    // Look for warning alert by role
+    const warningAlert = screen.getByRole('alert');
+    expect(warningAlert).toBeInTheDocument();
+
+    const listItems = within(warningAlert).getAllByRole('listitem');
+    const errors = listItems.map((item) => item.textContent);
     expect(errors).toEqual([
       'Unrecognized UI schema property: invalidUiProp',
       'Property Parameter: badSideProp in obj2',
@@ -141,34 +137,32 @@ describe('FormBuilder', () => {
      "invalidUiProp": "asdf"
   }`,
     };
-    const div = document.createElement('div');
-    document.body.appendChild(div);
-    const wrapper = mount(<FormBuilder {...modProps} />, { attachTo: div });
-    const blocks = wrapper
-      .find('.collapse')
-      .map((block) => block.find('.card-text').first().props().value);
+    render(<FormBuilder {...modProps} />);
+    // Find all key inputs (Object Name fields) in order
+    const keyInputs = screen.getAllByPlaceholderText('Key');
+    const values = keyInputs.map((input) => (input as HTMLInputElement).value);
 
-    expect(blocks).toEqual(['obj1', 'obj3', 'obj2']);
+    expect(values).toEqual(['obj1', 'obj3', 'obj2']);
   });
 
   it('adds to the schema when hitting the add card button', () => {
-    const div = document.createElement('div');
-    document.body.appendChild(div);
-    const wrapper = mount(<FormBuilder {...props} />, { attachTo: div });
-    const plusButton = wrapper.find('.fa-square-plus').first();
-    plusButton.simulate('click');
-    const createButton = wrapper.find('button').at(1);
+    render(<FormBuilder {...props} />);
+    const addButton = screen.getByRole('button', {
+      name: /create new form element/i,
+    });
+    expect(addButton).toBeInTheDocument();
+    fireEvent.click(addButton);
+
+    const createButton = screen.getByRole('button', { name: 'Create' });
     expect(mockEvent).toHaveBeenCalledTimes(0);
-    createButton.simulate('click');
+    fireEvent.click(createButton);
     expect(mockEvent).toHaveBeenCalledTimes(1);
 
     mockEvent.mockClear();
   });
 
   it('renders custom labels in the form head', () => {
-    const div = document.createElement('div');
-    document.body.appendChild(div);
-    const wrapper = mount(
+    render(
       <FormBuilder
         {...props}
         mods={{
@@ -178,39 +172,34 @@ describe('FormBuilder', () => {
           },
         }}
       />,
-      { attachTo: div },
     );
-    expect(wrapper.find('[data-test="form-name-label"]').text()).toEqual(
+    expect(screen.getByTestId('form-name-label')).toHaveTextContent(
       'test name label',
     );
-    expect(wrapper.find('[data-test="form-description-label"]').text()).toEqual(
+    expect(screen.getByTestId('form-description-label')).toHaveTextContent(
       'test description label',
     );
   });
 
   it('does not render the form head if showFormHead is false', () => {
-    const div = document.createElement('div');
-    document.body.appendChild(div);
-    const wrapper = mount(
-      <FormBuilder {...props} mods={{ showFormHead: false }} />,
-      { attachTo: div },
-    );
-    expect(wrapper.exists('.form-body')).toBeTruthy();
-    expect(wrapper.exists('[data-test="form-head"]')).toBeFalsy();
+    render(<FormBuilder {...props} mods={{ showFormHead: false }} />);
+    expect(screen.getByTestId('form-body')).toBeInTheDocument();
+    expect(screen.queryByTestId('form-head')).not.toBeInTheDocument();
   });
 
   it('renders $refs with custom titles and descriptions', () => {
-    const div = document.createElement('div');
-    document.body.appendChild(div);
-    const wrapper = mount(<FormBuilder {...propsWithDefinitions} />, {
-      attachTo: div,
-    });
+    render(<FormBuilder {...propsWithDefinitions} />);
 
-    expect(wrapper.exists('.form-body')).toBeTruthy();
+    expect(screen.getByTestId('form-body')).toBeInTheDocument();
 
-    const cardInputs = wrapper.find('.card-container').first().find('input');
-    expect(cardInputs.at(1).props().value).toEqual('Custom Title');
-    expect(cardInputs.at(2).props().value).toEqual('Custom Description');
+    // Find the card container and query within it for title/description
+    const cardContainer = screen.getByTestId('card-container');
+    const titleInput = within(cardContainer).getByPlaceholderText('Title');
+    const descInput = within(cardContainer).getByPlaceholderText('Description');
+
+    // The card should have the custom title and description
+    expect(titleInput).toHaveValue('Custom Title');
+    expect(descInput).toHaveValue('Custom Description');
   });
 
   it('supports the $schema keyword and there is no error', () => {
@@ -218,7 +207,7 @@ describe('FormBuilder', () => {
       $schema: 'http://json-schema.org/draft-07/schema#',
     };
 
-    const props = {
+    const testProps = {
       schema: JSON.stringify(jsonSchema),
       uischema: '{}',
       onChange: jest.fn(() => {}),
@@ -226,15 +215,13 @@ describe('FormBuilder', () => {
       className: 'my-form-builder',
     };
 
-    const div = document.createElement('div');
-    document.body.appendChild(div);
-    const wrapper = mount(<FormBuilder {...props} />, { attachTo: div });
-    const errors = wrapper
-      .find('.alert-warning')
-      .first()
-      .find('li')
-      .map((error) => error.text());
-    expect(errors).toEqual([]);
+    render(<FormBuilder {...testProps} />);
+    // There should be no warning alert with list items
+    const alerts = screen.queryAllByRole('alert');
+    const listsInAlerts = alerts.flatMap((alert) =>
+      within(alert).queryAllByRole('listitem'),
+    );
+    expect(listsInAlerts).toHaveLength(0);
   });
 
   it('supports the meta keyword and there is no error', () => {
@@ -245,7 +232,7 @@ describe('FormBuilder', () => {
       },
     };
 
-    const props = {
+    const testProps = {
       schema: JSON.stringify(jsonSchema),
       uischema: '{}',
       onChange: jest.fn(() => {}),
@@ -253,23 +240,29 @@ describe('FormBuilder', () => {
       className: 'my-form-builder',
     };
 
-    const div = document.createElement('div');
-    document.body.appendChild(div);
-    const wrapper = mount(<FormBuilder {...props} />, { attachTo: div });
-    const errors = wrapper
-      .find('.alert-warning')
-      .first()
-      .find('li')
-      .map((error) => error.text());
-    expect(errors).toEqual([]);
+    render(<FormBuilder {...testProps} />);
+    const alerts = screen.queryAllByRole('alert');
+    const listsInAlerts = alerts.flatMap((alert) =>
+      within(alert).queryAllByRole('listitem'),
+    );
+    expect(listsInAlerts).toHaveLength(0);
   });
 
   it('supports column size', () => {
     const jsonSchema = {
       $schema: 'http://json-schema.org/draft-07/schema#',
+      type: 'object',
       meta: {
         some: 'meta information',
       },
+      properties: {
+        newInput1: {
+          title: 'New Input 1',
+          type: 'string',
+        },
+      },
+      dependencies: {},
+      required: [],
     };
 
     const uischema = {
@@ -279,27 +272,20 @@ describe('FormBuilder', () => {
       'ui:order': ['newInput1'],
     };
 
-    const props = {
+    const testProps = {
       schema: JSON.stringify(jsonSchema),
-      // TODO: prop `uiSchema` uses incorrect capitalization, resulting in a false positive. Fixing the capitalization breaks unit test.
-      uiSchema: JSON.stringify(uischema),
-      uischema: '',
+      uischema: JSON.stringify(uischema),
       onChange: jest.fn(() => {}),
       mods: {},
       className: 'my-form-builder',
     };
 
-    const div = document.createElement('div');
-    document.body.appendChild(div);
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore -- prop `uiSchema` uses incorrect caplitalization, so it does not match defined props. Fixing this ends up breaking unit test.
-    const wrapper = mount(<FormBuilder {...props} />, { attachTo: div });
-    const errors = wrapper
-      .find('.alert-warning')
-      .first()
-      .find('li')
-      .map((error) => error.text());
-    expect(errors).toEqual([]);
+    render(<FormBuilder {...testProps} />);
+    const alerts = screen.queryAllByRole('alert');
+    const listsInAlerts = alerts.flatMap((alert) =>
+      within(alert).queryAllByRole('listitem'),
+    );
+    expect(listsInAlerts).toHaveLength(0);
   });
 
   it('supports column size on sections', () => {
@@ -381,27 +367,20 @@ describe('FormBuilder', () => {
       },
     };
 
-    const props = {
+    const testProps = {
       schema: JSON.stringify(jsonSchema),
-      // TODO: prop `uiSchema` uses incorrect capitalization, resulting in a false positive. Fixing the capitalization breaks unit test.
-      uiSchema: JSON.stringify(uischema),
-      uischema: '',
+      uischema: JSON.stringify(uischema),
       onChange: jest.fn(() => {}),
       mods: {},
       className: 'my-form-builder',
     };
 
-    const div = document.createElement('div');
-    document.body.appendChild(div);
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore -- prop `uiSchema` uses incorrect caplitalization, so it does not match defined props. Fixing this ends up breaking unit test.
-    const wrapper = mount(<FormBuilder {...props} />, { attachTo: div });
-    const errors = wrapper
-      .find('.alert-warning')
-      .first()
-      .find('li')
-      .map((error) => error.text());
-    expect(errors).toEqual([]);
+    render(<FormBuilder {...testProps} />);
+    const alerts = screen.queryAllByRole('alert');
+    const listsInAlerts = alerts.flatMap((alert) =>
+      within(alert).queryAllByRole('listitem'),
+    );
+    expect(listsInAlerts).toHaveLength(0);
   });
 
   it('validates additionalProperties as a valid property', () => {
@@ -412,7 +391,7 @@ describe('FormBuilder', () => {
       additionalProperties: false,
     };
 
-    const props = {
+    const testProps = {
       schema: JSON.stringify(jsonSchema),
       uischema: '{}',
       onChange: jest.fn(() => {}),
@@ -420,15 +399,12 @@ describe('FormBuilder', () => {
       className: 'my-form-builder',
     };
 
-    const div = document.createElement('div');
-    document.body.appendChild(div);
-    const wrapper = mount(<FormBuilder {...props} />, { attachTo: div });
-    const errors = wrapper
-      .find('.alert-warning')
-      .first()
-      .find('li')
-      .map((error) => error.text());
-    expect(errors).toEqual([]);
+    render(<FormBuilder {...testProps} />);
+    const alerts = screen.queryAllByRole('alert');
+    const listsInAlerts = alerts.flatMap((alert) =>
+      within(alert).queryAllByRole('listitem'),
+    );
+    expect(listsInAlerts).toHaveLength(0);
   });
 
   it('should support placeholder in the UI schema', () => {
@@ -458,7 +434,7 @@ describe('FormBuilder', () => {
       'ui:order': ['input1', 'input2'],
     };
 
-    const props = {
+    const testProps = {
       schema: JSON.stringify(jsonSchema),
       uischema: JSON.stringify(uischema),
       onChange: jest.fn(() => {}),
@@ -466,15 +442,12 @@ describe('FormBuilder', () => {
       className: 'my-form-builder',
     };
 
-    const div = document.createElement('div');
-    document.body.appendChild(div);
-    const wrapper = mount(<FormBuilder {...props} />, { attachTo: div });
-    const errors = wrapper
-      .find('.alert-warning')
-      .first()
-      .find('li')
-      .map((error) => error.text());
-    expect(errors).toEqual([]);
+    render(<FormBuilder {...testProps} />);
+    const alerts = screen.queryAllByRole('alert');
+    const listsInAlerts = alerts.flatMap((alert) =>
+      within(alert).queryAllByRole('listitem'),
+    );
+    expect(listsInAlerts).toHaveLength(0);
   });
 
   it("should allow changing of Section's Display Name", () => {
@@ -525,23 +498,18 @@ describe('FormBuilder', () => {
     const innerProps = {
       ...props,
       schema: JSON.stringify(jsonSchema),
-      uiSchema: JSON.stringify(uiSchema),
+      uischema: JSON.stringify(uiSchema),
     };
 
-    const div = document.createElement('div');
-    document.body.appendChild(div);
-    const wrapper = mount(<FormBuilder {...innerProps} />, { attachTo: div });
+    render(<FormBuilder {...innerProps} />);
 
-    const sectionHeadInputs = wrapper
-      .find('.section-container')
-      .first()
-      .find('.section-head')
-      .first()
-      .find('input');
+    // Find the section by its test id and query within it
+    const sectionContainer = screen.getByTestId('section-container');
+    const titleInput =
+      within(sectionContainer).getAllByPlaceholderText('Title')[0];
 
-    const titleInput = sectionHeadInputs.at(2);
-
-    titleInput.simulate('change', {
+    expect(titleInput).toBeInTheDocument();
+    fireEvent.change(titleInput, {
       target: {
         value: 'new title change',
       },
@@ -603,23 +571,18 @@ describe('FormBuilder', () => {
     const innerProps = {
       ...props,
       schema: JSON.stringify(jsonSchema),
-      uiSchema: JSON.stringify(uiSchema),
+      uischema: JSON.stringify(uiSchema),
     };
 
-    const div = document.createElement('div');
-    document.body.appendChild(div);
-    const wrapper = mount(<FormBuilder {...innerProps} />, { attachTo: div });
+    render(<FormBuilder {...innerProps} />);
 
-    const sectionHeadInputs = wrapper
-      .find('.section-container')
-      .first()
-      .find('.section-head')
-      .first()
-      .find('input');
+    // Find section by its test id and query within it
+    const sectionContainer = screen.getByTestId('section-container');
+    const descriptionInput =
+      within(sectionContainer).getAllByPlaceholderText('Description')[0];
 
-    const titleInput = sectionHeadInputs.at(3);
-
-    titleInput.simulate('change', {
+    expect(descriptionInput).toBeInTheDocument();
+    fireEvent.change(descriptionInput, {
       target: {
         value: 'new description change',
       },
@@ -634,7 +597,7 @@ describe('FormBuilder', () => {
   });
 
   it('should edit card slug and override ui:schema with updated slug', () => {
-    let jsonSchema = {
+    let jsonSchema: { [key: string]: unknown } = {
       properties: {
         newInput1: {
           title: 'New Input 1',
@@ -656,18 +619,16 @@ describe('FormBuilder', () => {
 
       schema: JSON.stringify(jsonSchema),
       uischema: JSON.stringify(uiSchema),
-      onChange: (newSchema, newUiSchema) => {
-        jsonSchema = newSchema;
+      onChange: (newSchema: string, newUiSchema: string) => {
+        jsonSchema = JSON.parse(newSchema);
         uiSchemaString = newUiSchema;
       },
     };
 
-    const div = document.createElement('div');
-    document.body.appendChild(div);
-    const wrapper = mount(<FormBuilder {...innerProps} />, { attachTo: div });
-    const cardInputs = wrapper.find('.card-container').first().find('input');
+    render(<FormBuilder {...innerProps} />);
+    const keyInput = screen.getByPlaceholderText('Key');
 
-    cardInputs.at(0).simulate('blur', {
+    fireEvent.blur(keyInput, {
       target: { value: 'nameA' },
     });
 
