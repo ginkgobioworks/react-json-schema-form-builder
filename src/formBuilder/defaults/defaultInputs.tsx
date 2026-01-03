@@ -4,22 +4,18 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import FBCheckbox from '../FBCheckbox';
 import CardEnumOptions from '../CardEnumOptions';
-import type {
-  FormInput,
-  CardComponentType,
-  CardComponentPropsType,
-} from '../types';
+import type { FormInput, CardComponent, CardComponentProps } from '../types';
 
 // specify the inputs required for a string type object
-export const CardDefaultParameterInputs: CardComponentType = () => <div />;
+export const CardDefaultParameterInputs: CardComponent = () => <div />;
 
 const getInputCardBodyComponent = ({ type }: { type: string }) =>
   function InputCardBodyComponent({
     parameters,
     onChange,
   }: {
-    parameters: CardComponentPropsType;
-    onChange: (newParams: CardComponentPropsType) => void;
+    parameters: CardComponentProps;
+    onChange: (newParams: CardComponentProps) => void;
   }) {
     return (
       <>
@@ -40,7 +36,7 @@ const getInputCardBodyComponent = ({ type }: { type: string }) =>
     );
   };
 
-const Checkbox: CardComponentType = ({ parameters, onChange }) => {
+const Checkbox: CardComponent = ({ parameters, onChange }) => {
   return (
     <FBCheckbox
       onChangeValue={() => {
@@ -59,8 +55,8 @@ function MultipleChoice({
   parameters,
   onChange,
 }: {
-  parameters: CardComponentPropsType;
-  onChange: (newParams: CardComponentPropsType) => void;
+  parameters: CardComponentProps;
+  onChange: (newParams: CardComponentProps) => void;
 }) {
   const enumArray = Array.isArray(parameters.enum) ? parameters.enum : [];
 

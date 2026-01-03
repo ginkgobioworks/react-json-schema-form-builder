@@ -21,12 +21,7 @@ import {
   subtractArray,
   getCardBody,
 } from './utils';
-import type {
-  Mods,
-  ModLabels,
-  FormInput,
-  CardComponentPropsType,
-} from './types';
+import type { Mods, ModLabels, FormInput, CardComponentProps } from './types';
 import Tooltip from './Tooltip';
 
 // specify the inputs required for any type of object
@@ -37,8 +32,8 @@ function CardGeneralParameterInputs({
   mods,
   showObjectNameInput = true,
 }: {
-  parameters: CardComponentPropsType;
-  onChange: (newParams: CardComponentPropsType) => void;
+  parameters: CardComponentProps;
+  onChange: (newParams: CardComponentProps) => void;
   mods?: Mods;
   allFormInputs: { [key: string]: FormInput };
   showObjectNameInput?: boolean;

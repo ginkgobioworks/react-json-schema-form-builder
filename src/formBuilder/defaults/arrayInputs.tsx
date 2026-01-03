@@ -15,17 +15,10 @@ import longAnswerInputs from './longAnswerInputs';
 import numberInputs from './numberInputs';
 import defaultInputs from './defaultInputs';
 import { getRandomId } from '../utils';
-import type {
-  FormInput,
-  CardComponentType,
-  CardComponentPropsType,
-} from '../types';
+import type { FormInput, CardComponent, CardComponentProps } from '../types';
 
 // specify the inputs required for a string type object
-const CardArrayParameterInputs: CardComponentType = ({
-  parameters,
-  onChange,
-}) => {
+const CardArrayParameterInputs: CardComponent = ({ parameters, onChange }) => {
   return (
     <Box>
       <Typography variant='subtitle2' fontWeight='bold'>
@@ -66,7 +59,7 @@ const CardArrayParameterInputs: CardComponentType = ({
   );
 };
 
-const InnerCard: CardComponentType = ({ parameters, onChange, mods }) => {
+const InnerCard: CardComponent = ({ parameters, onChange, mods }) => {
   const [elementId] = useState(getRandomId);
   const newDataProps: { [key: string]: any } = {};
   const newUiProps: { [key: string]: any } = {};
@@ -79,13 +72,11 @@ const InnerCard: CardComponentType = ({ parameters, onChange, mods }) => {
   Object.keys(parameters).forEach((propName: string) => {
     if (propName.startsWith('ui:*')) {
       newUiProps[propName.substring(4)] =
-        parameters[propName as keyof CardComponentPropsType];
+        parameters[propName as keyof CardComponentProps];
     } else if (propName.startsWith('ui:')) {
-      newUiProps[propName] =
-        parameters[propName as keyof CardComponentPropsType];
+      newUiProps[propName] = parameters[propName as keyof CardComponentProps];
     } else if (!['name', 'required'].includes(propName)) {
-      newDataProps[propName] =
-        parameters[propName as keyof CardComponentPropsType];
+      newDataProps[propName] = parameters[propName as keyof CardComponentProps];
     }
   });
 
@@ -156,7 +147,7 @@ const InnerCard: CardComponentType = ({ parameters, onChange, mods }) => {
   );
 };
 
-function getInnerCardComponent(): CardComponentType {
+function getInnerCardComponent(): CardComponent {
   return InnerCard;
 }
 

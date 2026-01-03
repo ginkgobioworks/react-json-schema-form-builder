@@ -47,7 +47,7 @@ import DEFAULT_FORM_INPUTS from './defaults/defaultFormInputs';
 import type {
   Mods,
   InitParameters,
-  AddFormObjectParametersType,
+  AddFormObjectParameters,
   JsonSchema,
   UiSchema,
   DefinitionData,
@@ -133,7 +133,7 @@ function FormBuilder({
     [onChange],
   );
 
-  const addProperties = useMemo<AddFormObjectParametersType>(
+  const addProperties = useMemo<AddFormObjectParameters>(
     () => ({
       schema: schemaData as JsonSchema,
       uischema: uiSchemaData as UiSchema,

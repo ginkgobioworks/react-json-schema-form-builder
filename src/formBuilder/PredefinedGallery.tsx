@@ -5,7 +5,7 @@ import React, {
   useEffect,
   useCallback,
 } from 'react';
-import Stack from '@mui/material/Stack';
+import Box from '@mui/material/Box';
 import CardGallery from './CardGallery';
 import {
   parse,
@@ -22,11 +22,13 @@ function PredefinedGallery({
   uischema,
   onChange,
   mods,
+  className,
 }: {
   schema: string;
   uischema: string;
   onChange: (schema: string, uischema: string) => any;
   mods?: Mods;
+  className?: string;
 }): ReactElement {
   const schemaData = useMemo(() => parse(schema) || {}, [schema]);
   const uiSchemaData = useMemo(() => parse(uischema) || {}, [uischema]);
@@ -109,7 +111,7 @@ function PredefinedGallery({
   );
 
   return (
-    <Stack spacing={2} sx={{ maxWidth: 800, mx: 'auto' }}>
+    <Box className={className || ''}>
       <CardGallery
         definitionSchema={schemaData.definitions || {}}
         definitionUiSchema={uiSchemaData.definitions || {}}
@@ -117,7 +119,7 @@ function PredefinedGallery({
         mods={mods}
         categoryHash={categoryHash}
       />
-    </Stack>
+    </Box>
   );
 }
 

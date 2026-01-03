@@ -9,10 +9,10 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import DependencyField from './dependencies/DependencyField';
-import type { CardModalType, CardComponentPropsType } from './types';
+import type { CardModal, CardComponentProps } from './types';
 import Tooltip from './Tooltip';
 
-const CardModal: CardModalType = ({
+const CardModalComponent: CardModal = ({
   componentProps,
   onChange,
   isOpen,
@@ -29,7 +29,7 @@ const CardModal: CardModalType = ({
   }, [isOpen, componentProps]);
 
   const handleTypeSpecificChange = useCallback(
-    (newState: CardComponentPropsType) => {
+    (newState: CardComponentProps) => {
       setComponentProps((prev) => ({
         ...prev,
         ...newState,
@@ -49,7 +49,7 @@ const CardModal: CardModalType = ({
   );
 
   const handleDependencyChange = useCallback(
-    (newState: Partial<CardComponentPropsType>) => {
+    (newState: Partial<CardComponentProps>) => {
       setComponentProps((prev) => ({
         ...prev,
         ...newState,
@@ -120,4 +120,4 @@ const CardModal: CardModalType = ({
   );
 };
 
-export default memo(CardModal);
+export default memo(CardModalComponent);

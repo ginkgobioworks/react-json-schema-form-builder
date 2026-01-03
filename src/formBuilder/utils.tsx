@@ -3,20 +3,20 @@ import type { DragEndEvent } from '@dnd-kit/core';
 import { arrayMove } from '@dnd-kit/sortable';
 import Typography from '@mui/material/Typography';
 import {
-  SectionType,
-  CardType,
+  Section,
+  Card,
   CardProps,
   ElementProps,
   FormInput,
   Mods,
-  CardComponentType,
+  CardComponent,
   DataOptions,
   DataType,
   FormElement,
-  CardComponentPropsType,
-  AddFormObjectParametersType,
+  CardComponentProps,
+  AddFormObjectParameters,
   DefinitionData,
-  InputSelectDataType,
+  InputSelectData,
   JsonSchema,
   JsonSchemaProperty,
   UiSchema,
@@ -48,17 +48,16 @@ export function stringify(obj: unknown): string {
 export function defaultDataProps(
   category: string,
   allFormInputs: { [key: string]: FormInput },
-): InputSelectDataType {
+): InputSelectData {
   return allFormInputs[category]
-    .defaultDataSchema as unknown as InputSelectDataType;
+    .defaultDataSchema as unknown as InputSelectData;
 }
 
 export function defaultUiProps(
   category: string,
   allFormInputs: { [key: string]: FormInput },
-): InputSelectDataType {
-  return allFormInputs[category]
-    .defaultUiSchema as unknown as InputSelectDataType;
+): InputSelectData {
+  return allFormInputs[category].defaultUiSchema as unknown as InputSelectData;
 }
 export function categoryType(
   category: string,
@@ -1115,7 +1114,7 @@ export function generateUiSchemaFromElementProps(
 export function getCardParameterInputComponentForType(
   category: string,
   allFormInputs: { [key: string]: FormInput },
-): CardComponentType {
+): CardComponent {
   return (
     (allFormInputs[category] && allFormInputs[category].modalBody) ||
     (() => null)
@@ -1181,7 +1180,7 @@ function getIdFromElementsBlock(elements: Array<ElementProps>) {
 }
 
 // given an initial schema, update with a new card appended
-export function addCardObj(parameters: AddFormObjectParametersType) {
+export function addCardObj(parameters: AddFormObjectParameters) {
   const {
     schema,
     uischema,
@@ -1229,7 +1228,7 @@ export function addCardObj(parameters: AddFormObjectParametersType) {
 }
 
 // given an initial schema, update with a new section appended
-export function addSectionObj(parameters: AddFormObjectParametersType) {
+export function addSectionObj(parameters: AddFormObjectParameters) {
   const {
     schema,
     uischema,
@@ -1295,8 +1294,8 @@ export function generateElementComponentsFromSchemas(parameters: {
   allFormInputs: { [key: string]: FormInput };
   mods?: Mods;
   categoryHash: { [key: string]: string };
-  Card: CardType;
-  Section: SectionType;
+  Card: Card;
+  Section: Section;
 }): ReactNode[] {
   const {
     schemaData,
@@ -1385,11 +1384,11 @@ export function generateElementComponentsFromSchemas(parameters: {
               },
               elementPropArr[index].uiOptions,
               elementPropArr[index].dataOptions,
-            ) as CardComponentPropsType
+            ) as CardComponentProps
           }
           key={`${path}_${elementPropArr[index].name}`}
           TypeSpecificParameters={TypeSpecificParameters}
-          onChange={(newCardObj: CardComponentPropsType) => {
+          onChange={(newCardObj: CardComponentProps) => {
             const newElementObjArr = generateElementPropsFromSchemas({
               schema,
               uischema,

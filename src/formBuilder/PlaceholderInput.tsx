@@ -2,13 +2,10 @@ import React from 'react';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
-import type { CardComponentType } from './types';
+import type { CardComponent } from './types';
 import Tooltip from './Tooltip';
 
-export const PlaceholderInput: CardComponentType = ({
-  parameters,
-  onChange,
-}) => {
+export const PlaceholderInput: CardComponent = ({ parameters, onChange }) => {
   return (
     <>
       <Typography variant='subtitle2' fontWeight='bold'>

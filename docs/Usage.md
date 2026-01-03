@@ -127,49 +127,128 @@ export default Example;
 
 ## Advanced
 
+All types used in the advanced features below are exported from the package and can be imported for type safety. See the [Mods documentation](Mods.md) for a complete list of available types.
+
 ### Custom Form Inputs
 
-In addition to the default types of form inputs (Time, Checkbox, Radio, Dropdown, Short Answer, Long Answer, Password, Integer, Number, Array), custom form inputs can also be specified. These form inputs are defined in a JS object that is passed into the `FormBuilder` component (and the `PredefinedGallery` component if it's being used) as part of a `mods` property, which has a comprehensive type definition in [src/formBuilder/types.ts](https://github.com/ginkgobioworks/react-json-schema-form-builder/blob/main/src/formBuilder/types.ts) as `Mods`.
+In addition to the default types of form inputs (Time, Checkbox, Radio, Dropdown, Short Answer, Long Answer, Password, Integer, Number, Array), custom form inputs can also be specified. These form inputs are defined in a JS object that is passed into the `FormBuilder` component (and the `PredefinedGallery` component if it's being used) as part of a `mods` property, which has a comprehensive TypeScript type definition (`Mods`) that is exported from the package.
+
+Key types for custom form inputs:
+- `FormInput` - The type for a custom form input definition
+- `Match` - Used in `FormInput.matchIf` to define matching criteria
+- `DataType` - JSON Schema data types (`'string' | 'number' | 'boolean' | 'integer' | 'array' | 'object' | 'null'`)
+- `CardComponent` - Type for `cardBody` and `modalBody` components
+- `CardComponentProps` - Props passed to card and modal body components
 
 #### Example Custom Form Input
+
+This example demonstrates a Phone Number custom form input with country code selection and validation pattern configuration:
 
 ```jsx
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import MenuItem from '@mui/material/MenuItem';
+import type {
+  FormInput,
+  Match,
+  DataType,
+  CardComponent,
+  CardComponentProps,
+} from '@ginkgo-bioworks/react-json-schema-form-builder';
+
+const phoneNumberFormInput: FormInput = {
+  displayName: 'Phone Number',
+  matchIf: [
+    {
+      types: ['string'],
+      widget: 'phone',
+    },
+  ],
+  defaultDataSchema: {
+    type: 'string',
+    pattern: '^\\+?[1-9]\\d{1,14}$', // E.164 format
+  },
+  defaultUiSchema: {
+    'ui:widget': 'phone',
+    'ui:placeholder': '+1234567890',
+  },
+  type: 'string',
+  cardBody: ({ parameters, onChange }) => {
+    const defaultValue =
+      typeof parameters.default === 'string' ? parameters.default : '';
+    const countryCode = (parameters as any).countryCode || '+1';
+    const phoneNumber = defaultValue.replace(/^\+?\d{1,3}/, '') || '';
+
+    return (
+      <>
+        <Typography variant='subtitle2' gutterBottom>
+          Default Phone Number
+        </Typography>
+        <Box sx={{ display: 'flex', gap: 1 }}>
+          <TextField
+            select
+            value={countryCode}
+            onChange={(ev) => {
+              const newCode = ev.target.value;
+              const newParams: CardComponentProps = {
+                ...parameters,
+                default: `${newCode}${phoneNumber}`,
+              };
+              (newParams as any).countryCode = newCode;
+              onChange(newParams);
+            }}
+            size='small'
+            sx={{ minWidth: 120 }}
+          >
+            <MenuItem value='+1'>+1 (US)</MenuItem>
+            <MenuItem value='+44'>+44 (UK)</MenuItem>
+            <MenuItem value='+33'>+33 (FR)</MenuItem>
+            <MenuItem value='+49'>+49 (DE)</MenuItem>
+            <MenuItem value='+81'>+81 (JP)</MenuItem>
+          </TextField>
+          <TextField
+            value={phoneNumber}
+            placeholder='1234567890'
+            onChange={(ev) => {
+              const newParams: CardComponentProps = {
+                ...parameters,
+                default: `${countryCode}${ev.target.value}`,
+              };
+              (newParams as any).countryCode = countryCode;
+              onChange(newParams);
+            }}
+            size='small'
+            fullWidth
+          />
+        </Box>
+      </>
+    );
+  },
+  modalBody: ({ parameters, onChange }) => (
+    <>
+      <Typography variant='subtitle2' gutterBottom>
+        Phone Number Configuration
+      </Typography>
+      <TextField
+        label='Validation Pattern (regex)'
+        value={parameters.pattern || '^\\+?[1-9]\\d{1,14}$'}
+        placeholder='^\\+?[1-9]\\d{1,14}$'
+        onChange={(ev) => onChange({ ...parameters, pattern: ev.target.value })}
+        size='small'
+        fullWidth
+        sx={{ mb: 2 }}
+        helperText='E.164 format: + followed by country code and number'
+      />
+      <Typography variant='caption' color='text.secondary'>
+        Customize the validation pattern for phone number format
+      </Typography>
+    </>
+  ),
+};
 
 const customFormInputs = {
-  email: {
-    displayName: 'Email',
-    matchIf: [
-      {
-        types: ['string'],
-        widget: 'email',
-      },
-    ],
-    defaultDataSchema: {},
-    defaultUiSchema: {
-      'ui:widget': 'email',
-    },
-    type: 'string',
-    cardBody: ({ parameters, onChange }) => (
-      <div>
-        <Typography variant="subtitle2">Default email</Typography>
-        <TextField
-          value={parameters.default || ''}
-          placeholder="Default"
-          type="email"
-          onChange={(ev) =>
-            onChange({ ...parameters, default: ev.target.value })
-          }
-          size="small"
-          fullWidth
-        />
-      </div>
-    ),
-    modalBody: ({ parameters, onChange }) => (
-      <>Extra editing options in modal appear here</>
-    ),
-  },
+  phone: phoneNumberFormInput,
 };
 ```
 
@@ -229,18 +308,20 @@ By default, when adding a new form element, the schema for the new form element 
 }
 ```
 
-and the UI schema is not set at all. This means that by default, a new form element has the "Short answer" input type. If you wish to override this (for example, if the "Short answer" input is deactivated), you can do so by using the `newElementDefaultDataOptions` and `newElementDefaultUiSchema` mods. For example, setting the mods to the following:
+and the UI schema is not set at all. This means that by default, a new form element has the "Short answer" input type. If you wish to override this (for example, if the "Short answer" input is deactivated), you can do so by using the `newElementDefaultDataOptions` and `newElementDefaultUiSchema` mods. The `DataOptions` type is exported and can be imported from the package:
 
-```javascript
+```typescript
+import type { DataOptions } from '@ginkgo-bioworks/react-json-schema-form-builder';
+
 const mods = {
   newElementDefaultDataOptions: {
     $ref: '#/definitions/firstNames',
     title: 'Field',
-  },
+  } as DataOptions,
 };
 ```
 
-will default new form elements to a "Reference" type to some definition "firstNames" defined in the schema. Setting the mods to the following:
+This will default new form elements to a "Reference" type to some definition "firstNames" defined in the schema. Setting the mods to the following:
 
 ```javascript
 const mods = {
@@ -280,30 +361,53 @@ import {
 } from '@ginkgo-bioworks/react-json-schema-form-builder';
 ```
 
-Both of these functions require the following properties:
+Both of these functions require the following properties. The `AddFormObjectParameters` type is exported and can be imported from the package:
 
 ```typescript
-type properties = {
-  schema: object; // FormBuilder schema
-  uischema: object; // FormBuilder uiSchema
-  mods: object; // FormBuilder mods
-  onChange: (schema: string, uischema: string) => void;
-  definitionData: string; // see: schema.definitions
-  definitionUi: string; // see: uischema.definitions
-  categoryHash: string[]; // see: FormBuilder.onMount()
+import type {
+  AddFormObjectParameters,
+  DefinitionData,
+  JsonSchema,
+  UiSchema,
+  UiSchemaProperty,
+  Mods,
+} from '@ginkgo-bioworks/react-json-schema-form-builder';
+
+// The type definition:
+type AddFormObjectParameters = {
+  schema: JsonSchema | Record<string, unknown>;
+  uischema: UiSchema | Record<string, unknown>;
+  mods?: Mods;
+  onChange: (schema: JsonSchema | Record<string, unknown>, uischema: UiSchema | Record<string, unknown>) => unknown;
+  definitionData: DefinitionData;
+  definitionUi: Record<string, UiSchemaProperty>;
+  index?: number;
+  categoryHash: Record<string, string>;
 };
 ```
 
-The `categoryHash` helps FormBuilder match input types and is generated by FormBuilder upon rendering. You can get the generated hash through the `onMount` callback.
+The `categoryHash` helps FormBuilder match input types and is generated by FormBuilder upon rendering. You can get the generated hash through the `onMount` callback. The `InitParameters` type is exported and can be imported for type safety:
+
+```typescript
+import type { InitParameters } from '@ginkgo-bioworks/react-json-schema-form-builder';
+
+// The onMount callback receives InitParameters
+const handleMount = (params: InitParameters) => {
+  // params.categoryHash is available here
+  setCategoryHash(params.categoryHash);
+};
+```
 
 Example:
 
 ```jsx
+import type { InitParameters } from '@ginkgo-bioworks/react-json-schema-form-builder';
+
 <FormBuilder
   // ...
-  onMount={({ categoryHash }) => {
+  onMount={(params: InitParameters) => {
     // Here you can save categoryHash to props or state
-    setCategoryHash(categoryHash);
+    setCategoryHash(params.categoryHash || '');
   }}
 />
 ```
@@ -312,15 +416,18 @@ Example:
 
 By providing a custom component through `mods`, you can completely override the `Add` component.
 
-To do this, provide a callback function to the `components.add` mod. This callback should expect one argument, which provides properties that are required to add elements and sections to the form builder.
+To do this, provide a callback function to the `components.add` mod. This callback should expect one argument of type `AddFormObjectParameters`, which provides properties that are required to add elements and sections to the form builder. The type is exported and can be imported from the package:
 
 ```jsx
-import { addCardObj } from '@ginkgo-bioworks/react-json-schema-form-builder';
+import {
+  addCardObj,
+  type AddFormObjectParameters,
+} from '@ginkgo-bioworks/react-json-schema-form-builder';
 import Button from '@mui/material/Button';
 
 const mods = {
   components: {
-    add: (properties) => (
+    add: (properties: AddFormObjectParameters) => (
       <Button onClick={() => addCardObj(properties)}>Add Element</Button>
     ),
   },
@@ -336,17 +443,23 @@ import {
   addCardObj,
   addSectionObj,
 } from '@ginkgo-bioworks/react-json-schema-form-builder';
+import type {
+  AddFormObjectParameters,
+  InitParameters,
+  JsonSchema,
+  UiSchema,
+} from '@ginkgo-bioworks/react-json-schema-form-builder';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 
 function MyFormBuilder() {
-  const [schema, setSchema] = useState({});
-  const [uiSchema, setUiSchema] = useState({});
+  const [schema, setSchema] = useState<JsonSchema>({});
+  const [uiSchema, setUiSchema] = useState<UiSchema>({});
   const [categoryHash, setCategoryHash] = useState('');
 
   const mods = {
     components: {
-      add: (addProps) => (
+      add: (addProps: AddFormObjectParameters) => (
         <Stack direction="row" spacing={1}>
           <Button
             variant="outlined"
@@ -376,8 +489,8 @@ function MyFormBuilder() {
         setSchema(JSON.parse(schema));
         setUiSchema(JSON.parse(uischema));
       }}
-      onMount={({ categoryHash }) => {
-        setCategoryHash(categoryHash);
+      onMount={(params: InitParameters) => {
+        setCategoryHash(params.categoryHash || '');
       }}
     />
   );
@@ -390,9 +503,11 @@ export default MyFormBuilder;
 
 The Form Builder uses Material-UI (MUI) components for consistent styling. You can customize the appearance by:
 
-1. **Theme customization**: Wrap your app with MUI's `ThemeProvider` to apply custom themes
-2. **Component overrides**: Use MUI's theme component overrides for global style changes
-3. **sx prop**: Use MUI's `sx` prop for one-off style customizations
+1. **Theme customization**: Wrap your app with MUI's `ThemeProvider` to apply custom themes to all MUI components used within the FormBuilder and PredefinedGallery
+
+2. **Component overrides**: Use MUI's theme component overrides for global style changes to specific MUI components
+
+3. **className prop**: Both `FormBuilder` and `PredefinedGallery` components accept a `className` prop that can be used to apply custom CSS classes to their root containers
 
 ```jsx
 import { ThemeProvider, createTheme } from '@mui/material/styles';
@@ -403,13 +518,40 @@ const theme = createTheme({
       main: '#1976d2',
     },
   },
+  components: {
+    // Override MUI component styles globally
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          borderRadius: 8,
+        },
+      },
+    },
+  },
 });
 
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <FormBuilder {...props} />
+      <FormBuilder
+        schema={schema}
+        uischema={uischema}
+        onChange={onChange}
+        className="my-custom-form-builder"
+      />
+      <PredefinedGallery
+        schema={schema}
+        uischema={uischema}
+        onChange={onChange}
+        className="my-custom-predefined-gallery"
+      />
     </ThemeProvider>
   );
 }
 ```
+
+**Styling Notes:**
+- Both `FormBuilder` and `PredefinedGallery` components accept a `className` prop for custom CSS classes
+- Neither component accepts an `sx` prop directly
+- Both components can be styled via MUI `ThemeProvider` and theme component overrides
+- Use `className` on both components or MUI theme customization for styling changes

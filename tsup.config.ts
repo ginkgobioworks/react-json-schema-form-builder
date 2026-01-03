@@ -6,6 +6,8 @@ import pkg from './package.json';
 const external = [
   ...Object.keys(pkg.dependencies || {}),
   ...Object.keys(pkg.peerDependencies || {}),
+  // React JSX runtime should also be externalized
+  'react/jsx-runtime',
 ];
 
 export default defineConfig({

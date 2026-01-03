@@ -1,17 +1,17 @@
 import React from 'react';
-import type { FormInput, CardComponentType } from '../types';
+import type { FormInput, CardComponent } from '../types';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import { PlaceholderInput } from '../PlaceholderInput';
 
-export const CardReferenceParameterInputs: CardComponentType = ({
+export const CardReferenceParameterInputs: CardComponent = ({
   parameters,
   onChange,
 }) => {
   return <PlaceholderInput parameters={parameters} onChange={onChange} />;
 };
 
-const RefChoice: CardComponentType = ({ parameters, onChange }) => {
+const RefChoice: CardComponent = ({ parameters, onChange }) => {
   const pathArr = (parameters.$ref || '').split('/');
   const defData = (parameters.definitionData || {}) as Record<
     string,

@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import FBCheckbox from '../FBCheckbox';
 import Tooltip from '../Tooltip';
-import type { CardComponentType, FormInput, DataType } from '../types';
+import type { CardComponent, FormInput, DataType } from '../types';
 import { PlaceholderInput } from '../PlaceholderInput';
 
 const formatDictionary = {
@@ -44,7 +44,7 @@ type AutoDictionaryKey =
   | 'country';
 
 // specify the inputs required for a string type object
-const CardShortAnswerParameterInputs: CardComponentType = ({
+const CardShortAnswerParameterInputs: CardComponent = ({
   parameters,
   onChange,
 }) => {
@@ -219,7 +219,7 @@ const CardShortAnswerParameterInputs: CardComponentType = ({
   );
 };
 
-const ShortAnswerField: CardComponentType = ({ parameters, onChange }) => {
+const ShortAnswerField: CardComponent = ({ parameters, onChange }) => {
   return (
     <>
       <Typography variant='subtitle2' fontWeight='bold'>
@@ -243,7 +243,7 @@ const ShortAnswerField: CardComponentType = ({ parameters, onChange }) => {
   );
 };
 
-const Password: CardComponentType = ({ parameters, onChange }) => {
+const Password: CardComponent = ({ parameters, onChange }) => {
   return (
     <>
       <Typography variant='subtitle2' fontWeight='bold'>

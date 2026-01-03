@@ -5,11 +5,11 @@ import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import FBCheckbox from '../FBCheckbox';
 import Tooltip from '../Tooltip';
-import type { FormInput, CardComponentType } from '../types';
+import type { FormInput, CardComponent } from '../types';
 import { PlaceholderInput } from '../PlaceholderInput';
 
 // specify the inputs required for a string type object
-const CardLongAnswerParameterInputs: CardComponentType = ({
+const CardLongAnswerParameterInputs: CardComponent = ({
   parameters,
   onChange,
 }) => {
@@ -99,7 +99,7 @@ const CardLongAnswerParameterInputs: CardComponentType = ({
   );
 };
 
-const LongAnswer: CardComponentType = ({ parameters, onChange }) => {
+const LongAnswer: CardComponent = ({ parameters, onChange }) => {
   return (
     <>
       <Typography variant='subtitle2' fontWeight='bold'>
@@ -135,7 +135,7 @@ const longAnswerInput: { [key: string]: FormInput } = {
     },
     type: 'string',
     cardBody: LongAnswer,
-    modalBody: CardLongAnswerParameterInputs as CardComponentType,
+    modalBody: CardLongAnswerParameterInputs as CardComponent,
   },
 };
 

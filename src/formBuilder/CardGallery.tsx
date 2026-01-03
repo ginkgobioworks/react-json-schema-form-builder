@@ -1,5 +1,6 @@
 import React, { ReactElement } from 'react';
 import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import {
   generateElementComponentsFromSchemas,
@@ -101,7 +102,11 @@ export default function CardGallery({
   };
 
   return (
-    <div data-testid='form-gallery'>
+    <Stack
+      spacing={2}
+      sx={{ maxWidth: 800, mx: 'auto' }}
+      data-testid='form-gallery'
+    >
       {componentArr}
       {componentArr.length === 0 && (
         <Typography variant='body2' color='text.secondary'>
@@ -126,6 +131,6 @@ export default function CardGallery({
           />
         )}
       </div>
-    </div>
+    </Stack>
   );
 }
