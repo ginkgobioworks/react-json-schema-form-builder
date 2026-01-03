@@ -1,6 +1,6 @@
 {
   "name": "@ginkgo-bioworks/react-json-schema-form-builder",
-  "version": "3.0.1",
+  "version": "4.0.0",
   "description": "React Component for visually configuring a JSON Schema-based form",
   "author": {
     "name": "Nathan Alam",
@@ -19,6 +19,13 @@
   "module": "dist/index.mjs",
   "source": "src/index.ts",
   "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
   "engines": {
     "node": ">=20"
   },
@@ -42,7 +49,7 @@
     "react": "^19.0.0"
   },
   "files": [
-    "/dist",
+    "dist",
     "README.md",
     "CHANGELOG.md",
     "LICENSE"

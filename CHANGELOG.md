@@ -1,5 +1,41 @@
 # Changelog
 
+## [4.0.0] - 2026-01-03
+
+### BREAKING CHANGES
+
+- **React version requirement changed**: Now requires React ^19.0.0. React 16, 17, and 18 are no longer supported.
+- **Node.js version requirement changed**: Now requires Node.js >=20. Node.js 16 and 18 are no longer supported.
+- **UI framework migration**: Replaced Bootstrap/reactstrap with Material-UI (MUI) v7. Bootstrap is no longer a peer dependency.
+- **Drag-and-drop library changed**: Replaced @hello-pangea/dnd with @dnd-kit. If you have custom drag-and-drop integrations, they will need to be updated.
+- **New peer dependencies required**: You must now install the following peer dependencies:
+  - `@mui/material` (^7.0.0)
+  - `@mui/icons-material` (^7.0.0)
+  - `@emotion/react` (^11.14.0)
+  - `@emotion/styled` (^11.14.0)
+
+### Added
+
+- Exported types from library (See [issue #604](https://github.com/ginkgobioworks/react-json-schema-form-builder/issues/604).)
+
+### Changed
+
+- Standardized label casing to Title Case throughout (Default Value, Column Size, Dependencies, etc.)
+- Updated dependencies in package.json and package-lock.json
+- Updated dependencies in example/package.json and example/package-lock.json
+
+### Fixed
+
+- Fixed array field cursor losing focus when typing (See [issue #369](https://github.com/ginkgobioworks/react-json-schema-form-builder/issues/369).)
+- Fixed description field lost when changing Input Type (See [issue #467](https://github.com/ginkgobioworks/react-json-schema-form-builder/issues/467).)
+- Fixed unreachable code in ValueSelector component (See [issue #476](https://github.com/ginkgobioworks/react-json-schema-form-builder/issues/476).)
+- Fixed false positive unit tests and validator issues (See [issue #478](https://github.com/ginkgobioworks/react-json-schema-form-builder/issues/478).)
+- Fixed Alert not exported from reactstrap (fixed by MUI migration) (See [issue #412](https://github.com/ginkgobioworks/react-json-schema-form-builder/issues/412).)
+- Fixed support for Material UI V4/V5 (fixed by MUI migration) (See [issue #424](https://github.com/ginkgobioworks/react-json-schema-form-builder/issues/424).)
+- Fixed React-jss bug making styling disappear on re-render (fixed by removing react-jss) (See [issue #471](https://github.com/ginkgobioworks/react-json-schema-form-builder/issues/471).)
+- Fixed data schema not in JSON format (fixed by replacing react-json-editor-ajrm) (See [issue #307](https://github.com/ginkgobioworks/react-json-schema-form-builder/issues/307).)
+- Optimized re-renders by fixing dependency arrays (remove setState from deps, fix CardModal useEffect, fix hideAddButton)
+
 ## [3.0.1] - 2024-04-29
 
 ### Fixed
