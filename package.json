@@ -1,6 +1,6 @@
 {
   "name": "@ginkgo-bioworks/react-json-schema-form-builder",
-  "version": "4.0.0",
+  "version": "4.1.0",
   "description": "React Component for visually configuring a JSON Schema-based form",
   "author": {
     "name": "Nathan Alam",

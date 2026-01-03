@@ -1,5 +1,25 @@
 # Changelog
 
+## [4.1.0] - 2026-01-03
+
+### Fixed
+
+- Fixed missing type exports that should have been included in v4.0.0:
+  - `Match` - Used in `FormInput.matchIf` to define matching criteria
+  - `CardComponent` - Type for `FormInput.cardBody` and `FormInput.modalBody` components
+  - `CardComponentProps` - Props passed to `CardComponent` components
+  - `DataOptions` - Used in `Mods.newElementDefaultDataOptions`
+  - `AddFormObjectParameters` - Used in `Mods.components.add` callback
+  - `DefinitionData` - Used in `AddFormObjectParameters.definitionData`
+- Fixed broken dependency1.png image in documentation
+- Fixed documentation image reference format for proper rendering on Read the Docs
+
+### Changed
+
+- Renamed exported types for consistency (old names still available as deprecated aliases):
+  - `CardComponentType` → `CardComponent`
+  - `CardComponentPropsType` → `CardComponentProps`
+
 ## [4.0.0] - 2026-01-03
 
 ### BREAKING CHANGES
