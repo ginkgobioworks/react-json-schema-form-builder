@@ -131,13 +131,13 @@ jobs:
         with:
           node-version: 22
       - run: npm ci
-      - uses: actions/download-artifact@v6
+      - uses: actions/download-artifact@v7
         with:
           name: dist
           path: dist
       - working-directory: ./example
         run: npm install
-      - uses: actions/download-artifact@v6
+      - uses: actions/download-artifact@v7
         with:
           name: example-app
           path: example/dist
@@ -166,7 +166,7 @@ jobs:
           registry-url: https://registry.npmjs.org/
           node-version: 22
       - run: npm ci
-      - uses: actions/download-artifact@v6
+      - uses: actions/download-artifact@v7
         with:
           name: dist
           path: dist
