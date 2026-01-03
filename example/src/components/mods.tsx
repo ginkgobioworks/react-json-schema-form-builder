@@ -5,7 +5,7 @@ import MenuItem from '@mui/material/MenuItem';
 import type {
   FormInput,
   Mods,
-  CardComponentPropsType,
+  CardComponentProps,
 } from '@ginkgo-bioworks/react-json-schema-form-builder';
 
 /**
@@ -49,7 +49,7 @@ const phoneNumberFormInput: FormInput = {
             value={countryCode}
             onChange={(ev) => {
               const newCode = ev.target.value;
-              const newParams: CardComponentPropsType = {
+              const newParams: CardComponentProps = {
                 ...parameters,
                 default: `${newCode}${phoneNumber}`,
               };
@@ -69,7 +69,7 @@ const phoneNumberFormInput: FormInput = {
             value={phoneNumber}
             placeholder='1234567890'
             onChange={(ev) => {
-              const newParams: CardComponentPropsType = {
+              const newParams: CardComponentProps = {
                 ...parameters,
                 default: `${countryCode}${ev.target.value}`,
               };

@@ -13,7 +13,7 @@ import CardModal from './CardModal';
 import CardGeneralParameterInputs from './CardGeneralParameterInputs';
 import Add from './Add';
 import TooltipComponent from './Tooltip';
-import type { CardPropsType, CardComponentPropsType } from './types';
+import type { CardComponentPropsInternal, CardComponentProps } from './types';
 
 function Card({
   componentProps,
@@ -29,7 +29,7 @@ function Card({
   mods,
   showObjectNameInput = true,
   addProperties,
-}: CardPropsType): ReactElement {
+}: CardComponentPropsInternal): ReactElement {
   const [modalOpen, setModalOpen] = useState(false);
 
   const handleToggleCollapse = useCallback(() => {
@@ -72,7 +72,7 @@ function Card({
   }, [onDelete]);
 
   const handleModalSave = useCallback(
-    (newComponentProps: CardComponentPropsType) => {
+    (newComponentProps: CardComponentProps) => {
       onChange(newComponentProps);
     },
     [onChange],
@@ -191,7 +191,7 @@ function Card({
           </Box>
         </Stack>
         <CardModal
-          componentProps={componentProps as CardComponentPropsType}
+          componentProps={componentProps as CardComponentProps}
           isOpen={modalOpen}
           onClose={handleModalClose}
           onChange={handleModalSave}

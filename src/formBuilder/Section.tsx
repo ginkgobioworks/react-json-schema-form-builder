@@ -50,7 +50,7 @@ import {
   handleDndDragEnd,
 } from './utils';
 import SortableItem from './SortableItem';
-import type { SectionPropsType, JsonSchema } from './types';
+import type { SectionProps, JsonSchema } from './types';
 
 function Section({
   name,
@@ -78,7 +78,7 @@ function Section({
   allFormInputs,
   mods,
   categoryHash,
-}: SectionPropsType): ReactElement {
+}: SectionProps): ReactElement {
   const schemaData = useMemo(() => schema || {}, [schema]);
 
   const unsupportedFeatures = useMemo(

@@ -4,13 +4,10 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import FBCheckbox from '../FBCheckbox';
 import Tooltip from '../Tooltip';
-import type { FormInput, CardComponentType } from '../types';
+import type { FormInput, CardComponent } from '../types';
 
 // specify the inputs required for a number type object
-const CardNumberParameterInputs: CardComponentType = ({
-  parameters,
-  onChange,
-}) => {
+const CardNumberParameterInputs: CardComponent = ({ parameters, onChange }) => {
   return (
     <Box>
       <Typography variant='subtitle2' fontWeight='bold'>
@@ -144,7 +141,7 @@ const CardNumberParameterInputs: CardComponentType = ({
   );
 };
 
-const NumberField: CardComponentType = ({ parameters, onChange }) => {
+const NumberField: CardComponent = ({ parameters, onChange }) => {
   return (
     <>
       <Typography variant='subtitle2' fontWeight='bold'>
