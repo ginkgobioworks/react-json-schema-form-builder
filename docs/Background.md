@@ -81,7 +81,7 @@ Form elements can be set to control the appearance of other form elements. The c
 
 To set a parent, a builder can open the modal for an element and click the small "+" button to create a **possibility**. When at least one possibility exists, the builder can also specify whether the possibilities should be triggered based on whether the parent has "Any value" (default) or whether it has a "Specific value." In the latter case, multiple **possibilities** can exist to account for different scenarios. For exampe, a certain set of dependents may be rendered when the parent has a particular value, but another set when the parent has another set of values.
 
-<img src="img/dependency1.png" alt="dependency1" style="zoom: 50%;" />
+![dependency1](img/dependency1.png)
 
 This UI is ultimately an abstraction of the [React JSON Schema Form](https://react-jsonschema-form.readthedocs.io/en/latest/usage/dependencies/) dependencies feature, and does not fully capture the wide range of possibilities involving cascading logic that can be achieved through manual coding.
 
