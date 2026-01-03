@@ -41,8 +41,8 @@ export default [
       },
 
       parser: tsParser,
-      ecmaVersion: 2020,
-      sourceType: 'commonjs',
+      ecmaVersion: 'latest',
+      sourceType: 'module',
 
       parserOptions: {
         ecmaFeatures: {
@@ -54,7 +54,7 @@ export default [
 
     settings: {
       react: {
-        version: '18',
+        version: '19',
       },
     },
 
@@ -64,7 +64,6 @@ export default [
       'react/jsx-handler-names': 0,
       'react/jsx-fragments': 0,
       'react/no-unused-prop-types': 0,
-      'import/export': 0,
       '@typescript-eslint/no-empty-function': 0,
       '@typescript-eslint/no-explicit-any': 0,
       '@typescript-eslint/no-non-null-assertion': 0,

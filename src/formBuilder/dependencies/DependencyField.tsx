@@ -1,37 +1,15 @@
 import React, { useState, ReactElement } from 'react';
-import { UncontrolledTooltip } from 'reactstrap';
-import { createUseStyles } from 'react-jss';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import Tooltip from '@mui/material/Tooltip';
+import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
+import AddIcon from '@mui/icons-material/Add';
 import FBRadioGroup from '../radio/FBRadioGroup';
-import Tooltip from '../Tooltip';
+import TooltipComponent from '../Tooltip';
 import DependencyWarning from './DependencyWarning';
 import DependencyPossibility from './DependencyPossibility';
-import FontAwesomeIcon from '../FontAwesomeIcon';
 import { getRandomId } from '../utils';
-
-const useStyles = createUseStyles({
-  dependencyField: {
-    '& .fa': { cursor: 'pointer' },
-    '& .plus': { marginLeft: '1em' },
-    '& h4': { marginBottom: '.5em' },
-    '& h5': { fontSize: '1em' },
-    '& .form-dependency-select': { fontSize: '0.75em', marginBottom: '1em' },
-    '& .form-dependency-conditions': {
-      textAlign: 'left',
-      '& .form-dependency-condition': {
-        padding: '1em',
-        border: '1px solid gray',
-        borderRadius: '4px',
-        margin: '1em',
-        '& *': { textAlign: 'initial' },
-      },
-    },
-    '& p': { fontSize: '0.75em' },
-    '& .fb-radio-button': {
-      display: 'block',
-    },
-  },
-});
 
 // checks whether an array corresponds to oneOf dependencies
 function checkIfValueBasedDependency(
@@ -75,39 +53,44 @@ export default function DependencyField({
   onChange: (newParams: DependencyParams) => void;
 }): ReactElement {
   const [elementId] = useState(getRandomId());
-  const classes = useStyles();
   const valueBased = checkIfValueBasedDependency(parameters.dependents || []);
+
   return (
-    <div className={`form-dependency ${classes.dependencyField}`}>
-      <h4>
+    <Box>
+      <Typography
+        variant='subtitle2'
+        fontWeight='bold'
+        sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mb: 1 }}
+      >
         Dependencies{' '}
-        <Tooltip
-          id={`${elementId}_dependent`}
+        <TooltipComponent
           type='help'
           text='Control whether other form elements show based on this one'
         />
-      </h4>
+      </Typography>
       {!!parameters.dependents && parameters.dependents.length > 0 && (
-        <React.Fragment>
+        <Box sx={{ mb: 2 }}>
           <FBRadioGroup
             defaultValue={valueBased ? 'value' : 'definition'}
             horizontal={false}
             options={[
               {
                 value: 'definition',
-                label: 'Any value dependency',
+                label: 'Any Value Dependency',
               },
               {
                 value: 'value',
                 label: (
-                  <React.Fragment>
-                    Specific value dependency{' '}
-                    <Tooltip
-                      id={`${elementId}_valuebased`}
+                  <Box
+                    component='span'
+                    sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}
+                  >
+                    Specific Value Dependency{' '}
+                    <TooltipComponent
                       type='help'
                       text="Specify whether these elements should show based on this element's value"
                     />
-                  </React.Fragment>
+                  </Box>
                 ),
               },
             ]}
@@ -136,75 +119,73 @@ export default function DependencyField({
               }
             }}
           />
-        </React.Fragment>
+        </Box>
       )}
       <DependencyWarning parameters={parameters} />
-      <div className='form-dependency-conditions'>
-        {parameters.dependents
-          ? parameters.dependents.map((possibility, index) => (
-              <DependencyPossibility
-                possibility={possibility}
-                neighborNames={parameters.neighborNames || []}
-                parentEnums={parameters.enum}
-                parentType={parameters.type}
-                parentName={parameters.name}
-                parentSchema={parameters.schema}
-                key={`${elementId}_possibility${index}`}
-                onChange={(newPossibility: {
-                  children: Array<string>;
-                  value?: any;
-                }) => {
-                  const newDependents = parameters.dependents
-                    ? [...parameters.dependents]
-                    : [];
-                  newDependents[index] = newPossibility;
-                  onChange({
-                    ...parameters,
-                    dependents: newDependents,
-                  });
-                }}
-                onDelete={() => {
-                  const newDependents = parameters.dependents
-                    ? [...parameters.dependents]
-                    : [];
-                  onChange({
-                    ...parameters,
-                    dependents: [
-                      ...newDependents.slice(0, index),
-                      ...newDependents.slice(index + 1),
-                    ],
-                  });
-                }}
-              />
-            ))
-          : ''}
-
-        <span className='plus' id={`${elementId}_adddependency`}>
-          <FontAwesomeIcon
-            icon={faPlus}
-            onClick={() => {
+      <Stack spacing={2}>
+        {parameters.dependents?.map((possibility, index) => (
+          <DependencyPossibility
+            possibility={possibility}
+            neighborNames={parameters.neighborNames || []}
+            parentEnums={parameters.enum}
+            parentType={parameters.type}
+            parentName={parameters.name}
+            parentSchema={parameters.schema}
+            key={`${elementId}_possibility${index}`}
+            onChange={(newPossibility: {
+              children: Array<string>;
+              value?: any;
+            }) => {
               const newDependents = parameters.dependents
                 ? [...parameters.dependents]
                 : [];
-              newDependents.push({
-                children: [],
-                value: valueBased ? { enum: [] } : undefined,
-              });
+              newDependents[index] = newPossibility;
               onChange({
                 ...parameters,
                 dependents: newDependents,
               });
             }}
+            onDelete={() => {
+              const newDependents = parameters.dependents
+                ? [...parameters.dependents]
+                : [];
+              onChange({
+                ...parameters,
+                dependents: [
+                  ...newDependents.slice(0, index),
+                  ...newDependents.slice(index + 1),
+                ],
+              });
+            }}
           />
-        </span>
-        <UncontrolledTooltip
-          placement='top'
-          target={`${elementId}_adddependency`}
+        ))}
+      </Stack>
+      <Tooltip
+        title='Add another dependency relation linking this element and other form elements'
+        placement='top'
+      >
+        <IconButton
+          size='small'
+          color='primary'
+          onClick={() => {
+            const newDependents = parameters.dependents
+              ? [...parameters.dependents]
+              : [];
+            newDependents.push({
+              children: [],
+              value: valueBased ? { enum: [] } : undefined,
+            });
+            onChange({
+              ...parameters,
+              dependents: newDependents,
+            });
+          }}
+          aria-label='Add another dependency relation'
+          sx={{ mt: 1 }}
         >
-          Add another dependency relation linking this element and other form
-          elements
-        </UncontrolledTooltip>
-      </div>
-    </div>
+          <AddIcon />
+        </IconButton>
+      </Tooltip>
+    </Box>
   );
 }

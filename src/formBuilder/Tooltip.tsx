@@ -1,49 +1,29 @@
 /* eslint react/no-multi-comp: 0, react/prop-types: 0 */
 import React, { ReactElement } from 'react';
-import { UncontrolledTooltip } from 'reactstrap';
-import { createUseStyles } from 'react-jss';
-import {
-  faAsterisk,
-  faQuestionCircle,
-} from '@fortawesome/free-solid-svg-icons';
-import FontAwesomeIcon from './FontAwesomeIcon';
+import Tooltip from '@mui/material/Tooltip';
+import StarIcon from '@mui/icons-material/Star';
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 
 const typeMap = {
-  alert: faAsterisk,
-  help: faQuestionCircle,
+  alert: StarIcon,
+  help: HelpOutlineIcon,
 };
 
-const useStyles = createUseStyles({
-  toolTip: {
-    color: 'white',
-    'background-color': 'black',
-  },
-});
-
-export default function Example({
+export default function TooltipComponent({
   text,
   type,
-  id,
 }: {
   text: string;
   type: 'alert' | 'help';
-  id: string;
 }): ReactElement {
-  const classes = useStyles();
-
+  const IconComponent = typeMap[type];
   return (
-    <React.Fragment>
-      <span style={{ textDecoration: 'underline', color: 'blue' }} id={id}>
-        <FontAwesomeIcon icon={typeMap[type]} />
-      </span>
-      <UncontrolledTooltip
-        autohide={false}
-        className={classes.toolTip}
-        placement='top'
-        target={id}
-      >
-        {text}
-      </UncontrolledTooltip>
-    </React.Fragment>
+    <Tooltip title={text} placement='top'>
+      <IconComponent
+        fontSize='small'
+        color={type === 'alert' ? 'warning' : 'action'}
+        sx={{ verticalAlign: 'middle', cursor: 'help' }}
+      />
+    </Tooltip>
   );
 }

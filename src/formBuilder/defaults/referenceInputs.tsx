@@ -1,48 +1,50 @@
 import React from 'react';
 import type { FormInput, CardComponentType } from '../types';
-import Select from 'react-select';
-import { PlaceholderInput } from '../inputs/PlaceholderInput';
+import Autocomplete from '@mui/material/Autocomplete';
+import TextField from '@mui/material/TextField';
+import { PlaceholderInput } from '../PlaceholderInput';
 
 export const CardReferenceParameterInputs: CardComponentType = ({
   parameters,
   onChange,
 }) => {
-  return (
-    <div>
-      <PlaceholderInput parameters={parameters} onChange={onChange} />
-    </div>
-  );
+  return <PlaceholderInput parameters={parameters} onChange={onChange} />;
 };
 
 const RefChoice: CardComponentType = ({ parameters, onChange }) => {
   const pathArr = (parameters.$ref || '').split('/');
+  const defData = (parameters.definitionData || {}) as Record<
+    string,
+    { title?: string }
+  >;
   const currentValueLabel =
     pathArr.length === 3 &&
     pathArr[0] === '#' &&
     pathArr[1] === 'definitions' &&
-    (parameters.definitionData || {})[pathArr[2]]
-      ? parameters.definitionData![pathArr[2]].title || parameters.$ref
+    defData[pathArr[2]]
+      ? defData[pathArr[2]].title || parameters.$ref
       : parameters.$ref;
 
+  const options = Object.keys(defData).map((key) => ({
+    value: `#/definitions/${key}`,
+    label: defData[key].title || `#/definitions/${key}`,
+  }));
+
   return (
-    <div className='card-select'>
-      <Select
-        value={{
-          value: parameters.$ref,
-          label: currentValueLabel,
-        }}
-        placeholder='Reference'
-        options={Object.keys(parameters.definitionData || {}).map((key) => ({
-          value: `#/definitions/${key}`,
-          label:
-            parameters.definitionData![key].title || `#/definitions/${key}`,
-        }))}
-        onChange={(val: any) => {
-          onChange({ ...parameters, $ref: val.value });
-        }}
-        className='card-select'
-      />
-    </div>
+    <Autocomplete
+      value={{ value: parameters.$ref || '', label: currentValueLabel || '' }}
+      options={options}
+      getOptionLabel={(option) => option.label}
+      isOptionEqualToValue={(option, value) => option.value === value.value}
+      onChange={(_, val) => {
+        if (val) onChange({ ...parameters, $ref: val.value });
+      }}
+      size='small'
+      disableClearable
+      renderInput={(params) => (
+        <TextField {...params} placeholder='Reference' />
+      )}
+    />
   );
 };
 

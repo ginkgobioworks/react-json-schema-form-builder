@@ -1,25 +1,44 @@
-import React, { ReactElement } from 'react';
-import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
-import Select from 'react-select';
-import { createUseStyles } from 'react-jss';
+import React, {
+  ReactElement,
+  memo,
+  useCallback,
+  useMemo,
+  useState,
+} from 'react';
 import {
-  Alert,
-  Input,
-  UncontrolledTooltip,
-  FormGroup,
-  FormFeedback,
-} from 'reactstrap';
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragEndEvent,
+} from '@dnd-kit/core';
 import {
-  faArrowUp,
-  faArrowDown,
-  faPencilAlt,
-  faTrash,
-} from '@fortawesome/free-solid-svg-icons';
-import FBCheckbox from './checkbox/FBCheckbox';
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
+import Alert from '@mui/material/Alert';
+import Autocomplete from '@mui/material/Autocomplete';
+import AlertTitle from '@mui/material/AlertTitle';
+import TextField from '@mui/material/TextField';
+import Tooltip from '@mui/material/Tooltip';
+import FormControl from '@mui/material/FormControl';
+import FormHelperText from '@mui/material/FormHelperText';
+import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import FBCheckbox from './FBCheckbox';
 import Collapse from './Collapse/Collapse';
 import CardModal from './CardModal';
 import { CardDefaultParameterInputs } from './defaults/defaultInputs';
-import Tooltip from './Tooltip';
+import TooltipComponent from './Tooltip';
 import Add from './Add';
 import Card from './Card';
 import {
@@ -28,70 +47,12 @@ import {
   countElementsFromSchema,
   addCardObj,
   addSectionObj,
-  onDragEnd,
-  DROPPABLE_TYPE,
+  handleDndDragEnd,
 } from './utils';
-import FontAwesomeIcon from './FontAwesomeIcon';
-import { getRandomId } from './utils';
-import type { SectionPropsType } from './types';
+import SortableItem from './SortableItem';
+import type { SectionPropsType, JsonSchema } from './types';
 
-const useStyles = createUseStyles({
-  sectionContainer: {
-    '& .section-head': {
-      display: 'flex',
-      borderBottom: '1px solid gray',
-      margin: '0.5em 1.5em 0 1.5em',
-      '& h5': {
-        color: 'black',
-        fontSize: '14px',
-        fontWeight: 'bold',
-      },
-      '& .section-entry': {
-        width: '33%',
-        textAlign: 'left',
-        padding: '0.5em',
-      },
-      '& .section-reference': { width: '100%' },
-    },
-    '& .section-footer': {
-      marginTop: '1em',
-      textAlign: 'center',
-      '& .fa': { cursor: 'pointer' },
-    },
-    '& .section-interactions': {
-      margin: '0.5em 1.5em',
-      textAlign: 'left',
-      borderTop: '1px solid gray',
-      paddingTop: '1em',
-      '& .fa': {
-        marginRight: '1em',
-        borderRadius: '4px',
-        padding: '0.25em',
-        height: '25px',
-        width: '25px',
-      },
-      '& .fa-pencil-alt, &.fa-pencil, & .fa-arrow-up, & .fa-arrow-down': {
-        border: '1px solid #1d71ad',
-        color: '#1d71ad',
-      },
-      '& .fa-trash': { border: '1px solid #de5354', color: '#de5354' },
-      '& .fa-arrow-up, & .fa-arrow-down': { marginRight: '0.5em' },
-      '& .fb-checkbox': {
-        display: 'inline-block',
-        label: { color: '#9aa4ab' },
-      },
-      '& .interactions-left, & .interactions-right': {
-        display: 'inline-block',
-        width: '48%',
-        margin: '0 auto',
-      },
-      '& .interactions-left': { textAlign: 'left' },
-      '& .interactions-right': { textAlign: 'right' },
-    },
-  },
-});
-
-export default function Section({
+function Section({
   name,
   required,
   schema,
@@ -109,7 +70,6 @@ export default function Section({
   hideKey,
   reference,
   dependents,
-  dependent,
   parent,
   parentProperties,
   neighborNames,
@@ -119,363 +79,516 @@ export default function Section({
   mods,
   categoryHash,
 }: SectionPropsType): ReactElement {
-  const classes = useStyles();
-  const unsupportedFeatures = checkForUnsupportedFeatures(
-    schema || {},
-    uischema || {},
-    allFormInputs,
+  const schemaData = useMemo(() => schema || {}, [schema]);
+
+  const unsupportedFeatures = useMemo(
+    () =>
+      checkForUnsupportedFeatures(schemaData, uischema || {}, allFormInputs),
+    [schemaData, uischema, allFormInputs],
   );
-  const schemaData = schema || {};
+
   const elementNum = countElementsFromSchema(schemaData);
-  const defaultCollapseStates = [...Array(elementNum)].map(() => false);
-  const [cardOpenArray, setCardOpenArray] = React.useState(
-    defaultCollapseStates,
+  const defaultCollapseStates = useMemo(
+    () => [...Array(elementNum)].map(() => false),
+    [elementNum],
   );
+  const [cardOpenArray, setCardOpenArray] = useState(defaultCollapseStates);
+
+  // useState setter is already stable and functional updates automatically use latest state
+
   // keep name in state to avoid losing focus
-  const [keyName, setKeyName] = React.useState(name);
-  const [keyError, setKeyError] = React.useState<null | string>(null);
+  const [keyName, setKeyName] = useState(name);
+  const [keyError, setKeyError] = useState<null | string>(null);
   // keep requirements in state to avoid rapid updates
-  const [modalOpen, setModalOpen] = React.useState(false);
-  const [elementId] = React.useState(getRandomId());
-  const addProperties = {
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const addProperties = useMemo(
+    () => ({
+      schema,
+      uischema,
+      mods,
+      onChange,
+      definitionData,
+      definitionUi,
+      categoryHash,
+    }),
+    [
+      schema,
+      uischema,
+      mods,
+      onChange,
+      definitionData,
+      definitionUi,
+      categoryHash,
+    ],
+  );
+
+  const hideAddButton = useMemo(
+    () =>
+      schemaData.properties && Object.keys(schemaData.properties).length !== 0,
+    [schemaData.properties],
+  );
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8, // Require 8px movement before drag starts (allows clicks)
+      },
+    }),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    }),
+  );
+
+  const handleDragEnd = useCallback(
+    (event: DragEndEvent) => {
+      handleDndDragEnd(event, {
+        schema,
+        uischema,
+        onChange,
+        definitionData,
+        definitionUi,
+        categoryHash,
+      });
+    },
+    [schema, uischema, onChange, definitionData, definitionUi, categoryHash],
+  );
+
+  const sectionElements = useMemo(() => {
+    const elements = generateElementComponentsFromSchemas({
+      schemaData: schema,
+      uiSchemaData: uischema,
+      onChange,
+      path,
+      definitionData,
+      definitionUi,
+      cardOpenArray,
+      setCardOpenArray,
+      allFormInputs,
+      mods,
+      categoryHash,
+      Card,
+      Section,
+    });
+    const itemIds = elements.map((element: any) => element.key);
+    return { elements, itemIds };
+  }, [
     schema,
     uischema,
-    mods,
     onChange,
+    path,
     definitionData,
     definitionUi,
+    cardOpenArray,
+    allFormInputs,
+    mods,
     categoryHash,
-  };
-  const hideAddButton =
-    schemaData.properties && Object.keys(schemaData.properties).length !== 0;
+  ]);
+
+  const handleToggleCollapse = useCallback(() => {
+    setCardOpen(!cardOpen);
+  }, [cardOpen]);
+
+  const handleModalOpen = useCallback(() => {
+    setModalOpen(true);
+  }, []);
+
+  const handleModalClose = useCallback(() => {
+    setModalOpen(false);
+  }, []);
+
+  const handleMoveUp = useCallback(
+    (e: React.MouseEvent) => {
+      e.stopPropagation();
+      onMoveUp?.();
+    },
+    [onMoveUp],
+  );
+
+  const handleMoveDown = useCallback(
+    (e: React.MouseEvent) => {
+      e.stopPropagation();
+      onMoveDown?.();
+    },
+    [onMoveDown],
+  );
+
+  const handleDelete = useCallback(() => {
+    onDelete?.();
+  }, [onDelete]);
+
+  const handleKeyNameChange = useCallback(
+    (ev: React.ChangeEvent<HTMLInputElement>) => {
+      setKeyName(ev.target.value);
+    },
+    [],
+  );
+
+  const handleKeyNameBlur = useCallback(
+    (ev: React.FocusEvent<HTMLInputElement>) => {
+      const { value } = ev.target;
+      if (value === name || !(neighborNames && neighborNames.includes(value))) {
+        setKeyError(null);
+        onNameChange(value);
+      } else {
+        setKeyName(name);
+        setKeyError(`"${value}" is already in use.`);
+        onNameChange(name);
+      }
+    },
+    [name, neighborNames, onNameChange],
+  );
+
+  const handleTitleChange = useCallback(
+    (ev: React.ChangeEvent<HTMLInputElement>) => {
+      onChange(
+        {
+          ...schema,
+          title: ev.target.value,
+        },
+        uischema,
+      );
+    },
+    [onChange, schema, uischema],
+  );
+
+  const handleDescriptionChange = useCallback(
+    (ev: React.ChangeEvent<HTMLInputElement>) => {
+      onChange(
+        {
+          ...schema,
+          description: ev.target.value,
+        },
+        uischema,
+      );
+    },
+    [onChange, schema, uischema],
+  );
+
+  const handleReferenceChange = useCallback(
+    (_: unknown, val: { value: string; label: string } | null) => {
+      if (val) onChange(schema, uischema, val.value);
+    },
+    [onChange, schema, uischema],
+  );
+
+  const handleModalSave = useCallback(
+    (newComponentProps: { [key: string]: any }) => {
+      onDependentsChange(newComponentProps.dependents);
+      onChange(schema, {
+        ...uischema,
+        'ui:column': newComponentProps['ui:column'],
+      });
+    },
+    [onChange, onDependentsChange, schema, uischema],
+  );
+
+  const handleAddElem = useCallback(
+    (choice: string) => {
+      if (choice === 'card') {
+        addCardObj(addProperties);
+      } else if (choice === 'section') {
+        addSectionObj(addProperties);
+      }
+    },
+    [addProperties],
+  );
+
+  const handleParentAddElem = useCallback(
+    (choice: string) => {
+      if (choice === 'card') {
+        addCardObj(parentProperties);
+      } else if (choice === 'section') {
+        addSectionObj(parentProperties);
+      }
+      setCardOpen(false);
+    },
+    [parentProperties],
+  );
+
+  const referenceOptions = useMemo(
+    () =>
+      Object.keys(definitionData).map((key) => ({
+        value: `#/definitions/${key}`,
+        label: `#/definitions/${key}`,
+      })),
+    [definitionData],
+  );
+
+  const referenceValue = useMemo(
+    () => (reference ? { value: reference, label: reference } : undefined),
+    [reference],
+  );
+
+  const modalComponentProps = useMemo(
+    () => ({
+      dependents,
+      neighborNames,
+      name: keyName,
+      schema,
+      type: 'object' as const,
+      'ui:column': (uischema['ui:column'] as string | undefined) ?? '',
+      'ui:options':
+        (uischema['ui:options'] as Record<string, unknown> | undefined) ??
+        ({} as Record<string, unknown>),
+    }),
+    [dependents, neighborNames, keyName, schema, uischema],
+  );
 
   return (
-    <React.Fragment>
+    <>
       <Collapse
         isOpen={cardOpen}
-        toggleCollapse={() => setCardOpen(!cardOpen)}
+        toggleCollapse={handleToggleCollapse}
         title={
-          <React.Fragment>
-            <span onClick={() => setCardOpen(!cardOpen)} className='label'>
-              {schemaData.title || keyName}{' '}
-              {parent ? (
-                <Tooltip
-                  text={`Depends on ${parent}`}
-                  id={`${elementId}_parentinfo`}
-                  type='alert'
-                />
-              ) : (
-                ''
+          <Stack direction='row' spacing={0.5} alignItems='center'>
+            <Box
+              component='span'
+              onClick={handleToggleCollapse}
+              sx={{
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: 0.5,
+              }}
+            >
+              {((schemaData as JsonSchema).title as string | undefined) ||
+                keyName}{' '}
+              {parent && (
+                <TooltipComponent text={`Depends on ${parent}`} type='alert' />
               )}
-            </span>
-            <span className='arrows'>
-              <span id={`${elementId}_moveupbiginfo`}>
-                <FontAwesomeIcon
-                  icon={faArrowUp}
-                  onClick={() => (onMoveUp ? onMoveUp() : {})}
-                />
-              </span>
-              <UncontrolledTooltip
-                placement='top'
-                target={`${elementId}_moveupbiginfo`}
-              >
-                Move form element up
-              </UncontrolledTooltip>
-              <span id={`${elementId}_movedownbiginfo`}>
-                <FontAwesomeIcon
-                  icon={faArrowDown}
-                  onClick={() => (onMoveDown ? onMoveDown() : {})}
-                />
-              </span>
-              <UncontrolledTooltip
-                placement='top'
-                target={`${elementId}_movedownbiginfo`}
-              >
-                Move form element down
-              </UncontrolledTooltip>
-            </span>
-          </React.Fragment>
+            </Box>
+            <Stack direction='row' spacing={0.5}>
+              <Tooltip title='Move form element up' placement='top'>
+                <IconButton
+                  size='small'
+                  onClick={handleMoveUp}
+                  aria-label='Move form element up'
+                >
+                  <ArrowUpwardIcon fontSize='small' />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title='Move form element down' placement='top'>
+                <IconButton
+                  size='small'
+                  onClick={handleMoveDown}
+                  aria-label='Move form element down'
+                >
+                  <ArrowDownwardIcon fontSize='small' />
+                </IconButton>
+              </Tooltip>
+            </Stack>
+          </Stack>
         }
-        className={`section-container ${classes.sectionContainer} ${
-          dependent ? 'section-dependent' : ''
-        } ${reference ? 'section-reference' : ''}`}
+        data-testid='section-container'
       >
-        <div
-          className={`section-entries ${reference ? 'section-reference' : ''}`}
+        <Stack
+          spacing={2}
+          sx={{ borderBottom: 1, borderColor: 'divider', pb: 2, mb: 2 }}
         >
-          <div className='section-head'>
-            {reference ? (
-              <div className='section-entry section-reference'>
-                <h5>Reference Section</h5>
-                <Select
-                  value={{
-                    value: reference,
-                    label: reference,
-                  }}
-                  placeholder='Reference'
-                  options={Object.keys(definitionData).map((key) => ({
-                    value: `#/definitions/${key}`,
-                    label: `#/definitions/${key}`,
-                  }))}
-                  onChange={(val: any) => {
-                    onChange(schema, uischema, val.value);
-                  }}
-                  className='section-select'
-                />
-              </div>
-            ) : (
-              ''
-            )}
-            <div className='section-entry' data-test='section-object-name'>
-              <h5>
+          {reference && (
+            <Box data-testid='section-reference'>
+              <Typography variant='subtitle2' fontWeight='bold'>
+                Reference Section
+              </Typography>
+              <Autocomplete
+                value={referenceValue}
+                options={referenceOptions}
+                getOptionLabel={(option) => option.label}
+                isOptionEqualToValue={(option, value) =>
+                  option.value === value.value
+                }
+                onChange={handleReferenceChange}
+                size='small'
+                disableClearable
+                renderInput={(params) => (
+                  <TextField {...params} placeholder='Reference' />
+                )}
+                sx={{ mt: 0.5 }}
+              />
+            </Box>
+          )}
+          <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+            <Box sx={{ flex: 1 }} data-testid='section-object-name'>
+              <Typography
+                variant='subtitle2'
+                fontWeight='bold'
+                sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}
+              >
                 Section Object Name{' '}
-                <Tooltip
+                <TooltipComponent
                   text={
-                    mods &&
-                    mods.tooltipDescriptions &&
-                    mods.tooltipDescriptions &&
-                    typeof mods.tooltipDescriptions.cardSectionObjectName ===
-                      'string'
-                      ? mods.tooltipDescriptions.cardSectionObjectName
-                      : 'The key to the object that will represent this form section.'
+                    mods?.tooltipDescriptions?.cardSectionObjectName ??
+                    'The key to the object that will represent this form section.'
                   }
-                  id={`${elementId}_nameinfo`}
                   type='help'
                 />
-              </h5>
-              <FormGroup>
-                <Input
-                  invalid={keyError !== null}
+              </Typography>
+              <FormControl fullWidth error={keyError !== null} sx={{ mt: 0.5 }}>
+                <TextField
+                  error={keyError !== null}
                   value={keyName || ''}
                   placeholder='Key'
                   type='text'
-                  onChange={(ev) => setKeyName(ev.target.value)}
-                  onBlur={(ev) => {
-                    const { value } = ev.target;
-                    if (
-                      value === name ||
-                      !(neighborNames && neighborNames.includes(value))
-                    ) {
-                      setKeyError(null);
-                      onNameChange(value);
-                    } else {
-                      setKeyName(name);
-                      setKeyError(`"${value}" is already in use.`);
-                      onNameChange(name);
-                    }
-                  }}
-                  className='card-text'
-                  readOnly={hideKey}
+                  onChange={handleKeyNameChange}
+                  onBlur={handleKeyNameBlur}
+                  size='small'
+                  fullWidth
+                  disabled={hideKey}
+                  slotProps={{ input: { className: 'card-text' } }}
                 />
-                <FormFeedback>{keyError}</FormFeedback>
-              </FormGroup>
-            </div>
-            <div className='section-entry' data-test='section-display-name'>
-              <h5>
+                {keyError && <FormHelperText>{keyError}</FormHelperText>}
+              </FormControl>
+            </Box>
+            <Box sx={{ flex: 1 }} data-testid='section-display-name'>
+              <Typography
+                variant='subtitle2'
+                fontWeight='bold'
+                sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}
+              >
                 Section Display Name{' '}
-                <Tooltip
+                <TooltipComponent
                   text={
-                    mods &&
-                    mods.tooltipDescriptions &&
-                    mods.tooltipDescriptions &&
-                    typeof mods.tooltipDescriptions.cardSectionDisplayName ===
-                      'string'
-                      ? mods.tooltipDescriptions.cardSectionDisplayName
-                      : 'The name of the form section that will be shown to users of the form.'
+                    mods?.tooltipDescriptions?.cardSectionDisplayName ??
+                    'The name of the form section that will be shown to users of the form.'
                   }
-                  id={`${elementId}_titleinfo`}
                   type='help'
                 />
-              </h5>
-              <Input
+              </Typography>
+              <TextField
                 value={schemaData.title || ''}
                 placeholder='Title'
                 type='text'
-                onChange={(ev) =>
-                  onChange(
-                    {
-                      ...schema,
-                      title: ev.target.value,
-                    },
-                    uischema,
-                  )
-                }
-                className='card-text'
+                onChange={handleTitleChange}
+                size='small'
+                fullWidth
+                sx={{ mt: 0.5 }}
+                slotProps={{ input: { className: 'card-text' } }}
               />
-            </div>
-            <div className='section-entry' data-test='section-description'>
-              <h5>
+            </Box>
+            <Box sx={{ flex: 1 }} data-testid='section-description'>
+              <Typography
+                variant='subtitle2'
+                fontWeight='bold'
+                sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}
+              >
                 Section Description{' '}
-                <Tooltip
+                <TooltipComponent
                   text={
-                    mods &&
-                    mods.tooltipDescriptions &&
-                    mods.tooltipDescriptions &&
-                    typeof mods.tooltipDescriptions.cardSectionDescription ===
-                      'string'
-                      ? mods.tooltipDescriptions.cardSectionDescription
-                      : 'A description of the section which will be visible on the form.'
+                    mods?.tooltipDescriptions?.cardSectionDescription ??
+                    'A description of the section which will be visible on the form.'
                   }
-                  id={`${elementId}_descriptioninfo`}
                   type='help'
                 />
-              </h5>
-              <Input
+              </Typography>
+              <TextField
                 value={schemaData.description || ''}
                 placeholder='Description'
                 type='text'
-                onChange={(ev) =>
-                  onChange(
-                    {
-                      ...schema,
-                      description: ev.target.value,
-                    },
-                    uischema,
-                  )
-                }
-                className='card-text'
+                onChange={handleDescriptionChange}
+                size='small'
+                fullWidth
+                sx={{ mt: 0.5 }}
+                slotProps={{ input: { className: 'card-text' } }}
               />
-            </div>
-            <Alert
-              style={{
-                display: unsupportedFeatures.length === 0 ? 'none' : 'block',
-              }}
-              color='warning'
-            >
-              <h5>Unsupported Features:</h5>
-              {unsupportedFeatures.map((message) => (
-                <li key={`${elementId}_${message}`}>{message}</li>
-              ))}
+            </Box>
+          </Stack>
+          {unsupportedFeatures.length > 0 && (
+            <Alert severity='warning'>
+              <AlertTitle>Unsupported Features</AlertTitle>
+              <Box component='ul' sx={{ margin: 0, pl: 2.5 }}>
+                {unsupportedFeatures.map((message) => (
+                  <Box component='li' key={message}>
+                    {message}
+                  </Box>
+                ))}
+              </Box>
             </Alert>
-          </div>
-          <div className='section-body'>
-            <DragDropContext
-              onDragEnd={(result) =>
-                onDragEnd(result, {
-                  schema,
-                  uischema,
-                  onChange,
-                  definitionData,
-                  definitionUi,
-                  categoryHash,
-                })
+          )}
+        </Stack>
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragEnd={handleDragEnd}
+        >
+          <SortableContext
+            items={sectionElements.itemIds}
+            strategy={verticalListSortingStrategy}
+          >
+            {sectionElements.elements.map((element: any) => (
+              <SortableItem key={element.key} id={element.key}>
+                {element}
+              </SortableItem>
+            ))}
+          </SortableContext>
+        </DndContext>
+        <Box sx={{ mt: 2, textAlign: 'center' }}>
+          {!hideAddButton &&
+            mods?.components?.add &&
+            mods.components.add(addProperties)}
+          {!mods?.components?.add && (
+            <Add
+              tooltipDescription={
+                ((mods || {}).tooltipDescriptions || {}).add as
+                  | string
+                  | undefined
               }
-            >
-              <Droppable droppableId='droppable' type={DROPPABLE_TYPE}>
-                {(providedDroppable) => (
-                  <div
-                    ref={providedDroppable.innerRef}
-                    {...providedDroppable.droppableProps}
-                  >
-                    {generateElementComponentsFromSchemas({
-                      schemaData: schema,
-                      uiSchemaData: uischema,
-                      onChange,
-                      path,
-                      definitionData,
-                      definitionUi,
-                      cardOpenArray,
-                      setCardOpenArray,
-                      allFormInputs,
-                      mods,
-                      categoryHash,
-                      Card,
-                      Section,
-                    }).map((element: any, index) => (
-                      <Draggable
-                        key={element.key}
-                        draggableId={element.key}
-                        index={index}
-                      >
-                        {(providedDraggable) => (
-                          <div
-                            ref={providedDraggable.innerRef}
-                            {...providedDraggable.draggableProps}
-                            {...providedDraggable.dragHandleProps}
-                          >
-                            {element}
-                          </div>
-                        )}
-                      </Draggable>
-                    ))}
-                    {providedDroppable.placeholder}
-                  </div>
-                )}
-              </Droppable>
-            </DragDropContext>
-          </div>
-          <div className='section-footer'>
-            {!hideAddButton &&
-              mods?.components?.add &&
-              mods.components.add(addProperties)}
-            {!mods?.components?.add && (
-              <Add
-                tooltipDescription={
-                  ((mods || {}).tooltipDescriptions || {}).add
-                }
-                addElem={(choice: string) => {
-                  if (choice === 'card') {
-                    addCardObj(addProperties);
-                  } else if (choice === 'section') {
-                    addSectionObj(addProperties);
-                  }
-                }}
-                hidden={hideAddButton}
-              />
-            )}
-          </div>
-          <div className='section-interactions'>
-            <span id={`${elementId}_editinfo`}>
-              <FontAwesomeIcon
-                icon={faPencilAlt}
-                onClick={() => setModalOpen(true)}
-              />
-            </span>
-            <UncontrolledTooltip
+              addElem={handleAddElem}
+              hidden={hideAddButton as boolean}
+            />
+          )}
+        </Box>
+        <Stack
+          direction='row'
+          spacing={2}
+          alignItems='center'
+          sx={{ borderTop: 1, borderColor: 'divider', pt: 2, mt: 2 }}
+        >
+          <Stack direction='row' spacing={0.5}>
+            <Tooltip
+              title='Additional configurations for this form element'
               placement='top'
-              target={`${elementId}_editinfo`}
             >
-              Additional configurations for this form element
-            </UncontrolledTooltip>
-            <span id={`${elementId}_trashinfo`}>
-              <FontAwesomeIcon
-                icon={faTrash}
-                onClick={() => (onDelete ? onDelete() : {})}
-              />
-            </span>
-            <UncontrolledTooltip
-              placement='top'
-              target={`${elementId}_trashinfo`}
-            >
-              Delete form element
-            </UncontrolledTooltip>
+              <IconButton
+                size='small'
+                onClick={handleModalOpen}
+                color='primary'
+                aria-label='Additional configurations'
+              >
+                <EditIcon fontSize='small' />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title='Delete form element' placement='top'>
+              <IconButton
+                size='small'
+                onClick={handleDelete}
+                color='error'
+                aria-label='Delete form element'
+              >
+                <DeleteIcon fontSize='small' />
+              </IconButton>
+            </Tooltip>
+          </Stack>
+          <Box
+            sx={{
+              alignItems: 'center',
+              borderLeft: 1,
+              borderColor: 'divider',
+              pl: 2,
+            }}
+          >
             <FBCheckbox
-              onChangeValue={() => onRequireToggle()}
+              onChangeValue={onRequireToggle}
               isChecked={required}
               label='Required'
-              id={`${elementId}_required`}
             />
-          </div>
-        </div>
+          </Box>
+        </Stack>
         <CardModal
-          componentProps={{
-            dependents,
-            neighborNames,
-            name: keyName,
-            schema,
-            type: 'object',
-            'ui:column': uischema['ui:column'] ?? '',
-            'ui:options': uischema['ui:options'] ?? '',
-          }}
+          componentProps={modalComponentProps}
           isOpen={modalOpen}
-          onClose={() => setModalOpen(false)}
-          onChange={(newComponentProps: { [key: string]: any }) => {
-            onDependentsChange(newComponentProps.dependents);
-            onChange(schema, {
-              ...uischema,
-              'ui:column': newComponentProps['ui:column'],
-            });
-          }}
+          onClose={handleModalClose}
+          onChange={handleModalSave}
           TypeSpecificParameters={CardDefaultParameterInputs}
         />
       </Collapse>
@@ -483,16 +596,11 @@ export default function Section({
       {!mods?.components?.add && (
         <Add
           tooltipDescription={((mods || {}).tooltipDescriptions || {}).add}
-          addElem={(choice: string) => {
-            if (choice === 'card') {
-              addCardObj(parentProperties);
-            } else if (choice === 'section') {
-              addSectionObj(parentProperties);
-            }
-            setCardOpen(false);
-          }}
+          addElem={handleParentAddElem}
         />
       )}
-    </React.Fragment>
+    </>
   );
 }
+
+export default memo(Section);

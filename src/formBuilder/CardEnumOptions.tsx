@@ -1,23 +1,16 @@
-import React, { ReactElement } from 'react';
-import { Input } from 'reactstrap';
-import { createUseStyles } from 'react-jss';
-import { faPlus, faTimes } from '@fortawesome/free-solid-svg-icons';
-import FontAwesomeIcon from './FontAwesomeIcon';
-
-const useStyles = createUseStyles({
-  cardEnumOption: {
-    width: '100%',
-    display: 'flex',
-    flexDirection: 'row',
-    marginBottom: '.5em',
-    '& input': { width: '80%', marginRight: '1em', marginBottom: 0 },
-    '& .delete-button': {
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'center',
-    },
-  },
-});
+import React, {
+  ReactElement,
+  useState,
+  useRef,
+  useEffect,
+  useCallback,
+  memo,
+} from 'react';
+import TextField from '@mui/material/TextField';
+import Box from '@mui/material/Box';
+import IconButton from '@mui/material/IconButton';
+import AddIcon from '@mui/icons-material/Add';
+import CloseIcon from '@mui/icons-material/Close';
 
 interface CardEnumOptionsProps {
   initialValues: Array<any>;
@@ -28,29 +21,94 @@ interface CardEnumOptionsProps {
 }
 
 // Input field corresponding to an array of values, add and remove
-export default function CardEnumOptions({
+function CardEnumOptions({
   initialValues,
   names,
   showNames,
   onChange,
   type,
 }: CardEnumOptionsProps): ReactElement {
-  const classes = useStyles();
+  // Use ref for stable ID generation (avoids issues with module-level counter)
+  const nextIdRef = useRef(0);
+  const generateId = useCallback(() => {
+    nextIdRef.current += 1;
+    return `enum-${nextIdRef.current}`;
+  }, []);
 
-  const possibleValues = [];
-  for (let index = 0; index < initialValues.length; index += 1) {
-    const value = initialValues[index];
+  // Track stable IDs for each value to prevent focus loss on re-render
+  const [itemIds, setItemIds] = useState<string[]>(() =>
+    initialValues.map(() => {
+      nextIdRef.current += 1;
+      return `enum-${nextIdRef.current}`;
+    }),
+  );
+
+  // Keep itemIds in sync with initialValues length
+  // Only handle additions here - removals are handled explicitly in handleRemove
+  const prevLengthRef = useRef(initialValues.length);
+  useEffect(() => {
+    const currentLength = initialValues.length;
+    const prevLength = prevLengthRef.current;
+
+    if (currentLength > prevLength) {
+      // Items were added externally - add new IDs
+      setItemIds((prevIds) => {
+        const newIds = [...prevIds];
+        for (let i = prevLength; i < currentLength; i++) {
+          newIds.push(generateId());
+        }
+        return newIds;
+      });
+    }
+    // Note: We don't handle removals here because handleRemove already
+    // correctly removes the ID at the specific index. If removals happen
+    // externally (not through handleRemove), the IDs will be out of sync,
+    // but this is an edge case that would require tracking item identity.
+
+    prevLengthRef.current = currentLength;
+  }, [initialValues.length, generateId]);
+
+  const handleRemove = (indexToRemove: number) => {
+    // Update IDs first to remove the correct one
+    setItemIds((ids) => [
+      ...ids.slice(0, indexToRemove),
+      ...ids.slice(indexToRemove + 1),
+    ]);
+    // Then update values
+    onChange(
+      [
+        ...initialValues.slice(0, indexToRemove),
+        ...initialValues.slice(indexToRemove + 1),
+      ],
+      names
+        ? [...names.slice(0, indexToRemove), ...names.slice(indexToRemove + 1)]
+        : undefined,
+    );
+  };
+
+  const possibleValues = initialValues.map((value, index) => {
     let name = `${value}`;
     if (names && index < names.length) name = names[index];
-    possibleValues.push(
-      <div key={index} className={classes.cardEnumOption}>
-        <Input
+    const itemId = itemIds[index] || `fallback-${index}`;
+
+    return (
+      <Box
+        key={itemId}
+        sx={{
+          width: '100%',
+          display: 'flex',
+          flexDirection: 'row',
+          mb: 1,
+          alignItems: 'center',
+          gap: 1,
+        }}
+      >
+        <TextField
           value={value === undefined || value === null ? '' : value}
           placeholder='Possible Value'
-          key={`val-${index}`}
           type={type === 'string' ? 'text' : 'number'}
-          onChange={(ev: any) => {
-            let newVal;
+          onChange={(ev: React.ChangeEvent<HTMLInputElement>) => {
+            let newVal: string | number;
             switch (type) {
               case 'string':
                 newVal = ev.target.value;
@@ -60,10 +118,7 @@ export default function CardEnumOptions({
                 newVal = parseFloat(ev.target.value);
                 if (Number.isInteger(newVal))
                   newVal = parseInt(ev.target.value, 10);
-                // TODO: Possible unused condition, since we know it is a number or integer in this case.
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-ignore
-                if (Number.isNaN(newVal)) newVal = type === 'string' ? '' : 0;
+                if (Number.isNaN(newVal)) newVal = 0;
                 break;
               default:
                 throw new Error(`Enum called with unknown type ${type}`);
@@ -77,58 +132,58 @@ export default function CardEnumOptions({
               names,
             );
           }}
-          className='card-text'
+          size='small'
+          sx={{ flex: 1 }}
         />
-        <Input
-          value={name || ''}
-          placeholder='Label'
-          key={`name-${index}`}
-          type='text'
-          onChange={(ev: any) => {
-            if (names)
-              onChange(initialValues, [
-                ...names.slice(0, index),
-                ev.target.value,
-                ...names.slice(index + 1),
-              ]);
-          }}
-          className='card-text'
-          style={{ display: showNames ? 'initial' : 'none' }}
-        />
-        <div className='delete-button'>
-          <FontAwesomeIcon
-            icon={faTimes}
-            onClick={() => {
-              // remove this value
-              onChange(
-                [
-                  ...initialValues.slice(0, index),
-                  ...initialValues.slice(index + 1),
-                ],
-                names
-                  ? [...names.slice(0, index), ...names.slice(index + 1)]
-                  : undefined,
-              );
+        {showNames && (
+          <TextField
+            value={name || ''}
+            placeholder='Label'
+            type='text'
+            onChange={(ev: React.ChangeEvent<HTMLInputElement>) => {
+              if (names)
+                onChange(initialValues, [
+                  ...names.slice(0, index),
+                  ev.target.value,
+                  ...names.slice(index + 1),
+                ]);
             }}
+            size='small'
+            sx={{ flex: 1 }}
           />
-        </div>
-      </div>,
+        )}
+        <IconButton
+          size='small'
+          onClick={() => handleRemove(index)}
+          aria-label='Remove possible value'
+        >
+          <CloseIcon fontSize='small' />
+        </IconButton>
+      </Box>
     );
-  }
+  });
+
+  const handleAdd = useCallback(() => {
+    // add a new dropdown option
+    onChange(
+      [...initialValues, type === 'string' ? '' : 0],
+      names ? [...names, ''] : undefined,
+    );
+  }, [initialValues, names, onChange, type]);
 
   return (
-    <React.Fragment>
+    <>
       {possibleValues}
-      <FontAwesomeIcon
-        icon={faPlus}
-        onClick={() => {
-          // add a new dropdown option
-          onChange(
-            [...initialValues, type === 'string' ? '' : 0],
-            names ? [...names, ''] : undefined,
-          );
-        }}
-      />
-    </React.Fragment>
+      <IconButton
+        size='small'
+        color='primary'
+        aria-label='Add possible value'
+        onClick={handleAdd}
+      >
+        <AddIcon fontSize='small' />
+      </IconButton>
+    </>
   );
 }
+
+export default memo(CardEnumOptions);

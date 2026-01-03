@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
-import { Input } from 'reactstrap';
-import FBCheckbox from '../checkbox/FBCheckbox';
+import React from 'react';
+import TextField from '@mui/material/TextField';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import FBCheckbox from '../FBCheckbox';
 import Tooltip from '../Tooltip';
-import { getRandomId } from '../utils';
 import type { FormInput, CardComponentType } from '../types';
 
 // specify the inputs required for a number type object
@@ -10,21 +11,18 @@ const CardNumberParameterInputs: CardComponentType = ({
   parameters,
   onChange,
 }) => {
-  const [elementId] = useState(getRandomId());
   return (
-    <div>
-      <h4>
+    <Box>
+      <Typography variant='subtitle2' fontWeight='bold'>
         Multiple of{' '}
         <Tooltip
-          id={`${elementId}_multiple`}
           type='help'
           text='Require number to be a multiple of this number'
         />
-      </h4>
-      <Input
+      </Typography>
+      <TextField
         value={parameters.multipleOf ? parameters.multipleOf : ''}
         placeholder='ex: 2'
-        key='multipleOf'
         type='number'
         onChange={(ev) => {
           let newVal: null | number = parseFloat(ev.target.value);
@@ -34,13 +32,16 @@ const CardNumberParameterInputs: CardComponentType = ({
             multipleOf: newVal,
           });
         }}
-        className='card-modal-number'
+        size='small'
+        fullWidth
+        sx={{ mb: 2 }}
       />
-      <h4>Minimum</h4>
-      <Input
+      <Typography variant='subtitle2' fontWeight='bold'>
+        Minimum
+      </Typography>
+      <TextField
         value={parameters.minimum || parameters.exclusiveMinimum || ''}
         placeholder='ex: 3'
-        key='minimum'
         type='number'
         onChange={(ev) => {
           let newVal: null | number = parseFloat(ev.target.value);
@@ -60,11 +61,12 @@ const CardNumberParameterInputs: CardComponentType = ({
             });
           }
         }}
-        className='card-modal-number'
+        size='small'
+        fullWidth
+        sx={{ mb: 1 }}
       />
-      <div className='card-modal-boolean'>
+      <Box sx={{ mb: 2 }}>
         <FBCheckbox
-          key='exclusiveMinimum'
           onChangeValue={() => {
             const newMin = parameters.minimum || parameters.exclusiveMinimum;
             if (parameters.exclusiveMinimum) {
@@ -85,12 +87,13 @@ const CardNumberParameterInputs: CardComponentType = ({
           disabled={!parameters.minimum && !parameters.exclusiveMinimum}
           label='Exclusive Minimum'
         />
-      </div>
-      <h4>Maximum</h4>
-      <Input
+      </Box>
+      <Typography variant='subtitle2' fontWeight='bold'>
+        Maximum
+      </Typography>
+      <TextField
         value={parameters.maximum || parameters.exclusiveMaximum || ''}
         placeholder='ex: 8'
-        key='maximum'
         type='number'
         onChange={(ev) => {
           let newVal: null | number = parseFloat(ev.target.value);
@@ -110,11 +113,12 @@ const CardNumberParameterInputs: CardComponentType = ({
             });
           }
         }}
-        className='card-modal-number'
+        size='small'
+        fullWidth
+        sx={{ mb: 1 }}
       />
-      <div className='card-modal-boolean'>
+      <Box>
         <FBCheckbox
-          key='exclusiveMaximum'
           onChangeValue={() => {
             const newMax = parameters.maximum || parameters.exclusiveMaximum;
             if (parameters.exclusiveMaximum) {
@@ -135,16 +139,18 @@ const CardNumberParameterInputs: CardComponentType = ({
           disabled={!parameters.maximum && !parameters.exclusiveMaximum}
           label='Exclusive Maximum'
         />
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 };
 
 const NumberField: CardComponentType = ({ parameters, onChange }) => {
   return (
-    <React.Fragment>
-      <h5>Default number</h5>
-      <Input
+    <>
+      <Typography variant='subtitle2' fontWeight='bold'>
+        Default number
+      </Typography>
+      <TextField
         value={
           parameters.default as string | number | readonly string[] | undefined
         }
@@ -156,9 +162,10 @@ const NumberField: CardComponentType = ({ parameters, onChange }) => {
             default: parseFloat(ev.target.value),
           })
         }
-        className='card-number'
+        size='small'
+        fullWidth
       />
-    </React.Fragment>
+    </>
   );
 };
 

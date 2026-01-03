@@ -1,38 +1,16 @@
-import React, { useState, ReactElement } from 'react';
-import {
-  Popover,
-  PopoverHeader,
-  PopoverBody,
-  UncontrolledTooltip,
-  Button,
-} from 'reactstrap';
-import { createUseStyles } from 'react-jss';
-import { faPlusSquare } from '@fortawesome/free-solid-svg-icons';
-import FontAwesomeIcon from './FontAwesomeIcon';
+import React, { useState, ReactElement, useCallback, memo } from 'react';
+import Popover from '@mui/material/Popover';
+import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import Tooltip from '@mui/material/Tooltip';
+import IconButton from '@mui/material/IconButton';
+import AddIcon from '@mui/icons-material/Add';
 import FBRadioGroup from './radio/FBRadioGroup';
-import { getRandomId } from './utils';
 import type { ModLabels } from './types';
 
-const useStyles = createUseStyles({
-  addDetails: {
-    '& .popover': {
-      width: '300px',
-      'z-index': '1051 !important',
-      '& .popover-inner': {
-        border: '1px solid #1d71ad',
-        borderRadius: '4px',
-        '& .popover-header': { borderBottom: '1px solid #1d71ad' },
-        '& .action-buttons': {
-          display: 'flex',
-          justifyContent: 'space-between',
-          marginTop: '.5em',
-        },
-      },
-    },
-  },
-});
-
-export default function Add({
+function Add({
   addElem,
   hidden,
   tooltipDescription,
@@ -43,34 +21,90 @@ export default function Add({
   tooltipDescription?: string;
   labels?: ModLabels;
 }): ReactElement {
-  const classes = useStyles();
-  const [popoverOpen, setPopoverOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const [createChoice, setCreateChoice] = useState('card');
-  const [elementId] = useState(getRandomId());
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleClick = useCallback(
+    (event: React.MouseEvent<HTMLButtonElement>) => {
+      setAnchorEl(event.currentTarget);
+    },
+    [],
+  );
+
+  const handleClose = useCallback(() => {
+    setAnchorEl(null);
+  }, []);
+
+  const handleMouseEnter = useCallback(() => {
+    setIsHovered(true);
+  }, []);
+
+  const handleMouseLeave = useCallback(() => {
+    setIsHovered(false);
+  }, []);
+
+  const handleChoiceChange = useCallback((selection: string) => {
+    setCreateChoice(selection);
+  }, []);
+
+  const handleCreate = useCallback(() => {
+    addElem(createChoice);
+    setAnchorEl(null);
+  }, [addElem, createChoice]);
+
+  const open = Boolean(anchorEl);
+
+  if (hidden) return <></>;
 
   return (
-    <div style={{ display: hidden ? 'none' : 'initial' }}>
-      <span id={`${elementId}_add`}>
-        <FontAwesomeIcon
-          icon={faPlusSquare}
-          onClick={() => setPopoverOpen(true)}
-        />
-      </span>
-      <UncontrolledTooltip placement='top' target={`${elementId}_add`}>
-        {tooltipDescription || 'Create new form element'}
-      </UncontrolledTooltip>
+    <Box
+      sx={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        py: 1,
+        my: 0.5,
+      }}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      <Tooltip title={tooltipDescription || 'Add element here'} placement='top'>
+        <IconButton
+          onClick={handleClick}
+          size='small'
+          aria-label='Create new form element'
+          sx={{
+            transition: 'all 0.2s ease',
+            bgcolor: isHovered || open ? 'primary.main' : 'grey.100',
+            color: isHovered || open ? 'primary.contrastText' : 'grey.500',
+            '&:hover': {
+              bgcolor: 'primary.main',
+              color: 'primary.contrastText',
+            },
+          }}
+        >
+          <AddIcon fontSize='small' />
+        </IconButton>
+      </Tooltip>
       <Popover
-        placement='bottom'
-        target={`${elementId}_add`}
-        isOpen={popoverOpen}
-        toggle={() => setPopoverOpen(false)}
-        className={`add-details ${classes.addDetails}`}
-        id={`${elementId}_add_popover`}
+        open={open}
+        anchorEl={anchorEl}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'center',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'center',
+        }}
       >
-        <PopoverHeader>Create New</PopoverHeader>
-        <PopoverBody>
+        <Box sx={{ p: 2, minWidth: 250 }}>
+          <Typography variant='subtitle1' fontWeight='bold' sx={{ mb: 2 }}>
+            Create New
+          </Typography>
           <FBRadioGroup
-            className='choose-create'
             defaultValue={createChoice}
             horizontal={false}
             options={[
@@ -83,26 +117,35 @@ export default function Add({
                 label: labels?.addSectionLabel ?? 'Form section',
               },
             ]}
-            onChange={(selection) => {
-              setCreateChoice(selection);
-            }}
+            onChange={handleChoiceChange}
           />
-          <div className='action-buttons'>
-            <Button onClick={() => setPopoverOpen(false)} color='secondary'>
+          <Stack
+            direction='row'
+            spacing={1}
+            justifyContent='flex-end'
+            sx={{ mt: 2 }}
+          >
+            <Button
+              onClick={handleClose}
+              variant='outlined'
+              color='inherit'
+              size='small'
+            >
               Cancel
             </Button>
             <Button
-              onClick={() => {
-                addElem(createChoice);
-                setPopoverOpen(false);
-              }}
+              onClick={handleCreate}
+              variant='contained'
               color='primary'
+              size='small'
             >
               Create
             </Button>
-          </div>
-        </PopoverBody>
+          </Stack>
+        </Box>
       </Popover>
-    </div>
+    </Box>
   );
 }
+
+export default memo(Add);

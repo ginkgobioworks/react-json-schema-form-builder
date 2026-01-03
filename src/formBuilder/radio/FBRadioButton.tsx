@@ -1,5 +1,6 @@
-import React, { useState, ReactElement } from 'react';
-import classnames from 'classnames';
+import React, { ReactElement, memo, useCallback } from 'react';
+import Radio from '@mui/material/Radio';
+import FormControlLabel from '@mui/material/FormControlLabel';
 
 type Props = {
   label: ReactElement | string;
@@ -12,7 +13,7 @@ type Props = {
   onChange: (selection: string) => void;
 };
 
-export default function FBRadioButton(props: Props): ReactElement {
+function FBRadioButton(props: Props): ReactElement {
   const {
     label,
     value,
@@ -23,22 +24,33 @@ export default function FBRadioButton(props: Props): ReactElement {
     disabled,
     autoFocus,
   } = props;
-  const [id] = useState(`radio-${Math.floor(Math.random() * 1000000)}`);
-  const classes = classnames('fb-radio-button', { disabled });
+
+  const handleChange = useCallback(() => {
+    onChange(value);
+  }, [onChange, value]);
+
   return (
-    <div className={classes} key={value}>
-      <input
-        id={id}
-        type='radio'
-        name={name}
-        value={value}
-        checked={checked}
-        required={required}
-        disabled={disabled}
-        autoFocus={autoFocus}
-        onChange={() => onChange(value)}
-      />
-      <label htmlFor={id}>{label}</label>
-    </div>
+    <FormControlLabel
+      value={value}
+      control={
+        <Radio
+          name={name}
+          checked={checked}
+          required={required}
+          disabled={disabled}
+          autoFocus={autoFocus}
+          onChange={handleChange}
+          size='small'
+        />
+      }
+      label={label}
+      sx={{
+        '& .MuiFormControlLabel-label': {
+          fontSize: '0.875rem',
+        },
+      }}
+    />
   );
 }
+
+export default memo(FBRadioButton);

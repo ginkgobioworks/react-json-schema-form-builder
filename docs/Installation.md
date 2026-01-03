@@ -2,7 +2,7 @@
 
 ## Library
 
-The Form Builder is available as an NPM package [here](https://www.npmjs.com/package/react-json-schema-form-builder).
+The Form Builder is available as an NPM package [here](https://www.npmjs.com/package/@ginkgo-bioworks/react-json-schema-form-builder).
 
 To install the Form Builder into your NodeJS project, open a terminal and type the following:
 
@@ -10,10 +10,25 @@ To install the Form Builder into your NodeJS project, open a terminal and type t
 npm i --save @ginkgo-bioworks/react-json-schema-form-builder
 ```
 
+### Peer Dependencies
+
+The Form Builder requires the following peer dependencies:
+
+- `react` (^19.0.0)
+- `@mui/material` (^7.0.0)
+- `@emotion/react` (^11.14.0)
+- `@emotion/styled` (^11.14.0)
+
+Install these if they're not already in your project:
+
+```bash
+npm i --save @mui/material @emotion/react @emotion/styled
+```
+
 The Form Builder can then be imported as a React component in any ReactJS file as follows:
 
-``` javascript
-import { FormBuilder } from 'react-json-schema-form-builder';
+```javascript
+import { FormBuilder } from '@ginkgo-bioworks/react-json-schema-form-builder';
 ```
 
 ## Demo App
@@ -22,18 +37,22 @@ To run the *demo app*, first clone the repository:
 
 ```bash
 git clone https://github.com/ginkgobioworks/react-json-schema-form-builder.git
-cd react-json-schema-form-builder/example
+cd react-json-schema-form-builder
 ```
 
-Then, run the following command to install the appropriate dependencies:
+Install dependencies and build the library:
+
 ```bash
 npm install
+npm run build
 ```
 
-To start the app, enter the following command to locally run a server
+Then navigate to the example directory and start the app:
+
 ```bash
-npm start
+cd example
+npm install
+npm run dev
 ```
 
-Then open the following URL in your browser: http://localhost:3000/
-
+Then open the following URL in your browser: http://localhost:3000/react-json-schema-form-builder

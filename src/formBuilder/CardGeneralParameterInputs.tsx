@@ -1,15 +1,25 @@
-import React, { ReactElement } from 'react';
-import Select from 'react-select';
-import { Input, FormGroup, FormFeedback } from 'reactstrap';
-import classnames from 'classnames';
-import GeneralParameterInputs from './GeneralParameterInputs';
+import React, {
+  ReactElement,
+  memo,
+  useState,
+  useMemo,
+  useCallback,
+  useEffect,
+} from 'react';
+import TextField from '@mui/material/TextField';
+import Autocomplete from '@mui/material/Autocomplete';
+import FormControl from '@mui/material/FormControl';
+import FormHelperText from '@mui/material/FormHelperText';
+import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
 import {
   defaultUiProps,
   defaultDataProps,
   categoryToNameMap,
   categoryType,
   subtractArray,
-  getRandomId,
+  getCardBody,
 } from './utils';
 import type {
   Mods,
@@ -20,7 +30,7 @@ import type {
 import Tooltip from './Tooltip';
 
 // specify the inputs required for any type of object
-export default function CardGeneralParameterInputs({
+function CardGeneralParameterInputs({
   parameters,
   onChange,
   allFormInputs,
@@ -33,32 +43,41 @@ export default function CardGeneralParameterInputs({
   allFormInputs: { [key: string]: FormInput };
   showObjectNameInput?: boolean;
 }): ReactElement {
-  const [keyState, setKeyState] = React.useState(parameters.name);
-  const [keyError, setKeyError] = React.useState<null | string>(null);
-  const [titleState, setTitleState] = React.useState(parameters.title);
-  const [descriptionState, setDescriptionState] = React.useState(
+  const [keyState, setKeyState] = useState(parameters.name);
+  const [keyError, setKeyError] = useState<null | string>(null);
+  const [titleState, setTitleState] = useState(parameters.title);
+  const [descriptionState, setDescriptionState] = useState(
     parameters.description,
   );
-  const [elementId] = React.useState(getRandomId());
-  const categoryMap = categoryToNameMap(allFormInputs);
 
-  const fetchLabel = (
-    labelName: string,
-    defaultLabel: string,
-  ): string | undefined => {
-    return mods &&
-      mods.labels &&
-      typeof mods.labels[labelName as keyof ModLabels] === 'string'
-      ? mods.labels[labelName as keyof ModLabels]
-      : defaultLabel;
-  };
+  // Local state is maintained for controlled inputs to avoid losing focus
+  // We include parameters in dependencies to ensure callbacks have latest values
+
+  // Sync local state when parameters prop changes externally
+  useEffect(() => {
+    setKeyState(parameters.name);
+    setTitleState(parameters.title);
+    setDescriptionState(parameters.description);
+  }, [parameters.name, parameters.title, parameters.description]);
+
+  const categoryMap = useMemo(
+    () => categoryToNameMap(allFormInputs),
+    [allFormInputs],
+  );
+
+  const fetchLabel = useCallback(
+    (labelName: string, defaultLabel: string): string | undefined => {
+      return mods?.labels?.[labelName as keyof ModLabels] ?? defaultLabel;
+    },
+    [mods?.labels],
+  );
 
   const objectNameLabel = fetchLabel('objectNameLabel', 'Object Name');
   const displayNameLabel = fetchLabel('displayNameLabel', 'Display Name');
   const descriptionLabel = fetchLabel('descriptionLabel', 'Description');
   const inputTypeLabel = fetchLabel('inputTypeLabel', 'Input Type');
 
-  const availableInputTypes = () => {
+  const availableInputTypes = useMemo(() => {
     const definitionsInSchema =
       parameters.definitionData &&
       Object.keys(parameters.definitionData).length !== 0;
@@ -73,188 +92,228 @@ export default function CardGeneralParameterInputs({
     return inputKeys
       .map((key) => ({ value: key, label: categoryMap[key] }))
       .sort((a, b) => a.label.localeCompare(b.label));
-  };
+  }, [categoryMap, mods, parameters.definitionData]);
+
+  const handleKeyChange = useCallback(
+    (ev: React.ChangeEvent<HTMLInputElement>) => {
+      setKeyState(ev.target.value);
+    },
+    [],
+  );
+
+  const handleKeyBlur = useCallback(
+    (ev: React.FocusEvent<HTMLInputElement>) => {
+      const { value } = ev.target;
+      if (
+        value === parameters.name ||
+        !(parameters.neighborNames && parameters.neighborNames.includes(value))
+      ) {
+        setKeyError(null);
+        onChange({
+          ...parameters,
+          name: value,
+        });
+      } else {
+        setKeyState(parameters.name);
+        setKeyError(`"${value}" is already in use.`);
+        onChange({ ...parameters });
+      }
+    },
+    [onChange, parameters],
+  );
+
+  const handleTitleChange = useCallback(
+    (ev: React.ChangeEvent<HTMLInputElement>) => {
+      setTitleState(ev.target.value);
+    },
+    [],
+  );
+
+  const handleTitleBlur = useCallback(
+    (ev: React.FocusEvent<HTMLInputElement>) => {
+      onChange({ ...parameters, title: ev.target.value });
+    },
+    [onChange, parameters],
+  );
+
+  const handleDescriptionChange = useCallback(
+    (ev: React.ChangeEvent<HTMLInputElement>) => {
+      setDescriptionState(ev.target.value);
+    },
+    [],
+  );
+
+  const handleDescriptionBlur = useCallback(
+    (ev: React.FocusEvent<HTMLInputElement>) => {
+      onChange({ ...parameters, description: ev.target.value });
+    },
+    [onChange, parameters],
+  );
+
+  const handleInputTypeChange = useCallback(
+    (_: unknown, val: { value: string; label: string } | null) => {
+      if (!val) return;
+      // figure out the new 'type'
+      const newCategory = val.value;
+
+      const newProps = {
+        ...defaultUiProps(newCategory, allFormInputs),
+        ...defaultDataProps(newCategory, allFormInputs),
+        name: parameters.name,
+        required: parameters.required,
+      };
+      if (newProps.$ref !== undefined && !newProps.$ref) {
+        // assign an initial reference
+        const firstDefinition = Object.keys(parameters.definitionData!)[0];
+        newProps.$ref = `#/definitions/${firstDefinition || 'empty'}`;
+      }
+      onChange({
+        ...newProps,
+        title: newProps.title || parameters.title,
+        description: parameters.description,
+        default: newProps.default || '',
+        type: newProps.type || categoryType(newCategory, allFormInputs),
+        category: newProps.category || newCategory,
+      });
+    },
+    [allFormInputs, onChange, parameters],
+  );
+
+  const selectedInputType = useMemo(
+    () => availableInputTypes.find((opt) => opt.value === parameters.category),
+    [availableInputTypes, parameters.category],
+  );
+
+  const CardBody = useMemo(
+    () => getCardBody(parameters.category!, allFormInputs),
+    [parameters.category, allFormInputs],
+  );
 
   return (
-    <React.Fragment>
-      <div className='card-entry-row'>
+    <Stack spacing={2}>
+      <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
         {showObjectNameInput && (
-          <div className='card-entry'>
-            <h5>
-              {`${objectNameLabel} `}
+          <Box sx={{ flex: 1 }}>
+            <Typography
+              variant='subtitle2'
+              fontWeight='bold'
+              sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mb: 0.5 }}
+            >
+              {objectNameLabel}{' '}
               <Tooltip
                 text={
-                  mods &&
-                  mods.tooltipDescriptions &&
-                  typeof mods.tooltipDescriptions.cardObjectName === 'string'
-                    ? mods.tooltipDescriptions.cardObjectName
-                    : 'The back-end name of the object'
+                  mods?.tooltipDescriptions?.cardObjectName ??
+                  'The back-end name of the object'
                 }
-                id={`${elementId}_nameinfo`}
                 type='help'
               />
-            </h5>
-
-            <FormGroup>
-              <Input
-                invalid={keyError !== null}
+            </Typography>
+            <FormControl fullWidth error={keyError !== null}>
+              <TextField
+                error={keyError !== null}
                 value={keyState || ''}
                 placeholder='Key'
                 type='text'
-                onChange={(ev) => setKeyState(ev.target.value)}
-                onBlur={(ev) => {
-                  const { value } = ev.target;
-                  if (
-                    value === parameters.name ||
-                    !(
-                      parameters.neighborNames &&
-                      parameters.neighborNames.includes(value)
-                    )
-                  ) {
-                    setKeyError(null);
-                    onChange({
-                      ...parameters,
-                      name: value,
-                    });
-                  } else {
-                    setKeyState(parameters.name);
-                    setKeyError(`"${value}" is already in use.`);
-                    onChange({ ...parameters });
-                  }
-                }}
-                className='card-text'
+                onChange={handleKeyChange}
+                onBlur={handleKeyBlur}
+                size='small'
+                fullWidth
+                slotProps={{ input: { className: 'card-text' } }}
               />
-              <FormFeedback>{keyError}</FormFeedback>
-            </FormGroup>
-          </div>
+              {keyError && <FormHelperText>{keyError}</FormHelperText>}
+            </FormControl>
+          </Box>
         )}
-        <div
-          className={`card-entry ${
-            parameters.$ref === undefined ? '' : 'disabled-input'
-          }`}
-        >
-          <h5>
-            {`${displayNameLabel} `}
+        <Box sx={{ flex: 1, opacity: parameters.$ref !== undefined ? 0.6 : 1 }}>
+          <Typography
+            variant='subtitle2'
+            fontWeight='bold'
+            sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mb: 0.5 }}
+          >
+            {displayNameLabel}{' '}
             <Tooltip
               text={
-                mods &&
-                mods.tooltipDescriptions &&
-                typeof mods.tooltipDescriptions.cardDisplayName === 'string'
-                  ? mods.tooltipDescriptions.cardDisplayName
-                  : 'The user-facing name of this object'
+                mods?.tooltipDescriptions?.cardDisplayName ??
+                'The user-facing name of this object'
               }
-              id={`${elementId}-titleinfo`}
               type='help'
             />
-          </h5>
-          <Input
+          </Typography>
+          <TextField
             value={titleState || ''}
             placeholder='Title'
             type='text'
-            onChange={(ev) => setTitleState(ev.target.value)}
-            onBlur={(ev) => {
-              onChange({ ...parameters, title: ev.target.value });
-            }}
-            className='card-text'
+            onChange={handleTitleChange}
+            onBlur={handleTitleBlur}
+            size='small'
+            fullWidth
+            disabled={parameters.$ref !== undefined}
+            slotProps={{ input: { className: 'card-text' } }}
           />
-        </div>
-      </div>
-      <div className='card-entry-row'>
-        <div
-          className={`card-entry ${parameters.$ref ? 'disabled-input' : ''}`}
-        >
-          <h5>
-            {`${descriptionLabel} `}
+        </Box>
+      </Stack>
+      <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+        <Box sx={{ flex: 1, opacity: parameters.$ref ? 0.6 : 1 }}>
+          <Typography
+            variant='subtitle2'
+            fontWeight='bold'
+            sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mb: 0.5 }}
+          >
+            {descriptionLabel}{' '}
             <Tooltip
               text={
-                mods &&
-                mods.tooltipDescriptions &&
-                typeof mods.tooltipDescriptions.cardDescription === 'string'
-                  ? mods.tooltipDescriptions.cardDescription
-                  : 'This will appear as help text on the form'
+                mods?.tooltipDescriptions?.cardDescription ??
+                'This will appear as help text on the form'
               }
-              id={`${elementId}-descriptioninfo`}
               type='help'
             />
-          </h5>
-          <FormGroup>
-            <Input
-              value={descriptionState || ''}
-              placeholder='Description'
-              type='text'
-              onChange={(ev) => setDescriptionState(ev.target.value)}
-              onBlur={(ev) => {
-                onChange({ ...parameters, description: ev.target.value });
-              }}
-              className='card-text'
-            />
-          </FormGroup>
-        </div>
-        <div
-          className={classnames('card-entry', {
-            'wide-card-entry': !showObjectNameInput,
-          })}
-        >
-          <h5>
-            {`${inputTypeLabel} `}
+          </Typography>
+          <TextField
+            value={descriptionState || ''}
+            placeholder='Description'
+            type='text'
+            onChange={handleDescriptionChange}
+            onBlur={handleDescriptionBlur}
+            size='small'
+            fullWidth
+            disabled={parameters.$ref !== undefined}
+            slotProps={{ input: { className: 'card-text' } }}
+          />
+        </Box>
+        <Box sx={{ flex: showObjectNameInput ? 1 : 2 }}>
+          <Typography
+            variant='subtitle2'
+            fontWeight='bold'
+            sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mb: 0.5 }}
+          >
+            {inputTypeLabel}{' '}
             <Tooltip
               text={
-                mods &&
-                mods.tooltipDescriptions &&
-                typeof mods.tooltipDescriptions.cardInputType === 'string'
-                  ? mods.tooltipDescriptions.cardInputType
-                  : 'The type of form input displayed on the form'
+                mods?.tooltipDescriptions?.cardInputType ??
+                'The type of form input displayed on the form'
               }
-              id={`${elementId}-inputinfo`}
               type='help'
             />
-          </h5>
-          <Select
-            value={{
-              value: parameters.category,
-              label: categoryMap[parameters.category!],
-            }}
-            placeholder={inputTypeLabel}
-            options={availableInputTypes()}
-            onChange={(val: any) => {
-              // figure out the new 'type'
-              const newCategory = val.value;
-
-              const newProps = {
-                ...defaultUiProps(newCategory, allFormInputs),
-                ...defaultDataProps(newCategory, allFormInputs),
-                name: parameters.name,
-                required: parameters.required,
-              };
-              if (newProps.$ref !== undefined && !newProps.$ref) {
-                // assign an initial reference
-                const firstDefinition = Object.keys(
-                  parameters.definitionData!,
-                )[0];
-                newProps.$ref = `#/definitions/${firstDefinition || 'empty'}`;
-              }
-              onChange({
-                ...newProps,
-                title: newProps.title || parameters.title,
-                default: newProps.default || '',
-                type: newProps.type || categoryType(newCategory, allFormInputs),
-                category: newProps.category || newCategory,
-              });
-            }}
-            className='card-select'
+          </Typography>
+          <Autocomplete
+            value={selectedInputType}
+            options={availableInputTypes}
+            getOptionLabel={(option) => option.label}
+            isOptionEqualToValue={(option, value) =>
+              option.value === value.value
+            }
+            onChange={handleInputTypeChange}
+            size='small'
+            disableClearable
+            renderInput={(params) => (
+              <TextField {...params} placeholder={inputTypeLabel} />
+            )}
           />
-        </div>
-      </div>
-
-      <div className='card-category-options'>
-        <GeneralParameterInputs
-          category={parameters.category!}
-          parameters={parameters}
-          onChange={onChange}
-          mods={mods}
-          allFormInputs={allFormInputs}
-        />
-      </div>
-    </React.Fragment>
+        </Box>
+      </Stack>
+      <CardBody parameters={parameters} onChange={onChange} mods={mods || {}} />
+    </Stack>
   );
 }
+
+export default memo(CardGeneralParameterInputs);

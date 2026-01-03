@@ -1,24 +1,26 @@
-import React, { useState } from 'react';
-import { Input } from 'reactstrap';
-import FBCheckbox from '../checkbox/FBCheckbox';
+import React from 'react';
+import TextField from '@mui/material/TextField';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Link from '@mui/material/Link';
+import FBCheckbox from '../FBCheckbox';
 import Tooltip from '../Tooltip';
-import { getRandomId } from '../utils';
 import type { FormInput, CardComponentType } from '../types';
-import { PlaceholderInput } from '../inputs/PlaceholderInput';
+import { PlaceholderInput } from '../PlaceholderInput';
 
 // specify the inputs required for a string type object
 const CardLongAnswerParameterInputs: CardComponentType = ({
   parameters,
   onChange,
 }) => {
-  const [elementId] = useState(getRandomId());
   return (
-    <div>
-      <h4>Minimum Length</h4>
-      <Input
+    <Box>
+      <Typography variant='subtitle2' fontWeight='bold'>
+        Minimum Length
+      </Typography>
+      <TextField
         value={parameters.minLength ? parameters.minLength : ''}
         placeholder='Minimum Length'
-        key='minLength'
         type='number'
         onChange={(ev) => {
           onChange({
@@ -26,13 +28,16 @@ const CardLongAnswerParameterInputs: CardComponentType = ({
             minLength: parseInt(ev.target.value, 10),
           });
         }}
-        className='card-modal-number'
+        size='small'
+        fullWidth
+        sx={{ mb: 2 }}
       />
-      <h4>Maximum Length</h4>
-      <Input
+      <Typography variant='subtitle2' fontWeight='bold'>
+        Maximum Length
+      </Typography>
+      <TextField
         value={parameters.maxLength ? parameters.maxLength : ''}
         placeholder='Maximum Length'
-        key='maxLength'
         type='number'
         onChange={(ev) => {
           onChange({
@@ -40,22 +45,26 @@ const CardLongAnswerParameterInputs: CardComponentType = ({
             maxLength: parseInt(ev.target.value, 10),
           });
         }}
-        className='card-modal-number'
+        size='small'
+        fullWidth
+        sx={{ mb: 2 }}
       />
-      <h4>
+      <Typography variant='subtitle2' fontWeight='bold'>
         Regular Expression Pattern{' '}
-        <a href='https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions'>
+        <Link
+          href='https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions'
+          target='_blank'
+          rel='noopener noreferrer'
+        >
           <Tooltip
-            id={`${elementId}_regex`}
             type='help'
             text='Regular expression pattern that this must satisfy'
           />
-        </a>
-      </h4>
-      <Input
+        </Link>
+      </Typography>
+      <TextField
         value={parameters.pattern ? parameters.pattern : ''}
         placeholder='Regular Expression Pattern'
-        key='pattern'
         type='text'
         onChange={(ev) => {
           onChange({
@@ -63,10 +72,12 @@ const CardLongAnswerParameterInputs: CardComponentType = ({
             pattern: ev.target.value,
           });
         }}
-        className='card-modal-text'
+        size='small'
+        fullWidth
+        sx={{ mb: 2 }}
       />
       <PlaceholderInput parameters={parameters} onChange={onChange} />
-      <div className='card-modal-boolean'>
+      <Box sx={{ mt: 2 }}>
         <FBCheckbox
           onChangeValue={() => {
             onChange({
@@ -83,25 +94,29 @@ const CardLongAnswerParameterInputs: CardComponentType = ({
           }
           label='Auto Focus'
         />
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 };
 
 const LongAnswer: CardComponentType = ({ parameters, onChange }) => {
   return (
-    <React.Fragment>
-      <h5>Default value</h5>
-      <Input
+    <>
+      <Typography variant='subtitle2' fontWeight='bold'>
+        Default Value
+      </Typography>
+      <TextField
         value={
           parameters.default as string | number | readonly string[] | undefined
         }
         placeholder='Default'
-        type='textarea'
+        multiline
+        rows={3}
         onChange={(ev) => onChange({ ...parameters, default: ev.target.value })}
-        className='card-textarea'
+        size='small'
+        fullWidth
       />
-    </React.Fragment>
+    </>
   );
 };
 

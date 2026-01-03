@@ -1,103 +1,21 @@
-import React, { ReactElement } from 'react';
-import { UncontrolledTooltip } from 'reactstrap';
-import { createUseStyles } from 'react-jss';
-import {
-  faArrowUp,
-  faArrowDown,
-  faPencilAlt,
-  faTrash,
-} from '@fortawesome/free-solid-svg-icons';
-import FBCheckbox from './checkbox/FBCheckbox';
+import React, { ReactElement, memo, useCallback, useState } from 'react';
+import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
+import Tooltip from '@mui/material/Tooltip';
+import IconButton from '@mui/material/IconButton';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import FBCheckbox from './FBCheckbox';
 import Collapse from './Collapse/Collapse';
 import CardModal from './CardModal';
 import CardGeneralParameterInputs from './CardGeneralParameterInputs';
 import Add from './Add';
-import FontAwesomeIcon from './FontAwesomeIcon';
-import Tooltip from './Tooltip';
-import { getRandomId } from './utils';
+import TooltipComponent from './Tooltip';
 import type { CardPropsType, CardComponentPropsType } from './types';
 
-const useStyles = createUseStyles({
-  cardEntries: {
-    'border-bottom': '1px solid gray',
-    margin: '.5em 1.5em 0 1.5em',
-    '& h5': {
-      color: 'black',
-      'font-size': '14px',
-      'font-weight': 'bold',
-    },
-    '& .card-entry-row': {
-      display: 'flex',
-    },
-    '& .card-entry': {
-      margin: 0,
-      width: '50%',
-      'text-align': 'left',
-      padding: '0.5em',
-      '&.wide-card-entry': {
-        width: '100%',
-      },
-    },
-    '& input': {
-      border: '1px solid gray',
-      'border-radius': '4px',
-    },
-    '& .card-category-options': {
-      padding: '.5em',
-    },
-    '& .card-select': {
-      border: '1px solid gray',
-      'border-radius': '4px',
-    },
-    '& .card-array': {
-      '& .fa-plus-square, & .fa-square-plus': { display: 'none' },
-      '& .section-entries': {
-        '& .fa-plus-square, & .fa-square-plus': { display: 'initial' },
-      },
-    },
-    '& .card-enum': {
-      display: 'flex',
-      flexDirection: 'column',
-      width: '100%',
-      backgroundColor: 'lightGray',
-      textAlign: 'left',
-      padding: '1em',
-      '& h3': { fontSize: '16px', margin: '0 0 .5em 0' },
-      '& label': { color: 'black', fontSize: '14px' },
-      '& .card-enum-header': {
-        marginTop: '0.5em',
-        width: '100%',
-        display: 'flex',
-        flexDirection: 'row',
-        '& h5': { width: '50%', fontWeight: 'bold', fontSize: '14px' },
-      },
-      '& .fa': { cursor: 'pointer' },
-    },
-  },
-  cardInteractions: {
-    margin: '.5em 1.5em',
-    textAlign: 'left',
-    '& .fa': {
-      marginRight: '1em',
-      borderRadius: '4px',
-      padding: '.25em',
-      height: '25px',
-      width: '25px',
-    },
-    '& .fa-arrow-up, .fa-arrow-down': { marginRight: '.5em' },
-    '& .fa-trash': { border: '1px solid #DE5354', color: '#DE5354' },
-    '& .fb-checkbox': { display: 'inline-block' },
-    '& .interactions-left, & .interactions-right': {
-      display: 'inline-block',
-      width: '48%',
-      margin: '0 auto',
-    },
-    '& .interactions-left': { textAlign: 'left' },
-    '& .interactions-right': { textAlign: 'right' },
-  },
-});
-
-export default function Card({
+function Card({
   componentProps,
   onChange,
   onDelete,
@@ -112,71 +30,117 @@ export default function Card({
   showObjectNameInput = true,
   addProperties,
 }: CardPropsType): ReactElement {
-  const classes = useStyles();
-  const [modalOpen, setModalOpen] = React.useState(false);
-  const [elementId] = React.useState(getRandomId());
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const handleToggleCollapse = useCallback(() => {
+    setCardOpen(!cardOpen);
+  }, [cardOpen]);
+
+  const handleModalOpen = useCallback(() => {
+    setModalOpen(true);
+  }, []);
+
+  const handleModalClose = useCallback(() => {
+    setModalOpen(false);
+  }, []);
+
+  const handleRequiredToggle = useCallback(() => {
+    onChange({
+      ...componentProps,
+      required: !componentProps.required,
+    });
+  }, [onChange, componentProps]);
+
+  const handleMoveUp = useCallback(
+    (e: React.MouseEvent) => {
+      e.stopPropagation();
+      onMoveUp?.();
+    },
+    [onMoveUp],
+  );
+
+  const handleMoveDown = useCallback(
+    (e: React.MouseEvent) => {
+      e.stopPropagation();
+      onMoveDown?.();
+    },
+    [onMoveDown],
+  );
+
+  const handleDelete = useCallback(() => {
+    onDelete?.();
+  }, [onDelete]);
+
+  const handleModalSave = useCallback(
+    (newComponentProps: CardComponentPropsType) => {
+      onChange(newComponentProps);
+    },
+    [onChange],
+  );
+
+  const handleAddElem = useCallback(
+    (choice: string) => {
+      addElem?.(choice);
+    },
+    [addElem],
+  );
 
   return (
-    <React.Fragment>
+    <>
       <Collapse
         isOpen={cardOpen}
-        toggleCollapse={() => setCardOpen(!cardOpen)}
+        toggleCollapse={handleToggleCollapse}
         title={
-          <React.Fragment>
-            <span onClick={() => setCardOpen(!cardOpen)} className='label'>
+          <Stack direction='row' spacing={0.5} alignItems='center'>
+            <Box
+              component='span'
+              onClick={handleToggleCollapse}
+              sx={{
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: 0.5,
+              }}
+            >
               {componentProps.title || componentProps.name}{' '}
-              {componentProps.parent ? (
-                <Tooltip
+              {componentProps.parent && (
+                <TooltipComponent
                   text={`Depends on ${componentProps.parent}`}
-                  id={`${elementId}_parentinfo`}
                   type='alert'
                 />
-              ) : (
-                ''
               )}
-              {componentProps.$ref !== undefined ? (
-                <Tooltip
+              {componentProps.$ref !== undefined && (
+                <TooltipComponent
                   text={`Is an instance of pre-configured component ${componentProps.$ref}`}
-                  id={`${elementId}_refinfo`}
                   type='alert'
                 />
-              ) : (
-                ''
               )}
-            </span>
-            <span className='arrows'>
-              <span id={`${elementId}_moveupbiginfo`}>
-                <FontAwesomeIcon
-                  icon={faArrowUp}
-                  onClick={() => (onMoveUp ? onMoveUp() : {})}
-                />
-              </span>
-              <UncontrolledTooltip
-                placement='top'
-                target={`${elementId}_moveupbiginfo`}
-              >
-                Move form element up
-              </UncontrolledTooltip>
-              <span id={`${elementId}_movedownbiginfo`}>
-                <FontAwesomeIcon
-                  icon={faArrowDown}
-                  onClick={() => (onMoveDown ? onMoveDown() : {})}
-                />
-              </span>
-              <UncontrolledTooltip
-                placement='top'
-                target={`${elementId}_movedownbiginfo`}
-              >
-                Move form element down
-              </UncontrolledTooltip>
-            </span>
-          </React.Fragment>
+            </Box>
+            <Stack direction='row' spacing={0.5}>
+              <Tooltip title='Move form element up' placement='top'>
+                <IconButton
+                  size='small'
+                  onClick={handleMoveUp}
+                  aria-label='Move form element up'
+                >
+                  <ArrowUpwardIcon fontSize='small' />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title='Move form element down' placement='top'>
+                <IconButton
+                  size='small'
+                  onClick={handleMoveDown}
+                  aria-label='Move form element down'
+                >
+                  <ArrowDownwardIcon fontSize='small' />
+                </IconButton>
+              </Tooltip>
+            </Stack>
+          </Stack>
         }
-        className={`card-container ${
-          componentProps.dependent ? 'card-dependent' : ''
-        } ${componentProps.$ref === undefined ? '' : 'card-reference'}`}
+        data-testid='card-container'
       >
-        <div className={classes.cardEntries}>
+        <Box sx={{ borderBottom: 1, borderColor: 'divider', pb: 2, mb: 2 }}>
           <CardGeneralParameterInputs
             parameters={componentProps}
             onChange={onChange}
@@ -184,48 +148,53 @@ export default function Card({
             mods={mods}
             showObjectNameInput={showObjectNameInput}
           />
-        </div>
-        <div className={classes.cardInteractions}>
-          <span id={`${elementId}_editinfo`}>
-            <FontAwesomeIcon
-              icon={faPencilAlt}
-              onClick={() => setModalOpen(true)}
-            />
-          </span>
-          <UncontrolledTooltip placement='top' target={`${elementId}_editinfo`}>
-            Additional configurations for this form element
-          </UncontrolledTooltip>
-          <span id={`${elementId}_trashinfo`}>
-            <FontAwesomeIcon
-              icon={faTrash}
-              onClick={() => onDelete && onDelete()}
-            />
-          </span>
-          <UncontrolledTooltip
-            placement='top'
-            target={`${elementId}_trashinfo`}
+        </Box>
+        <Stack direction='row' spacing={2} alignItems='center'>
+          <Stack direction='row' spacing={0.5}>
+            <Tooltip
+              title='Additional configurations for this form element'
+              placement='top'
+            >
+              <IconButton
+                size='small'
+                onClick={handleModalOpen}
+                color='primary'
+                aria-label='Additional configurations'
+              >
+                <EditIcon fontSize='small' />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title='Delete form element' placement='top'>
+              <IconButton
+                size='small'
+                onClick={handleDelete}
+                color='error'
+                aria-label='Delete form element'
+              >
+                <DeleteIcon fontSize='small' />
+              </IconButton>
+            </Tooltip>
+          </Stack>
+          <Box
+            sx={{
+              alignItems: 'center',
+              borderLeft: 1,
+              borderColor: 'divider',
+              pl: 2,
+            }}
           >
-            Delete form element
-          </UncontrolledTooltip>
-          <FBCheckbox
-            onChangeValue={() =>
-              onChange({
-                ...componentProps,
-                required: !componentProps.required,
-              })
-            }
-            isChecked={!!componentProps.required}
-            label='Required'
-            id={`${elementId}_required`}
-          />
-        </div>
+            <FBCheckbox
+              onChangeValue={handleRequiredToggle}
+              isChecked={!!componentProps.required}
+              label='Required'
+            />
+          </Box>
+        </Stack>
         <CardModal
           componentProps={componentProps as CardComponentPropsType}
           isOpen={modalOpen}
-          onClose={() => setModalOpen(false)}
-          onChange={(newComponentProps: CardComponentPropsType) => {
-            onChange(newComponentProps);
-          }}
+          onClose={handleModalClose}
+          onChange={handleModalSave}
           TypeSpecificParameters={TypeSpecificParameters}
         />
       </Collapse>
@@ -233,9 +202,11 @@ export default function Card({
       {!mods?.components?.add && addElem && (
         <Add
           tooltipDescription={((mods || {}).tooltipDescriptions || {}).add}
-          addElem={(choice: string) => addElem(choice)}
+          addElem={handleAddElem}
         />
       )}
-    </React.Fragment>
+    </>
   );
 }
+
+export default memo(Card);
