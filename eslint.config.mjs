@@ -1,4 +1,5 @@
 import typescriptEslint from '@typescript-eslint/eslint-plugin';
+import eslintReact from '@eslint-react/eslint-plugin';
 import globals from 'globals';
 import tsParser from '@typescript-eslint/parser';
 import path from 'node:path';
@@ -28,8 +29,8 @@ export default [
   ...compat.extends(
     'plugin:prettier/recommended',
     'plugin:@typescript-eslint/recommended',
-    'plugin:react/recommended',
   ),
+  eslintReact.configs.recommended,
   {
     plugins: {
       '@typescript-eslint': typescriptEslint,
@@ -52,21 +53,17 @@ export default [
       },
     },
 
-    settings: {
-      react: {
-        version: '19',
-      },
-    },
-
     rules: {
       'space-before-function-paren': 0,
-      'react/prop-types': 0,
-      'react/jsx-handler-names': 0,
-      'react/jsx-fragments': 0,
-      'react/no-unused-prop-types': 0,
       '@typescript-eslint/no-empty-function': 0,
       '@typescript-eslint/no-explicit-any': 0,
       '@typescript-eslint/no-non-null-assertion': 0,
+    },
+  },
+  {
+    files: ['**/*.test.tsx', '**/*.test.ts'],
+    rules: {
+      '@eslint-react/component-hook-factories': 0,
     },
   },
 ];

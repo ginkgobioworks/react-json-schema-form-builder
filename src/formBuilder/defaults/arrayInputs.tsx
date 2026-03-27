@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -15,7 +15,16 @@ import longAnswerInputs from './longAnswerInputs';
 import numberInputs from './numberInputs';
 import defaultInputs from './defaultInputs';
 import { getRandomId } from '../utils';
-import type { FormInput, CardComponent, CardComponentProps } from '../types';
+import type {
+  FormInput,
+  CardComponent,
+  CardComponentProps,
+  CardComponentPropsInternal,
+} from '../types';
+
+const CardWithoutObjectName = (props: CardComponentPropsInternal) => (
+  <Card {...props} showObjectNameInput={false} />
+);
 
 // specify the inputs required for a string type object
 const CardArrayParameterInputs: CardComponent = ({ parameters, onChange }) => {
@@ -63,9 +72,13 @@ const InnerCard: CardComponent = ({ parameters, onChange, mods }) => {
   const [elementId] = useState(getRandomId);
   const newDataProps: { [key: string]: any } = {};
   const newUiProps: { [key: string]: any } = {};
-  const allFormInputs = excludeKeys(
-    Object.assign({}, defaultFormInputs, (mods && mods.customFormInputs) || {}),
-    mods && mods.deactivatedFormInputs,
+  const allFormInputs = useMemo(
+    () =>
+      excludeKeys(
+        { ...defaultFormInputs, ...((mods && mods.customFormInputs) || {}) },
+        mods && mods.deactivatedFormInputs,
+      ),
+    [mods],
   );
 
   // parse components into data and ui relevant pieces
@@ -140,7 +153,7 @@ const InnerCard: CardComponent = ({ parameters, onChange, mods }) => {
         allFormInputs,
         mods,
         categoryHash: generateCategoryHash(allFormInputs),
-        Card: (props) => <Card {...props} showObjectNameInput={false} />,
+        Card: CardWithoutObjectName,
         Section,
       })}
     </>

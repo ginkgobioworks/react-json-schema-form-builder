@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, memo } from 'react';
+import React, { useState, useRef, useCallback, memo } from 'react';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
@@ -20,17 +20,19 @@ const CardModalComponent: CardModal = ({
   TypeSpecificParameters,
 }) => {
   // assign state values for parameters that should only change on hitting "Save"
-  const [componentPropsState, setComponentProps] = useState(componentProps);
+  const [localProps, setLocalProps] = useState(componentProps);
 
-  useEffect(() => {
-    if (isOpen) {
-      setComponentProps(componentProps);
-    }
-  }, [isOpen, componentProps]);
+  // Snapshot props into local state when the modal opens, using a ref
+  // to detect the false→true transition without an effect double-render
+  const prevIsOpenRef = useRef(isOpen);
+  if (isOpen && !prevIsOpenRef.current) {
+    setLocalProps(componentProps);
+  }
+  prevIsOpenRef.current = isOpen;
 
   const handleTypeSpecificChange = useCallback(
     (newState: CardComponentProps) => {
-      setComponentProps((prev) => ({
+      setLocalProps((prev) => ({
         ...prev,
         ...newState,
       }));
@@ -40,7 +42,7 @@ const CardModalComponent: CardModal = ({
 
   const handleColumnSizeChange = useCallback(
     (ev: React.ChangeEvent<HTMLInputElement>) => {
-      setComponentProps((prev) => ({
+      setLocalProps((prev) => ({
         ...prev,
         'ui:column': ev.target.value,
       }));
@@ -50,7 +52,7 @@ const CardModalComponent: CardModal = ({
 
   const handleDependencyChange = useCallback(
     (newState: Partial<CardComponentProps>) => {
-      setComponentProps((prev) => ({
+      setLocalProps((prev) => ({
         ...prev,
         ...newState,
       }));
@@ -60,13 +62,13 @@ const CardModalComponent: CardModal = ({
 
   const handleCancel = useCallback(() => {
     onClose();
-    setComponentProps(componentProps);
+    setLocalProps(componentProps);
   }, [onClose, componentProps]);
 
   const handleSave = useCallback(() => {
     onClose();
-    onChange(componentPropsState);
-  }, [onClose, onChange, componentPropsState]);
+    onChange(localProps);
+  }, [onClose, onChange, localProps]);
 
   return (
     <Dialog open={isOpen} data-testid='card-modal' maxWidth='sm' fullWidth>
@@ -76,7 +78,7 @@ const CardModalComponent: CardModal = ({
       <DialogContent dividers>
         <Stack spacing={3}>
           <TypeSpecificParameters
-            parameters={componentPropsState}
+            parameters={localProps}
             onChange={handleTypeSpecificChange}
           />
           <Typography
@@ -94,7 +96,7 @@ const CardModalComponent: CardModal = ({
             </Link>
           </Typography>
           <TextField
-            value={componentPropsState['ui:column'] || ''}
+            value={localProps['ui:column'] || ''}
             placeholder='Column size'
             type='number'
             inputProps={{ min: 0 }}
@@ -103,7 +105,7 @@ const CardModalComponent: CardModal = ({
             fullWidth
           />
           <DependencyField
-            parameters={componentPropsState}
+            parameters={localProps}
             onChange={handleDependencyChange}
           />
         </Stack>

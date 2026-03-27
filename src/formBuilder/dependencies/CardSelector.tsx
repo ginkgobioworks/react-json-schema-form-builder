@@ -16,21 +16,18 @@ export default function CardSelector({
   onChange: (chosenChoices: Array<string>) => void;
   placeholder: string;
 }): ReactElement {
-  const [elementId] = useState(getRandomId());
+  const [elementId] = useState(getRandomId);
   return (
     <>
       <ul>
-        {chosenChoices.map((chosenChoice, index) => (
-          <li key={`${elementId}_neighbor_${index}`}>
+        {chosenChoices.map((chosenChoice) => (
+          <li key={`${elementId}_neighbor_${chosenChoice}`}>
             {chosenChoice}{' '}
             <CloseIcon
               fontSize='small'
               sx={{ cursor: 'pointer', verticalAlign: 'middle' }}
               onClick={() =>
-                onChange([
-                  ...chosenChoices.slice(0, index),
-                  ...chosenChoices.slice(index + 1),
-                ])
+                onChange(chosenChoices.filter((c) => c !== chosenChoice))
               }
             />
           </li>

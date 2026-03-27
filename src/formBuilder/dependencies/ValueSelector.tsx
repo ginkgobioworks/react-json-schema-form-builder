@@ -30,7 +30,7 @@ export default function ValueSelector({
   parentName?: string;
   parentSchema?: any;
 }): ReactElement {
-  const [elementId] = useState(getRandomId());
+  const [elementId] = useState(getRandomId);
   if (possibility.value) {
     // enum type
     if (parentEnums) {
@@ -180,7 +180,11 @@ export default function ValueSelector({
       return (
         <Box>
           {enumArr.map((combination, index) => (
-            <Box component='li' key={`${elementId}_possibleValue${index}`}>
+            <Box
+              component='li'
+              // eslint-disable-next-line @eslint-react/no-array-index-key -- combinations have no natural unique key
+              key={`${elementId}_possibleValue${index}`}
+            >
               {Object.keys(combination).map((key) => {
                 const val: combinationValue = combination[key];
                 return (

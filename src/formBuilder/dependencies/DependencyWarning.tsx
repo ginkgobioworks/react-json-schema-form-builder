@@ -50,8 +50,8 @@ export default function DependencyWarning({
         </p>
 
         <ul>
-          {undefinedVals.map((val, index) => (
-            <li key={index}>{val}</li>
+          {undefinedVals.map((val) => (
+            <li key={val}>{val}</li>
           ))}
         </ul>
       </>

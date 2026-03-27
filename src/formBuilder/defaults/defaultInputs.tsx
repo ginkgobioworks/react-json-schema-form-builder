@@ -9,32 +9,41 @@ import type { FormInput, CardComponent, CardComponentProps } from '../types';
 // specify the inputs required for a string type object
 export const CardDefaultParameterInputs: CardComponent = () => <div />;
 
-const getInputCardBodyComponent = ({ type }: { type: string }) =>
-  function InputCardBodyComponent({
-    parameters,
-    onChange,
-  }: {
-    parameters: CardComponentProps;
-    onChange: (newParams: CardComponentProps) => void;
-  }) {
-    return (
-      <>
-        <Typography variant='subtitle2' fontWeight='bold'>
-          Default Value
-        </Typography>
-        <TextField
-          value={(parameters.default || '') as string | number}
-          placeholder='Default'
-          type={type}
-          onChange={(ev) =>
-            onChange({ ...parameters, default: ev.target.value })
-          }
-          size='small'
-          fullWidth
-        />
-      </>
-    );
-  };
+function InputCardBodyComponent({
+  parameters,
+  onChange,
+  inputType,
+}: {
+  parameters: CardComponentProps;
+  onChange: (newParams: CardComponentProps) => void;
+  inputType: string;
+}) {
+  return (
+    <>
+      <Typography variant='subtitle2' fontWeight='bold'>
+        Default Value
+      </Typography>
+      <TextField
+        value={(parameters.default || '') as string | number}
+        placeholder='Default'
+        type={inputType}
+        onChange={(ev) => onChange({ ...parameters, default: ev.target.value })}
+        size='small'
+        fullWidth
+      />
+    </>
+  );
+}
+
+const DateTimeCardBody: CardComponent = (props) => (
+  <InputCardBodyComponent {...props} inputType='datetime-local' />
+);
+const DateCardBody: CardComponent = (props) => (
+  <InputCardBodyComponent {...props} inputType='date' />
+);
+const TimeCardBody: CardComponent = (props) => (
+  <InputCardBodyComponent {...props} inputType='time' />
+);
 
 const Checkbox: CardComponent = ({ parameters, onChange }) => {
   return (
@@ -169,7 +178,7 @@ const defaultInputs: { [key: string]: FormInput } = {
     },
     defaultUiSchema: {},
     type: 'string',
-    cardBody: getInputCardBodyComponent({ type: 'datetime-local' }),
+    cardBody: DateTimeCardBody,
     modalBody: CardDefaultParameterInputs,
   },
   date: {
@@ -185,7 +194,7 @@ const defaultInputs: { [key: string]: FormInput } = {
     },
     defaultUiSchema: {},
     type: 'string',
-    cardBody: getInputCardBodyComponent({ type: 'date' }),
+    cardBody: DateCardBody,
     modalBody: CardDefaultParameterInputs,
   },
   time: {
@@ -201,7 +210,7 @@ const defaultInputs: { [key: string]: FormInput } = {
     },
     defaultUiSchema: {},
     type: 'string',
-    cardBody: getInputCardBodyComponent({ type: 'time' }),
+    cardBody: TimeCardBody,
     modalBody: CardDefaultParameterInputs,
   },
   checkbox: {

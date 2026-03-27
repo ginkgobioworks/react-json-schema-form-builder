@@ -39,10 +39,12 @@ export default function CardGallery({
   const [cardOpenArray, setCardOpenArray] = React.useState(
     defaultCollapseStates,
   );
-  const allFormInputs = Object.assign(
-    {},
-    DEFAULT_FORM_INPUTS,
-    (mods && mods.customFormInputs) || {},
+  const allFormInputs = React.useMemo(
+    () => ({
+      ...DEFAULT_FORM_INPUTS,
+      ...((mods && mods.customFormInputs) || {}),
+    }),
+    [mods],
   );
   const componentArr = generateElementComponentsFromSchemas({
     schemaData: { properties: definitionSchema },

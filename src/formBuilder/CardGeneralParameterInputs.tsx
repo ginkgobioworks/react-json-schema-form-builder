@@ -4,7 +4,7 @@ import React, {
   useState,
   useMemo,
   useCallback,
-  useEffect,
+  useRef,
 } from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
@@ -46,14 +46,19 @@ function CardGeneralParameterInputs({
   );
 
   // Local state is maintained for controlled inputs to avoid losing focus
-  // We include parameters in dependencies to ensure callbacks have latest values
-
-  // Sync local state when parameters prop changes externally
-  useEffect(() => {
+  // Sync local state when parameters prop changes externally using refs
+  // to avoid the double-render caused by setState inside useEffect
+  const prevParamsRef = useRef(parameters);
+  if (prevParamsRef.current.name !== parameters.name) {
     setKeyState(parameters.name);
+  }
+  if (prevParamsRef.current.title !== parameters.title) {
     setTitleState(parameters.title);
+  }
+  if (prevParamsRef.current.description !== parameters.description) {
     setDescriptionState(parameters.description);
-  }, [parameters.name, parameters.title, parameters.description]);
+  }
+  prevParamsRef.current = parameters;
 
   const categoryMap = useMemo(
     () => categoryToNameMap(allFormInputs),
