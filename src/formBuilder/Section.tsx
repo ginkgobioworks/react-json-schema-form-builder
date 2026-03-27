@@ -187,7 +187,7 @@ function Section({
 
   const handleToggleCollapse = useCallback(() => {
     setCardOpen(!cardOpen);
-  }, [cardOpen]);
+  }, [cardOpen, setCardOpen]);
 
   const handleModalOpen = useCallback(() => {
     setModalOpen(true);
@@ -303,7 +303,7 @@ function Section({
       }
       setCardOpen(false);
     },
-    [parentProperties],
+    [parentProperties, setCardOpen],
   );
 
   const referenceOptions = useMemo(

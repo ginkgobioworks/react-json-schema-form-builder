@@ -34,7 +34,7 @@ function Card({
 
   const handleToggleCollapse = useCallback(() => {
     setCardOpen(!cardOpen);
-  }, [cardOpen]);
+  }, [cardOpen, setCardOpen]);
 
   const handleModalOpen = useCallback(() => {
     setModalOpen(true);

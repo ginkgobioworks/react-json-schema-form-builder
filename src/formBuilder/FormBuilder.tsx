@@ -4,6 +4,7 @@ import React, {
   useState,
   useMemo,
   useCallback,
+  useRef,
   memo,
 } from 'react';
 import {
@@ -109,7 +110,7 @@ function FormBuilder({
     [allFormInputs],
   );
 
-  const [isFirstRender, setIsFirstRender] = useState(true);
+  const isFirstRenderRef = useRef(true);
 
   // Memoized onChange handler for schema changes
   const handleSchemaChange = useCallback(
@@ -181,14 +182,14 @@ function FormBuilder({
   );
 
   useEffect(() => {
-    if (isFirstRender) {
+    if (isFirstRenderRef.current) {
+      isFirstRenderRef.current = false;
       if (onMount)
         onMount({
           categoryHash,
         });
-      setIsFirstRender(false);
     }
-  }, [isFirstRender, onMount, categoryHash]);
+  }, [onMount, categoryHash]);
 
   const formElements = useMemo(() => {
     const elements = generateElementComponentsFromSchemas({
@@ -228,8 +229,8 @@ function FormBuilder({
         >
           <AlertTitle>Unsupported Features</AlertTitle>
           <Box component='ul' sx={{ margin: 0, pl: 2.5 }}>
-            {unsupportedFeatures.map((message, index) => (
-              <Box component='li' key={index}>
+            {unsupportedFeatures.map((message) => (
+              <Box component='li' key={message}>
                 {message}
               </Box>
             ))}

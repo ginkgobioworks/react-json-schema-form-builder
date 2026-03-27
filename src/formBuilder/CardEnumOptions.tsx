@@ -46,6 +46,7 @@ function CardEnumOptions({
   // Keep itemIds in sync with initialValues length
   // Only handle additions here - removals are handled explicitly in handleRemove
   const prevLengthRef = useRef(initialValues.length);
+  /* eslint-disable @eslint-react/set-state-in-effect -- legitimately syncing IDs when items are added externally */
   useEffect(() => {
     const currentLength = initialValues.length;
     const prevLength = prevLengthRef.current;
@@ -67,6 +68,7 @@ function CardEnumOptions({
 
     prevLengthRef.current = currentLength;
   }, [initialValues.length, generateId]);
+  /* eslint-enable @eslint-react/set-state-in-effect */
 
   const handleRemove = (indexToRemove: number) => {
     // Update IDs first to remove the correct one

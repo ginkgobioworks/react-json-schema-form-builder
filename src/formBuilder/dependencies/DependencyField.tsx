@@ -52,7 +52,7 @@ export default function DependencyField({
   parameters: DependencyParams;
   onChange: (newParams: DependencyParams) => void;
 }): ReactElement {
-  const [elementId] = useState(getRandomId());
+  const [elementId] = useState(getRandomId);
   const valueBased = checkIfValueBasedDependency(parameters.dependents || []);
 
   return (
@@ -131,6 +131,7 @@ export default function DependencyField({
             parentType={parameters.type}
             parentName={parameters.name}
             parentSchema={parameters.schema}
+            // eslint-disable-next-line @eslint-react/no-array-index-key -- possibilities have no natural unique key
             key={`${elementId}_possibility${index}`}
             onChange={(newPossibility: {
               children: Array<string>;
