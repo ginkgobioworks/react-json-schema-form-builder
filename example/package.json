@@ -19,9 +19,9 @@
     "@ginkgo-bioworks/react-json-schema-form-builder": "file:..",
     "@mui/icons-material": "^7.3.6",
     "@mui/material": "^7.3.6",
-    "@rjsf/core": "^6.4.1",
-    "@rjsf/mui": "^6.4.1",
-    "@rjsf/validator-ajv8": "^6.4.1",
+    "@rjsf/core": "^6.4.2",
+    "@rjsf/mui": "^6.4.2",
+    "@rjsf/validator-ajv8": "^6.4.2",
     "react": "^19.2.3",
     "react-dom": "^19.2.3"
   },
