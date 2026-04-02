@@ -36,7 +36,7 @@
     "prettier": "prettier -w src",
     "test": "run-s test:unit test:prettier test:lint test:ts",
     "test:lint": "eslint .",
-    "test:ts": "tsc",
+    "test:ts": "tsc -p tsconfig.test.json",
     "test:prettier": "prettier -c src",
     "test:unit": "jest --env=jsdom --coverage --coverageDirectory=coverage/",
     "test:watch": "jest --watch --env=jsdom"
