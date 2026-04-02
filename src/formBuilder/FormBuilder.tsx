@@ -266,7 +266,7 @@ function FormBuilder({
                   onChange(
                     stringify({
                       ...schemaData,
-                      title: ev.target.value,
+                      title: (ev.target as HTMLInputElement).value,
                     }),
                     uischema,
                   );
@@ -293,7 +293,7 @@ function FormBuilder({
                   onChange(
                     stringify({
                       ...schemaData,
-                      description: ev.target.value,
+                      description: (ev.target as HTMLInputElement).value,
                     }),
                     uischema,
                   )
