@@ -88,7 +88,8 @@
     "react-dom": "^19.2.3",
     "rimraf": "^6.1.2",
     "tsup": "^8.5.1",
-    "typescript": "^6.0.2"
+    "typescript": "^6.0.2",
+    "yaml": "^2.8.3"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",
