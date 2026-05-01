@@ -19,9 +19,9 @@
     "@ginkgo-bioworks/react-json-schema-form-builder": "file:..",
     "@mui/icons-material": "^7.3.6",
     "@mui/material": "^7.3.6",
-    "@rjsf/core": "^6.4.2",
-    "@rjsf/mui": "^6.4.2",
-    "@rjsf/validator-ajv8": "^6.4.2",
+    "@rjsf/core": "^6.5.1",
+    "@rjsf/mui": "^6.5.1",
+    "@rjsf/validator-ajv8": "^6.5.1",
     "react": "^19.2.3",
     "react-dom": "^19.2.3"
   },
@@ -33,6 +33,6 @@
     "prettier": "^3.7.4",
     "rimraf": "^6.1.2",
     "typescript": "^5.9.3",
-    "vite": "^8.0.8"
+    "vite": "^8.0.10"
   }
 }
