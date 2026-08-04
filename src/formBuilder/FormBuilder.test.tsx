@@ -1,5 +1,11 @@
 import React from 'react';
-import { render, screen, fireEvent, within } from '@testing-library/react';
+import {
+  render,
+  screen,
+  fireEvent,
+  createEvent,
+  within,
+} from '@testing-library/react';
 import FormBuilder from './FormBuilder';
 
 // mocks to record events
@@ -641,5 +647,56 @@ describe('FormBuilder', () => {
 
     expect(JSON.parse(uiSchemaString)).toEqual(expected);
     mockEvent.mockClear();
+  });
+});
+
+describe('FormBuilder drag activation', () => {
+  const singleFieldProps = {
+    ...props,
+    schema: JSON.stringify({
+      type: 'object',
+      properties: {
+        obj1: {
+          type: 'string',
+          title: 'Heat',
+        },
+      },
+    }),
+  };
+
+  const getSortableItem = () =>
+    screen
+      .getByTestId('card-container')
+      .closest('[aria-roledescription="sortable"]')!;
+
+  it('does not start a keyboard drag from a card text input', () => {
+    render(<FormBuilder {...singleFieldProps} />);
+    fireEvent.click(screen.getByTestId('ChevronRightIcon'));
+
+    const titleInput = within(
+      screen.getByTestId('card-container'),
+    ).getByPlaceholderText('Title');
+    const keyDown = createEvent.keyDown(titleInput, {
+      code: 'Space',
+      key: ' ',
+    });
+    fireEvent(titleInput, keyDown);
+
+    // The space has to reach the input rather than being swallowed to start a
+    // keyboard drag of the card.
+    expect(keyDown.defaultPrevented).toBe(false);
+  });
+
+  it('starts a keyboard drag from the card itself', () => {
+    render(<FormBuilder {...singleFieldProps} />);
+
+    const sortableItem = getSortableItem();
+    const keyDown = createEvent.keyDown(sortableItem, {
+      code: 'Space',
+      key: ' ',
+    });
+    fireEvent(sortableItem, keyDown);
+
+    expect(keyDown.defaultPrevented).toBe(true);
   });
 });

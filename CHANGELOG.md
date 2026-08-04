@@ -1,5 +1,11 @@
 # Changelog
 
+## [Unreleased]
+
+### Fixed
+
+- Dragging no longer starts when a pointer or keyboard gesture begins inside an interactive element of a form element card. Text in a card's inputs can be selected with the mouse again, `Space` and `Enter` type and activate normally instead of starting a keyboard drag, and cards are still draggable everywhere else. (See [issue #685](https://github.com/ginkgobioworks/react-json-schema-form-builder/issues/685).)
+
 ## [4.1.0] - 2026-01-03
 
 ### Fixed

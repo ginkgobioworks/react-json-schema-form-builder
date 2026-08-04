@@ -8,8 +8,6 @@ import React, {
 import {
   DndContext,
   closestCenter,
-  KeyboardSensor,
-  PointerSensor,
   useSensor,
   useSensors,
   DragEndEvent,
@@ -50,6 +48,7 @@ import {
   handleDndDragEnd,
 } from './utils';
 import SortableItem from './SortableItem';
+import { FormBuilderKeyboardSensor, FormBuilderPointerSensor } from './sensors';
 import type { SectionProps, JsonSchema } from './types';
 
 function Section({
@@ -130,12 +129,12 @@ function Section({
   );
 
   const sensors = useSensors(
-    useSensor(PointerSensor, {
+    useSensor(FormBuilderPointerSensor, {
       activationConstraint: {
         distance: 8, // Require 8px movement before drag starts (allows clicks)
       },
     }),
-    useSensor(KeyboardSensor, {
+    useSensor(FormBuilderKeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
     }),
   );
