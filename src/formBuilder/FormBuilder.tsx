@@ -10,8 +10,6 @@ import React, {
 import {
   DndContext,
   closestCenter,
-  KeyboardSensor,
-  PointerSensor,
   useSensor,
   useSensors,
   DragEndEvent,
@@ -44,6 +42,7 @@ import {
   excludeKeys,
 } from './utils';
 import SortableItem from './SortableItem';
+import { FormBuilderKeyboardSensor, FormBuilderPointerSensor } from './sensors';
 import DEFAULT_FORM_INPUTS from './defaults/defaultFormInputs';
 import type {
   Mods,
@@ -157,12 +156,12 @@ function FormBuilder({
   );
 
   const sensors = useSensors(
-    useSensor(PointerSensor, {
+    useSensor(FormBuilderPointerSensor, {
       activationConstraint: {
         distance: 8, // Require 8px movement before drag starts (allows clicks)
       },
     }),
-    useSensor(KeyboardSensor, {
+    useSensor(FormBuilderKeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
     }),
   );
