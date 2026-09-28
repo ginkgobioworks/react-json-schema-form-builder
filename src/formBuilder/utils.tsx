@@ -65,13 +65,16 @@ export function categoryType(
 ): DataType {
   return allFormInputs[category].type;
 }
+// Stable fallback so that getCardBody never creates a new component per call.
+const EmptyCardBody = () => null;
+
 export function getCardBody(
   category: string,
   allFormInputs: { [key: string]: FormInput },
 ) {
   return (
     (allFormInputs[category] && allFormInputs[category].cardBody) ||
-    (() => null)
+    EmptyCardBody
   );
 }
 
@@ -868,13 +871,9 @@ function generateSchemaElementFromElement(
 ): JsonSchemaProperty {
   if (element.$ref !== undefined) {
     const schema = element.schema as
-      | JsonSchema
-      | Record<string, unknown>
-      | undefined;
+      JsonSchema | Record<string, unknown> | undefined;
     const dataOptions = element.dataOptions as
-      | JsonSchemaProperty
-      | Record<string, unknown>
-      | undefined;
+      JsonSchemaProperty | Record<string, unknown> | undefined;
     const title =
       schema !== undefined &&
       typeof schema === 'object' &&
@@ -919,8 +918,7 @@ function generateSchemaElementFromElement(
     return returnElement;
   } else if (element.propType === 'card') {
     const dataOptions = element.dataOptions as
-      | Record<string, unknown>
-      | JsonSchemaProperty;
+      Record<string, unknown> | JsonSchemaProperty;
     if (
       typeof dataOptions === 'object' &&
       dataOptions !== null &&

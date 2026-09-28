@@ -252,8 +252,8 @@ function FormBuilder({
               <Typography
                 variant='subtitle2'
                 component='label'
-                fontWeight='bold'
                 data-testid='form-name-label'
+                sx={{ fontWeight: 'bold' }}
               >
                 {mods?.labels?.formNameLabel ?? 'Form Name'}
               </Typography>
@@ -279,8 +279,8 @@ function FormBuilder({
               <Typography
                 variant='subtitle2'
                 component='label'
-                fontWeight='bold'
                 data-testid='form-description-label'
+                sx={{ fontWeight: 'bold' }}
               >
                 {mods?.labels?.formDescriptionLabel ?? 'Form Description'}
               </Typography>

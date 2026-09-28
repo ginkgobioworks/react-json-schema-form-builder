@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 import Tooltip from '@mui/material/Tooltip';
 import StarIcon from '@mui/icons-material/Star';
-import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+import HelpOutlineIcon from '@mui/icons-material/HelpOutlined';
 
 const typeMap = {
   alert: StarIcon,

@@ -44,8 +44,8 @@
   "peerDependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
-    "@mui/icons-material": "^7.0.0",
-    "@mui/material": "^7.0.0",
+    "@mui/icons-material": "^7.0.0 || ^9.0.0",
+    "@mui/material": "^7.0.0 || ^9.0.0",
     "react": "^19.0.0"
   },
   "files": [
@@ -88,7 +88,8 @@
     "react-dom": "^19.2.3",
     "rimraf": "^6.1.2",
     "tsup": "^8.5.1",
-    "typescript": "^7.0.2",
+    "typescript": "npm:@typescript/typescript6@^6.0.2",
+    "@typescript/native": "npm:typescript@^7.0.2",
     "yaml": "^2.8.3"
   },
   "dependencies": {

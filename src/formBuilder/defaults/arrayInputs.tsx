@@ -30,7 +30,7 @@ const CardWithoutObjectName = (props: CardComponentPropsInternal) => (
 const CardArrayParameterInputs: CardComponent = ({ parameters, onChange }) => {
   return (
     <Box>
-      <Typography variant='subtitle2' fontWeight='bold'>
+      <Typography variant='subtitle2' sx={{ fontWeight: 'bold' }}>
         Minimum Items
       </Typography>
       <TextField
@@ -47,7 +47,7 @@ const CardArrayParameterInputs: CardComponent = ({ parameters, onChange }) => {
         fullWidth
         sx={{ mb: 2 }}
       />
-      <Typography variant='subtitle2' fontWeight='bold'>
+      <Typography variant='subtitle2' sx={{ fontWeight: 'bold' }}>
         Maximum Items
       </Typography>
       <TextField

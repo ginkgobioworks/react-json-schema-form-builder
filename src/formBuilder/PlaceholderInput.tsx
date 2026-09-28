@@ -8,7 +8,7 @@ import Tooltip from './Tooltip';
 export const PlaceholderInput: CardComponent = ({ parameters, onChange }) => {
   return (
     <>
-      <Typography variant='subtitle2' fontWeight='bold'>
+      <Typography variant='subtitle2' sx={{ fontWeight: 'bold' }}>
         Placeholder{' '}
         <Link
           href='https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-placeholder'

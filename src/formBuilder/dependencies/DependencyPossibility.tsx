@@ -43,8 +43,13 @@ export default function DependencyPossibility({
         <Box sx={{ flex: 1 }}>
           <Typography
             variant='subtitle2'
-            fontWeight='bold'
-            sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mb: 1 }}
+            sx={{
+              fontWeight: 'bold',
+              display: 'flex',
+              alignItems: 'center',
+              gap: 0.5,
+              mb: 1,
+            }}
           >
             Display the following:{' '}
             <Tooltip
@@ -64,8 +69,7 @@ export default function DependencyPossibility({
           />
           <Typography
             variant='subtitle2'
-            fontWeight='bold'
-            sx={{ mt: 2, mb: 1 }}
+            sx={{ fontWeight: 'bold', mt: 2, mb: 1 }}
           >
             If &quot;{parentName}&quot; has{' '}
             {possibility.value ? 'the value:' : 'a value.'}

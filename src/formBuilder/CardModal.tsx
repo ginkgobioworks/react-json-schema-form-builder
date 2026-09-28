@@ -83,8 +83,13 @@ const CardModalComponent: CardModal = ({
           />
           <Typography
             variant='subtitle2'
-            fontWeight='bold'
-            sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mb: 0.5 }}
+            sx={{
+              fontWeight: 'bold',
+              display: 'flex',
+              alignItems: 'center',
+              gap: 0.5,
+              mb: 0.5,
+            }}
           >
             Column Size{' '}
             <Link
@@ -99,7 +104,7 @@ const CardModalComponent: CardModal = ({
             value={localProps['ui:column'] || ''}
             placeholder='Column size'
             type='number'
-            inputProps={{ min: 0 }}
+            slotProps={{ htmlInput: { min: 0 } }}
             onChange={handleColumnSizeChange}
             size='small'
             fullWidth

@@ -10,7 +10,7 @@ import type { FormInput, CardComponent } from '../types';
 const CardNumberParameterInputs: CardComponent = ({ parameters, onChange }) => {
   return (
     <Box>
-      <Typography variant='subtitle2' fontWeight='bold'>
+      <Typography variant='subtitle2' sx={{ fontWeight: 'bold' }}>
         Multiple of{' '}
         <Tooltip
           type='help'
@@ -33,7 +33,7 @@ const CardNumberParameterInputs: CardComponent = ({ parameters, onChange }) => {
         fullWidth
         sx={{ mb: 2 }}
       />
-      <Typography variant='subtitle2' fontWeight='bold'>
+      <Typography variant='subtitle2' sx={{ fontWeight: 'bold' }}>
         Minimum
       </Typography>
       <TextField
@@ -85,7 +85,7 @@ const CardNumberParameterInputs: CardComponent = ({ parameters, onChange }) => {
           label='Exclusive Minimum'
         />
       </Box>
-      <Typography variant='subtitle2' fontWeight='bold'>
+      <Typography variant='subtitle2' sx={{ fontWeight: 'bold' }}>
         Maximum
       </Typography>
       <TextField
@@ -144,7 +144,7 @@ const CardNumberParameterInputs: CardComponent = ({ parameters, onChange }) => {
 const NumberField: CardComponent = ({ parameters, onChange }) => {
   return (
     <>
-      <Typography variant='subtitle2' fontWeight='bold'>
+      <Typography variant='subtitle2' sx={{ fontWeight: 'bold' }}>
         Default number
       </Typography>
       <TextField

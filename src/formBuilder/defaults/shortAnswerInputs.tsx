@@ -36,12 +36,7 @@ const autoDictionary = {
 };
 
 type AutoDictionaryKey =
-  | ''
-  | 'email'
-  | 'username'
-  | 'password'
-  | 'street-address'
-  | 'country';
+  '' | 'email' | 'username' | 'password' | 'street-address' | 'country';
 
 // specify the inputs required for a string type object
 const CardShortAnswerParameterInputs: CardComponent = ({
@@ -50,7 +45,7 @@ const CardShortAnswerParameterInputs: CardComponent = ({
 }) => {
   return (
     <Box>
-      <Typography variant='subtitle2' fontWeight='bold'>
+      <Typography variant='subtitle2' sx={{ fontWeight: 'bold' }}>
         Minimum Length
       </Typography>
       <TextField
@@ -67,7 +62,7 @@ const CardShortAnswerParameterInputs: CardComponent = ({
         fullWidth
         sx={{ mb: 2 }}
       />
-      <Typography variant='subtitle2' fontWeight='bold'>
+      <Typography variant='subtitle2' sx={{ fontWeight: 'bold' }}>
         Maximum Length
       </Typography>
       <TextField
@@ -84,7 +79,7 @@ const CardShortAnswerParameterInputs: CardComponent = ({
         fullWidth
         sx={{ mb: 2 }}
       />
-      <Typography variant='subtitle2' fontWeight='bold'>
+      <Typography variant='subtitle2' sx={{ fontWeight: 'bold' }}>
         Regular Expression Pattern{' '}
         <Link
           href='https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions'
@@ -111,7 +106,7 @@ const CardShortAnswerParameterInputs: CardComponent = ({
         fullWidth
         sx={{ mb: 2 }}
       />
-      <Typography variant='subtitle2' fontWeight='bold'>
+      <Typography variant='subtitle2' sx={{ fontWeight: 'bold' }}>
         Format{' '}
         <Tooltip
           type='help'
@@ -149,7 +144,7 @@ const CardShortAnswerParameterInputs: CardComponent = ({
         renderInput={(params) => <TextField {...params} placeholder='Format' />}
         sx={{ mb: 2 }}
       />
-      <Typography variant='subtitle2' fontWeight='bold'>
+      <Typography variant='subtitle2' sx={{ fontWeight: 'bold' }}>
         Auto Complete Category{' '}
         <Link
           href='https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete'
@@ -222,7 +217,7 @@ const CardShortAnswerParameterInputs: CardComponent = ({
 const ShortAnswerField: CardComponent = ({ parameters, onChange }) => {
   return (
     <>
-      <Typography variant='subtitle2' fontWeight='bold'>
+      <Typography variant='subtitle2' sx={{ fontWeight: 'bold' }}>
         Default Value
       </Typography>
       <TextField
@@ -246,7 +241,7 @@ const ShortAnswerField: CardComponent = ({ parameters, onChange }) => {
 const Password: CardComponent = ({ parameters, onChange }) => {
   return (
     <>
-      <Typography variant='subtitle2' fontWeight='bold'>
+      <Typography variant='subtitle2' sx={{ fontWeight: 'bold' }}>
         Default password
       </Typography>
       <TextField

@@ -184,6 +184,10 @@ function CardGeneralParameterInputs({
     [availableInputTypes, parameters.category],
   );
 
+  // getCardBody looks up an existing component in the form-input registry
+  // rather than defining a new one, and useMemo keeps that reference stable
+  // across renders, so no component state is reset here.
+  // eslint-disable-next-line @eslint-react/static-components
   const CardBody = useMemo(
     () => getCardBody(parameters.category!, allFormInputs),
     [parameters.category, allFormInputs],
@@ -196,8 +200,13 @@ function CardGeneralParameterInputs({
           <Box sx={{ flex: 1 }}>
             <Typography
               variant='subtitle2'
-              fontWeight='bold'
-              sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mb: 0.5 }}
+              sx={{
+                fontWeight: 'bold',
+                display: 'flex',
+                alignItems: 'center',
+                gap: 0.5,
+                mb: 0.5,
+              }}
             >
               {objectNameLabel}{' '}
               <Tooltip
@@ -227,8 +236,13 @@ function CardGeneralParameterInputs({
         <Box sx={{ flex: 1, opacity: parameters.$ref !== undefined ? 0.6 : 1 }}>
           <Typography
             variant='subtitle2'
-            fontWeight='bold'
-            sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mb: 0.5 }}
+            sx={{
+              fontWeight: 'bold',
+              display: 'flex',
+              alignItems: 'center',
+              gap: 0.5,
+              mb: 0.5,
+            }}
           >
             {displayNameLabel}{' '}
             <Tooltip
@@ -256,8 +270,13 @@ function CardGeneralParameterInputs({
         <Box sx={{ flex: 1, opacity: parameters.$ref ? 0.6 : 1 }}>
           <Typography
             variant='subtitle2'
-            fontWeight='bold'
-            sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mb: 0.5 }}
+            sx={{
+              fontWeight: 'bold',
+              display: 'flex',
+              alignItems: 'center',
+              gap: 0.5,
+              mb: 0.5,
+            }}
           >
             {descriptionLabel}{' '}
             <Tooltip
@@ -283,8 +302,13 @@ function CardGeneralParameterInputs({
         <Box sx={{ flex: showObjectNameInput ? 1 : 2 }}>
           <Typography
             variant='subtitle2'
-            fontWeight='bold'
-            sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mb: 0.5 }}
+            sx={{
+              fontWeight: 'bold',
+              display: 'flex',
+              alignItems: 'center',
+              gap: 0.5,
+              mb: 0.5,
+            }}
           >
             {inputTypeLabel}{' '}
             <Tooltip
@@ -311,6 +335,7 @@ function CardGeneralParameterInputs({
           />
         </Box>
       </Stack>
+      {/* eslint-disable-next-line @eslint-react/static-components */}
       <CardBody parameters={parameters} onChange={onChange} mods={mods || {}} />
     </Stack>
   );

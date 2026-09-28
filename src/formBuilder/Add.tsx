@@ -101,7 +101,7 @@ function Add({
         }}
       >
         <Box sx={{ p: 2, minWidth: 250 }}>
-          <Typography variant='subtitle1' fontWeight='bold' sx={{ mb: 2 }}>
+          <Typography variant='subtitle1' sx={{ fontWeight: 'bold', mb: 2 }}>
             Create New
           </Typography>
           <FBRadioGroup
@@ -122,8 +122,7 @@ function Add({
           <Stack
             direction='row'
             spacing={1}
-            justifyContent='flex-end'
-            sx={{ mt: 2 }}
+            sx={{ justifyContent: 'flex-end', mt: 2 }}
           >
             <Button
               onClick={handleClose}
