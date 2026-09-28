@@ -10,13 +10,7 @@ import { ReactElement, FunctionComponent } from 'react';
 
 // JSON Schema data types supported by react-jsonschema-form
 export type DataType =
-  | 'string'
-  | 'number'
-  | 'boolean'
-  | 'integer'
-  | 'array'
-  | 'object'
-  | 'null';
+  'string' | 'number' | 'boolean' | 'integer' | 'array' | 'object' | 'null';
 
 // JSON Schema types for better type safety
 export type JsonSchemaProperty = {

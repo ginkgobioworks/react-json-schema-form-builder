@@ -91,7 +91,7 @@ function Card({
         isOpen={cardOpen}
         toggleCollapse={handleToggleCollapse}
         title={
-          <Stack direction='row' spacing={0.5} alignItems='center'>
+          <Stack direction='row' spacing={0.5} sx={{ alignItems: 'center' }}>
             <Box
               component='span'
               onClick={handleToggleCollapse}
@@ -149,7 +149,7 @@ function Card({
             showObjectNameInput={showObjectNameInput}
           />
         </Box>
-        <Stack direction='row' spacing={2} alignItems='center'>
+        <Stack direction='row' spacing={2} sx={{ alignItems: 'center' }}>
           <Stack direction='row' spacing={0.5}>
             <Tooltip
               title='Additional configurations for this form element'

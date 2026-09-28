@@ -71,8 +71,10 @@ function PhoneWidget({
         type='tel'
         size='small'
         fullWidth
-        inputProps={{
-          'aria-label': 'Phone number',
+        slotProps={{
+          htmlInput: {
+            'aria-label': 'Phone number',
+          },
         }}
       />
     </Box>

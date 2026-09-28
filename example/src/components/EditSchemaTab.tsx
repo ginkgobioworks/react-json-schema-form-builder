@@ -25,7 +25,11 @@ const EditSchemaTab = React.memo(
     return (
       <Stack direction='row' spacing={2}>
         <Box sx={{ flex: 1 }}>
-          <Typography variant='subtitle1' fontWeight='bold' gutterBottom>
+          <Typography
+            variant='subtitle1'
+            gutterBottom
+            sx={{ fontWeight: 'bold' }}
+          >
             Data Schema
           </Typography>
           <TextField
@@ -51,7 +55,11 @@ const EditSchemaTab = React.memo(
           />
         </Box>
         <Box sx={{ flex: 1 }}>
-          <Typography variant='subtitle1' fontWeight='bold' gutterBottom>
+          <Typography
+            variant='subtitle1'
+            gutterBottom
+            sx={{ fontWeight: 'bold' }}
+          >
             UI Schema
           </Typography>
           <TextField

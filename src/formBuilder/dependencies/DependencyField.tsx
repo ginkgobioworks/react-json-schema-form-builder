@@ -59,8 +59,13 @@ export default function DependencyField({
     <Box>
       <Typography
         variant='subtitle2'
-        fontWeight='bold'
-        sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mb: 1 }}
+        sx={{
+          fontWeight: 'bold',
+          display: 'flex',
+          alignItems: 'center',
+          gap: 0.5,
+          mb: 1,
+        }}
       >
         Dependencies{' '}
         <TooltipComponent

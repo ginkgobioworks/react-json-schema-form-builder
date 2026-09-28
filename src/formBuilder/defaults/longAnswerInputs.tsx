@@ -15,7 +15,7 @@ const CardLongAnswerParameterInputs: CardComponent = ({
 }) => {
   return (
     <Box>
-      <Typography variant='subtitle2' fontWeight='bold'>
+      <Typography variant='subtitle2' sx={{ fontWeight: 'bold' }}>
         Minimum Length
       </Typography>
       <TextField
@@ -32,7 +32,7 @@ const CardLongAnswerParameterInputs: CardComponent = ({
         fullWidth
         sx={{ mb: 2 }}
       />
-      <Typography variant='subtitle2' fontWeight='bold'>
+      <Typography variant='subtitle2' sx={{ fontWeight: 'bold' }}>
         Maximum Length
       </Typography>
       <TextField
@@ -49,7 +49,7 @@ const CardLongAnswerParameterInputs: CardComponent = ({
         fullWidth
         sx={{ mb: 2 }}
       />
-      <Typography variant='subtitle2' fontWeight='bold'>
+      <Typography variant='subtitle2' sx={{ fontWeight: 'bold' }}>
         Regular Expression Pattern{' '}
         <Link
           href='https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions'
@@ -102,7 +102,7 @@ const CardLongAnswerParameterInputs: CardComponent = ({
 const LongAnswer: CardComponent = ({ parameters, onChange }) => {
   return (
     <>
-      <Typography variant='subtitle2' fontWeight='bold'>
+      <Typography variant='subtitle2' sx={{ fontWeight: 'bold' }}>
         Default Value
       </Typography>
       <TextField

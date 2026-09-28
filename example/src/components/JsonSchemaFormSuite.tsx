@@ -240,7 +240,7 @@ const JsonSchemaFormEditor: React.FC<Props> = ({
                   onErr={emptyErrorHandler}
                   errMessage='Error parsing JSON Schema Form output'
                 >
-                  <Typography variant='subtitle1' fontWeight='bold'>
+                  <Typography variant='subtitle1' sx={{ fontWeight: 'bold' }}>
                     Output Data
                   </Typography>
                   <Box

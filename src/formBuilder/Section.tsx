@@ -340,7 +340,7 @@ function Section({
         isOpen={cardOpen}
         toggleCollapse={handleToggleCollapse}
         title={
-          <Stack direction='row' spacing={0.5} alignItems='center'>
+          <Stack direction='row' spacing={0.5} sx={{ alignItems: 'center' }}>
             <Box
               component='span'
               onClick={handleToggleCollapse}
@@ -387,7 +387,7 @@ function Section({
         >
           {reference && (
             <Box data-testid='section-reference'>
-              <Typography variant='subtitle2' fontWeight='bold'>
+              <Typography variant='subtitle2' sx={{ fontWeight: 'bold' }}>
                 Reference Section
               </Typography>
               <Autocomplete
@@ -411,8 +411,12 @@ function Section({
             <Box sx={{ flex: 1 }} data-testid='section-object-name'>
               <Typography
                 variant='subtitle2'
-                fontWeight='bold'
-                sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}
+                sx={{
+                  fontWeight: 'bold',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 0.5,
+                }}
               >
                 Section Object Name{' '}
                 <TooltipComponent
@@ -442,8 +446,12 @@ function Section({
             <Box sx={{ flex: 1 }} data-testid='section-display-name'>
               <Typography
                 variant='subtitle2'
-                fontWeight='bold'
-                sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}
+                sx={{
+                  fontWeight: 'bold',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 0.5,
+                }}
               >
                 Section Display Name{' '}
                 <TooltipComponent
@@ -468,8 +476,12 @@ function Section({
             <Box sx={{ flex: 1 }} data-testid='section-description'>
               <Typography
                 variant='subtitle2'
-                fontWeight='bold'
-                sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}
+                sx={{
+                  fontWeight: 'bold',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 0.5,
+                }}
               >
                 Section Description{' '}
                 <TooltipComponent
@@ -529,8 +541,7 @@ function Section({
             <Add
               tooltipDescription={
                 ((mods || {}).tooltipDescriptions || {}).add as
-                  | string
-                  | undefined
+                  string | undefined
               }
               addElem={handleAddElem}
               hidden={hideAddButton as boolean}
@@ -540,8 +551,13 @@ function Section({
         <Stack
           direction='row'
           spacing={2}
-          alignItems='center'
-          sx={{ borderTop: 1, borderColor: 'divider', pt: 2, mt: 2 }}
+          sx={{
+            alignItems: 'center',
+            borderTop: 1,
+            borderColor: 'divider',
+            pt: 2,
+            mt: 2,
+          }}
         >
           <Stack direction='row' spacing={0.5}>
             <Tooltip

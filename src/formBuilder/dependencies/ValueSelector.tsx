@@ -189,7 +189,7 @@ export default function ValueSelector({
                 const val: combinationValue = combination[key];
                 return (
                   <Box key={key}>
-                    <Typography variant='subtitle2' fontWeight='bold'>
+                    <Typography variant='subtitle2' sx={{ fontWeight: 'bold' }}>
                       {key}:
                     </Typography>
                     {getInput(val, index, key)}

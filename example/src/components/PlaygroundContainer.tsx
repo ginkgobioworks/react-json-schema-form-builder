@@ -66,16 +66,18 @@ export default function PlaygroundContainer({ title }: { title: string }) {
         <Container maxWidth='xl' sx={{ py: 3 }}>
           <Stack
             direction={{ xs: 'column', md: 'row' }}
-            justifyContent='space-between'
-            alignItems={{ xs: 'flex-start', md: 'flex-start' }}
-            sx={{ mb: 3 }}
+            sx={{
+              justifyContent: 'space-between',
+              alignItems: { xs: 'flex-start', md: 'flex-start' },
+              mb: 3,
+            }}
           >
             <Box sx={{ flex: 1 }}>
               <Typography
                 variant='h5'
                 component='h1'
-                fontWeight={600}
                 gutterBottom
+                sx={{ fontWeight: 600 }}
               >
                 {title}
               </Typography>

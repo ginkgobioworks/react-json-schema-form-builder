@@ -20,7 +20,7 @@ function InputCardBodyComponent({
 }) {
   return (
     <>
-      <Typography variant='subtitle2' fontWeight='bold'>
+      <Typography variant='subtitle2' sx={{ fontWeight: 'bold' }}>
         Default Value
       </Typography>
       <TextField
@@ -80,7 +80,7 @@ function MultipleChoice({
   );
   return (
     <>
-      <Typography variant='subtitle2' fontWeight='bold'>
+      <Typography variant='subtitle2' sx={{ fontWeight: 'bold' }}>
         Possible Values
       </Typography>
       <FBCheckbox
