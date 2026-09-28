@@ -6,9 +6,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import TextField from '@mui/material/TextField';
 import { withTheme } from '@rjsf/core';
 import { Theme as MuiTheme } from '@rjsf/mui';
 import validator from '@rjsf/validator-ajv8';
@@ -76,7 +74,6 @@ const JsonSchemaFormEditor: React.FC<Props> = ({
   uischema,
   onChange,
   width,
-  height,
   mods,
 }) => {
   const [formData, setFormData] = useState<any>({});
