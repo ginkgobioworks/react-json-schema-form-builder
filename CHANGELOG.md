@@ -1,10 +1,26 @@
 # Changelog
 
-## [Unreleased]
+## [4.2.0] - 2026-09-28
+
+### Added
+
+- Added support for MUI v9. The `@mui/material` and `@mui/icons-material` peer dependencies now accept `^7.0.0 || ^9.0.0`, so either major may be used. (MUI did not publish a v8.)
+
+### Changed
+
+- Migrated off the MUI APIs removed in v9. Each replacement is also available in v7, so no changes are required of consumers staying on MUI v7:
+  - System props on `Typography` and `Stack` (`fontWeight`, `alignItems`, `justifyContent`) are now passed through `sx`
+  - `HelpOutline` icon replaced with `HelpOutlined`
+  - `TextField`'s deprecated `inputProps` replaced with `slotProps.htmlInput`
+- CI now runs on Node.js 24, and the build matrix covers Node.js 20, 22 and 24. The minimum supported version is unchanged (>=20).
+- The build and type check now run on TypeScript 7, while ESLint continues to use the TypeScript 6 compiler API that typescript-eslint still requires. This affects local development only.
+- Updated dependencies in package.json and package-lock.json
+- Updated dependencies in example/package.json and example/package-lock.json
 
 ### Fixed
 
 - Dragging no longer starts when a pointer or keyboard gesture begins inside an interactive element of a form element card. Text in a card's inputs can be selected with the mouse again, `Space` and `Enter` type and activate normally instead of starting a keyboard drag, and cards are still draggable everywhere else. (See [issue #685](https://github.com/ginkgobioworks/react-json-schema-form-builder/issues/685).)
+- Fixed the example app's `typescript` script, which aborted on a project reference error before type checking any source.
 
 ## [4.1.0] - 2026-01-03
 
