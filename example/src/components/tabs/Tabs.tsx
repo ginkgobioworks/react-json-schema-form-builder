@@ -49,7 +49,6 @@ function a11yProps(index: number) {
 export default function Tabs({
   defaultActiveTab = 0,
   tabs = [],
-  withSeparator = false,
   preventRerender = false,
 }: Props) {
   const [activeTab, setActiveTab] = React.useState(defaultActiveTab);

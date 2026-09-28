@@ -14,8 +14,6 @@ function PhoneWidget({
   required,
   disabled,
   readonly,
-  schema,
-  uiSchema,
   rawErrors,
 }: WidgetProps) {
   const defaultValue = typeof value === 'string' ? value : '';

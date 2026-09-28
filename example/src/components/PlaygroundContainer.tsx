@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback } from 'react';
 
 import JsonSchemaFormSuite from './JsonSchemaFormSuite';
 import Box from '@mui/material/Box';
@@ -44,9 +44,6 @@ const theme = createTheme({
     },
   },
 });
-
-// Memoize empty error handler to avoid recreating on every render
-const emptyErrorHandler = () => {};
 
 export default function PlaygroundContainer({ title }: { title: string }) {
   const [schema, setSchema] = useState(() => JSON.stringify(initialJsonSchema));
